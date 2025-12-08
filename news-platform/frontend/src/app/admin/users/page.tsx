@@ -81,7 +81,11 @@ export default async function UsersPage() {
           <tbody className="divide-y">
             {users.map((user) => (
               <tr key={user.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 font-medium">{user.display_name}</td>
+                <td className="px-4 py-3">
+                  <a href={`/admin/users/${user.id}`} className="font-medium text-blue-600 hover:underline">
+                    {user.display_name}
+                  </a>
+                </td>
                 <td className="px-4 py-3 text-sm text-gray-600">{user.email}</td>
                 <td className="px-4 py-3">
                   <span className={`px-2 py-1 text-xs rounded ${roleColors[user.role]}`}>
