@@ -11,8 +11,15 @@ interface Props {
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://news.example.com';
 
 export async function generateStaticParams() {
-  const slugs = await getAllArticleSlugs();
-  return slugs.map((slug) => ({ slug }));
+  // Skip static generation during build if database is not available
+  // Pages will be generated on-demand with ISR
+  try {
+    const slugs = await getAllArticleSlugs();
+    return slugs.map((slug) => ({ slug }));
+  } catch (error) {
+    console.log('Skipping static params generation - database not available during build');
+    return [];
+  }
 }
 
 /**
