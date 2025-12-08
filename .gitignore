@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+.next/
+out/
+build/
+dist/
+.strapi/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker/data/
+
+# Misc
+*.pem
+.vercel
+
+# CMS
+news-platform/cms/node_modules/
+news-platform/cms/dist/
+news-platform/cms/.strapi/
+
+# Frontend
+news-platform/frontend/node_modules/
+news-platform/frontend/.next/

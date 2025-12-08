@@ -1,0 +1,129 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: news-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-newsplatform}
+      POSTGRES_USER: ${DATABASE_USER:-newsplatform}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    networks:
+      - news-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-newsplatform}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: news-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    networks:
+      - news-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Keycloak SSO
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    container_name: news-keycloak
+    restart: unless-stopped
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/${DATABASE_NAME:-newsplatform}
+      KC_DB_USERNAME: ${DATABASE_USER:-newsplatform}
+      KC_DB_PASSWORD: ${DATABASE_PASSWORD}
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-auth.example.com}
+      KC_HOSTNAME_STRICT: false
+      KC_HTTP_ENABLED: true
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    command: start
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - news-network
+    ports:
+      - "8080:8080"
+
+  # Next.js Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: news-frontend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${DATABASE_NAME:-newsplatform}
+      DATABASE_USER: ${DATABASE_USER:-newsplatform}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-https://news.example.com}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      KEYCLOAK_ISSUER: ${KEYCLOAK_ISSUER:-http://keycloak:8080/realms/news-platform}
+      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
+      NEXT_PUBLIC_ALGOLIA_APP_ID: ${ALGOLIA_APP_ID}
+      NEXT_PUBLIC_ALGOLIA_SEARCH_KEY: ${ALGOLIA_SEARCH_KEY}
+      ALGOLIA_ADMIN_KEY: ${ALGOLIA_ADMIN_KEY}
+      DISCOURSE_URL: ${DISCOURSE_URL}
+      DISCOURSE_API_KEY: ${DISCOURSE_API_KEY}
+      DISCOURSE_WEBHOOK_SECRET: ${DISCOURSE_WEBHOOK_SECRET}
+      S3_ENDPOINT: ${S3_ENDPOINT}
+      S3_BUCKET_NAME: ${S3_BUCKET_NAME}
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID}
+      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY}
+      CDN_URL: ${CDN_URL}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - news-network
+    ports:
+      - "3001:3000"
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: news-nginx
+    restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+      - keycloak
+    networks:
+      - news-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  news-network:
+    driver: bridge
