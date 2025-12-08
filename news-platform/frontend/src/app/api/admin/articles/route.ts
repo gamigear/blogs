@@ -10,7 +10,10 @@ import { logAuditAction } from '@/lib/security';
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user || !['admin', 'editor'].includes(session.user.role || '')) {
+    const userRole = (session?.user as any)?.role || '';
+    const userId = (session?.user as any)?.id;
+    const authorId = (session?.user as any)?.authorId;
+    if (!session?.user || !['admin', 'editor'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -47,7 +50,7 @@ export async function POST(request: NextRequest) {
       excerpt || null,
       content,
       category_id,
-      session.user.authorId || null,
+      authorId || null,
       status || 'draft',
       featured_image || null,
       readingTime,
@@ -58,7 +61,7 @@ export async function POST(request: NextRequest) {
 
     // Log audit
     await logAuditAction(
-      session.user.id!,
+      userId,
       'create_article',
       'article',
       articleId,
@@ -82,7 +85,8 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user || !['admin', 'editor', 'moderator'].includes(session.user.role || '')) {
+    const userRole = (session?.user as any)?.role || '';
+    if (!session?.user || !['admin', 'editor', 'moderator'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

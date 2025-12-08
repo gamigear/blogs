@@ -14,7 +14,8 @@ interface Props {
 export async function GET(request: NextRequest, { params }: Props) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user || !['admin', 'editor'].includes(session.user.role || '')) {
+    const userRole = (session?.user as any)?.role || '';
+    if (!session?.user || !['admin', 'editor'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -41,7 +42,8 @@ export async function GET(request: NextRequest, { params }: Props) {
 export async function PATCH(request: NextRequest, { params }: Props) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user || !['admin', 'editor'].includes(session.user.role || '')) {
+    const userRole = (session?.user as any)?.role || '';
+    if (!session?.user || !['admin', 'editor'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -101,13 +103,15 @@ export async function PATCH(request: NextRequest, { params }: Props) {
 export async function DELETE(request: NextRequest, { params }: Props) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user || !['admin', 'editor'].includes(session.user.role || '')) {
+    const userRole = (session?.user as any)?.role || '';
+    const userId = (session?.user as any)?.id;
+    if (!session?.user || !['admin', 'editor'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const articleId = parseInt(params.id);
     await execute(`UPDATE articles SET status = 'archived' WHERE id = $1`, [articleId]);
-    await logAuditAction(session.user.id!, 'delete_article', 'article', articleId, {});
+    await logAuditAction(userId, 'delete_article', 'article', articleId, {});
 
     return NextResponse.json({ success: true });
   } catch (error) {

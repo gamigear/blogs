@@ -14,7 +14,9 @@ interface Props {
 export async function POST(request: NextRequest, { params }: Props) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user || !['admin', 'moderator'].includes(session.user.role || '')) {
+    const userRole = (session?.user as any)?.role || '';
+    const currentUserId = (session?.user as any)?.id;
+    if (!session?.user || !['admin', 'moderator'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -23,59 +25,33 @@ export async function POST(request: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 });
     }
 
-    // Prevent self-ban
-    if (userId === session.user.id) {
+    if (userId === currentUserId) {
       return NextResponse.json({ error: 'Cannot ban yourself' }, { status: 400 });
     }
 
     const body = await request.json();
     const { duration, reason } = body;
 
-    // Calculate ban end time
     let bannedUntil: Date;
     switch (duration) {
-      case '1h':
-        bannedUntil = new Date(Date.now() + 60 * 60 * 1000);
-        break;
-      case '24h':
-        bannedUntil = new Date(Date.now() + 24 * 60 * 60 * 1000);
-        break;
-      case '7d':
-        bannedUntil = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-        break;
-      case '30d':
-        bannedUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-        break;
-      case 'permanent':
-        bannedUntil = new Date('2099-12-31');
-        break;
-      default:
-        return NextResponse.json({ error: 'Invalid duration' }, { status: 400 });
+      case '1h': bannedUntil = new Date(Date.now() + 60 * 60 * 1000); break;
+      case '24h': bannedUntil = new Date(Date.now() + 24 * 60 * 60 * 1000); break;
+      case '7d': bannedUntil = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); break;
+      case '30d': bannedUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); break;
+      case 'permanent': bannedUntil = new Date('2099-12-31'); break;
+      default: return NextResponse.json({ error: 'Invalid duration' }, { status: 400 });
     }
 
-    await execute(
-      `UPDATE users SET banned_until = $1 WHERE id = $2`,
-      [bannedUntil.toISOString(), userId]
-    );
+    await execute(`UPDATE users SET banned_until = $1 WHERE id = $2`, [bannedUntil.toISOString(), userId]);
+    await logAuditAction(currentUserId, 'ban_user', 'user', userId, { duration, reason, banned_until: bannedUntil.toISOString() });
 
-    // Log audit
-    await logAuditAction(
-      session.user.id!,
-      'ban_user',
-      'user',
-      userId,
-      { duration, reason, banned_until: bannedUntil.toISOString() }
-    );
-
-    return NextResponse.json({ 
-      success: true, 
-      banned_until: bannedUntil.toISOString() 
-    });
+    return NextResponse.json({ success: true, banned_until: bannedUntil.toISOString() });
   } catch (error) {
     console.error('Error banning user:', error);
     return NextResponse.json({ error: 'Failed to ban user' }, { status: 500 });
   }
 }
+
 
 /**
  * DELETE /api/admin/users/[id]/ban - Unban user
@@ -83,7 +59,9 @@ export async function POST(request: NextRequest, { params }: Props) {
 export async function DELETE(request: NextRequest, { params }: Props) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user || !['admin', 'moderator'].includes(session.user.role || '')) {
+    const userRole = (session?.user as any)?.role || '';
+    const currentUserId = (session?.user as any)?.id;
+    if (!session?.user || !['admin', 'moderator'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -92,19 +70,8 @@ export async function DELETE(request: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 });
     }
 
-    await execute(
-      `UPDATE users SET banned_until = NULL WHERE id = $1`,
-      [userId]
-    );
-
-    // Log audit
-    await logAuditAction(
-      session.user.id!,
-      'unban_user',
-      'user',
-      userId,
-      {}
-    );
+    await execute(`UPDATE users SET banned_until = NULL WHERE id = $1`, [userId]);
+    await logAuditAction(currentUserId, 'unban_user', 'user', userId, {});
 
     return NextResponse.json({ success: true });
   } catch (error) {
