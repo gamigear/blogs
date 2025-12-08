@@ -3,6 +3,8 @@ import { getArticles, getCategories } from '@/lib/strapi';
 import { ArticleCard } from '@/components/ArticleCard';
 import { SearchBox } from '@/components/SearchBox';
 
+// Force dynamic rendering - pages will be generated on request
+export const dynamic = 'force-dynamic';
 export const revalidate = 60; // ISR: revalidate every 60 seconds
 
 export default async function HomePage() {

@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { getCommunityPosts } from '@/lib/strapi';
 import { CommunityPostCard } from '@/components/CommunityPostCard';
 
+// Force dynamic rendering - pages will be generated on request
+export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export default async function CommunityPage() {

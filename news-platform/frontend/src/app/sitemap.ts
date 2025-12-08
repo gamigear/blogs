@@ -1,6 +1,9 @@
 import { MetadataRoute } from 'next';
 import { query } from '@/lib/db';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://news.example.com';
 
 interface ArticleRow {
