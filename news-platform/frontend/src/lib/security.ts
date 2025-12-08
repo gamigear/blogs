@@ -296,3 +296,41 @@ export function validatePassword(password: string): { valid: boolean; errors: st
 
   return { valid: errors.length === 0, errors };
 }
+
+
+// ============================================
+// AUDIT LOGGING
+// ============================================
+
+import { execute } from './db';
+
+/**
+ * Log an audit action to the database
+ */
+export async function logAuditAction(
+  userId: number,
+  action: string,
+  resourceType: string,
+  resourceId: number | null,
+  details: Record<string, any> = {},
+  ipAddress?: string,
+  userAgent?: string
+): Promise<void> {
+  try {
+    await execute(`
+      INSERT INTO audit_logs (user_id, action, resource_type, resource_id, details, ip_address, user_agent)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `, [
+      userId,
+      action,
+      resourceType,
+      resourceId,
+      JSON.stringify(details),
+      ipAddress || null,
+      userAgent || null,
+    ]);
+  } catch (error) {
+    console.error('Failed to log audit action:', error);
+    // Don't throw - audit logging should not break the main flow
+  }
+}

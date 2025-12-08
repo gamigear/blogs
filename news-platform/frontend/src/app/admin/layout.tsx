@@ -11,7 +11,8 @@ export default async function AdminLayout({
   const session = await getServerSession(authOptions);
   
   // Check if user is admin or editor
-  if (!session?.user || !['admin', 'editor', 'moderator'].includes(session.user.role || '')) {
+  const userRole = (session?.user as any)?.role || '';
+  if (!session?.user || !['admin', 'editor', 'moderator'].includes(userRole)) {
     redirect('/');
   }
 
