@@ -5,6 +5,8 @@ import { queryOne } from '@/lib/db';
 import { addSecurityHeaders } from '@/lib/security';
 import { getOrSet, cacheKey, CACHE_KEYS, CACHE_TTL } from '@/lib/redis';
 
+export const dynamic = 'force-dynamic';
+
 interface DashboardMetrics {
   articles: {
     total: number;

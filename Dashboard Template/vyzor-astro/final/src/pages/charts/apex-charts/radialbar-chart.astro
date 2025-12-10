@@ -1,0 +1,93 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Pageheader from "../../../components/Pageheader.astro";
+---
+
+<Layout Seo="Radialbar Charts">
+    <Pageheader
+        title="Charts"
+        subtitle="Apex Charts"
+        currentpage="Apex Radialbar Charts"
+        activepage="Apex Radialbar Charts"
+    />
+
+    <!-- Start::row-1 -->
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Basic Pie Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="radialbar-basic"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Multiple Radialbar Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="radialbar-multiple"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Circle Chart - Custom Angle</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="circle-custom"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Gradient Circle Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="gradient-circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Stroked Circular Gauge</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="circular-stroked"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Circle Chart With Image</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="circle-image"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Semi Circular Gauge</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="circular-semi"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End::row-1 -->
+
+    <script>
+        import "../../../scripts/js/custom.js";
+        import "../../../scripts/js/apexcharts-radialbar.js";
+    </script>
+</Layout>

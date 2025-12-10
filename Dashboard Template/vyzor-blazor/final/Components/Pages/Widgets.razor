@@ -1,0 +1,2172 @@
+@page "/widgets"
+@inject ScriptLoaderService ScriptLoader
+@inject IJSRuntime JSRuntime
+@using ApexCharts
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager 
+
+<!-- Jsvector Maps -->
+<link rel="stylesheet" href="../assets/libs/jsvectormap/jsvectormap.min.css">
+
+<!-- Start::page-header -->
+<div class="page-header-breadcrumb mb-3">
+    <div class="d-flex align-center justify-content-between flex-wrap">
+        <h1 class="page-title fw-medium fs-18 mb-0">Widgets</h1>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Widgets</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Widgets</li>
+        </ol>
+    </div>
+</div>
+<!-- End::page-header -->
+
+<!-- Start:: row-1 -->
+<div class="row row-cols-xxl-5">
+    <div class="col">
+        <div class="card custom-card widget-card-style1 primary">
+            <div class="card-body">
+                <div class="d-flex align-items-start gap-3 flex-wrap">
+                    <div class="lh-1">
+                        <span class="avatar avatar-md bg-primary">
+                            <i class="ri-group-3-fill fs-5"></i>
+                        </span>
+                    </div>
+                    <div class="flex-fill">
+                        <span class="d-block">Total Employees</span>
+                        <h5 class="fw-semibold">1,754</h5>
+                        <span class="badge bg-primary-transparent">This Month</span>
+                    </div>
+                    <div class="fs-15 text-success">+1.04%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card custom-card widget-card-style1 secondary">
+            <div class="card-body">
+                <div class="d-flex align-items-start gap-3 flex-wrap">
+                    <div class="lh-1">
+                        <span class="avatar avatar-md bg-secondary">
+                            <i class="ri-user-minus-fill fs-5"></i>
+                        </span>
+                    </div>
+                    <div class="flex-fill">
+                        <span class="d-block">Employees In Leave</span>
+                        <h5 class="fw-semibold">234</h5>
+                        <span class="badge bg-secondary-transparent">This Month</span>
+                    </div>
+                    <div class="fs-15 text-success">+0.36%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card custom-card widget-card-style1 warning">
+            <div class="card-body">
+                <div class="d-flex align-items-start gap-3 flex-wrap">
+                    <div class="lh-1">
+                        <span class="avatar avatar-md bg-warning">
+                            <i class="ri-briefcase-fill fs-5"></i>
+                        </span>
+                    </div>
+                    <div class="flex-fill">
+                        <span class="d-block">Total Clients</span>
+                        <h5 class="fw-semibold">664</h5>
+                        <span class="badge bg-warning-transparent">This Month</span>
+                    </div>
+                    <div class="fs-15 text-danger">-1.28%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card custom-card widget-card-style1 success">
+            <div class="card-body">
+                <div class="d-flex align-items-start gap-3 flex-wrap">
+                    <div class="lh-1">
+                        <span class="avatar avatar-md bg-success">
+                            <i class="ri-id-card-fill fs-5"></i>
+                        </span>
+                    </div>
+                    <div class="flex-fill">
+                        <span class="d-block">New Leads</span>
+                        <h5 class="fw-semibold">855</h5>
+                        <span class="badge bg-success-transparent">This Month</span>
+                    </div>
+                    <div class="fs-15 text-success">+2.25%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card custom-card widget-card-style1 info">
+            <div class="card-body">
+                <div class="d-flex align-items-start gap-3 flex-wrap">
+                    <div class="lh-1">
+                        <span class="avatar avatar-md bg-info">
+                            <i class="ri-id-card-fill fs-5"></i>
+                        </span>
+                    </div>
+                    <div class="flex-fill">
+                        <span class="d-block">Total Deals</span>
+                        <h5 class="fw-semibold">325</h5>
+                        <span class="badge bg-info-transparent">This Month</span>
+                    </div>
+                    <div class="fs-15 text-danger">-5.96%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="row">
+    <div class="col-md-6 col-lg-6 col-xl-3">
+        <div class="card custom-card ">
+            <div class="card-body">
+                <div class="d-flex justify-content-between flex-wrap">
+                    <div class="mb-2">
+                        <span class="avatar avatar-md bg-primary-transparent svg-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000"
+                                viewBox="0 0 256 256">
+                                <path
+                                    d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1,0-16h8V136a8,8,0,0,1,8-8H72a8,8,0,0,1,8,8v64H96V88a8,8,0,0,1,8-8h32a8,8,0,0,1,8,8V200h16V40a8,8,0,0,1,8-8h40a8,8,0,0,1,8,8V200h8A8,8,0,0,1,232,208Z">
+                                </path>
+                            </svg>
+                        </span>
+                    </div>
+                    <span class="fs-16">Total Sales</span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="fs-20 fw-medium mb-0 d-flex align-items-center">12,432
+                        </span>
+                        <span class="fs-13 text-muted">Increases Today</span>
+                    </div>
+                    <div id="chart-2">
+                    <ApexChart TItem="TotalSalesChart" Height="40" Width="70" Options="TotalSalesChartOptions">
+                        <ApexPointSeries 
+                            TItem="TotalSalesChart" 
+                            Items="totalSalesChart" 
+                            SeriesType="@SeriesType.Bar" 
+                            Name=""
+                            XValue="@(e => e.Series)" 
+                            YAggregate="@(e => e.Sum(e => e.Value))" />
+                    </ApexChart>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-xl-3">
+        <div class="card custom-card ">
+            <div class="card-body">
+                <div class="d-flex justify-content-between flex-wrap">
+                    <div class="mb-2">
+                        <span class="avatar avatar-md bg-secondary-transparent svg-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000"
+                                viewBox="0 0 256 256">
+                                <path
+                                    d="M152,112a8,8,0,0,1-8,8H112a8,8,0,0,1,0-16h32A8,8,0,0,1,152,112Zm80-40V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V72A16,16,0,0,1,40,56H80V48a24,24,0,0,1,24-24h48a24,24,0,0,1,24,24v8h40A16,16,0,0,1,232,72ZM96,56h64V48a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8Zm120,57.61V72H40v41.61A184,184,0,0,0,128,136,184,184,0,0,0,216,113.61Z">
+                                </path>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="fs-16">Total Revenue</div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="fs-20 fw-medium mb-0 d-flex align-items-center">$9,432
+                        </span>
+                        <span class="fs-13 text-muted">Increases Today</span>
+                    </div>
+                    <div id="chart-3">
+                    <ApexChart TItem="TotalRevenueChart" Width="70" Height="40" Options="TotalRevenueChartOptions">
+                        <ApexPointSeries 
+                            TItem="TotalRevenueChart" 
+                            Items="totalRevenueChart" 
+                            SeriesType="@SeriesType.Line" 
+                            Name=""
+                            XValue="@(e => e.Series)" 
+                            YAggregate="@(e => e.Sum(e => e.Value))" />
+                    </ApexChart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-xl-3">
+        <div class="card custom-card ">
+            <div class="card-body">
+                <div class="d-flex justify-content-between flex-wrap">
+                    <div class="mb-2">
+                        <span class="avatar avatar-md bg-success-transparent svg-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000"
+                                viewBox="0 0 256 256">
+                                <path
+                                    d="M164.47,195.63a8,8,0,0,1-6.7,12.37H10.23a8,8,0,0,1-6.7-12.37,95.83,95.83,0,0,1,47.22-37.71,60,60,0,1,1,66.5,0A95.83,95.83,0,0,1,164.47,195.63Zm87.91-.15a95.87,95.87,0,0,0-47.13-37.56A60,60,0,0,0,144.7,54.59a4,4,0,0,0-1.33,6A75.83,75.83,0,0,1,147,150.53a4,4,0,0,0,1.07,5.53,112.32,112.32,0,0,1,29.85,30.83,23.92,23.92,0,0,1,3.65,16.47,4,4,0,0,0,3.95,4.64h60.3a8,8,0,0,0,7.73-5.93A8.22,8.22,0,0,0,252.38,195.48Z">
+                                </path>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="fs-16">Total Customers</div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="fs-20 fw-medium mb-0 d-flex align-items-center">3,132
+                        </span>
+                        <span class="fs-13 text-muted">Increases Today</span>
+                    </div>
+                    <div id="chart-4">
+                        <div class="border-chart">
+                        <ApexChart TItem="TotalCustomersChart" Width="70" Height="40" Options="TotalCustomersChartOptions">
+                            <ApexPointSeries 
+                                TItem="TotalCustomersChart" 
+                                Items="totalCustomersChart" 
+                                SeriesType="@SeriesType.Line" 
+                                Name=""
+                                XValue="@(e => e.Series)" 
+                                YAggregate="@(e => e.Sum(e => e.Value))" />
+                        </ApexChart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-xl-3">
+        <div class="card custom-card ">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div class="mb-2">
+                        <span class="avatar avatar-md bg-info-transparent svg-info">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="svg-info" width="32" height="32"
+                                fill="#000000" viewBox="0 0 256 256">
+                                <path
+                                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm12,152h-4v8a8,8,0,0,1-16,0v-8H104a8,8,0,0,1,0-16h36a12,12,0,0,0,0-24H116a28,28,0,0,1,0-56h4V72a8,8,0,0,1,16,0v8h16a8,8,0,0,1,0,16H116a12,12,0,0,0,0,24h24a28,28,0,0,1,0,56Z">
+                                </path>
+                            </svg> </span>
+                    </div>
+                    <div class="fs-16">Total Profit</div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="fs-20 fw-medium mb-0 d-flex align-items-center">$532
+                        </span>
+                        <span class="fs-13 text-muted">Increases Today</span>
+                    </div>
+                    <div id="chart-5">
+                    <ApexChart TItem="TotalProfitChart" Width="40" Height="40" Options="TotalProfitChartOptions">
+                        <ApexPointSeries 
+                            TItem="TotalProfitChart" 
+                            Items="totalProfitChart" 
+                            SeriesType="@SeriesType.Pie" 
+                            Name=""
+                            XValue="@(e => e.Series)" 
+                            YAggregate="@(e => e.Sum(e => e.Value))" />
+                    </ApexChart>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-2 -->
+
+<!-- Start:: row-3 -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-body">
+                <div class="row gy-4">
+                    <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6">
+                        <div class="text-center">
+                            <div class="lh-1 mb-3">
+                                <span class="avatar avatar-lg bg-primary-transparent avatar-rounded">
+                                    <span class="avatar avatar-sm bg-primary avatar-rounded svg-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                            <rect width="256" height="256" fill="none" />
+                                            <path
+                                                d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm16,160h-8v8a8,8,0,0,1-16,0v-8h-8a32,32,0,0,1-32-32,8,8,0,0,1,16,0,16,16,0,0,0,16,16h32a16,16,0,0,0,0-32H116a32,32,0,0,1,0-64h4V64a8,8,0,0,1,16,0v8h4a32,32,0,0,1,32,32,8,8,0,0,1-16,0,16,16,0,0,0-16-16H116a16,16,0,0,0,0,32h28a32,32,0,0,1,0,64Z" />
+                                        </svg>
+                                    </span>
+                                </span>
+                            </div>
+                            <span class="d-block mb-1">Total Sales</span>
+                            <h5 class="fw-semibold">$54,320</h5>
+                            <div class="fs-13"><span class="text-success me-1">+ 0.54%</span> This Week</div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6">
+                        <div class="text-center">
+                            <div class="lh-1 mb-3">
+                                <span class="avatar avatar-lg bg-secondary-transparent avatar-rounded">
+                                    <span class="avatar avatar-sm bg-secondary avatar-rounded svg-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                            <rect width="256" height="256" fill="none" />
+                                            <path
+                                                d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,120,47.65,76,128,32l80.35,44Zm8,99.64V133.83l80-43.78v85.76Z" />
+                                        </svg>
+                                    </span>
+                                </span>
+                            </div>
+                            <span class="d-block mb-1">Total Products</span>
+                            <h5 class="fw-semibold">1,320</h5>
+                            <div class="fs-13"><span class="text-danger me-1">- 3.96%</span> This Week</div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6">
+                        <div class="text-center">
+                            <div class="lh-1 mb-3">
+                                <span class="avatar avatar-lg bg-warning-transparent avatar-rounded">
+                                    <span class="avatar avatar-sm bg-warning avatar-rounded svg-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                            <rect width="256" height="256" fill="none" />
+                                            <path
+                                                d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm56,112H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48a8,8,0,0,1,0,16Z" />
+                                        </svg>
+                                    </span>
+                                </span>
+                            </div>
+                            <span class="d-block mb-1">Pending Orders</span>
+                            <h5 class="fw-semibold">240</h5>
+                            <div class="fs-13"><span class="text-success me-1">+ 5.53%</span> This Week</div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6">
+                        <div class="text-center">
+                            <div class="lh-1 mb-3">
+                                <span class="avatar avatar-lg bg-info-transparent avatar-rounded">
+                                    <span class="avatar avatar-sm bg-info avatar-rounded svg-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                            <rect width="256" height="256" fill="none" />
+                                            <path
+                                                d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.35,44L178.57,92.29l-80.35-44Zm0,88L47.65,76,81.56,57.43l80.35,44Zm88,55.85h0l-80,43.79V133.83l32-17.51V152a8,8,0,0,0,16,0V107.56l32-17.51v85.76Z" />
+                                        </svg>
+                                    </span>
+                                </span>
+                            </div>
+                            <span class="d-block mb-1">Delivered Orders</span>
+                            <h5 class="fw-semibold">1,050</h5>
+                            <div class="fs-13"><span class="text-success me-1">+ 1.86%</span> This Week</div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6">
+                        <div class="text-center">
+                            <div class="lh-1 mb-3">
+                                <span class="avatar avatar-lg bg-success-transparent avatar-rounded">
+                                    <span class="avatar avatar-sm bg-success avatar-rounded svg-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                            <rect width="256" height="256" fill="none" />
+                                            <path
+                                                d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm40,112H107.31l18.35,18.34a8,8,0,0,1-11.32,11.32l-32-32a8,8,0,0,1,0-11.32l32-32a8,8,0,0,1,11.32,11.32L107.31,120H168a8,8,0,0,1,0,16Z" />
+                                        </svg>
+                                    </span>
+                                </span>
+                            </div>
+                            <span class="d-block mb-1">Returned Orders</span>
+                            <h5 class="fw-semibold">80</h5>
+                            <div class="fs-13"><span class="text-danger me-1">- 4.43%</span> This Week</div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6">
+                        <div class="text-center">
+                            <div class="lh-1 mb-3">
+                                <span class="avatar avatar-lg bg-danger-transparent avatar-rounded">
+                                    <span class="avatar avatar-sm bg-danger avatar-rounded svg-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                            <rect width="256" height="256" fill="none" />
+                                            <path
+                                                d="M230.93,220a8,8,0,0,1-6.93,4H32a8,8,0,0,1-6.92-12c15.23-26.33,38.7-45.21,66.09-54.16a72,72,0,1,1,73.66,0c27.39,8.95,50.86,27.83,66.09,54.16A8,8,0,0,1,230.93,220Z" />
+                                        </svg>
+                                    </span>
+                                </span>
+                            </div>
+                            <span class="d-block mb-1">Total Customers</span>
+                            <h5 class="fw-semibold">1,540</h5>
+                            <div class="fs-13"><span class="text-success me-1">+ 6.12%</span> This Week</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-3 -->
+
+<!-- Start:: row-4 -->
+<div class="row">
+    <div class="col-xxl-3 col-xl-6">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Top Categories
+                </div>
+                <a href="javascript:void(0);" class="fs-12 text-muted"> View All<i
+                        class="ti ti-arrow-narrow-right ms-1"></i> </a>
+            </div>
+            <div class="card-body">
+                <div id="top-categories">
+                <ApexChart TItem="TopCategoriesLineChart" Height="155" Options="TopCategoriesLineChartOptions">
+                    <ApexPointSeries 
+                        TItem="TopCategoriesLineChart" 
+                        Items="topCategoriesLineChart" 
+                        SeriesType="@SeriesType.Line" 
+                        Name="Electronics"
+                        XValue="@(e => e.Month)" 
+                        YAggregate="@(e => e.Sum(e => e.Electronics))" />
+                        
+                    <ApexPointSeries 
+                        TItem="TopCategoriesLineChart" 
+                        Items="topCategoriesLineChart" 
+                        SeriesType="@SeriesType.Line" 
+                        Name="Fashion"
+                        XValue="@(e => e.Month)" 
+                        YAggregate="@(e => e.Sum(e => e.Fashion))" />
+                        
+                    <ApexPointSeries 
+                        TItem="TopCategoriesLineChart" 
+                        Items="topCategoriesLineChart" 
+                        SeriesType="@SeriesType.Line" 
+                        Name="Furniture"
+                        XValue="@(e => e.Month)" 
+                        YAggregate="@(e => e.Sum(e => e.Furniture))" />
+                </ApexChart>
+                </div>
+            </div>
+            <div class="card-footer p-0">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div class="top-category-type one">
+                                <div class="fw-medium">Electronics</div>
+                                <span class="fs-13 text-muted">Increased By<span
+                                        class="text-success ms-1 fw-medium d-inline-block">18.67%</span></span>
+                            </div>
+                            <div class="text-end">
+                                <span class="d-block fs-13 text-muted">Sales</span>
+                                <span class="d-block fw-semibold mb-0">19,754</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div class="top-category-type two">
+                                <div class="fw-medium">Fashion</div>
+                                <span class="fs-13 text-muted">Increased By<span
+                                        class="text-success ms-1 fw-medium d-inline-block">35.46%</span></span>
+                            </div>
+                            <div class="text-end">
+                                <span class="d-block fs-13 text-muted">Sales</span>
+                                <span class="d-block fw-semibold mb-0">16,236</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div class="top-category-type three">
+                                <div class="fw-medium">Furniture</div>
+                                <span class="fs-13 text-muted">Decresed By<span
+                                        class="text-danger ms-1 fw-medium d-inline-block">23.43%</span></span>
+                            </div>
+                            <div class="text-end">
+                                <span class="d-block fs-13 text-muted">Sales</span>
+                                <span class="d-block fw-semibold mb-0">12,645</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-xl-6">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Top Country Sales
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="sales-locations"></div>
+                <div class="mt-4">
+                    <ul class="list-unstyled sales-locations-list">
+                        <li>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <div class="lh-1">
+                                    <span class="avatar avatar-xs avatar-rounded">
+                                        <img src="../assets/images/flags/argentina_flag.jpg" alt="">
+                                    </span>
+                                </div>
+                                <div class="flex-fill">Argentina</div>
+                                <div>43,765</div>
+                            </div>
+                            <div class="progress progress-animate progress-xs" role="progressbar" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <div class="lh-1">
+                                    <span class="avatar avatar-xs avatar-rounded">
+                                        <img src="../assets/images/flags/french_flag.jpg" alt="">
+                                    </span>
+                                </div>
+                                <div class="flex-fill">France</div>
+                                <div>36,055</div>
+                            </div>
+                            <div class="progress progress-animate progress-xs" role="progressbar" aria-valuenow="64"
+                                aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 64%">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <div class="lh-1">
+                                    <span class="avatar avatar-xs avatar-rounded">
+                                        <img src="../assets/images/flags/us_flag.jpg" alt="">
+                                    </span>
+                                </div>
+                                <div class="flex-fill">Usa</div>
+                                <div>26,734</div>
+                            </div>
+                            <div class="progress progress-animate progress-xs" role="progressbar" aria-valuenow="60"
+                                aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 60%">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-6">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">Sales Revenue</div>
+            </div>
+            <div class="card-body">
+                <div id="salesOverview">
+                <ApexChart TItem="SalesRevenueChart" Height=365 Options=SalesRevenueChartOptions>
+                    <ApexPointSeries TItem="SalesRevenueChart" Items="salesRevenueChart" SeriesType="@SeriesType.Bar"
+                        Name="Sales" XValue="@(e => e.Month)" YAggregate="@(e => e.Sum(e => e.Sales))"/>
+                    <ApexPointSeries TItem="SalesRevenueChart" Items="salesRevenueChart" SeriesType="@SeriesType.Bar"
+                        Name="OPEX Ratio" XValue="@(e => e.Month)" YAggregate="@(e => e.Sum(e => e.OpexRatio))"/>
+                    <ApexPointSeries TItem="SalesRevenueChart" Items="salesRevenueChart" SeriesType="@SeriesType.Bar"
+                        Name="General & Admin" XValue="@(e => e.Month)" YAggregate="@(e => e.Sum(e => e.Admin))"/>
+                    <ApexPointSeries TItem="SalesRevenueChart" Items="salesRevenueChart" SeriesType="@SeriesType.Bar"
+                        Name="Marketing" XValue="@(e => e.Month)" YAggregate="@(e => e.Sum(e => e.Marketing))"/>
+                </ApexChart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-4 -->
+
+<!-- Start:: row-5 -->
+<div class="row">
+    <div class="col-xxl-4 col-xl-6">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Top Categories
+                </div>
+                <div class="dropdown">
+                    <a href="javascript:void(0);" class="btn btn-primary-light btn-sm" data-bs-toggle="dropdown"
+                        aria-expanded="false"> This Week<i
+                            class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i> </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a class="dropdown-item" href="javascript:void(0);">Today</a></li>
+                        <li><a class="dropdown-item active" href="javascript:void(0);">This Week</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Last Week</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col">
+                        <div id="top-categories1" class="py-3 !text-center">
+                        <ApexChart TItem="TopCategory" Options=TopCategoriesDonutChartOptions Height="230">
+                            <ApexPointSeries 
+                                TItem="TopCategory" 
+                                Items="topCategories" 
+                                SeriesType="SeriesType.Donut" 
+                                XValue="@(e => e.CategoryName)" 
+                                YAggregate="@(e => e.Sum(e => e.CategoryValue))" />
+                        </ApexChart>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <ul class="list-unstyled top-categories-list1 gy-1">
+                            <li>
+                                <div class="d-flex align-items-center gap-2 justify-content-between">
+                                    <div class="d-flex align-items-center gap-2"><i
+                                            class="ri-circle-fill fs-10 text-primary"></i>Electronics</div>
+                                    <div class="fw-semibold text-primary">31%</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="d-flex align-items-center gap-2 justify-content-between">
+                                    <div class="d-flex align-items-center gap-2"><i
+                                            class="ri-circle-fill fs-10 text-secondary"></i>Fashion</div>
+                                    <div class="fw-semibold text-secondary">26%</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="d-flex align-items-center gap-2 justify-content-between">
+                                    <div class="d-flex align-items-center gap-2"><i
+                                            class="ri-circle-fill fs-10 text-info"></i>Furniture</div>
+                                    <div class="fw-semibold text-info">18%</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="d-flex align-items-center gap-2 justify-content-between">
+                                    <div class="d-flex align-items-center gap-2"><i
+                                            class="ri-circle-fill fs-10 text-warning"></i>Appliances</div>
+                                    <div class="fw-semibold text-warning">14%</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="d-flex align-items-center gap-2 justify-content-between">
+                                    <div class="d-flex align-items-center gap-2"><i
+                                            class="ri-circle-fill fs-10 text-success"></i>Gaming</div>
+                                    <div class="fw-semibold text-success">11%</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col border-end border-inline-end-dashed">
+                        <div class="text-center">
+                            <span class="text-muted">Last Month</span>
+                            <h4 class="fw-semibold mb-0">13,965</h4>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="text-center">
+                            <span class="d-block text-muted mb-1">This Month</span>
+                            <h4 class="fw-semibold mb-0">15,367</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-5 col-xl-6">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Recent Orders
+                </div>
+                <a href="javascript:void(0);" class="link-primary fw-semibold">View All Orders<i
+                        class="ri-arrow-right-s-line ms-1 align-middle"></i></a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Payment Mode</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Amount Paid</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="fw-semibold">#ORD789ABC</span></td>
+                                <td>
+                                    <div>
+                                        <span class="d-block fw-semibold">Rupay Card ****2783</span>
+                                        <span class="d-block fs-12 text-muted">Card Payment</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td>
+                                    <div>
+                                        <span class="d-block fw-semibold">$1,234.78</span>
+                                        <span class="d-block fs-12 text-muted">Nov 22,2023</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-light btn-wave waves-effect waves-light">
+                                        <i class="fe fe-eye text-muted align-middle me-1"></i>
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-semibold">#ORD253SFW</span></td>
+                                <td>
+                                    <div>
+                                        <span class="d-block fw-semibold">Digital Wallet</span>
+                                        <span class="d-block fs-12 text-muted">Online Transaction</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                                <td>
+                                    <div>
+                                        <span class="d-block fw-semibold">$623.99</span>
+                                        <span class="d-block fs-12 text-muted">Nov 22,2023</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-light btn-wave waves-effect waves-light">
+                                        <i class="fe fe-eye text-muted align-middle me-1"></i>
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-semibold">#ORD356SKF</span></td>
+                                <td>
+                                    <div>
+                                        <span class="d-block fw-semibold">Mastro Card ****7893</span>
+                                        <span class="d-block fs-12 text-muted">Card Payment</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-danger">Cancelled</span></td>
+                                <td>
+                                    <div>
+                                        <span class="d-block fw-semibold">$1,324</span>
+                                        <span class="d-block fs-12 text-muted">Nov 21,2023</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-light btn-wave waves-effect waves-light">
+                                        <i class="fe fe-eye text-muted align-middle me-1"></i>
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-semibold">#ORD363ESD</span></td>
+                                <td>
+                                    <div>
+                                        <span class="d-block fw-semibold">Cash On Delivery</span>
+                                        <span class="d-block fs-12 text-muted">Pay On Delivery</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td>
+                                    <div>
+                                        <span class="d-block fw-semibold">$1,123.49</span>
+                                        <span class="d-block fs-12 text-muted">Nov 20,2023</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-light btn-wave waves-effect waves-light">
+                                        <i class="fe fe-eye text-muted align-middle me-1"></i>
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border-bottom-0"><span class="fw-semibold">#ORD253KSE</span></td>
+                                <td class="border-bottom-0">
+                                    <div>
+                                        <span class="d-block fw-semibold">Visa Card ****2563</span>
+                                        <span class="d-block fs-12 text-muted">Card Payment</span>
+                                    </div>
+                                </td>
+                                <td class="border-bottom-0"><span class="badge bg-success">Completed</span></td>
+                                <td class="border-bottom-0">
+                                    <div>
+                                        <span class="d-block fw-semibold">$1,289</span>
+                                        <span class="d-block fs-12 text-muted">Nov 18,2023</span>
+                                    </div>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <button class="btn btn-sm btn-outline-light btn-wave waves-effect waves-light">
+                                        <i class="fe fe-eye text-muted align-middle me-1"></i>
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Social Visitors
+                </div>
+            </div>
+            <div class="card-body py-0">
+                <div id="social-visitors">
+                    <ApexChart TItem="SocialVisitor" Height=390 Options=SocialVisitorsChartOptions>
+                        <ApexPointSeries 
+                        TItem="SocialVisitor"
+                        Items="socialVisitors"
+                        SeriesType="@SeriesType.Bar"
+                        Name="Visitors"
+                        XValue="@(e => e.Source)"
+                        YAggregate="@(e => e.Sum(e => e.Visitors))"/>
+                    </ApexChart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-5 -->
+
+<!-- Start:: row-6 -->
+<div class="row">
+    <div class="col-xxl-3 col-xl-6">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Social Traffic
+                </div>
+            </div>
+            <div class="card-body pb-0 px-0">
+                <div id="social-traffic1">
+                <ApexChart TItem="SocialTraffic" Height="313" Options="SocialTrafficChartOptions">
+                    <ApexPointSeries TItem="SocialTraffic" Items="socialTrafficList" SeriesType="@SeriesType.Bar"
+                                    Name="Facebook" XValue="@(e => e.Weekday)" YAggregate="@(e => e.Sum(e => e.Facebook))" />
+                    <ApexPointSeries TItem="SocialTraffic" Items="socialTrafficList" SeriesType="@SeriesType.Bar"
+                                    Name="Instagram" XValue="@(e => e.Weekday)" YAggregate="@(e => e.Sum(e => e.Instagram))" />
+                    <ApexPointSeries TItem="SocialTraffic" Items="socialTrafficList" SeriesType="@SeriesType.Bar"
+                                    Name="Twitter" XValue="@(e => e.Weekday)" YAggregate="@(e => e.Sum(e => e.Twitter))" />
+                    <ApexPointSeries TItem="SocialTraffic" Items="socialTrafficList" SeriesType="@SeriesType.Bar"
+                                    Name="LinkedIn" XValue="@(e => e.Weekday)" YAggregate="@(e => e.Sum(e => e.LinkedIn))" />
+                </ApexChart>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-xl-6">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Recent Orders
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="recent-orders">
+                <ApexChart TItem="RecentOrdersChart" Options=RecentOrdersChartOptions Height="258">
+                    <ApexPointSeries TItem="RecentOrdersChart" Items="RecentOrdersCharts" Name="Recent Orders" SeriesType="SeriesType.Donut" XValue="@(e => e.Status)" YAggregate="@(e => e.Sum(e => e.SimpleValue))" />
+                </ApexChart>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row gy-4">
+                    <div class="col-xl-6">
+                        <div class="d-flex align-items-start gap-3 flex-wrap">
+                            <div>
+                                <span class="avatar avatar-rounded bg-primary-transparent svg-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <path
+                                            d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.35,44L178.57,92.29l-80.35-44Zm0,88L47.65,76,81.56,57.43l80.35,44Zm88,55.85h0l-80,43.79V133.83l32-17.51V152a8,8,0,0,0,16,0V107.56l32-17.51v85.76Z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="d-block text-muted fs-13">Delivered</span>
+                                <span class="d-block fw-semibold fs-16">1,754</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="d-flex align-items-start gap-3 flex-wrap">
+                            <div>
+                                <span class="avatar avatar-rounded bg-success-transparent svg-success">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <path
+                                            d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="d-block text-muted fs-13">Cancelled</span>
+                                <span class="d-block fw-semibold fs-16">634</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="d-flex align-items-start gap-3 flex-wrap">
+                            <div>
+                                <span class="avatar avatar-rounded bg-warning-transparent svg-warning">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <path
+                                            d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm56,112H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48a8,8,0,0,1,0,16Z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="d-block text-muted fs-13">Pending</span>
+                                <span class="d-block fw-semibold fs-16">878</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="d-flex align-items-start gap-3 flex-wrap">
+                            <div>
+                                <span class="avatar avatar-rounded bg-info-transparent svg-info">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <path
+                                            d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm40,112H107.31l18.35,18.34a8,8,0,0,1-11.32,11.32l-32-32a8,8,0,0,1,0-11.32l32-32a8,8,0,0,1,11.32,11.32L107.31,120H168a8,8,0,0,1,0,16Z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="d-block text-muted fs-13">Returned</span>
+                                <span class="d-block fw-semibold fs-16">470</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-xl-6">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Recent Transactions
+                </div>
+                <a href="javascript:void(0);" class="fs-12 text-muted fw-medium"> View All<i
+                        class="ti ti-arrow-narrow-right ms-1"></i> </a>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled widgets-transactions-list">
+                    <li>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded bg-primary-transparent svg-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
+                                        height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
+                                        <g>
+                                            <rect fill="none" height="24" width="24"></rect>
+                                        </g>
+                                        <g>
+                                            <path
+                                                d="M12,3c-4.97,0-9,4.03-9,9v7c0,1.1,0.9,2,2,2h4v-8H5v-1c0-3.87,3.13-7,7-7s7,3.13,7,7v1h-4v8h4c1.1,0,2-0.9,2-2v-7 C21,7.03,16.97,3,12,3z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="flex-fill">
+                                <span class="d-block fw-semibold">Wireless Headphones</span>
+                                <span class="d-block text-muted fs-12">2024-10-08, 14:35</span>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-success-transparent">Paid</span>
+                                <span class="d-block mt-1">$150.00</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded bg-secondary-transparent svg-secondary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24"
+                                        width="24px" fill="#5f6368">
+                                        <path d="M0 0h24v24H0z" fill="none" opacity=".1"></path>
+                                        <path
+                                            d="M20 12c0-2.54-1.19-4.81-3.04-6.27L16 0H8l-.95 5.73C5.19 7.19 4 9.45 4 12s1.19 4.81 3.05 6.27L8 24h8l.96-5.73C18.81 16.81 20 14.54 20 12zM6 12c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6-6-2.69-6-6z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="flex-fill">
+                                <span class="d-block fw-semibold">Smartwatch</span>
+                                <span class="d-block text-muted fs-12">2024-10-08, 13:20</span>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-orange-transparent">Pending</span>
+                                <span class="d-block mt-1">$75.50</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded bg-warning-transparent svg-warning">
+                                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
+                                        height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
+                                        <g>
+                                            <rect fill="none" height="24" width="24" x="0"></rect>
+                                        </g>
+                                        <g>
+                                            <g>
+                                                <g>
+                                                    <path
+                                                        d="M20,18c1.1,0,2-0.9,2-2V6c0-1.1-0.9-2-2-2H4C2.9,4,2,4.9,2,6v10c0,1.1,0.9,2,2,2H0v2h24v-2H20z M4,6h16v10H4V6z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="flex-fill">
+                                <span class="d-block fw-semibold">Gaming Laptop</span>
+                                <span class="d-block text-muted fs-12">2024-10-08, 12:05</span>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-success-transparent">Paid</span>
+                                <span class="d-block mt-1">$250.00</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded bg-info-transparent svg-info">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24"
+                                        width="24px" fill="#5f6368">
+                                        <path d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                            d="M17 2H7c-1.1 0-2 .9-2 2v16c0 1.1.9 1.99 2 1.99L17 22c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-5 2c1.1 0 2 .9 2 2s-.9 2-2 2c-1.11 0-2-.9-2-2s.89-2 2-2zm0 16c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="flex-fill">
+                                <span class="d-block fw-semibold">Bluetooth Speaker</span>
+                                <span class="d-block text-muted fs-12">2024-10-08, 11:50</span>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-success-transparent">Paid</span>
+                                <span class="d-block mt-1">$120.00</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded bg-success-transparent svg-success">
+                                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
+                                        height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
+                                        <g>
+                                            <rect fill="none" height="24" width="24"></rect>
+                                        </g>
+                                        <g>
+                                            <g>
+                                                <path
+                                                    d="M15.11,12.45L14,10.24l-3.11,6.21C10.73,16.79,10.38,17,10,17s-0.73-0.21-0.89-0.55L7.38,13H2v5c0,1.1,0.9,2,2,2h16 c1.1,0,2-0.9,2-2v-5h-6C15.62,13,15.27,12.79,15.11,12.45z">
+                                                </path>
+                                                <path
+                                                    d="M20,4H4C2.9,4,2,4.9,2,6v5h6c0.38,0,0.73,0.21,0.89,0.55L10,13.76l3.11-6.21c0.34-0.68,1.45-0.68,1.79,0L16.62,11H22V6 C22,4.9,21.1,4,20,4z">
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="flex-fill">
+                                <span class="d-block fw-semibold">Fitness Tracker</span>
+                                <span class="d-block text-muted fs-12">2024-10-08, 10:30</span>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-danger-transparent">Failed</span>
+                                <span class="d-block mt-1">$60.00</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-xl-6">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">Recent Activity</div>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0 ecommerce-recent-activity">
+                    <li class="ecommerce-recent-activity-content ">
+                        <div class="d-flex align-items-start">
+                            <div class="me-3">
+                                <span class="avatar avatar-sm avatar-rounded bg-light text-primary fw-semibold">
+                                    <i class="ri-shopping-cart-line"></i>
+                                </span>
+                            </div>
+                            <div class="activity-content">
+                                <span class="d-block fw-medium">New Order - #12345</span>
+                                <span class="d-block fs-12 text-muted">2 items purchased by samantha</span>
+                            </div>
+                            <div class="flex-fill text-end">
+                                <span class="d-block text-danger fs-11 op-7">2 hrs ago</span>
+                            </div>
+                        </div>
+
+                    </li>
+                    <li class="ecommerce-recent-activity-content">
+                        <div class="d-flex align-items-start">
+                            <div class="me-3">
+                                <span class="avatar avatar-sm  avatar-rounded bg-light text-secondary fw-semibold">
+                                    <i class="ri-checkbox-circle-line fs-14"></i>
+                                </span>
+                            </div>
+                            <div class="activity-content">
+                                <span class="d-block fw-medium">Order Shipped - #12345</span>
+                                <span class="d-block fs-12 text-muted">Shipped </span>
+                            </div>
+                            <div class="flex-fill text-end">
+                                <span class="d-block text-success fs-11 op-7">1 day ago</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="ecommerce-recent-activity-content">
+                        <div class="d-flex align-items-start">
+                            <div class="me-3">
+                                <span class="avatar avatar-sm bg-light text-warning  fw-semibold avatar-rounded">
+                                    <i class="ri-heart-3-line fs-14"></i>
+                                </span>
+                            </div>
+                            <div class="activity-content">
+                                <span class="d-block fw-medium me-1">Product Favorited - women frock 12 </span>
+                                <span class="d-block fs-12 text-muted">Added to favorites by mice</span>
+                            </div>
+                            <div class="flex-fill text-end">
+                                <span class="d-block text-success fs-11 op-7 ">2 days ago</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ecommerce-recent-activity-content">
+                        <div class="d-flex align-items-start">
+                            <div class="me-3">
+                                <span class="avatar avatar-sm  avatar-rounded bg-light text-orange fw-semibold">
+                                    <i class="ri-star-line fs-14"></i>
+                                </span>
+                            </div>
+                            <div class="activity-content">
+                                <span class="d-block fw-medium">Product Rated - DSL camera</span>
+                                <span class="d-block fs-12 text-muted">Rated 4.5 stars by Johnson</span>
+                            </div>
+                            <div class="flex-fill text-end">
+                                <span class="d-block text-danger fs-11 op-7">3 days ago</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ecommerce-recent-activity-content">
+                        <div class="d-flex align-items-start">
+                            <div class="me-3">
+                                <span class="avatar avatar-sm  avatar-rounded bg-light text-success fw-semibold">
+                                    <i class="ri-price-tag-3-line fs-14"></i>
+                                </span>
+                            </div>
+                            <div class="activity-content">
+                                <span class="d-block fw-medium">Product Discount - Nike Air Max</span>
+                                <span class="d-block fs-12 text-muted">Discounted price applied</span>
+                            </div>
+                            <div class="flex-fill text-end">
+                                <span class="d-block text-danger fs-11 op-7">1 days ago</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-6 -->
+
+
+@code {
+
+    private bool scriptsLoaded = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !scriptsLoaded)
+        {
+            var baseUri = NavigationManager.BaseUri;
+
+            // Load local scripts
+            await ScriptLoader.LoadScriptAsync($"{baseUri}assets/libs/jsvectormap/jsvectormap.min.js");
+            await ScriptLoader.LoadScriptAsync($"{baseUri}assets/libs/jsvectormap/maps/world-merc.js");
+            await ScriptLoader.LoadScriptAsync($"{baseUri}assets/js/widgets.js");
+
+            // Execute the map initialization function after scripts are loaded
+            await JSRuntime.InvokeVoidAsync("initializeMap");
+
+            scriptsLoaded = true;
+            StateHasChanged();
+        }
+    }
+}
+
+@code{
+
+    // total-sales-chart start//
+    private List<TotalSalesChart> totalSalesChart { get; set; } = TotalSalesChartData.GetData();
+    private ApexChartOptions<TotalSalesChart> TotalSalesChartOptions { get; set; } = new ApexChartOptions<TotalSalesChart>
+    {
+        Chart = new()
+        {
+            Type = ChartType.Bar,
+            Height = 70,
+            Width = 40,
+            Toolbar = new ApexCharts.Toolbar
+            {
+                Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false, Pan = false, Reset = false, Download = false },
+            },
+            Sparkline = new()
+            {
+                Enabled = true,
+            },
+        },
+        PlotOptions = new PlotOptions {
+            Bar = new PlotOptionsBar {
+                ColumnWidth = "60%",
+                BorderRadius = 2,
+            }
+        },
+        Colors = new List<string> { "var(--primary-color)" },
+        Xaxis = new XAxis{
+            Crosshairs = new()
+            {
+                Width = 1
+            },
+        },
+        Tooltip = new(){  
+            X = new(){
+                Show = false
+            },
+            Y = new(){
+                Title = new()
+                {
+                    Formatter = @"function (seriesName) {
+                            return ''
+                    }"
+                },
+            },
+        },
+    };
+    public class TotalSalesChart
+    {
+        public decimal Series { get; set; }
+        public decimal Value { get; set; }
+    }
+    public static class TotalSalesChartData
+    {
+        public static List<TotalSalesChart> GetData()
+        {
+            return new List<TotalSalesChart>
+            {
+                new TotalSalesChart { Series = 1, Value = 25 },
+                new TotalSalesChart { Series = 2, Value = 22 },
+                new TotalSalesChart { Series = 3, Value = 41 },
+                new TotalSalesChart { Series = 4, Value = 55 },
+                new TotalSalesChart { Series = 5, Value = 30 },
+                new TotalSalesChart { Series = 6, Value = 35 },
+                new TotalSalesChart { Series = 7, Value = 25 },
+
+            };
+        }
+    }
+    // total-sales-chart end//
+
+    // total-revenue-chart start//
+    private List<TotalRevenueChart> totalRevenueChart { get; set; } = TotalRevenueChartData.GetData();
+
+    private ApexChartOptions<TotalRevenueChart> TotalRevenueChartOptions { get; set; } = new ApexChartOptions<TotalRevenueChart>
+    {
+        Chart = new(){
+            Height = 40,
+            Width = 70,
+            Type = ChartType.Line,
+            Toolbar = new ApexCharts.Toolbar
+            {
+                Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false, Pan = false, Reset = false, Download = false },
+            },
+            Sparkline = new()
+            {
+                Enabled = true,
+            },
+        },
+        Stroke = new Stroke{
+            Curve = Curve.Smooth,
+            Width = 2,
+        },
+        Colors = new List<string> { "rgb(255, 73, 205)" },
+        Tooltip = new(){
+            Enabled = true,
+            Theme = ApexCharts.Mode.Dark,
+            X = new()
+            {
+                Show = false
+            },
+            Y = new()
+            {
+                Title = new()
+                {
+                    Formatter = @"function (seriesName) {
+                            return ''
+                    }"
+                },
+            },
+        },
+    };
+
+    public class TotalRevenueChart
+    {
+        public decimal Series { get; set; }
+        public decimal Value { get; set; }
+    }
+
+    public static class TotalRevenueChartData
+    {
+        public static List<TotalRevenueChart> GetData()
+        {
+            return new List<TotalRevenueChart>
+            {
+                new TotalRevenueChart { Series = 1, Value = 12 },
+                new TotalRevenueChart { Series = 2, Value = 14 },
+                new TotalRevenueChart { Series = 3, Value = 2 },
+                new TotalRevenueChart { Series = 4, Value = 47 },
+                new TotalRevenueChart { Series = 5, Value = 42 },
+                new TotalRevenueChart { Series = 6, Value = 15 },
+                new TotalRevenueChart { Series = 7, Value = 47 },
+                new TotalRevenueChart { Series = 8, Value = 75 },
+                new TotalRevenueChart { Series = 9, Value = 65 },
+                new TotalRevenueChart { Series = 10, Value = 19 },
+                new TotalRevenueChart { Series = 11, Value = 14 },
+            };
+        }
+    }
+    // total-revenue-chart end//
+
+    // total-customers-chart start//
+    private List<TotalCustomersChart> totalCustomersChart { get; set; } = TotalCustomersChartData.GetData();
+
+    private ApexChartOptions<TotalCustomersChart> TotalCustomersChartOptions { get; set; } = new ApexChartOptions<TotalCustomersChart>
+    {
+        Chart = new()
+        {
+            Height = 40,
+            Width = 70,
+            Type = ChartType.Line,
+            Toolbar = new ApexCharts.Toolbar
+            {
+                Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false, Pan = false, Reset = false, Download = false },
+            },
+            Sparkline = new()
+            {
+                Enabled = true,
+            },
+        },
+        Stroke = new Stroke
+        {
+            Curve = Curve.Smooth,
+            Width = 2,
+        },
+        Colors = new List<string> { "rgb(50, 212, 132)" },
+        Tooltip = new()
+        {
+            Enabled = true,
+            Theme = ApexCharts.Mode.Dark,
+            X = new()
+            {
+                Show = false
+            },
+            Y = new()
+            {
+                Title = new()
+                {
+                    Formatter = @"function (seriesName) {
+                            return ''
+                    }"
+                },
+            },
+        },
+    };
+
+    public class TotalCustomersChart
+    {
+        public decimal Series { get; set; }
+        public decimal Value { get; set; }
+    }
+
+    public static class TotalCustomersChartData
+    {
+        public static List<TotalCustomersChart> GetData()
+        {
+            return new List<TotalCustomersChart>
+            {
+                new TotalCustomersChart { Series = 1, Value = 12 },
+                new TotalCustomersChart { Series = 2, Value = 14 },
+                new TotalCustomersChart { Series = 3, Value = 2 },
+                new TotalCustomersChart { Series = 4, Value = 47 },
+                new TotalCustomersChart { Series = 5, Value = 42 },
+                new TotalCustomersChart { Series = 6, Value = 15 },
+                new TotalCustomersChart { Series = 7, Value = 47 },
+                new TotalCustomersChart { Series = 8, Value = 75 },
+                new TotalCustomersChart { Series = 9, Value = 65 },
+                new TotalCustomersChart { Series = 10, Value = 19 },
+                new TotalCustomersChart { Series = 11, Value = 14 },
+            };
+        }
+    }
+    // total-customers-chart end//
+
+    // total-profit-chart start//
+    private List<TotalProfitChart> totalProfitChart { get; set; } = TotalProfitChartData.GetData();
+
+    private ApexChartOptions<TotalProfitChart> TotalProfitChartOptions { get; set; } = new ApexChartOptions<TotalProfitChart>
+    {
+        Chart = new(){
+            Height = 40,
+            Width = 40,
+            Type = ChartType.Pie,
+            Toolbar = new ApexCharts.Toolbar
+            {
+                Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false, Pan = false, Reset = false, Download = false },
+            },
+            Sparkline = new()
+            {
+                Enabled = true,
+            },
+        },
+        Stroke = new Stroke{
+            Width = 1,
+        },
+        Colors = new Color(new List<string> {"#f4f0f6", "rgb(0, 201, 255)"}) ,
+    };
+
+    public class TotalProfitChart
+    {
+        public string? Series { get; set; }
+        public decimal Value { get; set; }
+    }
+
+    public static class TotalProfitChartData
+    {
+        public static List<TotalProfitChart> GetData()
+        {
+            return new List<TotalProfitChart>
+            {
+                new TotalProfitChart { Series = "series-1", Value = 80 },
+                new TotalProfitChart { Series = "series-2", Value = 32 },
+            };
+        }
+    }
+    // total-profit-chart end//
+
+    // top-categories-line-chart start //
+    private List<TopCategoriesLineChart> topCategoriesLineChart { get; set; } = TopCategoriesLineChartData.GetTopCategoriesLineChart();
+
+    private ApexChartOptions<TopCategoriesLineChart> TopCategoriesLineChartOptions { get; set; } = new ApexChartOptions<TopCategoriesLineChart>
+    {
+        Chart = new(){
+            Type = ChartType.Line,
+            Height = 155,
+            Toolbar = new ApexCharts.Toolbar{
+                Tools = new Tools{
+                    Zoom = false,
+                    Zoomin = false,
+                    Zoomout = false,
+                    Pan = false,
+                    Reset = false,
+                    Download = false
+                },
+            },
+            Sparkline = new(){
+                Enabled = true,
+            },
+            DropShadow = new ApexCharts.DropShadow{
+                Enabled = true,
+                Top = 7,
+                Left = 1,
+                Blur = 3,
+                Color = "#000",
+                Opacity = 0.05
+            },
+        },
+        Colors = new List<string> { "var(--primary-color)", "rgb(0, 201, 255)", "rgb(255, 73, 205)" },
+        DataLabels = new DataLabels{
+            Enabled = false,
+        },
+        Markers= new() {
+            Size = 0
+        }, 
+        Grid = new Grid{
+            Show = true,
+            BorderColor = "#f1f1f1",
+            StrokeDashArray = 2,
+            Xaxis = new (){
+                Lines = new(){
+                    Show = true
+                }
+            },
+            Yaxis = new(){
+                Lines = new()
+                {
+                    Show = false
+                }
+            }
+        },
+        Stroke = new Stroke{
+            Show = true,
+            Curve = Curve.Smooth,
+            LineCap = ApexCharts.LineCap.Butt,
+            Width = 1.5,
+            DashArray = 0
+        },
+       
+        Legend = new Legend{
+            Show = false,
+            Position = LegendPosition.Top,
+        },   
+    };
+
+    public class TopCategoriesLineChart
+    {
+        public decimal Month { get; set; }
+        public decimal Electronics { get; set; }
+        public decimal Fashion { get; set; }
+        public decimal Furniture { get; set; }
+    }
+
+    public static class TopCategoriesLineChartData
+    {
+        public static List<TopCategoriesLineChart> GetTopCategoriesLineChart()
+        {
+            return new List<TopCategoriesLineChart>
+            {
+                new TopCategoriesLineChart { Month = 1, Electronics = 52, Fashion = 28, Furniture = 10 },
+                new TopCategoriesLineChart { Month = 2, Electronics = 51, Fashion = 28, Furniture = 8 },
+                new TopCategoriesLineChart { Month = 3, Electronics = 56, Fashion = 30, Furniture = 12 },
+                new TopCategoriesLineChart { Month = 4, Electronics = 57, Fashion = 32, Furniture = 11 },
+                new TopCategoriesLineChart { Month = 5, Electronics = 62, Fashion = 33, Furniture = 14 },
+                new TopCategoriesLineChart { Month = 6, Electronics = 59, Fashion = 38, Furniture = 21 },
+                new TopCategoriesLineChart { Month = 7, Electronics = 56, Fashion = 35, Furniture = 17 },
+                new TopCategoriesLineChart { Month = 8, Electronics = 55, Fashion = 39, Furniture = 19 },
+                new TopCategoriesLineChart { Month = 9, Electronics = 56, Fashion = 41, Furniture = 18 },
+                new TopCategoriesLineChart { Month = 10, Electronics = 56, Fashion = 41, Furniture = 14 },
+                new TopCategoriesLineChart { Month = 11, Electronics = 58, Fashion = 44, Furniture = 10 },
+                new TopCategoriesLineChart { Month = 12, Electronics = 62, Fashion = 39, Furniture = 11 },
+                new TopCategoriesLineChart { Month = 13, Electronics = 63, Fashion = 39, Furniture = 6 },
+                new TopCategoriesLineChart { Month = 14, Electronics = 68, Fashion = 44, Furniture = 10 },
+                new TopCategoriesLineChart { Month = 15, Electronics = 65, Fashion = 42, Furniture = 13 },
+                new TopCategoriesLineChart { Month = 16, Electronics = 62, Fashion = 44, Furniture = 13 },
+                new TopCategoriesLineChart { Month = 17, Electronics = 62, Fashion = 39, Furniture = 18 },
+                new TopCategoriesLineChart { Month = 18, Electronics = 57, Fashion = 44, Furniture = 23 },
+                new TopCategoriesLineChart { Month = 19, Electronics = 60, Fashion = 42, Furniture = 22 },
+                new TopCategoriesLineChart { Month = 20, Electronics = 65, Fashion = 45, Furniture = 27 },
+                new TopCategoriesLineChart { Month = 21, Electronics = 64, Fashion = 46, Furniture = 23 },
+                new TopCategoriesLineChart { Month = 22, Electronics = 69, Fashion = 38, Furniture = 18 },
+                new TopCategoriesLineChart { Month = 23, Electronics = 70, Fashion = 39, Furniture = 19 },
+                new TopCategoriesLineChart { Month = 24, Electronics = 69, Fashion = 36, Furniture = 20 },
+                new TopCategoriesLineChart { Month = 25, Electronics = 64, Fashion = 41, Furniture = 19 },
+                new TopCategoriesLineChart { Month = 26, Electronics = 68, Fashion = 40, Furniture = 23 },
+                new TopCategoriesLineChart { Month = 27, Electronics = 66, Fashion = 44, Furniture = 20 },
+                new TopCategoriesLineChart { Month = 28, Electronics = 66, Fashion = 46, Furniture = 25 },
+                new TopCategoriesLineChart { Month = 29, Electronics = 70, Fashion = 43, Furniture = 29 },
+                new TopCategoriesLineChart { Month = 30, Electronics = 73, Fashion = 47, Furniture = 29 },
+                new TopCategoriesLineChart { Month = 31, Electronics = 78, Fashion = 50, Furniture = 28 },
+            };
+
+        }
+    }
+    // top-categories-line-chart end //
+
+    // SalesRevenueChart Start //
+    private List<SalesRevenueChart> salesRevenueChart { get; set; } = SalesRevenueChartData.GetSalesRevenue();
+    private ApexChartOptions<SalesRevenueChart> SalesRevenueChartOptions { get; set; } = new();
+
+    public class SalesRevenueChart {
+        public string? Month { get; set; }
+        public decimal Sales { get; set; }
+        public decimal OpexRatio { get; set; }
+        public decimal Admin { get; set; }
+        public decimal Marketing { get; set; }
+    }
+
+    public static class SalesRevenueChartData {
+        public static List<SalesRevenueChart> GetSalesRevenue() {
+            return new List<SalesRevenueChart> {
+                new SalesRevenueChart { Month = "Jan", Sales = 44, OpexRatio = 74, Admin = 84, Marketing= 34 },
+                new SalesRevenueChart { Month = "Feb", Sales = 42, OpexRatio = 72, Admin = 82, Marketing= 22 },
+                new SalesRevenueChart { Month = "Mar", Sales = 57, OpexRatio = 87, Admin = 97, Marketing= 37 },
+                new SalesRevenueChart { Month = "Apr", Sales = 86, OpexRatio = 116, Admin = 126, Marketing= 56 },
+                new SalesRevenueChart { Month = "May", Sales = 58, OpexRatio = 88, Admin = 98, Marketing= 21 },
+                new SalesRevenueChart { Month = "Jun", Sales = 55, OpexRatio = 85, Admin = 95, Marketing= 35 },
+                new SalesRevenueChart { Month = "Jul", Sales = 70, OpexRatio = 100, Admin = 110, Marketing= 60 },
+                new SalesRevenueChart { Month = "Aug", Sales = 43, OpexRatio = 73, Admin = 83, Marketing= 34 },
+                new SalesRevenueChart { Month = "Sep", Sales = 23, OpexRatio = 53, Admin = 63, Marketing= 56 },
+                new SalesRevenueChart { Month = "Oct", Sales = 54, OpexRatio = 84, Admin = 94, Marketing= 78 },
+                new SalesRevenueChart { Month = "Nov", Sales = 77, OpexRatio = 107, Admin = 117, Marketing= 89 },
+                new SalesRevenueChart { Month = "Dec", Sales = 34, OpexRatio = 64, Admin = 74, Marketing= 53 },
+            };
+        }
+    }
+    // SalesRevenueChart End //
+
+    // Top Categories Donut Chart Start //
+    private List<TopCategory> topCategories { get; set; } = DataTopCategoriesDonutChart.GetData();
+    private ApexChartOptions<TopCategory> TopCategoriesDonutChartOptions { get; set; } = new ApexChartOptions<TopCategory>
+    {
+        Chart = new(){
+            Height = 230,
+            Type = ChartType.Donut,
+            Sparkline = new(){
+                Enabled = true,
+            },
+        },
+        Legend = new Legend
+        {
+            Show = false,
+        },
+        Colors = new List<string> { "var(--primary-color)", "rgb(255, 73, 205)", "rgb(0, 201, 255)", "rgb(253, 175, 34)", "rgb(50, 212, 132)" },
+        DataLabels = new DataLabels
+        {
+            Enabled = false,
+        },
+        PlotOptions = new PlotOptions{
+            Pie = new()
+            {
+                OffsetY = 10,
+                Donut = new(){
+                    Size = "80%",
+                    Labels = new(){
+                        Show = true,
+                        Name = new(){
+                            Show = true,
+                            FontSize = "20px",
+                            Color = "#495057",
+                            FontFamily = "Montserrat, sans-serif",
+                            OffsetY = -5
+                        },
+                        Value = new(){
+                            Show = true,
+                            FontSize = "22px",
+                            Color = null,
+                            OffsetY = 5,
+                            FontWeight = 600,
+                            FontFamily = "Montserrat, sans-serif",
+                            Formatter = @"function (val) { return val + '%'}"
+                        },
+                        Total = new(){
+                            Show = true,
+                            ShowAlways = true,
+                            Label = "Total Sales",
+                            FontSize = "14px",
+                            FontWeight = 400,
+                            Color = "#495057",
+                        }
+                    },
+                },
+            },
+        },
+       
+    };
+
+    public static class DataTopCategoriesDonutChart
+    {
+        public static List<TopCategory> GetData()
+        {
+            return new List<TopCategory>
+            {
+                new TopCategory { CategoryName = "Electronics", CategoryValue = 3160 },
+                new TopCategory { CategoryName = "Fashion", CategoryValue = 2127 },
+                new TopCategory { CategoryName = "Furniture", CategoryValue = 1556 },
+                new TopCategory { CategoryName = "Appliances", CategoryValue = 1026 },
+                new TopCategory { CategoryName = "Gaming", CategoryValue = 2321 },
+            };
+        }
+    }
+    public class TopCategory
+    {
+        public string? CategoryName { get; set; }
+        public decimal CategoryValue { get; set; }
+    }
+    // Top Categories Donut Chart End //
+
+
+    // Social Visitors Chart Start //
+    private List<SocialVisitor> socialVisitors { get; set; } = SocialVisitorsData.GetSocialVisitors();
+    private ApexChartOptions<SocialVisitor> SocialVisitorsChartOptions { get; set; } = new()
+    {
+        Chart = new()
+        {
+            Type = ChartType.Bar,
+            Height = 390,
+            Toolbar = new Toolbar
+            {
+                Show = false
+            },
+            FontFamily = "Poppins, Arial, sans-serif"
+        },
+        Colors = new List<string>
+        {
+            "var(--primary-color)",
+            "rgba(51, 182, 229, 1)",
+            "rgba(255, 117, 170, 1)",
+            "rgba(255, 187, 51, 1)",
+            "rgba(0, 200, 80, 1)",
+            "rgba(255, 68, 68, 0.9)",
+            "rgba(0, 216, 216, 1)"
+        },
+        PlotOptions = new PlotOptions
+        {
+            Bar = new PlotOptionsBar
+            {
+                BarHeight = "40%",
+                Distributed = true,
+                Horizontal = true,
+                BorderRadius = 3
+            }
+        },
+        DataLabels = new DataLabels
+        {
+            Enabled = false
+        },
+        Legend = new Legend
+        {
+            Show = false
+        },
+        Grid = new Grid
+        {
+            BorderColor = "#f1f1f1",
+            StrokeDashArray = 3
+        },
+        Fill = new Fill
+        {
+            Type = FillType.Pattern,
+            Opacity = 1,
+            Pattern = new FillPattern
+            {
+                Style = ApexCharts.FillPatternStyle.SlantedLines
+            }
+        },
+        Xaxis = new XAxis
+        {
+            Categories = new List<string>
+            {
+                "Facebook",
+                "Instagram",
+                "Dribble",
+                "Twitter",
+                "Chrome",
+                "Pininterest",
+                "Reddit"
+            },
+            Labels = new XAxisLabels
+            {
+                Show = true,
+                Style = new AxisLabelStyle
+                {
+                    Colors = "#adb5be",
+                    FontSize = "12px",
+                    FontWeight = 500,
+                    CssClass = "apexcharts-xaxis-label"
+                }
+            }
+        },
+        Yaxis = new List<YAxis>
+        {
+            new YAxis
+            {
+                Labels = new YAxisLabels
+                {
+                    Show = true,
+                    Style = new AxisLabelStyle
+                    {
+                        Colors = "#adb5be",
+                        FontSize = "12px",
+                        FontWeight = 500,
+                        CssClass = "apexcharts-yaxis-label"
+                    }
+                }
+            }
+        },
+        Tooltip = new Tooltip
+        {
+            Enabled = true,
+            Shared = false,
+            Intersect = true,
+            X = new TooltipX
+            {
+                Show = false
+            },
+            Theme = ApexCharts.Mode.Dark,
+        }
+    };
+    public class SocialVisitor
+    {
+        public string? Source { get; set; }
+        public decimal Visitors { get; set; }
+    }
+    public static class SocialVisitorsData
+    {
+        public static List<SocialVisitor> GetSocialVisitors()
+        {
+            return new List<SocialVisitor>
+            {
+                new SocialVisitor { Source = "Facebook", Visitors = 650 },
+                new SocialVisitor { Source = "Instagram", Visitors = 770 },
+                new SocialVisitor { Source = "Dribble", Visitors = 840 },
+                new SocialVisitor { Source = "Twitter", Visitors = 890 },
+                new SocialVisitor { Source = "Chrome", Visitors = 1100 },
+                new SocialVisitor { Source = "Pininterest", Visitors = 1380 },
+                new SocialVisitor { Source = "Reddit", Visitors = 1500 },
+            };
+        }
+    }
+    // Social Visitors Chart End //
+
+    // Social Traffic Chart Start //
+    private List<SocialTraffic> socialTrafficList { get; set; } = SocialTrafficData.GetSocialTraffic();
+    private ApexChartOptions<SocialTraffic>? SocialTrafficChartOptions { get; set; }
+    public class SocialTraffic
+    {
+        public string Weekday { get; set; } = "";
+        public decimal Facebook { get; set; }
+        public decimal Instagram { get; set; }
+        public decimal Twitter { get; set; }
+        public decimal LinkedIn { get; set; }
+    }
+    public static class SocialTrafficData
+    {
+        public static List<SocialTraffic> GetSocialTraffic()
+        {
+            return new List<SocialTraffic>
+            {
+                new() { Weekday = "Mon", Facebook = 44, Instagram = 74, Twitter = 84, LinkedIn = 34 },
+                new() { Weekday = "Tue", Facebook = 42, Instagram = 72, Twitter = 82, LinkedIn = 22 },
+                new() { Weekday = "Wed", Facebook = 57, Instagram = 87, Twitter = 97, LinkedIn = 37 },
+                new() { Weekday = "Thu", Facebook = 86, Instagram = 116, Twitter = 126, LinkedIn = 56 },
+                new() { Weekday = "Fri", Facebook = 58, Instagram = 88, Twitter = 98, LinkedIn = 21 },
+                new() { Weekday = "Sat", Facebook = 55, Instagram = 85, Twitter = 95, LinkedIn = 35 },
+                new() { Weekday = "Sun", Facebook = 70, Instagram = 100, Twitter = 110, LinkedIn = 60 }
+            };
+        }
+    }
+    // Social Traffic Chart End //
+
+    // Recent Orders Chart Start
+    private List<RecentOrdersChart> RecentOrdersCharts { get; set; } = DataRecentOrdersChart.GetData();
+    private ApexChartOptions<RecentOrdersChart> RecentOrdersChartOptions { get; set; } = new ApexChartOptions<RecentOrdersChart>
+    {
+        Chart = new()
+        {
+            Height = 258,
+            Toolbar = new ApexCharts.Toolbar
+            {
+                Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false, Pan = false, Reset = false, Download = false },
+            }
+        },
+        DataLabels = new DataLabels
+        {
+            Enabled = false
+        },
+        Legend = new Legend
+        {
+            Show = false
+        },
+        Stroke = new Stroke
+        {
+            Show = true,
+            Curve = Curve.Smooth,
+            LineCap = ApexCharts.LineCap.Round,
+            Colors = new List<string> { "#fff" },
+            Width = 0,
+            DashArray = 0
+        },
+        PlotOptions = new PlotOptions
+        {
+            Pie = new PlotOptionsPie
+            {
+                StartAngle = -90,
+                EndAngle = 90,
+                OffsetY = 10,
+                ExpandOnClick = false,
+                Donut = new PlotOptionsDonut
+                {
+                    Size = "80%",
+                    Background = "transparent",
+                    Labels = new DonutLabels
+                    {
+                        Show = true,
+                        Name = new()
+                        {
+                            Show = true,
+                            FontSize = "20px",
+                            Color = "#495057",
+                            OffsetY = -25
+                        },
+                        Value = new()
+                        {
+                            Show = true,
+                            FontSize = "15px",
+                            Color = "undefined",
+                            OffsetY = -20,
+                            Formatter = @"function (val) {
+                                return val + '%'
+                            }"
+                        },
+                        Total = new()
+                        {
+                            Show = true,
+                            ShowAlways = true,
+                            Label = "Total",
+                            FontSize = "22px",
+                            FontWeight = 600,
+                            Color = "#495057"
+                        }
+                    }
+                }
+            }
+        },
+        Grid = new Grid
+        {
+            Padding = new()
+            {
+                Bottom = -120
+            }
+        },
+        Colors = new List<string>
+        {
+            "var(--primary-color)",
+            "rgba(50, 212, 132, 1)",
+            "rgba(253, 175, 34, 1)",
+            "rgba(0, 201, 255, 1)"
+        }
+    };
+    public static class DataRecentOrdersChart
+    {
+        public static List<RecentOrdersChart> GetData()
+        {
+            return new List<RecentOrdersChart>
+            {
+                new RecentOrdersChart { Status = "Delivered", SimpleValue = 1754 },
+                new RecentOrdersChart { Status = "Cancelled", SimpleValue = 634 },
+                new RecentOrdersChart { Status = "Pending", SimpleValue = 878 },
+                new RecentOrdersChart { Status = "Returned", SimpleValue = 470 }
+            };
+        }
+    }
+    public class RecentOrdersChart
+    {
+        public string? Status { get; set; }
+        public decimal SimpleValue { get; set; }
+    }
+    // Recent Orders Chart End
+
+
+
+
+    protected override void OnInitialized(){
+        SalesRevenueChartOptions = new ApexChartOptions<SalesRevenueChart>{
+            Chart = new () {
+                Height = 365,
+                Type = ChartType.Bar,
+                Toolbar = new ApexCharts.Toolbar {
+                    Show = false,
+                    Tools = new Tools { Zoom = true, Zoomin = false, Zoomout = false, Pan = false, Reset = false, Download = true },
+                },
+                Stacked = true,
+            },
+            Grid = new Grid {
+                BorderColor = "#f5f4f4",
+                StrokeDashArray = 5,
+                Yaxis = new(){
+                    Lines = new(){
+                        Show = true
+                    }
+                }
+            },
+            Colors = new Color(new List<string> { "var(--primary-color)", "var(--primary06)", "var(--primary03)", "var(--primary01)" }),
+            PlotOptions = new PlotOptions {
+                Bar = new PlotOptionsBar {
+                    ColumnWidth = "70%",
+                    BorderRadius = 7,
+                }
+            },
+            DataLabels = new DataLabels {
+                Enabled = false,
+            },
+            Legend = new Legend {
+                Show = true,
+                Position = LegendPosition.Top,
+            },
+            Yaxis = new List<YAxis>() {
+                new YAxis {
+                    Title = new AxisTitle {
+                        Text = "Growth",
+                        Style = new AxisTitleStyle {
+                            Color = "#adb5be",
+                            FontSize = "14px",
+                            FontFamily = "Montserrat, sans-serif",
+                            FontWeight = 600,
+                            CssClass = "apexcharts-yaxis-label"
+                        }
+                    },
+                    AxisBorder= new AxisBorder{
+                        Show = true,
+                        Color = "rgba(119, 119, 142, 0.05)",
+                        OffsetX = 0,
+                        OffsetY = 0
+                    },
+                    AxisTicks = new AxisTicks{
+                        Show =true,
+                        BorderType = ApexCharts.BorderType.Solid,
+                        Color = "rgba(119, 119, 142, 0.05)",
+                        OffsetX = 0,
+                        OffsetY = 0
+                    },
+                    Labels = new YAxisLabels {
+                        Formatter= @"function (y) {
+                            return y.toFixed(0) + '';
+                        }",
+                    },
+                },
+            },
+            Xaxis = new XAxis {
+                AxisBorder= new AxisBorder{
+                    Show = false,
+                    Color = "rgba(119, 119, 142, 0.05)",
+                    OffsetX = 0,
+                    OffsetY = 0
+                },
+                AxisTicks = new AxisTicks{
+                    Show =false,
+                    BorderType = ApexCharts.BorderType.Solid,
+                    Color = "rgba(119, 119, 142, 0.05)",
+                    OffsetX = 0,
+                    OffsetY = 0
+                },
+                Labels = new XAxisLabels {
+                    Rotate = -90
+                },
+            },
+        };
+
+        SocialTrafficChartOptions = new ApexChartOptions<SocialTraffic>
+        {
+            Chart = new()
+            {
+                Type = ChartType.Bar,
+                Height = 313,
+                Stacked = true,
+                Toolbar = new Toolbar
+                {
+                    Show = false
+                }
+            },
+            Grid = new Grid
+            {
+                BorderColor = "#f5f4f4",
+                StrokeDashArray = 5,
+                Yaxis = new GridYAxis
+                {
+                    Lines = new Lines
+                    {
+                        Show = true
+                    }
+                }
+            },
+            Colors = new List<string>
+            {
+                "var(--primary-color)",
+                "rgb(0, 201, 255)",
+                "rgb(253, 175, 34)",
+                "rgb(50, 212, 132)"
+            },
+            PlotOptions = new PlotOptions
+            {
+                Bar = new PlotOptionsBar
+                {
+                    ColumnWidth = "25%",
+                    BorderRadius = 3,
+                    BorderRadiusApplication = BorderRadiusApplication.Around,
+                    BorderRadiusWhenStacked = BorderRadiusWhenStacked.All
+                }
+            },
+            Stroke = new Stroke
+            {
+                Show = true,
+                Curve = Curve.Smooth,
+                LineCap = LineCap.Round,
+                Colors = new List<string> { "#fff" },
+                Width = 3 
+            },
+            DataLabels = new DataLabels
+            {
+                Enabled = false
+            },
+            Legend = new Legend
+            {
+                Show = true,
+                Position = LegendPosition.Top,
+            },
+            Yaxis = new List<YAxis>
+            {
+                new YAxis
+                {
+                    Title = new AxisTitle
+                    {
+                        Style = new ApexCharts.AxisTitleStyle
+                        {
+                            Color = "#adb5be",
+                            FontSize = "14px",
+                            FontFamily = "Poppins, sans-serif",
+                            FontWeight = 600,
+                            CssClass = "apexcharts-yaxis-label"
+                        }
+                    },
+                    AxisBorder = new AxisBorder
+                    {
+                        Show = true,
+                        Color = "rgba(119, 119, 142, 0.05)"
+                    },
+                    AxisTicks = new AxisTicks
+                    {
+                        Show = true,
+                        BorderType = ApexCharts.BorderType.Solid,
+                        Color = "rgba(119, 119, 142, 0.05)",
+                    },
+                    Labels = new YAxisLabels
+                    {
+                        Formatter = "function (y) { return y.toFixed(0) + ''; }"
+                    }
+                }
+            },
+            Xaxis = new XAxis
+            {
+                Type = XAxisType.Category,
+                Categories = new List<string>
+                {
+                    "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
+                },
+                AxisBorder = new AxisBorder
+                {
+                    Show = false,
+                    Color = "rgba(119, 119, 142, 0.05)"
+                },
+                AxisTicks = new AxisTicks
+                {
+                    Show = false
+                },
+                Labels = new XAxisLabels
+                {
+                    Rotate = -90
+                }
+            }
+        };
+    }
+}

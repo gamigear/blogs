@@ -1,0 +1,774 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../../../layouts/Layout.astro";
+import Pageheader from "../../../components/Pageheader.astro";
+
+import media1 from '../../../assets/images/media/media-1.jpg';
+import media2 from '../../../assets/images/media/media-2.jpg';
+import media5 from '../../../assets/images/media/media-5.jpg';
+import media6 from '../../../assets/images/media/media-6.jpg';
+import media7 from '../../../assets/images/media/media-7.jpg';
+import media8 from '../../../assets/images/media/media-8.jpg';
+import media10 from '../../../assets/images/media/media-10.jpg';
+import media11 from '../../../assets/images/media/media-11.jpg';
+import media12 from '../../../assets/images/media/media-12.jpg';
+import media16 from '../../../assets/images/media/media-16.jpg';
+import media17 from '../../../assets/images/media/media-17.jpg';
+import media18 from '../../../assets/images/media/media-18.jpg';
+import media19 from '../../../assets/images/media/media-19.jpg';
+import media20 from '../../../assets/images/media/media-20.jpg';
+import media21 from '../../../assets/images/media/media-21.jpg';
+import media25 from '../../../assets/images/media/media-25.jpg';
+import media26 from '../../../assets/images/media/media-26.jpg';
+import media27 from '../../../assets/images/media/media-27.jpg';
+import media28 from '../../../assets/images/media/media-28.jpg';
+import media29 from '../../../assets/images/media/media-29.jpg';
+import media30 from '../../../assets/images/media/media-30.jpg';
+import media31 from '../../../assets/images/media/media-31.jpg';
+import media32 from '../../../assets/images/media/media-32.jpg';
+import media33 from '../../../assets/images/media/media-33.jpg';
+import media40 from '../../../assets/images/media/media-40.jpg';
+import media41 from '../../../assets/images/media/media-41.jpg';
+import media42 from '../../../assets/images/media/media-42.jpg';
+import media43 from '../../../assets/images/media/media-43.jpg';
+import media44 from '../../../assets/images/media/media-44.jpg';
+import media46 from '../../../assets/images/media/media-46.jpg';
+import media59 from '../../../assets/images/media/media-59.jpg';
+import media61 from '../../../assets/images/media/media-61.jpg';
+import media62 from '../../../assets/images/media/media-62.jpg';
+import media63 from '../../../assets/images/media/media-63.jpg';
+import media64 from '../../../assets/images/media/media-64.jpg';
+import "../../../scripts/libs/swiper/swiper-bundle.min.css"
+---
+
+<Layout Seo="Swiper Js">
+    <Pageheader
+        title="Advanced Ui"
+        currentpage="Swiper Js"
+        activepage="Swiper Js"
+    />
+    <!-- Start::row-1 -->
+    <div class="row">
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Basic Swiper</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper swiper-basic">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media27.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media26.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media25.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Swiper With Navigation</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper swiper-navigation">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media29.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media28.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media30.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Swiper with Pagination</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper pagination">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media32.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media31.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media33.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Dynamic Pagination</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper pagination-dynamic">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media21.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media17.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media16.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Pagination With Progress</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper pagination-progress">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media12.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media8.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media5.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Pagination Fraction</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper pagination-fraction">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media16.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media30.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media31.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Custom Paginatioin</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper custom-pagination">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media12.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media5.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media33.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Scrollbar Swiper</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper scrollbar-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media30.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media28.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media29.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-scrollbar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Vertical Swiper</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper vertical swiper-vertical">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media8.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media32.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media17.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Mouse Wheel Control</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper vertical vertical-mouse-control">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media28.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media30.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media32.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Keyboard Control</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper keyboard-control">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media31.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media12.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media8.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Nested Swiper</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper swiper-horizontal1">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media30.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="swiper vertical swiper-vertical1">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <img
+                                                src={media25.src}
+                                                alt=""
+                                            />
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img
+                                                src={media31.src}
+                                                alt=""
+                                            />
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img
+                                                src={media32.src}
+                                                alt=""
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="swiper-pagination"></div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media28.src}
+                                    alt=""
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media29.src}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Effect Cube</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper swiper-effect-cube">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media62.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media63.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media64.src}
+                                    alt="img"
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Effect Fade</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper swiper-fade">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    src={media18.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media19.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    src={media20.src}
+                                    alt="img"
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Effect Flip</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper swiper-flip">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <Image
+                                    src={media20}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <Image
+                                    src={media62}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <Image
+                                    src={media63}
+                                    alt="img"
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End::row-1 -->
+
+    <!-- Start:: row-2 -->
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Effect Coverflow</div>
+                </div>
+                <div class="card-body">
+                    <div class="swiper swiper-overflow">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media40.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media41.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media42.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media43.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media44.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media59.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media46.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media61.src}
+                                    alt="img"
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End:: row-2 -->
+
+    <!-- Start:: row-3 -->
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Thumbs Gallery</div>
+                </div>
+                <div class="card-body">
+                    <div
+                        style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
+                        class="swiper swiper-preview"
+                    >
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid rounded"
+                                    src={media1.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid rounded"
+                                    src={media2.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid rounded"
+                                    src={media11.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid rounded"
+                                    src={media6.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid rounded"
+                                    src={media7.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid rounded"
+                                    src={media10.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid rounded"
+                                    src={media11.src}
+                                    alt="img"
+                                />
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                    <div class="swiper swiper-view">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media1.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media2.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media11.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media6.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media7.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media10.src}
+                                    alt="img"
+                                />
+                            </div>
+                            <div class="swiper-slide">
+                                <img
+                                    class="img-fluid"
+                                    src={media11.src}
+                                    alt="img"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End:: row-3 -->
+
+    <script>
+        import "../../../scripts/js/custom.js";
+        import "../../../scripts/js/swiper.js";
+    </script>
+</Layout>

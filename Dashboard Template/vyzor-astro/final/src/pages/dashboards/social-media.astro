@@ -1,0 +1,650 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+import Pageheader from "../../components/Pageheader.astro";
+import {
+    AcivitySocial,
+    Audiencedata,
+    Insightsdata,
+    SocialCards,
+    SocialMediaData,
+    Suggestion,
+} from "../../shared/data/dashboards/socialmediadata";
+import SpkSocialcard from "../../shared/@spk-reusable-components/dashboards-reusable/spk-socialcard.astro";
+---
+
+<Layout Seo="Social-Media">
+    <Pageheader
+        title="Dashboards"
+        currentpage="Social Media"
+        activepage="Social Media"
+    />
+    <!-- Start:: row-1 -->
+    <div class="row">
+        <div class="col-xxl-9">
+            <div class="row">
+                {
+                    SocialCards.map((idx) => (
+                        <div class="col-xxl-3 col-md-6">
+                            <SpkSocialcard
+                                cardClass="dashboard-main-card"
+                                media={idx}
+                            />
+                        </div>
+                    ))
+                }
+                <div class="col-xl-8">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title">Profile Visits</div>
+                        </div>
+                        <div class="card-body">
+                            <div id="profile-analysis"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title">Audience By Gender</div>
+                        </div>
+                        <div class="card-body">
+                            <div id="audience-by-gender"></div>
+                            <div class="row mt-0">
+                                <div
+                                    class="col-6 border-end border-inline-end-dashed text-center"
+                                >
+                                    <p class="text-muted mb-1 fs-12">Male</p>
+                                    <h6 class="text-primary mb-0">12.34K</h6>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <p class="text-muted mb-1 fs-12">Female</p>
+                                    <h6 class="text-secondary mb-0">10.19K</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="card custom-card overflow-hidden">
+                        <div class="card-header">
+                            <div class="card-title">Top Audience Countries</div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Country</th>
+                                            <th>Engagement</th>
+                                            <th>Followers</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            Audiencedata.map((row) => {
+                                                const changeClass =
+                                                    row.change > 0
+                                                        ? "text-success"
+                                                        : "text-danger";
+                                                const icon =
+                                                    row.change > 0
+                                                        ? "ti ti-trending-up"
+                                                        : "ti ti-trending-down";
+                                                const percentageChange = `${Math.abs(row.change).toFixed(2)}%`;
+                                                return (
+                                                    <tr>
+                                                        <td
+                                                            class={
+                                                                row.borderClass
+                                                            }
+                                                        >
+                                                            {row.id}
+                                                        </td>
+                                                        <td
+                                                            class={
+                                                                row.borderClass
+                                                            }
+                                                        >
+                                                            <div class="d-flex align-items-center gap-2">
+                                                                <div class="lh-1">
+                                                                    <span class="avatar avatar-sm">
+                                                                        <Image
+                                                                            src={
+                                                                                row.flag
+                                                                            }
+                                                                            alt={
+                                                                                row.country
+                                                                            }
+                                                                        />
+                                                                    </span>
+                                                                </div>
+                                                                <div class="fw-semibold">
+                                                                    {
+                                                                        row.country
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            class={
+                                                                row.borderClass
+                                                            }
+                                                        >
+                                                            <span class="d-block">
+                                                                {row.likes.toLocaleString()}{" "}
+                                                                <i class="ti ti-thumb-up text-muted fs-18" />
+                                                            </span>
+                                                        </td>
+                                                        <td
+                                                            class={
+                                                                row.borderClass
+                                                            }
+                                                        >
+                                                            <div class="d-block">
+                                                                {row.count}{" "}
+                                                                <span
+                                                                    class={`fs-12 ${changeClass} ms-1 d-inline-flex`}
+                                                                >
+                                                                    <i
+                                                                        class={`${icon}  me-1 align-middle`}
+                                                                    />
+                                                                    {
+                                                                        percentageChange
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="card custom-card overflow-hidden">
+                        <div class="card-header">
+                            <div class="card-title">Post Insights</div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Post Name</th>
+                                            <th scope="col">Posted</th>
+                                            <th scope="col">Platform</th>
+                                            <th scope="col">Views</th>
+                                            <th scope="col" class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            Insightsdata.map((row) => (
+                                                <tr>
+                                                    <td class={row.borderClass}>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <div class="lh-1">
+                                                                <span class="avatar avatar-sm">
+                                                                    <Image
+                                                                        src={
+                                                                            row.image
+                                                                        }
+                                                                        alt={
+                                                                            row.title
+                                                                        }
+                                                                    />
+                                                                </span>
+                                                            </div>
+                                                            <span class="fw-medium">
+                                                                {row.title}
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td class={row.borderClass}>
+                                                        {" "}
+                                                        {row.date}{" "}
+                                                    </td>
+                                                    <td class={row.borderClass}>
+                                                        <span
+                                                            class={`badge bg-${row.platformColor}-transparent`}
+                                                        >
+                                                            {row.platform}
+                                                        </span>
+                                                    </td>
+                                                    <td class={row.borderClass}>
+                                                        {" "}
+                                                        {row.followers}{" "}
+                                                    </td>
+                                                    <td
+                                                        class={`text-end ${row.borderClass}`}
+                                                    >
+                                                        <div class="dropdown">
+                                                            <a
+                                                                aria-label="anchor"
+                                                                href="javascript:void(0);"
+                                                                data-bs-toggle="dropdown"
+                                                                aria-expanded="false"
+                                                                class="btn btn-icon btn-sm btn-primary-light"
+                                                            >
+                                                                <i class="ti ti-dots-vertical" />
+                                                            </a>
+                                                            <ul
+                                                                class="dropdown-menu"
+                                                                role="menu"
+                                                            >
+                                                                <li>
+                                                                    <a
+                                                                        class="dropdown-item d-inline-flex align-items-center"
+                                                                        href="javascript:void(0);"
+                                                                    >
+                                                                        <i class="ti ti-edit me-2" />
+                                                                        Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a
+                                                                        class="dropdown-item d-inline-flex align-items-center"
+                                                                        href="javascript:void(0);"
+                                                                    >
+                                                                        <i class="ti ti-trash me-2" />
+                                                                        Delete
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="card custom-card">
+                        <div class="card-header justify-content-between">
+                            <div class="card-title">
+                                Social Media Performance Overview
+                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <div>
+                                    <input
+                                        class="form-control form-control-sm"
+                                        type="text"
+                                        placeholder="Search Here"
+                                        aria-label=".form-control-sm example"
+                                    />
+                                </div>
+                                <div class="dropdown">
+                                    <a
+                                        href="javascript:void(0);"
+                                        class="btn btn-primary btn-sm btn-wave waves-effect waves-light"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        Sort By<i
+                                            class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"
+                                        ></i>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            <a
+                                                class="dropdown-item"
+                                                href="javascript:void(0);"
+                                                >New</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <a
+                                                class="dropdown-item"
+                                                href="javascript:void(0);"
+                                                >Popular</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <a
+                                                class="dropdown-item"
+                                                href="javascript:void(0);"
+                                                >Relevant</a
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                ><input
+                                                    class="form-check-input"
+                                                    type="checkbox"
+                                                    id="checkAll"
+                                                    value=""
+                                                    aria-label="..."
+                                                /></th
+                                            >
+                                            <th>Platform</th>
+                                            <th>Posts</th>
+                                            <th>Likes</th>
+                                            <th>Shares</th>
+                                            <th>Comments</th>
+                                            <th>Impressions</th>
+                                            <th>Followers</th>
+                                            <th>CTR (%)</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            SocialMediaData.map((data) => (
+                                                <tr>
+                                                    <td>
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="checkbox"
+                                                            id={data.id}
+                                                            value=""
+                                                            aria-label="..."
+                                                            checked={
+                                                                data.id ==
+                                                                    "1" ||
+                                                                data.id ==
+                                                                    "4" ||
+                                                                data.id == "5"
+                                                            }
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <div class="lh-1">
+                                                                <span
+                                                                    class={`avatar avatar-sm bg-${data.color}-transparent`}
+                                                                >
+                                                                    <i
+                                                                        class={`${data.avatar} fs-5`}
+                                                                    />
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                {data.platform}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{data.followers}</td>
+                                                    <td>{data.impressions}</td>
+                                                    <td>{data.clicks}</td>
+                                                    <td>{data.conversions}</td>
+                                                    <td>
+                                                        {data.conversionRate}%
+                                                    </td>
+                                                    <td>{data.reach}</td>
+                                                    <td>
+                                                        <span
+                                                            class={`badge bg-${data.badgeColor}-transparent`}
+                                                        >
+                                                            {data.growth}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <a
+                                                                aria-label="anchor"
+                                                                href="javascript:void(0);"
+                                                                data-bs-toggle="dropdown"
+                                                                aria-expanded="false"
+                                                                class="btn btn-icon btn-sm btn-light"
+                                                            >
+                                                                <i class="ti ti-dots-vertical" />
+                                                            </a>
+                                                            <ul
+                                                                class="dropdown-menu"
+                                                                role="menu"
+                                                            >
+                                                                <li>
+                                                                    <a
+                                                                        class="dropdown-item"
+                                                                        href="javascript:void(0);"
+                                                                    >
+                                                                        <i class="ti ti-eye me-2 d-inline-block" />
+                                                                        View
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a
+                                                                        class="dropdown-item"
+                                                                        href="javascript:void(0);"
+                                                                    >
+                                                                        <i class="ti ti-edit me-2 d-inline-block" />
+                                                                        Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a
+                                                                        class="dropdown-item"
+                                                                        href="javascript:void(0);"
+                                                                    >
+                                                                        <i class="ti ti-trash me-2 d-inline-block" />
+                                                                        Delete
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer border-top-0">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    Showing 6 Entries <i
+                                        class="bi bi-arrow-right ms-2 fw-semibold"
+                                    ></i>
+                                </div>
+                                <div class="ms-auto">
+                                    <nav
+                                        aria-label="Page navigation"
+                                        class="pagination-style-2"
+                                    >
+                                        <ul class="pagination mb-0 flex-wrap">
+                                            <li class="page-item disabled">
+                                                <a
+                                                    class="page-link"
+                                                    href="javascript:void(0);"
+                                                >
+                                                    Prev
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a
+                                                    class="page-link"
+                                                    href="javascript:void(0);"
+                                                    >1</a
+                                                >
+                                            </li>
+                                            <li class="page-item active">
+                                                <a
+                                                    class="page-link"
+                                                    href="javascript:void(0);"
+                                                    >2</a
+                                                >
+                                            </li>
+                                            <li class="page-item">
+                                                <a
+                                                    class="page-link"
+                                                    href="javascript:void(0);"
+                                                >
+                                                    <i class="bi bi-three-dots"
+                                                    ></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a
+                                                    class="page-link"
+                                                    href="javascript:void(0);"
+                                                    >17</a
+                                                >
+                                            </li>
+                                            <li class="page-item">
+                                                <a
+                                                    class="page-link text-primary"
+                                                    href="javascript:void(0);"
+                                                >
+                                                    next
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-3">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title">Recent Activity</div>
+                        </div>
+                        <div class="card-body">
+                            <ul
+                                class="list-unstyled social-recent-activity-list"
+                            >
+                                {
+                                    AcivitySocial.map((activity) => (
+                                        <li>
+                                            <div class="d-flex align-items-start gap-3">
+                                                <div class="lh-1">
+                                                    <span
+                                                        class={`avatar avatar-md avatar-rounded ${activity.badgeColor}`}
+                                                    >
+                                                        <i
+                                                            class={`${activity.icon} fs-5`}
+                                                        />
+                                                    </span>
+                                                </div>
+                                                <div class="flex-fill">
+                                                    <div class="d-flex align-items-start gap-2 justify-content-between mb-1">
+                                                        <span class="fw-semibold d-block">
+                                                            {activity.platform}
+                                                        </span>
+                                                        <span
+                                                            class={`badge ${activity.badgeColor}`}
+                                                        >
+                                                            {activity.time}
+                                                        </span>
+                                                    </div>
+                                                    <div class="fs-13 text-muted social-activity">
+                                                        {activity.activity}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title">Audience Age Metrics</div>
+                        </div>
+                        <div class="card-body py-0">
+                            <div id="audience-age-metrics"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="card custom-card">
+                        <div class="card-header justify-content-between">
+                            <div class="card-title">Suggestions</div>
+                            <a href="javascript:void(0);" class="text-muted"
+                                >View All<i
+                                    class="ti ti-arrow-narrow-right ms-1"
+                                ></i></a
+                            >
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled social-suggestions-list">
+                                {
+                                    Suggestion.map((user) => (
+                                        <li>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="lh-1">
+                                                    <span class="avatar avatar-md">
+                                                        <Image
+                                                            src={user.imageSrc}
+                                                            alt={user.name}
+                                                        />
+                                                    </span>
+                                                </div>
+                                                <div class="flex-fill">
+                                                    <span class="fw-semibold d-block">
+                                                        {user.name}
+                                                    </span>
+                                                    <span class="text-muted d-block">
+                                                        {user.mutualFriends}
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <button
+                                                        aria-label="buton"
+                                                        type="button"
+                                                        class="btn btn-sm btn-icon btn-light border"
+                                                    >
+                                                        <i class="ri-user-add-line" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">Engagement</div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="fs-12 text-success"
+                                ><i class="ti ti-arrow-up"></i>2.45%</span
+                            >
+                            <h5 class="fw-semibold mb-0">231,232</h5>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="social-engagement"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</Layout>
+<!-- End:: row-1 -->
+
+<script>
+    import "../../scripts/js/social-media-dashboard.js";
+    import "../../scripts/js/custom.js";
+</script>

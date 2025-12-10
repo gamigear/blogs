@@ -5,6 +5,8 @@ import { query, queryOne } from '@/lib/db';
 import { checkContentAgainstFilters, getCommentSettings } from '@/lib/comments';
 import { addSecurityHeaders } from '@/lib/security';
 
+export const dynamic = 'force-dynamic';
+
 interface Comment {
   id: number;
   article_id: number;

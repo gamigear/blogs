@@ -1,0 +1,238 @@
+<app-breadcrumb title="Forms" [subtitle]="false" active_item="Form Advanced"></app-breadcrumb>
+
+                <!-- Start::row-1 -->
+                <div class="row">
+                  <div class="col-xl-12">
+                      <div class="card custom-card">
+                          <div class="card-header">
+                              <div class="card-title">
+                                  TAGIFY JS
+                              </div>
+                          </div>
+                          <div class="card-body">
+                              <div class="row gy-3">
+                                  <div class="col-xl-6 tagify-tag">
+                                      <label class="form-label d-block">Basic Tagify</label>
+                                      <spk-ng-select
+                                      [options]="Tagify"
+                                      [id]="'choices-multiple-groups'"
+                                      [selectClass]="''"
+                                      [defaultValue]="selected"
+                                      [multiple]="true"
+                                      [clearable]="true"
+                                      [searchable]="true"
+                                      [hideSelected]="true"
+                                      [addTag]="true"
+                                      [additionalProperties]="{}">
+                                      </spk-ng-select>
+                                  </div>
+                                  <div class="col-xl-6 tagify-tag">
+                                      <label class="form-label d-block">Tagify With Custom Suggestions</label>
+                                      <spk-ng-select
+                                      [options]="companiesNames"
+                                      [id]="'choices-multiple-groups'"
+                                      [selectClass]="''"
+                                      [defaultValue]="selectedCompanies"
+                                      [multiple]="true"
+                                      [clearable]="true"
+                                      [searchable]="true"
+                                      [hideSelected]="true"
+                                      [additionalProperties]="{}">
+                                      </spk-ng-select>
+                                        </div>
+                                  <div class="col-xl-6">
+                                      <label class="form-label d-block">Diasbled User Input</label>
+                                      <spk-ng-select
+                                      [options]="accounts"
+                                      [id]="'choices-multiple-groups'"
+                                      [selectClass]="''"
+                                      [defaultValue]="selectedAccounts1"
+                                      [multiple]="false"
+                                      [clearable]="true"
+                                      [searchable]="false"
+                                      [addTag]="false"
+                                      [disabled]="true"
+                                      [hideSelected]="true"
+                                      [additionalProperties]="{}">
+                                      </spk-ng-select>
+
+                                  </div>
+                                  <div class="col-xl-6 tagify-tag tagifyDrag flex-wrap">
+                                      <label class="form-label d-block">Drag & Sort</label>
+                                      <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
+                                          @for (item of items; track item) {
+                                            <div class="form-control" cdkDrag>{{item}}</div>
+                                          }
+                                        </div>
+
+                                  </div>
+                                  <div class="col-xl-6">
+                                      <label class="form-label d-block">Tagify With Users List</label>
+                                      <tagify [(ngModel)]="userTags" [whitelist]="userWhitelist$"
+                                      [settings]="{ dropdown: { enabled: 1 } }"></tagify>
+                                  </div>
+                                  <div class="col-xl-6">
+                                      <label class="form-label d-block">Tagify Single-Value Select</label>
+                                      <spk-ng-select
+                                      [options]="tags"
+                                      [id]="'choices-multiple-groups'"
+                                      [selectClass]="''"
+                                      [clearable]="true"
+                                      [searchable]="true"
+                                      [hideSelected]="true"
+                                      [additionalProperties]="{}">
+                                      </spk-ng-select>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+              <!--End::row-1 -->
+
+              <!-- Start:: row-2 -->
+              <div class="row">
+                  <div class="col-xl-12">
+                      <div class="card custom-card">
+                          <div class="card-header">
+                              <div class="card-title">
+                                  TELEPHONE INPUT
+                              </div>
+                          </div>
+                          <div class="card-body">
+                              <div class="row gy-4">
+                                  <div class="col-xl-4">
+                                      <label for="phone" class="form-label d-block">Basic Telephone Input</label>
+                                      <form #f="ngForm" [formGroup]="phoneForm1">
+                                          <div class="wrapper">
+                                            <ngx-intl-tel-input
+                                              [cssClass]="'custom form-control'"
+                                              [preferredCountries]="preferredCountries1"
+                                              [enableAutoCountrySelect]="true"
+                                              [enablePlaceholder]="true"
+                                              [searchCountryFlag]="true"
+                                              [searchCountryField]="[
+                                                SearchCountryField1.Iso2,
+                                                SearchCountryField1.Name
+                                              ]"
+                                              [selectFirstCountry]="false"
+                                              [selectedCountryISO]="CountryISO1.India"
+                                              [maxLength]="15"
+                                              [phoneValidation]="true"
+                                              [separateDialCode]="separateDialCode1"
+                                              [numberFormat]="PhoneNumberFormat1.National"
+                                              name="phone"
+                                              formControlName="phone"
+                                            >
+                                            </ngx-intl-tel-input>
+                                          </div>
+                                        </form>
+                                  </div>
+                                  <div class="col-xl-6">
+                                      <label for="phone-validation" class="form-label d-block">Telephone Input with Reset Button </label>
+                                      <form #f1="ngForm" [formGroup]="phoneForm" class="d-flex">
+                                          <div class="wrapper form-group">
+                                            <ngx-intl-tel-input
+                                              [cssClass]="'custom form-control'"
+                                              [preferredCountries]="preferredCountries"
+                                              [enableAutoCountrySelect]="true"
+                                              [enablePlaceholder]="true"
+                                              [searchCountryFlag]="true"
+                                              [searchCountryField]="[
+                                                SearchCountryField.Iso2,
+                                                SearchCountryField.Name
+                                              ]"
+                                              [selectFirstCountry]="false"
+                                              [selectedCountryISO]="CountryISO.India"
+                                              [maxLength]="15"
+                                              [phoneValidation]="true"
+                                              [separateDialCode]="separateDialCode"
+                                              [numberFormat]="PhoneNumberFormat.National"
+                                              name="phone"
+                                              formControlName="phone"
+                                            >
+                                            </ngx-intl-tel-input>
+                                              <button (click)="f1.reset()" class="btn btn-primary btn-wave telephone-input-btn waves-effect waves-light">Reset</button>
+                                          </div>
+                                        </form>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- End:: row-2 -->
+
+              <!-- Start:: row-3 -->
+              <div class="row">
+                  <div class="col-xl-12">
+                      <div class="card custom-card">
+                          <div class="card-header">
+                              <div class="card-title">AUTO COMPLETE</div>
+                          </div>
+                          <div class="card-body">
+                              <div class="row gy-3">
+                                  <div class="col-xl-4 d-flex gap-1 align-items-center flex-wrap">
+                                      <label for="autoComplete" class="form-label">Search Results Of Food & Drinks Combo</label>
+                                      <spk-ng-select
+                                      [options]="Food"
+                                      [mainClass]="'form-control'"
+                                      [clearable]="true"
+                                      [multi]="true"
+                                      [searchable]="true"
+                                      [placeholder]="'Search for Food & Drinks...'"
+                                      [additionalProperties]="{}">
+                                      </spk-ng-select>
+                                  </div>
+                                  <div class="col-xl-4 d-flex gap-1 align-items-center flex-wrap advanced-search-results">
+                                      <label for="autoComplete-color" class="form-label">Advanced Search Results For Colors</label>
+                                      <spk-ng-select
+                                      [options]="cities"
+                                      [mainClass]="'form-control'"
+                                      [clearable]="true"
+                                      [multi]="true"
+                                      [searchable]="true"
+                                      [placeholder]="'Search for Advanced color..'"
+                                      [additionalProperties]="{}">
+                                      </spk-ng-select>
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- End:: row-3 -->
+
+              <!-- Start:: row-4 -->
+              <div class="row">
+                  <div class="col-xl-12">
+                      <div class="card custom-card custom-form-advance">
+                          <div class="card-header">
+                              <div class="card-title">DUAL LIST BOX</div>
+                          </div>
+                          <div class="card-body">
+                              <div class="row gy-4">
+
+                                  <div class="col-xl-12">
+                                      <dual-list
+                                      [sort]="keepSorted"
+                                      [source]="source"
+                                      [key]="key"
+                                      [display]="display"
+                                      [filter]="filter"
+                                      [(destination)]="confirmed"
+                                      height="265px"
+                                      [format]="format"
+                                      [disabled]="disabled"
+                                    ></dual-list>
+
+                                  </div>
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- End:: row-4 -->

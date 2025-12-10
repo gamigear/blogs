@@ -1,0 +1,46 @@
+::ng-deep{
+    // .dropdown-toggle::after{
+    //   display :none;
+    // }
+
+    .dropdown-toggle > a{
+        color: #007bff ;
+    }
+    // a:not([href]):not([tabindex]){
+    //     color: in;
+    // }
+    // a:not([href]):not([tabindex]):hover{
+    //     color: #0056b3;
+    // }
+
+    .dropdown-menu-right{
+        transform: translate(-150px , 24px) !important;
+    }
+
+    .dropdown-menu{
+        z-index: 1;
+    }
+}
+
+.card-header{
+    background-color: transparent !important;
+}
+
+
+::ng-deep {
+  .dropzone {
+      min-height: 100px !important;
+      background: var(--custom-white);
+  }
+  dropzone>.dropzone.dz-wrapper .dz-message {
+      border:0 !important;
+      background: var(--custom-white) !important;
+      min-height: 100% !important;
+  }
+  .dropzone.dz-started .dz-message {
+      display: none !important;
+  }
+  dropzone.flex>.dropzone.dz-wrapper.dz-multiple {
+      justify-content: start !important;
+  }
+}

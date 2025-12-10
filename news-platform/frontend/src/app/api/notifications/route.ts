@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getUserNotifications, getUnreadCount, markAllAsRead } from '@/lib/notifications';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/notifications - Get user notifications
  */

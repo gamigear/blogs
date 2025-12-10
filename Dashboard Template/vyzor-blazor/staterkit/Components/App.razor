@@ -1,0 +1,150 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject StateService stateService
+@using System.Text.Json;
+@inject IHttpContextAccessor HttpContextAccessor
+@{ 
+    var appState = stateService.GetAppState();
+}
+
+<!DOCTYPE html>
+<html lang="en" data-toggled="double-menu-open" @attributes="GetHtmlAttributes()" style="@GetStyles()">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["Staterkit.styles.css"]" />
+    <ImportMap />
+    <HeadOutlet @rendermode="InteractiveServer" />
+
+    <!-- TITLE -->
+    <title> Vyzor - Blazor Web App Bootstrap5 Premium Admin & Dashboard Template </title>
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="@Assets["assets/images/brand-logos/favicon.ico"]" />
+
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["Staterkit.styles.css"]" />
+
+    <!-- Style Css -->
+    <link rel="stylesheet" href="@Assets["assets/css/styles.css"]" />
+
+    <!-- Icons Css -->
+    <link rel="stylesheet" href="@Assets["assets/css/icons.css"]" />
+    
+    <!-- node waves CSS -->
+    <link rel="stylesheet" href="@Assets["assets/libs/node-waves/waves.min.css"]" />
+    
+    <!-- Auto Complete CSS -->
+    <link rel="stylesheet" href="@Assets["assets/libs/@tarekraafat/autocomplete.js/css/autoComplete.css"]" /> 
+
+    <!-- Flatpickr Css -->
+    <link href="_content/FlatpickrBlazor/flatpickr.min.css" rel="stylesheet" />
+    <link href="_content/FlatpickrBlazor/plugins/monthSelect/style.css" rel="stylesheet" />
+
+    <!-- ColorPicker CSS -->
+    <link href="_content/BlazorColorPicker/colorpicker.css" rel="stylesheet" />
+    <link href="_content/BlazorColorPicker/BlazorColorPicker.bundle.scp.css" rel="stylesheet" />
+    
+    <!-- Simplebar Css -->
+    <link rel="stylesheet" href="@Assets["assets/libs/simplebar/simplebar.min.css"]" />
+
+</head>
+
+<body>
+    <Routes @rendermode="InteractiveServer" />
+
+    <!-- Bootstrap JS -->
+    <script src="@Assets["assets/libs/bootstrap/js/bootstrap.bundle.min.js"]"></script>
+
+    <!-- AUTO COMPLETE JS -->
+    <script src="@Assets["assets/libs/@tarekraafat/autocomplete.js/autoComplete.min.js"]"></script> 
+
+    <!-- Node Waves JS -->
+    <script src="@Assets["assets/libs/node-waves/waves.min.js"]"></script>
+
+    <!-- Flatpickr Blazor JS -->
+    <script src="_content/FlatpickrBlazor/flatpickr.min.js"></script>
+    <script src="_content/FlatpickrBlazor/flatpickr.blazor.js"></script>
+    <script src="_content/FlatpickrBlazor/plugins/monthSelect/index.js"></script> 
+    
+    <!-- Simplebar JS -->
+    <script src="@Assets["assets/libs/simplebar/simplebar.min.js"]"></script>
+
+    <!-- CUSTOM JS -->
+    <script src="@Assets["assets/js/custom.js"]"></script>
+
+
+    <script src="_framework/blazor.web.js"></script>
+    
+    <script src="js/javaScriptInterop.js"></script>
+    <script src="js/resizeInterop.js"></script>
+
+    @code {
+        private AppState? appState; 
+        private bool isStateInitialized = false;
+
+        protected override void OnInitialized()
+        {
+            if (!isStateInitialized)
+            {
+                appState = stateService.GetAppState();
+                isStateInitialized = true; // Mark as initialized
+            }
+        }
+
+        private IDictionary<string, object> GetHtmlAttributes()
+        {
+            var attributes = new Dictionary<string, object>();
+            if (!string.IsNullOrEmpty(appState?.Direction))
+                attributes.Add("dir", appState.Direction);
+            if (!string.IsNullOrEmpty(appState?.NavigationStyles))
+                attributes.Add("data-nav-layout", appState.NavigationStyles);
+            if (!string.IsNullOrEmpty(appState?.LayoutStyles))
+                attributes.Add("data-vertical-style", appState.LayoutStyles);
+            if (!string.IsNullOrEmpty(appState?.ColorTheme))
+                attributes.Add("data-theme-mode", appState.ColorTheme);
+            if (!string.IsNullOrEmpty(appState?.HeaderColor))
+                attributes.Add("data-header-styles", appState.HeaderColor);
+            if (!string.IsNullOrEmpty(appState?.MenuColor))
+                attributes.Add("data-menu-styles", appState.MenuColor);
+            if (!string.IsNullOrEmpty(appState?.MenuStyles))
+                attributes.Add("data-nav-style", appState.MenuStyles);
+            if (!string.IsNullOrEmpty(appState?.PageStyles))
+                attributes.Add("data-page-style", appState.PageStyles);
+            if (!string.IsNullOrEmpty(appState?.WidthStyles))
+                attributes.Add("data-width", appState.WidthStyles);
+            if (!string.IsNullOrEmpty(appState?.MenuPosition))
+                attributes.Add("data-menu-position", appState.MenuPosition);
+            if (!string.IsNullOrEmpty(appState?.HeaderPosition))
+                attributes.Add("data-header-position", appState.HeaderPosition);
+            if (!string.IsNullOrEmpty(appState?.BackgroundImage))
+                attributes.Add("data-bg-img", appState.BackgroundImage);
+
+            return attributes;
+        }
+
+        private string GetStyles()
+        {
+            var style = "";
+            if (!string.IsNullOrEmpty(appState?.ThemePrimary))
+                style += $"--primary-rgb: {appState.ThemePrimary}; ";
+            if (!string.IsNullOrEmpty(appState?.ThemeBackground))
+            {
+                style += $"--body-bg-rgb: {appState.ThemeBackground}; ";
+                style += $"--body-bg-rgb2: {appState.ThemeBackground1}; ";
+                style += $"--light-rgb: {appState.ThemeBackground1}; ";
+                style += $"--form-control-bg: rgb({appState.ThemeBackground1}); ";
+                style += $"--gray-3: rgb({appState.ThemeBackground1}); ";
+                style += $"--light-rgb: rgba(255,255,255,0.1); ";
+            }
+            return style;
+        }
+    }
+
+</body>
+
+</html>

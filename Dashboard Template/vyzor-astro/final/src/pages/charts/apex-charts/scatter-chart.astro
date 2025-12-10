@@ -1,0 +1,53 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Pageheader from "../../../components/Pageheader.astro";
+---
+
+<Layout Seo="Scatter Charts">
+    <Pageheader
+        title="Charts"
+        subtitle="Apex Charts"
+        currentpage="Apex Scatter Charts"
+        activepage="Apex Scatter Charts"
+    />
+
+    <!-- Start::row-1 -->
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Basic Scatter Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="scatter-basic"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Datetime Scatter Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="scatter-datetime"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Image Fill Scatter Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="scatter-image"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End::row-1 -->
+
+    <script>
+        import "../../../scripts/js/custom.js";
+        import "../../../scripts/js/apexcharts-scatter.js";
+    </script>
+</Layout>

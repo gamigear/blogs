@@ -1,0 +1,95 @@
+<app-breadcrumb title="Pages" sub_title="Invoice" active_item="Invoice List"></app-breadcrumb>
+
+ <!-- Start::row-1 -->
+ <div class="row">
+  @for(list of Invoicedata;track $index){
+    <div class="col-xxl-3 col-xl-6">
+      <spk-invoicelist-card   [list]="list" ></spk-invoicelist-card>
+    </div>
+    }
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Manage Invoices
+                </div>
+                <div class="d-flex">
+                    <a [routerLink]="['/pages/invoice/createinvoice']" class="btn btn-sm btn-primary btn-wave waves-light"><i class="ri-add-line fw-medium align-middle me-1"></i> Create Invoice</a>
+                    <spk-dropdowns [Customclass]="'dropdown  ms-2'" [Icon]="true" [IconClass]="'ti ti-dots-vertical'"
+                    [class]="'btn btn-icon btn-secondary-light btn-sm btn-wave waves-light no-caret'"
+                    [Menuclass]="'dropdown-menu '">
+                    <li><a class="dropdown-item" href="javascript:void(0);">All Invoices</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Paid Invoices</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Pending Invoices</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Overdue Invoices</a></li>
+                  </spk-dropdowns>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                  <spk-reusable-tables [columns]="invoiceColumn" tableBody="" tableClass="text-nowrap" [showCheckbox]="false">
+                    @for(invoice of Invoices;track $index){
+                      <tr class="invoice-list">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="me-2 lh-1">
+                                    <span class="avatar avatar-sm avatar-rounded">
+                                        <img [src]="invoice.avatar" alt="">
+                                    </span>
+                                </div>
+                                <div>
+                                  <p class="mb-0 fw-medium">{{invoice.name}}</p>
+                                  <p class="mb-0 fs-11 text-muted">{{invoice.email}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="fw-medium text-primary">
+                              {{invoice.invoiceId}}
+                            </a>
+                        </td>
+                        <td>{{invoice.issueDate}}</td>
+                        <td>{{invoice.amount}}</td>
+                        <td>
+                            <span class="badge bg-{{invoice.statusColor}}-transparent">{{invoice.status}}</span>
+                        </td>
+                        <td>{{invoice.dueDate}}</td>
+                        <td>
+                            <button class="btn btn-primary-light btn-icon btn-sm"><i class="ri-printer-line"></i></button>
+                            <button class="btn btn-danger-light btn-icon ms-1 btn-sm invoice-btn" (click)="remove(invoice.id)"><i class="ri-delete-bin-5-line"></i></button>
+                        </td>
+                    </tr>
+                      }
+                  </spk-reusable-tables>
+                </div>
+            </div>
+            <div class="card-footer " [ngClass]="{'border-top-0': Invoices.length === 0}">
+                <div class="ms-auto">
+                    <nav aria-label="Page navigation" class="pagination-style-2">
+                        <ul class="pagination mb-0 flex-wrap justify-content-end">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="javascript:void(0);">
+                                    Prev
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                            <li class="page-item active"><a class="page-link" href="javascript:void(0);">2</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0);">
+                                    <i class="bi bi-three-dots"></i>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);">17</a></li>
+                            <li class="page-item">
+                                <a class="page-link text-primary" href="javascript:void(0);">
+                                    next
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End::row-1 -->

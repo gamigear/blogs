@@ -1,0 +1,210 @@
+<app-breadcrumb title="Applications" [subtitle]="false" active_item="Sweet Alerts"></app-breadcrumb>
+
+<!-- Start:: row-1 -->
+<div class="row">
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Basic Alert
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="basic-alert" (click)="basicAlert()">Basic Alert</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Title With Text Under
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="alert-text" (click)="titleAlert()">Title With Text</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          With Text,Error Icon & Footer
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="alert-footer" (click)="footerAlert()">Alert Footer</button>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Alert With Long Window
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="long-window" (click)="longWindowAlert()">Long Window Here</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="row">
+
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Custom HTML Description
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="alert-description" (click)="htmlAlert()">Custom HTML Alert</button>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Alert With Multiple Buttons
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="three-buttons" (click)="multiBtnAlert()">Multiple Buttons</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Custom Positioned Dialog Alert
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="alert-dialog" (click)="dialogAlert()">Alert Dialog</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Confirm Alert
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="alert-confirm" (click)="confirmAlert()">Confirm Alert</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-2 -->
+
+<!-- Start:: row-3 -->
+<div class="row">
+
+
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Alert With Parameters
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="alert-parameter" (click)="parametersAlert()">Alert Parameters</button>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Alert With Image
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="alert-image" (click)="imageAlert()">Image Alert</button>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Alert With Image
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="alert-custom-bg" (click)="customAlert()">Custom Alert</button>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Auto Close Alert
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="alert-auto-close" (click)="timerAlert()">Auto Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-3 -->
+
+<!-- Start:: row-4 -->
+<div class="row">
+
+
+
+  <div class="col-xl-5">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Ajax Request Alert
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <button class="btn btn-primary btn-w-md" id="alert-ajax" (click)="AjaxAlert()">Ajax Request</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-7">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          State Icons
+        </div>
+      </div>
+      <div class="card-body text-center d-flex gap-1 flex-wrap align-items-center justify-content-center">
+        <button class="btn btn-success btn-w-md" id="alert-custom-success" (click)="successNotification()">Try
+          Me!</button>
+        <button class="btn btn-danger btn-w-md" id="alert-custom-danger" (click)="errorNotification()">Try
+          Me!</button>
+        <button class="btn btn-warning btn-w-md" id="alert-custom-warning" (click)="alertConfirmation()">Try
+          Me!</button>
+        <button class="btn btn-info btn-w-md" id="alert-custom-info" (click)="infoNotification()">Try
+          Me!</button>
+        <button class="btn btn-primary btn-w-md" id="alert-custom-question" (click)="questionNotification()">Try
+          Me!</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-4 -->

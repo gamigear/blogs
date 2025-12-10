@@ -1,0 +1,958 @@
+@page "/applications/mailapp"
+@using Soenneker.Blazor.TomSelect
+@using Soenneker.Blazor.TomSelect.Configuration
+@using Soenneker.Blazor.TomSelect.Enums
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<!-- Quill CSS -->
+<link rel="stylesheet" href="@($"{NavigationManager.BaseUri}assets/libs/quill/quill.snow.css")">
+
+<!-- Start::page-header -->
+<div class="page-header-breadcrumb mb-3">
+    <div class="d-flex align-center justify-content-between flex-wrap">
+        <h1 class="page-title fw-medium fs-18 mb-0">Mail App</h1>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Email</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Mail App</li>
+        </ol>
+    </div>
+</div>
+<!-- End::page-header -->
+
+<div class="main-mail-container mb-3 gap-2 d-flex">
+    <div class="mail-navigation border @MailNav">
+        <div class="d-grid align-items-top p-3 pb-0">
+            <button class="btn btn-primary d-flex align-items-center justify-content-center" data-bs-toggle="modal"
+                data-bs-target="#mail-Compose">
+                <i class="ri-add-circle-line fs-16 align-middle me-1"></i>New Mail
+            </button>
+        </div>
+        <div>
+            <ul class="list-unstyled mail-main-nav overflow-y-auto" id="mail-main-nav">
+                <li class="px-0 pt-0">
+                    <span class="fs-11 text-muted op-7 fw-medium">MAILS</span>
+                </li>
+                <li class="active mail-type" @onclick="ShowTotalMails">
+                    <a href="javascript:void(0);">
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="lh-1">
+                                <span class="mail-menu-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <polygon points="224 56 128 144 32 56 224 56" opacity="0.2" />
+                                        <path
+                                            d="M32,56H224a0,0,0,0,1,0,0V192a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V56A0,0,0,0,1,32,56Z"
+                                            fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="16" />
+                                        <polyline points="224 56 128 144 32 56" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <span class="flex-fill text-nowrap">
+                                All Mails
+                            </span>
+                            <span class="badge bg-primary">5</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="mail-type" @onclick="ShowTotalMails">
+                    <a href="javascript:void(0);">
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="lh-1">
+                                <span class="mail-menu-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <path d="M216,72V208a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V72Z" opacity="0.2" />
+                                        <path d="M208,216H48a8,8,0,0,1-8-8V72L56,40H200l16,32V208A8,8,0,0,1,208,216Z"
+                                            fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="16" />
+                                        <line x1="40" y1="72" x2="216" y2="72" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                        <line x1="128" y1="104" x2="128" y2="184" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                        <polyline points="96 152 128 184 160 152" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <span class="flex-fill text-nowrap">
+                                Inbox
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li class="mail-type" @onclick="ShowTotalMails">
+                    <a href="javascript:void(0);">
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="lh-1">
+                                <span class="mail-menu-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <path
+                                            d="M48.49,221.28A8,8,0,0,0,59.93,231l168-96.09a8,8,0,0,0,0-14l-168-95.85a8,8,0,0,0-11.44,9.67L80,128Z"
+                                            opacity="0.2" />
+                                        <line x1="144" y1="128" x2="80" y2="128" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                        <path
+                                            d="M48.49,221.28A8,8,0,0,0,59.93,231l168-96.09a8,8,0,0,0,0-14l-168-95.85a8,8,0,0,0-11.44,9.67L80,128Z"
+                                            fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="16" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <span class="flex-fill text-nowrap">
+                                Sent
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li class="mail-type" @onclick="ShowTotalMails">
+                    <a href="javascript:void(0);">
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="lh-1">
+                                <span class="mail-menu-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <polygon points="152 32 152 88 208 88 152 32" opacity="0.2" />
+                                        <path d="M72,224H56a8,8,0,0,1-8-8V184" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                        <polyline points="120 32 152 32 208 88 208 136" fill="none"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="16" />
+                                        <path d="M48,64V40a8,8,0,0,1,8-8H80" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                        <polyline points="152 32 152 88 208 88" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                        <path d="M208,176v40a8,8,0,0,1-8,8h-8" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                        <line x1="48" y1="104" x2="48" y2="144" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                        <line x1="112" y1="224" x2="152" y2="224" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <span class="flex-fill text-nowrap">
+                                Drafts
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li class="mail-type" @onclick="ShowTotalMails">
+                    <a href="javascript:void(0);">
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="lh-1">
+                                <span class="mail-menu-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <circle cx="128" cy="128" r="96" opacity="0.2" />
+                                        <circle cx="128" cy="128" r="96" fill="none" stroke="currentColor"
+                                            stroke-miterlimit="10" stroke-width="16" />
+                                        <line x1="128" y1="136" x2="128" y2="80" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                        <circle cx="128" cy="172" r="12" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <span class="flex-fill text-nowrap">
+                                Spam
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li class="mail-type" @onclick="ShowTotalMails">
+                    <a href="javascript:void(0);">
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="lh-1">
+                                <span class="mail-menu-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <path d="M192,224l-64-40L64,224V48a8,8,0,0,1,8-8H184a8,8,0,0,1,8,8Z"
+                                            opacity="0.2" />
+                                        <path d="M192,224l-64-40L64,224V48a8,8,0,0,1,8-8H184a8,8,0,0,1,8,8Z" fill="none"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="16" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <span class="flex-fill text-nowrap">
+                                Important
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li class="mail-type" @onclick="ShowTotalMails">
+                    <a href="javascript:void(0);">
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="lh-1">
+                                <span class="mail-menu-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <path
+                                            d="M26.18,184A16,16,0,0,0,40,208H216a16,16,0,0,0,13.84-24l-88-152a16,16,0,0,0-27.7,0Z"
+                                            opacity="0.2" />
+                                        <polyline points="152 232 128 208 152 184" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                        <polyline points="194.63 75.19 185.84 107.98 153.06 99.19" fill="none"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="16" />
+                                        <polyline points="78.96 140.77 70.16 108 37.39 116.77" fill="none"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="16" />
+                                        <path d="M70.16,108l-44,76A16,16,0,0,0,40,208H88" fill="none"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="16" />
+                                        <path d="M128,208h88a16,16,0,0,0,13.84-24l-23.14-40" fill="none"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="16" />
+                                        <path d="M185.84,108l-44-76a16,16,0,0,0-27.7,0L91,72" fill="none"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="16" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <span class="flex-fill text-nowrap">
+                                Trash
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li class="mail-type" @onclick="ShowTotalMails">
+                    <a href="javascript:void(0);">
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="lh-1">
+                                <span class="mail-menu-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <path d="M216,96v96a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V96Z" opacity="0.2" />
+                                        <rect x="24" y="56" width="208" height="40" rx="8" fill="none"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="16" />
+                                        <path d="M216,96v96a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V96" fill="none"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="16" />
+                                        <line x1="104" y1="136" x2="152" y2="136" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <span class="flex-fill text-nowrap">
+                                Archive
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li class="mail-type" @onclick="ShowTotalMails">
+                    <a href="javascript:void(0);">
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="lh-1">
+                                <span class="mail-menu-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <path
+                                            d="M128,189.09l54.72,33.65a8.4,8.4,0,0,0,12.52-9.17l-14.88-62.79,48.7-42A8.46,8.46,0,0,0,224.27,94L160.36,88.8,135.74,29.2a8.36,8.36,0,0,0-15.48,0L95.64,88.8,31.73,94a8.46,8.46,0,0,0-4.79,14.83l48.7,42L60.76,213.57a8.4,8.4,0,0,0,12.52,9.17Z"
+                                            opacity="0.2" />
+                                        <path
+                                            d="M128,189.09l54.72,33.65a8.4,8.4,0,0,0,12.52-9.17l-14.88-62.79,48.7-42A8.46,8.46,0,0,0,224.27,94L160.36,88.8,135.74,29.2a8.36,8.36,0,0,0-15.48,0L95.64,88.8,31.73,94a8.46,8.46,0,0,0-4.79,14.83l48.7,42L60.76,213.57a8.4,8.4,0,0,0,12.52,9.17Z"
+                                            fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="16" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <span class="flex-fill text-nowrap">
+                                Starred
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li class="px-0">
+                    <span class="fs-11 text-muted op-7 fw-medium">SETTINGS</span>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="lh-1">
+                                <span class="mail-menu-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                        <rect width="256" height="256" fill="none" />
+                                        <path
+                                            d="M230.1,108.76,198.25,90.62c-.64-1.16-1.31-2.29-2-3.41l-.12-36A104.61,104.61,0,0,0,162,32L130,49.89c-1.34,0-2.69,0-4,0L94,32A104.58,104.58,0,0,0,59.89,51.25l-.16,36c-.7,1.12-1.37,2.26-2,3.41l-31.84,18.1a99.15,99.15,0,0,0,0,38.46l31.85,18.14c.64,1.16,1.31,2.29,2,3.41l.12,36A104.61,104.61,0,0,0,94,224l32-17.87c1.34,0,2.69,0,4,0L162,224a104.58,104.58,0,0,0,34.08-19.25l.16-36c.7-1.12,1.37-2.26,2-3.41l31.84-18.1A99.15,99.15,0,0,0,230.1,108.76ZM128,168a40,40,0,1,1,40-40A40,40,0,0,1,128,168Z"
+                                            opacity="0.2" />
+                                        <circle cx="128" cy="128" r="40" fill="none" stroke="currentColor"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                                        <path
+                                            d="M130.05,206.11c-1.34,0-2.69,0-4,0L94,224a104.61,104.61,0,0,1-34.11-19.2l-.12-36c-.71-1.12-1.38-2.25-2-3.41L25.9,147.24a99.15,99.15,0,0,1,0-38.46l31.84-18.1c.65-1.15,1.32-2.29,2-3.41l.16-36A104.58,104.58,0,0,1,94,32l32,17.89c1.34,0,2.69,0,4,0L162,32a104.61,104.61,0,0,1,34.11,19.2l.12,36c.71,1.12,1.38,2.25,2,3.41l31.85,18.14a99.15,99.15,0,0,1,0,38.46l-31.84,18.1c-.65,1.15-1.32,2.29-2,3.41l-.16,36A104.58,104.58,0,0,1,162,224Z"
+                                            fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="16" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <span class="flex-fill text-nowrap">
+                                Settings
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li class="px-0">
+                    <span class="fs-11 text-muted op-7 fw-medium">LABELS</span>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2 lh-1">
+                                <i class="ri-circle-line align-middle fs-10 fw-semibold text-primary"></i>
+                            </span>
+                            <span class="flex-fill text-nowrap">
+                                Mail
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2 lh-1">
+                                <i class="ri-circle-line align-middle fs-10 fw-semibold text-danger"></i>
+                            </span>
+                            <span class="flex-fill text-nowrap">
+                                Home
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2 lh-1">
+                                <i class="ri-circle-line align-middle fs-10 fw-semibold text-success"></i>
+                            </span>
+                            <span class="flex-fill text-nowrap">
+                                Work
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2 lh-1">
+                                <i class="ri-circle-line align-middle fs-10 fw-semibold text-info"></i>
+                            </span>
+                            <span class="flex-fill text-nowrap">
+                                Friends
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li> 
+                    <div class="mb-2 fs-12">
+                        <a href="javascript:void(0)"> 
+                            40Gb of 50Gb used
+                        </a> 
+                    </div>
+                    <div class="progress progress-xs"> 
+                        <div class="progress-bar bg-primary progress-bar-animatedd" role="progressbar" style="width: 58%" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100"> 
+                        </div> 
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="total-mails border @TotalMails">
+        <div class="total-mails-header d-flex align-items-center border-bottom flex-wrap gap-2">
+            <div>
+                <input class="form-check-input check-all" type="checkbox" id="checkAll" value="" aria-label="..." @onclick="ToggleSelectAll">
+            </div>
+            <div class="flex-fill d-flex align-items-center gap-3 flex-wrap">
+                <h6 class="fw-medium mb-0">All Mails</h6>
+                <div class="d-flex gap-2">
+                    <div class="btn-list">
+                        <button class="btn btn-icon btn-sm btn-light" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-title="Reload">
+                            <i class="ti ti-refresh"></i>
+                        </button>
+                        <button class="btn btn-icon btn-sm btn-light d-lg-none d-xxl-inline" data-bs-toggle="tooltip"
+                            data-bs-placement="top" data-bs-title="Archive">
+                            <i class="ti ti-archive"></i>
+                        </button>
+                        <button class="btn btn-icon btn-sm btn-light" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-title="Delete">
+                            <i class="ti ti-trash"></i>
+                        </button>
+                        <button class="btn btn-icon btn-sm btn-light" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-title="Report Spam">
+                            <i class="ti ti-alert-circle"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-icon btn-light btn-sm" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="ti ti-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Recent</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Unread</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Mark All Read</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Spam</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Delete All</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <div class="input-group">
+                    <input type="text" class="form-control shadow-none" placeholder="Search Email"
+                        aria-describedby="button-addon">
+                    <button class="btn btn-primary" type="button" id="button-addon"><i
+                            class="ri-search-line"></i></button>
+                </div>
+                <button class="btn btn-icon btn-light d-lg-none d-block total-mails-close" @onclick="CloseTotalMails">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+        </div>
+        <div class="mail-messages overflow-auto" id="mail-messages">
+            <div class="table-responsive mail-messages-container">
+                <table class="table text-nowrap table-borderless table-hover">
+                    <tbody>
+                        @foreach(var maillist in mailListData){
+                            <tr @onclick="@(() => ShowMail(maillist))" class="@(maillist.Id == ActiveMail?.Id ? "mail-selected" : "")">
+                            <td>
+                                <input class="form-check-input mail-check-input" type="checkbox" id="mail2" value=""
+                                        aria-label="..." @bind="@maillist.Selected">
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center gap-4">
+                                    <a class="mail-starred @(maillist.Starred? "true" : "")" href="javascript:void(0);" data-bs-toggle=""
+                                        data-bs-placement="top" data-bs-title="Star" @onclick="() => ToggleStarred(maillist)">
+                                        <i class="@maillist.MailIcon"></i>
+                                    </a>
+                                    <a class="mail-important @(maillist.Bookmark? "true" : "")" href="javascript:void(0);" data-bs-toggle=""
+                                        data-bs-placement="top" data-bs-title="Mark As Important" @onclick="() => ToggleBookMark(maillist)">
+                                        <i class="ti ti-bookmark"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2 mail-user-container"
+                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                    aria-controls="offcanvasRight">
+                                    <div class="lh-1">
+                                        <span class="avatar avatar-sm avatar-rounded mail-msg-avatar">
+                                            <img src="@maillist.Userimg" alt="">
+                                        </span>
+                                    </div>
+                                    <div>@maillist.UserName</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="mail-msg" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                    aria-controls="offcanvasRight">
+                                    <span class="d-block mb-0 fw-medium text-truncate w-75">
+                                    @maillist.Title
+                                    @if(!string.IsNullOrEmpty(maillist?.BadgeValue)){
+                                        <span class="badge bg-@maillist.BadgeColor ms-2">@maillist.BadgeValue</span>
+                                    }
+                                    </span>
+                                        
+                                    <div class="text-muted text-wrap text-truncate mail-msg-content">@maillist?.Description
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="mail-received-time">@maillist?.Date</span></td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Start::mail information offcanvas -->
+<div class="offcanvas offcanvas-end mail-info-offcanvas" tabindex="-1" id="offcanvasRight"> 
+    <div class="offcanvas-body p-0">
+        <div class="mails-information">
+            <div class="mail-info-header d-flex flex-wrap gap-2 align-items-center">
+                <div class="flex-fill">
+                    <button class="btn btn-icon btn-light" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Print">
+                        <i class="ri-printer-line"></i>
+                    </button>
+                    <button class="btn btn-icon btn-light ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Mark as read">
+                        <i class="ri-mail-open-line"></i>
+                    </button>
+                    <button class="btn btn-icon btn-light ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Reload">
+                        <i class="ri-refresh-line"></i>
+                    </button>
+                </div>
+                <button type="button" class="btn-close btn btn-sm btn-icon border" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="mail-info-body p-4" id="mail-info-body">
+                <div class="d-sm-flex d-block align-items-center justify-content-between mb-4">
+                    <div>
+                        <p class="fs-20 fw-medium mb-0">@ActiveMail?.Title</p>
+                    </div>
+                    <div class="float-end">
+                        <span class="fs-13 fw-medium text-muted">@ActiveMail?.Date</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <div class="me-1">
+                        <span class="avatar avatar-md me-2 avatar-rounded mail-msg-avatar">
+                            <img src="@ActiveMail?.Userimg" alt="">
+                        </span>
+                    </div>    
+                    <div class="flex-fill">
+                        <h6 class="mb-0 fw-medium">@ActiveMail?.UserName</h6>
+                        <span class="text-muted fs-12">to:me</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 fs-14">
+                        <a href="javascript:void(0);" class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Starred">
+                            <i class="ri-star-line"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="text-muted ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Archive">
+                            <i class="ri-inbox-archive-line"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="text-muted ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Report spam">
+                            <i class="ri-spam-2-line"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="text-muted ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
+                            <i class="ri-delete-bin-line"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="text-muted ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Reply">
+                            <i class="ri-reply-line"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="main-mail-content mb-4">
+                    <p class="text-muted mb-2">Dear Sarah</p>
+                    <p class="mb-2 text-muted">Thank you for your prompt attention to this matter. As we approach the end of the month, please ensure that the payment is made by the 28th to avoid any late fees. You can find the invoice attached to this email. If you require any further clarification or need assistance with the payment process, don't hesitate to reach out.</p>
+                    <p class="mb-2 text-muted">Looking forward to your confirmation.</p>
+                    <p class="mb-0 mt-4">
+                        <span class="d-block fs-13 text-muted">Best Regards,</span>
+                        <span class="d-block">Finance Team</span>
+                    </p>
+                </div>
+                <div class="mail-attachments mb-4">
+                    <div class="row">
+                        <div class="col-xl-3">
+                            <div class="card custom-card">
+                                <img src="../assets/images/media/media-43.jpg" class="card-img-top" alt="...">
+                                <div class="card-body p-2 text-center">
+                                    <a href="javascript:void(0);" class="text-decoration-underline">Download <i class="ti ti-download"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="card custom-card">
+                                <img src="../assets/images/media/media-44.jpg" class="card-img-top" alt="...">
+                                <div class="card-body p-2 text-center">
+                                    <a href="javascript:void(0);" class="text-decoration-underline">Download <i class="ti ti-download"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mail-reply">
+                    <div id="mail-reply-editor">
+                        <BlazoredTextEditor  @ref="@QuillHtml">
+                        <ToolbarContent>
+                            <span class="ql-formats">
+                                    <button class="ql-bold"></button>
+                                    <button class="ql-italic"></button>
+                                    <button class="ql-underline"></button>
+                                
+                            </span>
+                            <span class="ql-formats">
+                                    <button class="ql-image"></button>
+                                    <button class="ql-video"></button>
+                            </span>
+                        </ToolbarContent>
+                    </BlazoredTextEditor >
+                    </div>
+                    <div class="mail-info-footer pb-4 text-end">
+                        <div>
+                            <button class="btn btn-primary">
+                                <i class="ri-share-forward-line me-1 d-inline-block align-middle"></i>Forward
+                            </button>
+                            <button class="btn btn-danger ms-1">
+                                <i class="ri-reply-all-line me-1 d-inline-block align-middle"></i>Reply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End::mail information offcanvas -->
+
+<!-- Start::compose mail modal -->
+<div class="modal modal-lg fade" id="mail-Compose" tabindex="-1" aria-labelledby="mail-ComposeLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="mail-ComposeLabel">Compose Mail</h6>                   
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4">
+                <div class="row">
+                    <div class="col-xl-6 mb-2">
+                        <label for="fromMail" class="form-label">From<sup><i class="ri-star-s-fill text-success fs-8"></i></sup></label>
+                        <input type="email" class="form-control" id="fromMail" value="jackmiller2345@gmail.com">
+                    </div>
+                    <div class="col-xl-6 mb-2">
+                        <label for="toMail" class="form-label">To<sup><i class="ri-star-s-fill text-success fs-8"></i></sup></label>
+                            @if (isRendered)
+                        {
+                            <TomSelect TItem="TagItem" Items="_tagItems" TType="string" Multiple="true" @bind-Value="_tagValue" Data="_tagoptions" TextField="@(item => item.Name)" ValueField="@(item => item.Id)" Placeholder="" Configuration="_configuration2" />
+                        } 
+                    </div>
+                    <div class="col-xl-6 mb-2">
+                        <label for="mailCC" class="form-label text-dark fw-medium">Cc</label>
+                        <input type="email" class="form-control" id="mailCC">
+                    </div>
+                    <div class="col-xl-6 mb-2">
+                        <label for="mailBcc" class="form-label text-dark fw-medium">Bcc</label>
+                        <input type="email" class="form-control" id="mailBcc">
+                    </div>
+                    <div class="col-xl-12 mb-2">
+                        <label for="Subject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="Subject" placeholder="Subject">
+                    </div>
+                    <div class="col-xl-12">
+                        <label class="col-form-label">Content :</label>
+                        <div class="mail-compose">
+                            <div id="mail-compose-editor">
+                        <BlazoredTextEditor  @ref="@QuillHtml">
+                        <ToolbarContent>
+                            <span class="ql-formats">
+                                    <button class="ql-bold"></button>
+                                    <button class="ql-italic"></button>
+                                    <button class="ql-underline"></button>
+                                
+                            </span>
+                            <span class="ql-formats">
+                                    <button class="ql-image"></button>
+                                    <button class="ql-video"></button>
+                            </span>
+                        </ToolbarContent>
+                    </BlazoredTextEditor >
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light"
+                    data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End::compose mail modal -->
+
+
+
+@code{
+
+    //QuilEditor JS Start
+    BlazoredTextEditor?  QuillHtml;
+    //QuilEditor JS End
+
+    private TomSelect<TagItem, string> _tagValue = default!;  
+    private List<TagItem>? _tagoptions;      
+    private List<TagItem> _tagItems = new List<TagItem>();    
+    public class TagItem
+    {
+        public string? Id { get; set; }
+        public string? Name { get; set; }
+        public bool Selected { get; set; }
+    } 
+
+    private readonly TomSelectConfiguration _configuration2 = new()
+    {
+        Plugins = new List<TomSelectPluginType> { TomSelectPluginType.RemoveButton, TomSelectPluginType.NoBackspaceDelete }
+    };
+
+     MailList? ActiveMail { get; set; } 
+
+    public class MailList
+    {
+        public int Id { get; set; }        
+        public string? MailIcon { get; set; }
+        public string? Mailname { get; set; }
+        public bool Active { get; set; }
+        public string? BadgeValue { get; set; }
+        public string? BadgeColor { get; set; }
+        public string? Userimg { get; set; }
+        public string? UserName { get; set; }
+        public string? UserMail { get; set; }
+        public string? UserColor { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        public string? Date { get; set; }
+        public bool Starred { get; set; }
+        public string? Attachment { get; set; }
+        public string? Docs { get; set; }
+        public bool Selected { get; set; }
+        public bool Checked { get; set; }
+        public bool Bookmark { get; set; }
+    }
+
+    List<MailList> mailListData = new List<MailList>
+    {
+        new MailList {
+            Id = 1,
+            Selected = false,
+            Starred = true,
+            MailIcon = "ti ti-star-filled",
+            Mailname = "[Reminder]",
+            Active = false,
+            BadgeValue = null,
+            BadgeColor = null,
+            Userimg = "../assets/images/faces/7.jpg",
+            UserName = "Amelia Turner",
+            UserMail = null,  
+            UserColor = null, 
+            Title = "Client Meeting at 3 PM Today",
+            Description = "Hi John, just a quick reminder about our meeting with ABC Corp at 3 PM. Let me know if you need any changes. Regards, Sarah.",
+            Date = "10:15 AM",
+            Attachment = null,
+            Docs = null,
+            Checked = true
+        },
+        new MailList {
+            Id = 2,
+            MailIcon = "ti ti-star-filled",
+            Mailname = "Invoice",
+            Active = true,
+            BadgeValue = null,
+            BadgeColor = null,
+            Userimg = "../assets/images/faces/6.jpg",
+            UserName = "Sarah Smith",
+            UserMail = null,
+            UserColor = null,
+            Title = "Invoice #45678 – Payment Due Soon",
+            Description = "Dear Sarah, your invoice for February services is attached. Kindly process the payment before the due date. Let me know if you have any questions. Best, Finance Team.",
+            Date = "09:45 AM",
+            Starred = false,
+            Attachment = null,
+            Docs = null,
+            Selected = true
+        },
+        new MailList {
+            Id = 3,
+            MailIcon = "ti ti-star-filled",
+            Mailname = "Project Alpha",
+            Active = false,
+            BadgeValue = "Personal",
+            BadgeColor = "primary",
+            Userimg = "../assets/images/faces/14.jpg",
+            UserName = "David Johnson",
+            Title = "Project Alpha – Weekly Update & Next Steps",
+            Description = "Hi David, please find attached the latest updates on Project Alpha. Let’s connect tomorrow to discuss the next steps. Regards, James.",
+            Date = "01 Mar",
+            Starred = true,
+            Selected = false,
+            Bookmark = true
+        },
+        new MailList {
+            Id = 4,
+            MailIcon = "ti ti-star-filled",
+            Mailname = "HR",
+            Active = false,
+            BadgeValue = null,
+            BadgeColor = null,
+            Userimg = "../assets/images/faces/4.jpg",
+            UserName = "Emily Carter",
+            Title = "HR Policy Changes Effective Next Month",
+            Description = "Hello Emily, please review the attached HR policy changes regarding annual leaves and remote work. Let us know if you have any concerns. HR Department.",
+            Date = "01 Mar",
+            Starred = true,
+            Selected = false
+        },
+        new MailList {
+            Id = 5,
+            MailIcon = "ti ti-star-filled",
+            Userimg = "../assets/images/faces/13.jpg",
+            UserName = "Mark Wilson",
+            Title = "Your Subscription is Expiring",
+            Description = "Hi Mark, your premium subscription is set to expire on March 5. Click here to renew and continue enjoying premium features.",
+            BadgeValue = "Social",
+            BadgeColor = "success",
+            Date = "29 Feb",
+            Starred = false,
+            Selected = false
+        },
+        new MailList {
+            Id = 6,
+            MailIcon = "ti ti-star-filled",
+            Userimg = "../assets/images/faces/3.jpg",
+            UserName = "Olivia Brown",
+            Title = "Job Application for Marketing Analyst",
+            Description = "Dear Olivia, thank you for applying to our company. Your application is under review, and we will get back to you soon. Best regards, HR Team.",
+            BadgeValue = "Promotion",
+            BadgeColor = "warning",
+            Date = "29 Feb",
+            Starred = true,
+            Selected = false
+        },
+        new MailList {
+            Id = 7,
+            MailIcon = "ti ti-star-filled",
+            Userimg = "../assets/images/faces/12.jpg",
+            UserName = "Daniel Lee",
+            Title = "Top Industry News & Trends",
+            Description = "Hello Daniel, this week’s newsletter covers the latest trends in technology and business. Don’t miss out on our expert insights! Read more inside.",
+            Date = "29 Feb",
+            Starred = false,
+            Selected = false
+        },
+        new MailList {
+            Id = 8,
+            MailIcon = "ti ti-star-filled",
+            Userimg = "../assets/images/faces/2.jpg",
+            UserName = "Sophia Miller",
+            Title = "Unusual Login Attempt Detected",
+            Description = "Hi Sophia, we detected an unusual login attempt on your account from a new device. If this wasn’t you, please reset your password immediately.",
+            Date = "29 Feb",
+            Starred = false,
+            Selected = false,
+            Bookmark= true
+        },
+        new MailList {
+            Id = 9,
+            MailIcon = "ti ti-star-filled",
+            Userimg = "../assets/images/faces/15.jpg",
+            UserName = "Michael Adams",
+            Title = "Your Order #98765 Has Been Shipped!",
+            Description = "Hi Michael, your order has been dispatched and is expected to arrive within 3-5 business days. Track your order using the link inside.",
+            Date = "29 Feb",
+            Starred = false,
+            Selected = false
+        },
+        new MailList {
+            Id = 10,
+            MailIcon = "ti ti-star-filled",
+            Userimg = "../assets/images/faces/5.jpg",
+            UserName = "Emma White",
+            Title = "Annual Tech Conference 2025",
+            Description = "Dear Emma, you’re invited to our exclusive Tech Conference 2025. Join industry leaders to discuss upcoming trends. Reserve your spot today!",
+            Date = "28 Feb",
+            Starred = true,
+            Selected = false
+        }
+    };
+
+     void ToggleStarred(MailList maillist)
+    {
+        maillist.Starred = !maillist.Starred;
+    }
+
+    void ToggleBookMark(MailList maillist){
+        maillist.Bookmark = !maillist.Bookmark;
+    }
+
+    private void ShowMail(MailList Selected)
+    {
+        ActiveMail = Selected;
+    }
+
+    string? MailNav;
+    string? TotalMails;
+    int screenSize;
+
+    protected override void OnInitialized() {
+        _tagoptions = new List<TagItem>
+        {
+            new TagItem { Id = "Choice 1", Name = "jay@gmail.com" },
+            new TagItem { Id = "Choice 2", Name = "kia@gmail.com" },
+            new TagItem { Id = "Choice 3", Name = "don@gmail.com" },
+            new TagItem { Id = "Choice 4", Name = "kimo@gmail.com" },
+        };
+        _tagItems = _tagoptions.Take(3).ToList(); 
+
+        ActiveMail = mailListData.FirstOrDefault(c => c.Id == 2);
+
+    }
+
+    private bool isRendered = false;  
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            isRendered = true;
+            await JSRuntime.InvokeVoidAsync("window.interop.initializeTooltips");
+
+            DotNetObjectReference<MailApp> dotNetObjectReference;
+            dotNetObjectReference = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("resizeFunctions.addresizeListener", dotNetObjectReference);
+
+            screenSize = await JSRuntime.InvokeAsync<int>("interop.inner", "innerWidth");
+
+            if (screenSize < 992)
+            {
+                TotalMails = "d-block";
+                MailNav = "d-none";
+            }
+            else
+            {
+                TotalMails = "d-block";
+                MailNav = "d-block";
+            }
+
+            StateHasChanged();
+        }
+    }
+
+
+
+    private void ShowTotalMails()
+    {     
+        if(screenSize < 992) {
+            TotalMails = "d-block";
+            MailNav = "d-none";
+        }
+        else {
+            TotalMails = "d-block";
+            MailNav = "d-block";
+        }
+    }
+    private void CloseTotalMails()
+    {
+        TotalMails = "d-none";
+        MailNav = "d-block";
+    }
+
+    [JSInvokable("OnWindowResize")]
+    public void OnWindowResize(int position)
+    {
+        screenSize = position;
+        if(position < 992) {
+            MailNav = "d-block";
+            TotalMails = "d-none";
+        }
+        else {
+            TotalMails = "d-block";
+            MailNav = "d-block";
+        }
+        StateHasChanged();
+    } 
+
+     private bool selectAll;
+    private void ToggleSelectAll()
+    {
+        selectAll = !selectAll;
+        foreach (var mailList in mailListData)
+        {
+            mailList.Selected = selectAll;
+        }
+    } 
+
+}

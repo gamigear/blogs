@@ -1,0 +1,20 @@
+---
+const { cardClass, ecommerce } = Astro.props;
+---
+
+<div class={`card custom-card ${cardClass} ${ecommerce.color}`}>
+    <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <h5 class="fw-semibold">{ecommerce.value}</h5>
+                <span class="d-block fs-12 text-muted">{ecommerce.title}</span>
+            </div>
+            <div>
+                <span
+                    class={`avatar avatar-lg bg-${ecommerce.color}-transparent svg-${ecommerce.color}`}
+                    set:html={ecommerce.svgIcon}
+                />
+            </div>
+        </div>
+    </div>
+</div>

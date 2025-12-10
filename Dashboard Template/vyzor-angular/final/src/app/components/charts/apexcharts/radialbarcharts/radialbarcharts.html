@@ -1,0 +1,95 @@
+<!-- Page Header -->
+<app-breadcrumb title="Apex Charts" [subtitle]="false" active_item="Apex Radialbar Charts"></app-breadcrumb><!-- breadcrumb -->
+
+<!-- Page Header Close -->
+
+<!-- Start::row-1 -->
+<div class="row">
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Basic Pie Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="radialbar-basic">
+                  <spk-apexcharts  [chartOptions]="BasicPieChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Multiple Radialbar Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="radialbar-multiple">
+                  <spk-apexcharts  [chartOptions]="multipleradialBarChart"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Circle Chart - Custom Angle</div>
+          </div>
+          <div class="card-body">
+              <div id="circle-custom">
+                  <spk-apexcharts  [chartOptions]="CustomAngleChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Gradient Circle Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="gradient-circle">
+                  <spk-apexcharts  [chartOptions]="GradientCircleChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Stroked Circular Gauge</div>
+          </div>
+          <div class="card-body">
+              <div id="circular-stroked">
+                  <spk-apexcharts  [chartOptions]="StrokedCircularGaugeData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Circle Chart With Image</div>
+          </div>
+          <div class="card-body">
+              <div id="circle-image">
+                  <spk-apexcharts  [chartOptions]="CircleImageChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Semi Circular Gauge</div>
+          </div>
+          <div class="card-body">
+              <div id="circular-semi">
+                  <spk-apexcharts  [chartOptions]="SemiCircularGaugeData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!--End::row-1 -->

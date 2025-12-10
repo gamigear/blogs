@@ -1,0 +1,30 @@
+---
+import { Image } from "astro:assets";
+
+const { test, cardClass } = Astro.props;
+---
+
+<div class={`card custom-card mb-0 ${cardClass}`}>
+    <div class="card-body p-5 pb-4">
+        <div
+            class="d-flex align-items-center justify-content-between mb-3 flex-wrap"
+        >
+            <h5 class="fw-semibold mb-0">{test.title}</h5>
+            <div class="text-warning fs-14 my-auto" set:html={test.stars} />
+        </div>
+        <p class="mb-3 text-muted">
+            {test.description}
+        </p>
+        <div class="d-flex align-items-start justify-content-end gap-2">
+            <div class="lh-1">
+                <span class="avatar avatar-md avatar-rounded">
+                    <Image src={test.imgSrc} alt="" />
+                </span>
+            </div>
+            <div>
+                <span class="d-block fw-semibold">{test.name}</span>
+                <span class="text-muted fs-13">{test.role}</span>
+            </div>
+        </div>
+    </div>
+</div>

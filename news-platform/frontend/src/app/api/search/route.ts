@@ -3,6 +3,8 @@ import { searchArticles as algoliaSearch, isAlgoliaConfigured } from '@/lib/algo
 import { searchArticles as dbSearch } from '@/lib/strapi';
 import { addSecurityHeaders, checkRateLimit } from '@/lib/security';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/search - Search articles
  * Requirements: 5.1, 5.2

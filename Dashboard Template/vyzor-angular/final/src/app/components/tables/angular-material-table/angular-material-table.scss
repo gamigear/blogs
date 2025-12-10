@@ -1,0 +1,12 @@
+.example-container {
+  height: 300px;
+  overflow: auto;
+}
+::ng-deep {
+@media screen and (max-width:575px){
+
+  .mat-mdc-paginator.ng-star-inserted {
+    margin-top: 10px;
+  }
+}
+}

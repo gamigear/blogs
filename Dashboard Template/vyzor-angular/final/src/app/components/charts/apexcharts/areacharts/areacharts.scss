@@ -1,0 +1,42 @@
+::ng-deep{ 
+    #wrapper {
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 22px 35px -16px rgba(0, 0, 0, 0.1);
+  max-width: 650px;
+  margin: 35px auto;
+}
+
+.github-style {
+  clear: both;
+  font-weight: 400;
+  height: 40px;
+  margin-left: 6px;
+}
+
+.github-style a {
+  color: #0366d6;
+  font-size: 18px;
+}
+
+.github-style .cmeta {
+  display: block;
+  color: #777;
+  font-weight: 400;
+}
+
+.github-style .userimg {
+  float: left;
+  display: block;
+  border-radius: 3px;
+}
+
+.github-style .userdetails {
+  float: left;
+  margin-left: 10px;
+}
+
+}

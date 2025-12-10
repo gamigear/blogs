@@ -1,0 +1,1017 @@
+
+@page "/crm/dashboard"
+@using ApexCharts
+
+<!-- Start::page-header -->
+<div class="page-header-breadcrumb mb-3">
+    <div class="d-flex align-center justify-content-between flex-wrap">
+        <h1 class="page-title fw-medium fs-18 mb-0">CRM</h1>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboards</a></li>
+            <li class="breadcrumb-item active" aria-current="page">CRM</li>
+        </ol>
+    </div>
+</div>
+<!-- End::page-header -->
+
+<!-- Start:: row-1 -->
+<div class="row">
+    <div class="col-xxl-5">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md bg-primary avatar-rounded">
+                                    <i class="ti ti-users fs-5"></i>
+                                </span>
+                            </div>
+                            <div class="flex-fill">
+                                <span>
+                                    Total Customers
+                                </span>
+                                <h5 class="d-block fw-semibold mb-0">32,152</h5>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-semibold text-success"><i class="ti ti-arrow-narrow-up me-1"></i>4.21%
+                                </div>
+                                <div class="text-muted fs-12">This Year</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md bg-secondary avatar-rounded">
+                                    <i class="ti ti-briefcase fs-5"></i>
+                                </span>
+                            </div>
+                            <div class="flex-fill">
+                                <span>
+                                    Total Deals
+                                </span>
+                                <h5 class="d-block fw-semibold mb-0">5,543</h5>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-semibold text-success"><i class="ti ti-arrow-narrow-up me-1"></i>2.35%
+                                </div>
+                                <div class="text-muted fs-12">This Year</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md bg-success avatar-rounded">
+                                    <i class="ti ti-wave-square fs-5"></i>
+                                </span>
+                            </div>
+                            <div class="flex-fill">
+                                <span>
+                                    Conversion Ratio
+                                </span>
+                                <h5 class="d-block fw-semibold mb-0">12.34%</h5>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-semibold text-danger"><i class="ti ti-arrow-narrow-down me-1"></i>4.75%
+                                </div>
+                                <div class="text-muted fs-12">This Year</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md bg-warning avatar-rounded">
+                                    <i class="ti ti-wallet fs-5"></i>
+                                </span>
+                            </div>
+                            <div class="flex-fill">
+                                <span>
+                                    Total Revenue
+                                </span>
+                                <h5 class="d-block fw-semibold mb-0">$53,276</h5>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-semibold text-success"><i class="ti ti-arrow-narrow-up me-1"></i>0.59%
+                                </div>
+                                <div class="text-muted fs-12">This Year</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            Revenue Analytics
+                        </div>
+                    </div>
+                    <div class="card-body pb-0">
+                        <div id="crm-revenue-analytics">
+                        <ApexChart TItem="SalesStatistic" Height="318" Options="SalesStatisticChartOptions">
+                                <!-- Bar Chart: Growth -->
+                                <ApexPointSeries TItem="SalesStatistic"
+                                                Items="salesstatistic"
+                                                SeriesType="@SeriesType.Bar"
+                                                Name="Revenue"
+                                                XValue="@(e => e.Month)"
+                                                YAggregate="@(e => e.Sum(e => e.Revenue))" />
+
+                                
+
+                                <!-- Line Chart: Profit -->
+                                <ApexPointSeries TItem="SalesStatistic"
+                                                Items="salesstatistic"
+                                                SeriesType="@SeriesType.Line"
+                                                Name="Profit"
+                                                XValue="@(e => e.Month)"
+                                                YAggregate="@(e => e.Sum(e => e.Profit))" />
+                            </ApexChart>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-4">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card overflow-hidden">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">
+                            Tasks List
+                        </div>
+                        <ul class="nav nav-tabs justify-content-end nav-tabs-header card-headertabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#today"
+                                    aria-selected="false" tabindex="-1">Today</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" data-bs-toggle="tab" role="tab" aria-current="page"
+                                    href="#Upcoming" aria-selected="true">Upcoming</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body todo-tab p-0">
+                        <div class="tab-content">
+                            <div class="tab-pane border-0" id="today" role="tabpanel">
+                                <ul class="list-unstyled task-list-tab">
+                                 @foreach (var task in TasksListData)
+                                    {
+                                        <li>
+                                            <div class="d-flex align-items-start gap-2 flex-wrap">
+                                                <div class="mb-3 form-check">
+                                                    <input type="checkbox" class="form-check-input" checked="@task.IsCompleted">
+                                                </div>
+                                                <div class="flex-fill">
+                                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                                        <a href="javascript:void(0);" class="crm-task-name">@task.Title</a>
+                                                        <span class="avatar avatar-xs avatar-rounded bg-light border text-muted fw-semibold flex-shrink-0"
+                                                            data-bs-toggle="tooltip" title="In Progress">
+                                                            <i class="ti ti-info-circle fs-11"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center gap-2 lh-1">
+                                                        <a href="javascript:void(0);" class="fs-12">@task.TicketId</a>
+                                                        <div class="vr"></div>
+                                                        <span class="text-muted mb-0 fs-12">
+                                                            <i class="ti ti-user me-1 fw-medium"></i>@task.Assignee
+                                                        </span>
+                                                        <div class="vr"></div>
+                                                        <span class="badge @(task.Priority == "High" ? "bg-danger-transparent" : task.Priority == "Medium" ? "bg-warning-transparent" : "bg-success-transparent")">
+                                                            @task.Priority
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <span class="d-block fw-medium">@task.DueTime</span>
+                                                    <span class="d-block fs-12 text-muted">Due Time</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="tab-pane border-0 active show" id="Upcoming" role="tabpanel">
+                                <ul class="list-unstyled task-list-tab">
+                                    <li>
+                                        <div class="d-flex align-items-start gap-2 flex-wrap">
+                                            <div class="mb-3 form-check">
+                                                <input type="checkbox" class="form-check-input" checked>
+                                            </div>
+                                            <div class="flex-fill">
+                                                <div class="d-flex align-items-center gap-2 mb-1">
+                                                    <a href="javascript:void(0);" class="crm-task-name">Prepare pitch
+                                                        for new client</a>
+                                                    <span
+                                                        class="avatar avatar-xs avatar-rounded bg-light border text-muted fw-semibold flex-shrink-0"
+                                                        data-bs-toggle="tooltip" title="Not Started"
+                                                        data-bs-original-title="Not Started">
+                                                        <i class="ti ti-info-circle fs-11"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-2 lh-1">
+                                                    <a href="javascript:void(0);" class="fs-12">#SPK - 107</a>
+                                                    <div class="vr"></div>
+                                                    <span class="text-muted mb-0 fs-12"><i
+                                                            class="ti ti-user me-1 fw-medium"></i>John Doe</span>
+                                                    <div class="vr"></div>
+                                                    <span class="badge bg-danger-transparent">High</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="d-block fw-medium">2025-02-16</span>
+                                                <span class="d-block fs-12 text-muted">Due Date</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex align-items-start gap-2 flex-wrap">
+                                            <div class="mb-3 form-check">
+                                                <input type="checkbox" class="form-check-input">
+                                            </div>
+                                            <div class="flex-fill">
+                                                <div class="d-flex align-items-center gap-2 mb-1">
+                                                    <a href="javascript:void(0);" class="crm-task-name">Team meeting for
+                                                        Q1 strategy</a>
+                                                    <span
+                                                        class="avatar avatar-xs avatar-rounded bg-light border text-muted fw-semibold flex-shrink-0"
+                                                        data-bs-toggle="tooltip" title="Not Started"
+                                                        data-bs-original-title="Not Started">
+                                                        <i class="ti ti-info-circle fs-11"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-2 lh-1">
+                                                    <a href="javascript:void(0);" class="fs-12">#SPK - 108</a>
+                                                    <div class="vr"></div>
+                                                    <span class="text-muted mb-0 fs-12"><i
+                                                            class="ti ti-user me-1 fw-medium"></i>Sarah Lee</span>
+                                                    <div class="vr"></div>
+                                                    <span class="badge bg-warning-transparent">Medium</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="d-block fw-medium">2025-02-18</span>
+                                                <span class="d-block fs-12 text-muted">Due Date</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex align-items-start gap-2 flex-wrap">
+                                            <div class="mb-3 form-check">
+                                                <input type="checkbox" class="form-check-input" checked>
+                                            </div>
+                                            <div class="flex-fill">
+                                                <div class="d-flex align-items-center gap-2 mb-1">
+                                                    <a href="javascript:void(0);" class="crm-task-name">Update CRM data
+                                                        for leads</a>
+                                                    <span
+                                                        class="avatar avatar-xs avatar-rounded bg-light border text-muted fw-semibold flex-shrink-0"
+                                                        data-bs-toggle="tooltip" title="Not Started"
+                                                        data-bs-original-title="Not Started">
+                                                        <i class="ti ti-info-circle fs-11"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-2 lh-1">
+                                                    <a href="javascript:void(0);" class="fs-12">#SPK - 109</a>
+                                                    <div class="vr"></div>
+                                                    <span class="text-muted mb-0 fs-12"><i
+                                                            class="ti ti-user me-1 fw-medium"></i>Mark Smith</span>
+                                                    <div class="vr"></div>
+                                                    <span class="badge bg-success-transparent">Low</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="d-block fw-medium">2025-02-20</span>
+                                                <span class="d-block fs-12 text-muted">Due Date</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex align-items-start gap-2 flex-wrap">
+                                            <div class="mb-3 form-check">
+                                                <input type="checkbox" class="form-check-input">
+                                            </div>
+                                            <div class="flex-fill">
+                                                <div class="d-flex align-items-center gap-2 mb-1">
+                                                    <a href="javascript:void(0);" class="crm-task-name">Conduct market
+                                                        research</a>
+                                                    <span
+                                                        class="avatar avatar-xs avatar-rounded bg-light border text-muted fw-semibold flex-shrink-0"
+                                                        data-bs-toggle="tooltip" title="Not Started"
+                                                        data-bs-original-title="Not Started">
+                                                        <i class="ti ti-info-circle fs-11"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-2 lh-1">
+                                                    <a href="javascript:void(0);" class="fs-12">#SPK - 110</a>
+                                                    <div class="vr"></div>
+                                                    <span class="text-muted mb-0 fs-12"><i
+                                                            class="ti ti-user me-1 fw-medium"></i>Emma Johnson</span>
+                                                    <div class="vr"></div>
+                                                    <span class="badge bg-warning-transparent">Medium</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="d-block fw-medium">2025-02-22</span>
+                                                <span class="d-block fs-12 text-muted">Due Date</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex align-items-start gap-2 flex-wrap">
+                                            <div class="mb-3 form-check">
+                                                <input type="checkbox" class="form-check-input">
+                                            </div>
+                                            <div class="flex-fill">
+                                                <div class="d-flex align-items-center gap-2 mb-1">
+                                                    <a href="javascript:void(0);" class="crm-task-name">Review contract
+                                                        terms for new partnership</a>
+                                                    <span
+                                                        class="avatar avatar-xs avatar-rounded bg-light border text-muted fw-semibold flex-shrink-0"
+                                                        data-bs-toggle="tooltip" title="Not Started"
+                                                        data-bs-original-title="Not Started">
+                                                        <i class="ti ti-info-circle fs-11"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-2 lh-1">
+                                                    <a href="javascript:void(0);" class="fs-12">#SPK - 111</a>
+                                                    <div class="vr"></div>
+                                                    <span class="text-muted mb-0 fs-12"><i
+                                                            class="ti ti-user me-1 fw-medium"></i>Chris Brown</span>
+                                                    <div class="vr"></div>
+                                                    <span class="badge bg-danger-transparent">High</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="d-block fw-medium">2025-02-25</span>
+                                                <span class="d-block fs-12 text-muted">Due Date</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex align-items-start gap-2 flex-wrap">
+                                            <div class="mb-3 form-check">
+                                                <input type="checkbox" class="form-check-input" checked>
+                                            </div>
+                                            <div class="flex-fill">
+                                                <div class="d-flex align-items-center gap-2 mb-1">
+                                                    <a href="javascript:void(0);" class="crm-task-name">Follow up with
+                                                        investors</a>
+                                                    <span
+                                                        class="avatar avatar-xs avatar-rounded bg-light border text-muted fw-semibold flex-shrink-0"
+                                                        data-bs-toggle="tooltip" title="Not Started"
+                                                        data-bs-original-title="Not Started">
+                                                        <i class="ti ti-info-circle fs-11"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-2 lh-1">
+                                                    <a href="javascript:void(0);" class="fs-12">#SPK - 111</a>
+                                                    <div class="vr"></div>
+                                                    <span class="text-muted mb-0 fs-12"><i
+                                                            class="ti ti-user me-1 fw-medium"></i>Anna Wilson</span>
+                                                    <div class="vr"></div>
+                                                    <span class="badge bg-danger-transparent">High</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="d-block fw-medium">2025-02-28</span>
+                                                <span class="d-block fs-12 text-muted">Due Date</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap">
+                            <div class="lead-title total">Total Leads</div>
+                            <div class="lead-title target">Leads Target</div>
+                        </div>
+                        <div class="progress-stacked progress-animate progress-sm my-3">
+                            <div class="progress-bar" role="progressbar" style="width: 68%" aria-valuenow="68"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 32%"
+                                aria-valuenow="32" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3 justify-content-between flex-wrap">
+                            <div><span class="text-success fw-medium me-2"><i
+                                        class="ti ti-arrow-up me-1"></i>3.25%</span> Compared to last week</div>
+                            <div><a href="javascript:void(0);" class="link-primary text-decoration-underline">Leads
+                                    Report <i class="ti ti-arrow-narrow-right"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-header">
+                <div class="card-title">
+                    Leads By Source
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="leads-source">
+                 <ApexChart TItem="PolarAreachart" Height="205" Options=PolarAreaChartOptions>
+                            <ApexPointSeries TItem="PolarAreachart" Items="PolarAreaItems"
+                                SeriesType="SeriesType.PolarArea" XValue="@(e => e.SeriesData)"
+                                YAggregate="@(e => e.Sum(e => e.SeriesValue))"
+                                Stroke="@(new ApexCharts.SeriesStroke {Color = "#fff", Width = 2 })" />
+                        </ApexChart>
+                </div>
+            </div>
+            <div class="card-footer p-0">
+                <ul class="list-group list-group-flush leads-source-list">
+                    @foreach (var source in LeadsBySourceData)
+                    {
+                        <li class="list-group-item">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="fw-semibold">@source.SourceName</div>
+                                <div class="lh-1 text-end">
+                                    <span class="d-block fw-semibold mb-0">
+                                        <span class="@source.TrendColor d-inline-flex align-items-center fw-medium me-2 fs-12">
+                                            <i class="@source.TrendIcon me-1"></i>@source.TrendValue
+                                        </span>@source.LeadsCount
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="row">
+    <div class="col-xxl-3">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Top Deals
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled crm-top-deals">
+                    @foreach (var deal in TopDealsData)
+                    {
+                        <li>
+                            <div class="d-flex align-items-top flex-wrap">
+                                <div class="me-2">
+                                    <span class="avatar avatar-sm avatar-rounded @(!deal.IsImage ? "bg-primary-transparent fw-semibold" : null)">
+                                        @if (deal.IsImage)
+                                        {
+                                            <img src="@deal.ImagePath" alt="">
+                                        }
+                                        else
+                                        {
+                                            @deal.Initials
+                                        }
+                                    </span>
+                                </div>
+                                <div class="flex-fill">
+                                    <p class="fw-semibold mb-0">@deal.Name</p>
+                                    <span class="text-muted fs-12">@deal.Email</span>
+                                </div>
+                                <div class="fw-semibold fs-15">@deal.Amount</div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Deals Statistics
+                </div>
+            </div>
+            <div class="card-body py-0">
+                <div id="deals-statistics">
+                <ApexChart TItem="Customers" Height=351 Options=CustomersChartOptions>
+                            <ApexPointSeries TItem="Customers"
+                                Items="customers"
+                                SeriesType="@SeriesType.Bar"
+                                Name="Last Week"
+                                XValue="@(e => e.Week)"
+                                YAggregate="@(e => e.Sum(e => e.Sessions))"/>
+                </ApexChart>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-6">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-header">
+                <div class="card-title">
+                    Leads Overview
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">Lead Name</th>
+                                <th scope="col">Company</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Source</th>
+                            </tr>
+                        </thead>
+                        <tbody>         
+                            @foreach (var lead in LeadsOverviewData)
+                            {
+                                <tr class="@(lead == LeadsOverviewData.Last() ? "border-bottom-0" : "")">
+                                    <td class="@(lead == LeadsOverviewData.Last() ? "border-bottom-0" : "")">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="lh-1">
+                                                <span class="avatar avatar-sm avatar-rounded">
+                                                    <img src="@lead.AvatarUrl" alt="">
+                                                </span>
+                                            </div>
+                                            <div>@lead.Name</div>
+                                        </div>
+                                    </td>
+                                    <td class="@(lead == LeadsOverviewData.Last() ? "border-bottom-0" : "")">@lead.Company</td>
+                                    <td class="@(lead == LeadsOverviewData.Last() ? "border-bottom-0" : "")">
+                                        <span class="badge @lead.StatusBadge">@lead.Status</span>
+                                    </td>
+                                    <td class="@(lead == LeadsOverviewData.Last() ? "border-bottom-0" : "")">
+                                        @lead.Source
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-2 -->
+
+<!-- Start:: row-3 -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-header">
+                <div class="card-title">
+                    Top Deals
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Deal ID
+                                </th>
+                                <th>
+                                    Deal Name
+                                </th>
+                                <th>
+                                    Client Name
+                                </th>
+                                <th>Deal Amount</th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Closing Date
+                                </th>
+                                <th>
+                                    Sales Rep
+                                </th>
+                                <th>
+                                    Priority
+                                </th>
+                                <th>
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var deal in TopDeals2)
+                            {
+                                <tr class="@(deal.DealId == "#SPK-1006" ? "" : "")">
+                                    <td class="@(deal.DealId == "#SPK-1006" ? "" : "")">
+                                        <a href="javascript:void(0);">@deal.DealId</a>
+                                    </td>
+                                    <td class="@(deal.DealId == "#SPK-1006" ? "" : "")">@deal.Title</td>
+                                    <td class="@(deal.DealId == "#SPK-1006" ? "" : "")">
+                                        <div class="d-flex align-items-center gap-2 position-relative">
+                                            <a href="javascript:void(0);" class="stretched-link"></a>
+                                            <div class="lh-1">
+                                                <span class="avatar avatar-sm avatar-rounded">
+                                                    <img src="@deal.CompanyLogo" alt="">
+                                                </span>
+                                            </div>
+                                            <div>@deal.CompanyName</div>
+                                        </div>
+                                    </td>
+                                    <td class="@(deal.DealId == "#SPK-1006" ? "" : "")">@deal.Amount</td>
+                                    <td class="@(deal.DealId == "#SPK-1006" ? "" : "")">
+                                        <span class="badge @deal.StatusClass">@deal.StatusText</span>
+                                    </td>
+                                    <td class="@(deal.DealId == "#SPK-1006" ? "" : "")">@deal.Date</td>
+                                    <td class="@(deal.DealId == "#SPK-1006" ? "" : "")">@deal.ContactPerson</td>
+                                    <td class="@(deal.DealId == "#SPK-1006" ? "" : "")">@deal.Priority</td>
+                                    <td class="@(deal.DealId == "#SPK-1006" ? "" : "")">
+                                        <div class="btn-list">
+                                            <button class="btn btn-icon btn-primary-light btn-sm">
+                                                <i class="ti ti-edit"></i>
+                                            </button>
+                                            <button class="btn btn-icon btn-danger-light btn-sm" @onclick="() => DeleteItem(deal)">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer border-top-0">
+                <div class="d-flex align-items-center flex-wrap">
+                    <div> Showing 6 Entries <i class="bi bi-arrow-right ms-2 fw-semibold"></i> </div>
+                    <div class="ms-auto">
+                        <nav aria-label="Page navigation" class="pagination-style-2">
+                            <ul class="pagination mb-0 flex-wrap">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="javascript:void(0);">
+                                        Prev
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">2</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0);">
+                                        <i class="bi bi-three-dots"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="javascript:void(0);">17</a></li>
+                                <li class="page-item">
+                                    <a class="page-link text-primary" href="javascript:void(0);">
+                                        next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-3 -->
+
+
+
+<!-- Charts -->
+@code{
+    private List<SalesStatistic> salesstatistic { get; set; } = SalesStatisticData.GetSalesStatistic();
+
+    private ApexChartOptions<SalesStatistic> SalesStatisticChartOptions { get; set; } = new ApexChartOptions<SalesStatistic>
+    {
+              
+        Chart = new () {
+            Height = 318,
+            Toolbar = new ApexCharts.Toolbar {
+                Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false,Pan = false, Reset = false,  Download = false},
+            },
+            Animations = new(){
+                Speed = 500
+            }, 
+        },
+        Colors = new List<string> {"var(--primary-color)", "rgba(255, 73, 205)"},
+        DataLabels = new(){
+            Enabled = false
+        },
+        Grid = new(){
+            BorderColor = "#f1f1f1",
+            StrokeDashArray = 3
+        },
+        Stroke = new Stroke {
+            Curve = Curve.Smooth,
+            Width = [0,2]
+        },
+        PlotOptions = new(){
+            Bar = new(){
+                Horizontal = false,
+                ColumnWidth ="30%",
+                BorderRadius = 3
+            }
+        },
+        Xaxis = new(){
+            AxisTicks = new(){
+                Show = false
+            }
+        },
+        Yaxis = new List<YAxis>() {
+                new YAxis {
+                    Labels = new YAxisLabels {
+                        Formatter= @"function (value) {
+                            return '$' + value;
+                            }",
+                    },
+                },
+        },
+        Tooltip = new() {
+                Y = new() {
+                    Formatter = @"function (e) {
+                    return void 0 !== e ? '$' + e.toFixed(0) : e;
+                }",
+                    },
+        },
+        Legend = new Legend{
+                Show = true,
+                CustomLegendItems = ["Revenue", "Profit"],
+                InverseOrder = true
+        }, 
+         Title = new Title{
+                Align = ApexCharts.Align.Left,
+                Style = new TitleStyle {
+                    FontSize= ".8125rem",
+                    FontWeight= "semibold",
+                    Color= "#8c9097"
+                },
+        },
+        Markers = new(){
+            Hover = new(){
+                SizeOffset = 5
+            }
+        }
+       
+    };
+
+
+    public class SalesStatistic {
+        public string? Month { get; set; }
+        public decimal Revenue { get; set; }
+        public decimal Profit { get; set; }
+    };
+
+    public static class SalesStatisticData {
+        public static List<SalesStatistic> GetSalesStatistic() {
+            return new List<SalesStatistic>
+            {  
+                new SalesStatistic { Month = "Jan",  Revenue = 161, Profit = 118},
+                new SalesStatistic { Month = "Feb",  Revenue = 255, Profit = 410},
+                new SalesStatistic { Month = "Mar",  Revenue = 322, Profit = 225},
+                new SalesStatistic { Month = "Apr",  Revenue = 750, Profit = 820},
+                new SalesStatistic { Month = "May",  Revenue = 353, Profit = 235},
+                new SalesStatistic { Month = "Jun",  Revenue = 200, Profit = 115},
+                new SalesStatistic { Month = "Jul",  Revenue = 415, Profit = 620},
+                new SalesStatistic { Month = "Aug",  Revenue = 225, Profit = 445},
+                new SalesStatistic { Month = "Sep",  Revenue = 673, Profit = 525},
+                new SalesStatistic { Month = "Oct",  Revenue = 413, Profit = 438},
+                new SalesStatistic { Month = "Nov",  Revenue = 504, Profit = 640},
+                new SalesStatistic { Month = "Dec",  Revenue = 441, Profit = 325},
+            };
+        }
+    }
+
+    //  Leads By Source start//
+    private List<PolarAreachart> PolarAreaItems { get; set; } = DataPolarAreachart.PolarAreaItems();
+    private ApexChartOptions<PolarAreachart> PolarAreaChartOptions { get; set; } = new();
+    public static class DataPolarAreachart
+    {
+        public static List<PolarAreachart> PolarAreaItems()
+        {
+            List<PolarAreachart> PolarAreaItems = new List<PolarAreachart>
+            {
+                new PolarAreachart { SeriesValue = 14, SeriesData = "Organic Search" },
+                new PolarAreachart { SeriesValue = 23, SeriesData = "Paid Search" },
+                new PolarAreachart { SeriesValue = 21, SeriesData = "Direct Traffic" },
+                new PolarAreachart { SeriesValue = 17, SeriesData = "Social Media" },
+                new PolarAreachart { SeriesValue = 15, SeriesData = "Referrals" },
+                new PolarAreachart { SeriesValue = 10, SeriesData = "Others" },
+            };
+            return PolarAreaItems;
+        }
+    }
+    public class PolarAreachart
+    {
+        public string? SeriesData { get; set; }
+        public int SeriesValue { get; set; }
+    }
+    //  Leads By Source end //
+
+    //Deals Statistics start //
+
+    private List<Customers> customers { get; set; } = CustomersData.GetCustomers();
+    private ApexChartOptions<Customers> CustomersChartOptions { get; set; } = new();
+    public class Customers {
+        public string? Week { get; set; }
+        public decimal Sessions { get; set; }
+        
+    } ;
+    public static class CustomersData {
+        public static List<Customers> GetCustomers() {
+            
+            List<Customers> customers = new List<Customers>
+            {  
+                new Customers { Week = "New Deal", Sessions = 400},
+                new Customers { Week = "Qualified Deal", Sessions = 430},
+                new Customers { Week = "Renewal Deal", Sessions = 470},
+                new Customers { Week = "Referral Deal", Sessions = 540},
+                new Customers { Week = "Won Deal", Sessions = 1100},
+                new Customers { Week = "Lost Deal", Sessions = 1200},
+                new Customers { Week = "Neotiation", Sessions = 1380},
+            };
+            return customers;
+        }
+    }
+
+    //Deals Statistics end //
+
+    protected override void OnInitialized() {
+        PolarAreaChartOptions = new ApexChartOptions<PolarAreachart>
+        {
+            Chart = new(){
+               Height = 205
+            },
+           Stroke = new(){
+               Colors = new List<string> {"#fff"}
+            },
+           Fill = new(){
+               Opacity =1
+            },
+            Legend = new(){
+            Show = false,
+                Position = ApexCharts.LegendPosition.Bottom,
+                ItemMargin = new(){
+                Horizontal = 5,
+                Vertical = 5
+                },
+       },
+        Colors = new List<string> {"var(--primary-color)", "rgb(255, 73, 205)", "rgb(50, 212, 132)", "rgb(250, 129, 40)", "rgb(0, 201, 255)", "rgb(253, 175, 34)"}
+
+        };
+        CustomersChartOptions = new ApexChartOptions<Customers> {
+            Chart = new () {
+                Toolbar = new ApexCharts.Toolbar {
+                    Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false,Pan = false, Reset = false,  Download = false},
+                },
+                FontFamily = "Poppins, Arial, sans-serif",
+            },
+            Grid = new Grid {
+                BorderColor = "#f2f6f7",
+            },
+            PlotOptions = new PlotOptions {
+                Bar = new PlotOptionsBar {
+                    Horizontal = true,
+                    BarHeight = "30%",
+                    BorderRadius = 2,
+                }
+            },
+            Colors = new List<string> {"var(--primary-color)"},
+            DataLabels = new DataLabels {
+                Enabled = false,
+            },
+        };
+    }
+}
+
+
+@code{
+    //Top Deals 
+    public class TopDealItem
+    {
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? Amount { get; set; }
+        public string? ImagePath { get; set; }
+        public string? Initials { get; set; }
+        public bool IsImage { get; set; }
+    }
+
+    private List<TopDealItem> TopDealsData = new()
+    {
+        new TopDealItem { Name = "John Doe", Email = "jhondoe@example.com", Amount = "$2,893", ImagePath = "../assets/images/faces/10.jpg", IsImage = true },
+        new TopDealItem { Name = "Sarah Lee", Email = "sarah.lee@gmail.com", Amount = "$4,289", ImagePath = "../assets/images/faces/1.jpg", IsImage = true },
+        new TopDealItem { Name = "Mark Smith", Email = "mark.smith23@gmail.com", Amount = "$6,347", ImagePath = "../assets/images/faces/12.jpg", IsImage = true },
+        new TopDealItem { Name = "Emma Johnson", Email = "emmajhonson@gmail.com", Amount = "$3,894", ImagePath = "../assets/images/faces/6.jpg", IsImage = true },
+        new TopDealItem { Name = "Chris Brown", Email = "chrisbrown214@gmail.com", Amount = "$2,679", Initials = "CB", IsImage = false },
+        new TopDealItem { Name = "Anna Wilson", Email = "annawilson238@gmail.com", Amount = "$2,679", ImagePath = "../assets/images/faces/3.jpg", IsImage = true },
+    };
+    // Top Deals end
+
+    //Top Deals2
+    public class TopDealItem2
+    {
+        public string? DealId { get; set; }
+        public string? Title { get; set; }
+        public string? CompanyLogo { get; set; }
+        public string? CompanyName { get; set; }
+        public string? Amount { get; set; }
+        public string? StatusText { get; set; }
+        public string? StatusClass { get; set; }
+        public string? Date { get; set; }
+        public string? ContactPerson { get; set; }
+        public string? Priority { get; set; }
+    }
+    private List<TopDealItem2> TopDeals2 = new()
+    {
+        new() { DealId = "#SPK-1001", Title = "Enterprise Package", CompanyLogo = "../assets/images/company-logos/1.png", CompanyName = "Acme Corp", Amount = "$50,000", StatusText = "In Progress", StatusClass = "bg-primary-transparent", Date = "2025-02-25", ContactPerson = "John Doe", Priority = "High" },
+        new() { DealId = "#SPK-1002", Title = "Annual Contract", CompanyLogo = "../assets/images/company-logos/2.png", CompanyName = "Beta Ltd", Amount = "$75,000", StatusText = "Closed Won", StatusClass = "bg-success-transparent", Date = "2025-02-15", ContactPerson = "Sarah Lee", Priority = "High" },
+        new() { DealId = "#SPK-1003", Title = "Software Upgrade", CompanyLogo = "../assets/images/company-logos/3.png", CompanyName = "Gamma LLC", Amount = "$30,000", StatusText = "Closed Lost", StatusClass = "bg-danger-transparent", Date = "2025-01-30", ContactPerson = "Mark Smith", Priority = "Medium" },
+        new() { DealId = "#SPK-1004", Title = "Premium Services", CompanyLogo = "../assets/images/company-logos/4.png", CompanyName = "Delta Ltd", Amount = "$60,000", StatusText = "In Progress", StatusClass = "bg-primary-transparent", Date = "2025-03-05", ContactPerson = "Emma Johnson", Priority = "High" },
+        new() { DealId = "#SPK-1005", Title = "Subscription Plan", CompanyLogo = "../assets/images/company-logos/5.png", CompanyName = "Epsilon Inc", Amount = "$40,000", StatusText = "Closed Won", StatusClass = "bg-success-transparent", Date = "2025-02-10", ContactPerson = "Chris Brown", Priority = "Medium" },
+        new() { DealId = "#SPK-1006", Title = "Custom Integration", CompanyLogo = "../assets/images/company-logos/6.png", CompanyName = "Zeta Solutions", Amount = "$55,000", StatusText = "Proposal Sent", StatusClass = "bg-warning-transparent", Date = "2025-02-20", ContactPerson = "Anna Wilson", Priority = "High" },
+    };
+    private void DeleteItem(TopDealItem2 deal)
+    {
+        TopDeals2.Remove(deal);
+    }
+    //Top Deals2
+
+    //Tasks List
+    public class TaskItem
+    {
+        public string Title { get; set; } = string.Empty;
+        public string TicketId { get; set; } = string.Empty;
+        public string Assignee { get; set; } = string.Empty;
+        public string Priority { get; set; } = string.Empty;
+        public string DueTime { get; set; } = string.Empty;
+        public bool IsCompleted { get; set; }
+    }
+    List<TaskItem> TasksListData = new()
+    {
+        new TaskItem { Title = "Follow up with Acme Corp", TicketId = "#SPK - 101", Assignee = "John Doe", Priority = "High", DueTime = "11:00 AM", IsCompleted = true },
+        new TaskItem { Title = "Send proposal to Beta Industries", TicketId = "#SPK - 102", Assignee = "Sarah Lee", Priority = "Medium", DueTime = "2:00 PM", IsCompleted = false },
+        new TaskItem { Title = "Call Gamma LLC for contract renewal", TicketId = "#SPK - 103", Assignee = "Mark Smith", Priority = "High", DueTime = "10:30 AM", IsCompleted = true },
+        new TaskItem { Title = "Schedule meeting with Delta Ltd.", TicketId = "#SPK - 104", Assignee = "Emma Johnson", Priority = "Low", DueTime = "4:00 PM", IsCompleted = false },
+        new TaskItem { Title = "Review Epsilon Inc. payment terms", TicketId = "#SPK - 105", Assignee = "Chris Brown", Priority = "High", DueTime = "5:30 PM", IsCompleted = false },
+        new TaskItem { Title = "Update lead status in CRM", TicketId = "#SPK - 106", Assignee = "Anna Wilson", Priority = "Medium", DueTime = "1:00 PM", IsCompleted = true }
+    };
+
+    // Leads By Source
+    public class LeadSource
+    {
+        public string? SourceName { get; set; } = string.Empty;
+        public string? TrendIcon { get; set; } = "ti ti-arrow-up"; // or "ti ti-arrow-down"
+        public string? TrendColor { get; set; } = "text-success";  // or "text-danger"
+        public string? TrendValue { get; set; } = string.Empty;
+        public string? LeadsCount { get; set; }
+    }
+    List<LeadSource> LeadsBySourceData = new()
+    {
+        new LeadSource { SourceName = "Organic Search", TrendIcon = "ti ti-arrow-up", TrendColor = "text-success", TrendValue = "0.64%", LeadsCount = "1,754" },
+        new LeadSource { SourceName = "Paid Search", TrendIcon = "ti ti-arrow-down", TrendColor = "text-danger", TrendValue = "2.75%", LeadsCount = "1,234" },
+        new LeadSource { SourceName = "Direct Traffic", TrendIcon = "ti ti-arrow-up", TrendColor = "text-success", TrendValue = "1.54%", LeadsCount = "878" },
+        new LeadSource { SourceName = "Social Media", TrendIcon = "ti ti-arrow-up", TrendColor = "text-success", TrendValue = "1.54%", LeadsCount = "270" },
+        new LeadSource { SourceName = "Referrals", TrendIcon = "ti ti-arrow-up", TrendColor = "text-success", TrendValue = "1.54%", LeadsCount = "878" },
+        new LeadSource { SourceName = "Others", TrendIcon = "ti ti-arrow-up", TrendColor = "text-success", TrendValue = "1.54%", LeadsCount = "270" },
+    };
+
+    // Leads Overview
+    public class LeadOverview
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Company { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+        public string StatusBadge { get; set; } = "bg-primary"; // Bootstrap badge class
+        public string Source { get; set; } = string.Empty;
+        public string AvatarUrl { get; set; } = "../assets/images/faces/11.jpg"; // Default avatar
+    }
+    List<LeadOverview> LeadsOverviewData = new()
+    {
+        new LeadOverview { Name = "John Carter", Company = "Acme Corp", Status = "New", StatusBadge = "bg-primary", Source = "Website Form" },
+        new LeadOverview { Name = "Lisa Brown", Company = "Beta Ltd", Status = "Contacted", StatusBadge = "bg-info", Source = "Referral" },
+        new LeadOverview { Name = "Michael Green", Company = "Gamma LLC", Status = "Proposal Sent", StatusBadge = "bg-warning", Source = "LinkedIn" },
+        new LeadOverview { Name = "Sophia Wilson", Company = "Delta Enterprises", Status = "Negotiation", StatusBadge = "bg-secondary", Source = "Cold Call" },
+        new LeadOverview { Name = "David Miller", Company = "Epsilon Inc.", Status = "Won", StatusBadge = "bg-success", Source = "Email Campaign" }
+    };
+
+
+}

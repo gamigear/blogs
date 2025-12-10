@@ -1,0 +1,373 @@
+@page "/profilesettings"
+@using Soenneker.Blazor.TomSelect
+@using Soenneker.Blazor.TomSelect.Configuration
+@using Soenneker.Blazor.TomSelect.Enums
+
+
+
+
+<!-- Start::page-header -->
+<div class="page-header-breadcrumb mb-3">
+    <div class="d-flex align-center justify-content-between flex-wrap">
+        <h1 class="page-title fw-medium fs-18 mb-0">Profile Settings</h1>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Pages</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Profile Settings</li>
+        </ol>
+    </div>
+</div>
+<!-- End::page-header -->
+
+<!-- Start::row-1 -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Account
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <div class="row gy-3">
+                    <div class="col-xl-12">
+                        <div class="d-flex align-items-start flex-wrap gap-3">
+                            <div>
+                                <span class="avatar avatar-xxl">
+                                    <img src="../assets/images/faces/9.jpg" alt="">
+                                </span>
+                            </div>
+                            <div>
+                                <span class="fw-medium d-block mb-2">Profile Picture</span>
+                                <div class="btn-list mb-1">
+                                    <button class="btn btn-sm btn-primary btn-wave"><i
+                                            class="ri-upload-2-line me-1"></i>Change Image</button>
+                                    <button class="btn btn-sm btn-light btn-wave"><i
+                                            class="ri-delete-bin-line me-1"></i>Remove</button>
+                                </div>
+                                <span class="d-block fs-12 text-muted">Use JPEG, PNG, or GIF. Best size: 200x200 pixels.
+                                    Keep it under 5MB</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <label for="profile-user-name" class="form-label">User Name :</label>
+                        <input type="text" class="form-control" id="profile-user-name" value=""
+                            placeholder="Enter Name">
+                    </div>
+                    <div class="col-xl-6">
+                        <label for="profile-email" class="form-label">Email :</label>
+                        <input type="email" class="form-control" id="profile-email" value="" placeholder="Enter Email">
+                    </div>
+                    <div class="col-xl-6">
+                        <label for="profile-phn-no" class="form-label">Phone No :</label>
+                        <input type="text" class="form-control" id="profile-phn-no" value="" placeholder="Enter Number">
+                    </div>
+                    <div class="col-xl-3">
+                        <label for="profile-age" class="form-label">Age :</label>
+                        <input type="number" class="form-control" id="profile-age" value="" placeholder="Enter Age">
+                    </div>
+                    <div class="col-xl-3">
+                        <label for="profile-designation" class="form-label">Designation :</label>
+                        <input type="text" class="form-control" id="profile-designation" value=""
+                            placeholder="Enter Designation">
+                    </div>
+                    <div class="col-xl-12">
+                        <label for="profile-address" class="form-label">Address :</label>
+                        <textarea class="form-control" id="profile-address" rows="3"></textarea>
+                    </div>
+                    <div class="col-xl-6">
+                        <label for="profile-language" class="form-label">Language :</label>
+                        @if (isRendered)
+                        {
+                            <TomSelect TItem="SelectItem" Items="_selectedItems" TType="string" Multiple="false" @bind-Value="_selectedValue" Data="_languageOptions" TextField="@(item => item.Name)" ValueField="@(item => item.Id)" Placeholder="Search" Configuration="_configuration" />
+                        }
+                    </div>
+                    <div class="col-xl-6">
+                        <label for="profile-timezone" class="form-label">Timezone :</label>
+                        @if (isRendered)
+                        {
+                            <TomSelect TItem="SelectItem" Items="_selectedItems" TType="string" Multiple="false" @bind-Value="_selectedValue" Data="_timezoneOptions" TextField="@(item => item.Name)" ValueField="@(item => item.Id)" Placeholder="Search" Configuration="_configuration" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Change Password
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row gy-3">
+                    <div class="col-xl-6">
+                        <label for="Password" class="form-label">New Password</label>
+                        <input type="text" class="form-control" id="Password" value="" placeholder="Enter Password">
+                    </div>
+                    <div class="col-xl-6">
+                        <label for="confirm-password" class="form-label">Confirm Password</label>
+                        <input type="text" class="form-control" id="confirm-password" value=""
+                            placeholder="Confirm Password">
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary float-end">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Security Settings
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-sm-flex d-block align-items-top justify-content-between">
+                    <div class="w-50">
+                        <p class="fs-14 mb-1 fw-medium">Login Verification</p>
+                        <p class="fs-12 mb-0 text-muted">This helps protect accounts from unauthorized access, even if a
+                            password is compromised.</p>
+                    </div>
+                    <a href="javascript:void(0);" class="link-primary text-decoration-underline">Set Up Verification</a>
+                </div>
+                <div class="d-sm-flex d-block align-items-top justify-content-between mt-3">
+                    <div class="w-50">
+                        <p class="fs-14 mb-1 fw-medium">Password Verification</p>
+                        <p class="fs-12 mb-0 text-muted">This additional step helps ensure that the person attempting to
+                            modify account details is the legitimate account owner.</p>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="personal-details">
+                        <label class="form-check-label" for="personal-details">
+                            Require Personal Details
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="btn-list float-end">
+                    <button class="btn btn-danger btn-wave">Deactivate Account</button>
+                    <button class="btn btn-light btn-wave">Restore Defaults</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Notifications
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row gx-5 gy-3">
+                    <div class="col-xl-12">
+                        <p class="fs-14 mb-1 fw-medium">Configure Notifications</p>
+                        <p class="fs-12 mb-0 text-muted">By configuring notifications, users can tailor their experience
+                            to receive alerts for the types of events that matter to them.</p>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="d-flex align-items-top justify-content-between mt-sm-0 mt-3">
+                            <div class="mail-notification-settings">
+                                <p class="fs-14 mb-1 fw-medium">In-App Notifications</p>
+                                <p class="fs-12 mb-0 text-muted">Alerts that appear within the application interface.
+                                </p>
+                            </div>
+                            <div class="toggle toggle-success on mb-0 float-sm-end" id="in-app-notifications">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-top justify-content-between mt-3">
+                            <div class="mail-notification-settings">
+                                <p class="fs-14 mb-1 fw-medium">Email Notifications</p>
+                                <p class="fs-12 mb-0 text-muted">Messages sent to the user's email address.</p>
+                            </div>
+                            <div class="toggle toggle-success on mb-0 float-sm-end" id="email-notifications">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-top justify-content-between mt-3">
+                            <div class="mail-notification-settings">
+                                <p class="fs-14 mb-1 fw-medium">Push Notifications</p>
+                                <p class="fs-12 mb-0 text-muted">Alerts sent to the user's mobile device or desktop.</p>
+                            </div>
+                            <div class="toggle toggle-success mb-0 float-sm-end" id="push-notifications">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-top justify-content-between mt-3">
+                            <div class="mail-notification-settings">
+                                <p class="fs-14 mb-1 fw-medium">SMS Notifications</p>
+                                <p class="fs-12 mb-0 text-muted">Text messages sent to the user's mobile phone.</p>
+                            </div>
+                            <div class="toggle toggle-success on mb-0 float-sm-end" id="sms-notifications">
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End::row-1 -->
+
+<script>
+    setTimeout(() => {
+        /* toggle switches */
+        let customSwitch = document.querySelectorAll(".toggle");
+        customSwitch.forEach((e) =>
+            e.addEventListener("click", () => {
+                e.classList.toggle("on");
+            })
+        );
+        /* toggle switches */
+    }, 100);
+</script>
+
+
+@code{
+    
+    private bool isRendered = false;  
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            isRendered = true;
+            await Task.Delay(0);
+            StateHasChanged(); 
+        }
+    }
+
+    private TomSelect<SelectItem, string> _selectedValue = default!;
+    private List<SelectItem>? _languageOptions;      
+    private List<SelectItem>? _timezoneOptions;      
+    private List<SelectItem> _selectedItems = new List<SelectItem>();    
+    public class SelectItem
+    {
+        public string? Id { get; set; }
+        public string? Name { get; set; }
+        public bool Selected { get; set; }
+    }
+
+    
+    private readonly TomSelectConfiguration _configuration = new()
+    {
+        Plugins = new List<TomSelectPluginType> { TomSelectPluginType.DropdownInput, TomSelectPluginType.NoBackspaceDelete }
+    };
+    private readonly TomSelectConfiguration _configuration2 = new()
+    {
+        Plugins = new List<TomSelectPluginType> { TomSelectPluginType.RemoveButton, TomSelectPluginType.NoBackspaceDelete }
+    };
+    protected override void OnInitialized()
+    {
+
+        _languageOptions = new List<SelectItem>
+        {
+            new SelectItem { Id = "0", Name = "Us English" },
+            new SelectItem { Id = "1", Name = "Arabic" },
+            new SelectItem { Id = "2", Name = "Korean" },
+        };
+
+        _timezoneOptions = new List<SelectItem>
+        {
+            new SelectItem { Id = "Pacific/Midway", Name = "(GMT-11:00) Midway Island, Samoa" },
+            new SelectItem { Id = "America/Adak", Name = "(GMT-10:00) Hawaii-Aleutian" },
+            new SelectItem { Id = "Etc/GMT+10", Name = "(GMT-10:00) Hawaii" },
+            new SelectItem { Id = "Pacific/Marquesas", Name = "(GMT-09:30) Marquesas Islands" },
+            new SelectItem { Id = "Pacific/Gambier", Name = "(GMT-09:00) Gambier Islands" },
+            new SelectItem { Id = "America/Anchorage", Name = "(GMT-09:00) Alaska" },
+            new SelectItem { Id = "America/Ensenada", Name = "(GMT-08:00) Tijuana, Baja California" },
+            new SelectItem { Id = "Etc/GMT+8", Name = "(GMT-08:00) Pitcairn Islands" },
+            new SelectItem { Id = "America/Los_Angeles", Name = "(GMT-08:00) Pacific Time (US & Canada)" },
+            new SelectItem { Id = "America/Denver", Name = "(GMT-07:00) Mountain Time (US & Canada)" },
+            new SelectItem { Id = "America/Chihuahua", Name = "(GMT-07:00) Chihuahua, La Paz, Mazatlan" },
+            new SelectItem { Id = "America/Dawson_Creek", Name = "(GMT-07:00) Arizona" },
+            new SelectItem { Id = "America/Belize", Name = "(GMT-06:00) Saskatchewan, Central America" },
+            new SelectItem { Id = "America/Cancun", Name = "(GMT-06:00) Guadalajara, Mexico City, Monterrey" },
+            new SelectItem { Id = "Chile/EasterIsland", Name = "(GMT-06:00) Easter Island" },
+            new SelectItem { Id = "America/Chicago", Name = "(GMT-06:00) Central Time (US & Canada)" },
+            new SelectItem { Id = "America/New_York", Name = "(GMT-05:00) Eastern Time (US & Canada)" },
+            new SelectItem { Id = "America/Havana", Name = "(GMT-05:00) Cuba" },
+            new SelectItem { Id = "America/Bogota", Name = "(GMT-05:00) Bogota, Lima, Quito, Rio Branco" },
+            new SelectItem { Id = "America/Caracas", Name = "(GMT-04:30) Caracas" },
+            new SelectItem { Id = "America/Santiago", Name = "(GMT-04:00) Santiago" },
+            new SelectItem { Id = "America/La_Paz", Name = "(GMT-04:00) La Paz" },
+            new SelectItem { Id = "Atlantic/Stanley", Name = "(GMT-04:00) Faukland Islands" },
+            new SelectItem { Id = "America/Campo_Grande", Name = "(GMT-04:00) Brazil" },
+            new SelectItem { Id = "America/Goose_Bay", Name = "(GMT-04:00) Atlantic Time (Goose Bay)" },
+            new SelectItem { Id = "America/Glace_Bay", Name = "(GMT-04:00) Atlantic Time (Canada)" },
+            new SelectItem { Id = "America/St_Johns", Name = "(GMT-03:30) Newfoundland" },
+            new SelectItem { Id = "America/Araguaina", Name = "(GMT-03:00) UTC-3" },
+            new SelectItem { Id = "America/Montevideo", Name = "(GMT-03:00) Montevideo" },
+            new SelectItem { Id = "America/Miquelon", Name = "(GMT-03:00) Miquelon, St. Pierre" },
+            new SelectItem { Id = "America/Godthab", Name = "(GMT-03:00) Greenland" },
+            new SelectItem { Id = "America/Argentina/Buenos_Aires", Name = "(GMT-03:00) Buenos Aires" },
+            new SelectItem { Id = "America/Sao_Paulo", Name = "(GMT-03:00) Brasilia" },
+            new SelectItem { Id = "America/Noronha", Name = "(GMT-02:00) Mid-Atlantic" },
+            new SelectItem { Id = "Atlantic/Cape_Verde", Name = "(GMT-01:00) Cape Verde Is." },
+            new SelectItem { Id = "Atlantic/Azores", Name = "(GMT-01:00) Azores" },
+            new SelectItem { Id = "Europe/Belfast", Name = "(GMT) Greenwich Mean Time : Belfast" },
+            new SelectItem { Id = "Europe/Dublin", Name = "(GMT) Greenwich Mean Time : Dublin" },
+            new SelectItem { Id = "Europe/Lisbon", Name = "(GMT) Greenwich Mean Time : Lisbon" },
+            new SelectItem { Id = "Europe/London", Name = "(GMT) Greenwich Mean Time : London" },
+            new SelectItem { Id = "Africa/Abidjan", Name = "(GMT) Monrovia, Reykjavik" },
+            new SelectItem { Id = "Europe/Amsterdam", Name = "(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna" },
+            new SelectItem { Id = "Europe/Belgrade", Name = "(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague" },
+            new SelectItem { Id = "Europe/Brussels", Name = "(GMT+01:00) Brussels, Copenhagen, Madrid, Paris" },
+            new SelectItem { Id = "Africa/Algiers", Name = "(GMT+01:00) West Central Africa" },
+            new SelectItem { Id = "Africa/Windhoek", Name = "(GMT+01:00) Windhoek" },
+            new SelectItem { Id = "Asia/Beirut", Name = "(GMT+02:00) Beirut" },
+            new SelectItem { Id = "Africa/Cairo", Name = "(GMT+02:00) Cairo" },
+            new SelectItem { Id = "Asia/Gaza", Name = "(GMT+02:00) Gaza" },
+            new SelectItem { Id = "Africa/Blantyre", Name = "(GMT+02:00) Harare, Pretoria" },
+            new SelectItem { Id = "Asia/Jerusalem", Name = "(GMT+02:00) Jerusalem" },
+            new SelectItem { Id = "Europe/Minsk", Name = "(GMT+02:00) Minsk" },
+            new SelectItem { Id = "Asia/Damascus", Name = "(GMT+02:00) Syria" },
+            new SelectItem { Id = "Europe/Moscow", Name = "(GMT+03:00) Moscow, St. Petersburg, Volgograd" },
+            new SelectItem { Id = "Africa/Addis_Ababa", Name = "(GMT+03:00) Nairobi" },
+            new SelectItem { Id = "Asia/Tehran", Name = "(GMT+03:30) Tehran" },
+            new SelectItem { Id = "Asia/Dubai", Name = "(GMT+04:00) Abu Dhabi, Muscat" },
+            new SelectItem { Id = "Asia/Yerevan", Name = "(GMT+04:00) Yerevan" },
+            new SelectItem { Id = "Asia/Kabul", Name = "(GMT+04:30) Kabul" },
+            new SelectItem { Id = "Asia/Yekaterinburg", Name = "(GMT+05:00) Ekaterinburg" },
+            new SelectItem { Id = "Asia/Tashkent", Name = "(GMT+05:00) Tashkent" },
+            new SelectItem { Id = "Asia/Kolkata", Name = "(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi" },
+            new SelectItem { Id = "Asia/Katmandu", Name = "(GMT+05:45) Kathmandu" },
+            new SelectItem { Id = "Asia/Dhaka", Name = "(GMT+06:00) Astana, Dhaka" },
+            new SelectItem { Id = "Asia/Novosibirsk", Name = "(GMT+06:00) Novosibirsk" },
+            new SelectItem { Id = "Asia/Rangoon", Name = "(GMT+06:30) Yangon (Rangoon)" },
+            new SelectItem { Id = "Asia/Bangkok", Name = "(GMT+07:00) Bangkok, Hanoi, Jakarta" },
+            new SelectItem { Id = "Asia/Krasnoyarsk", Name = "(GMT+07:00) Krasnoyarsk" },
+            new SelectItem { Id = "Asia/Hong_Kong", Name = "(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi" },
+            new SelectItem { Id = "Asia/Irkutsk", Name = "(GMT+08:00) Irkutsk, Ulaan Bataar" },
+            new SelectItem { Id = "Australia/Perth", Name = "(GMT+08:00) Perth" },
+            new SelectItem { Id = "Australia/Eucla", Name = "(GMT+08:45) Eucla" },
+            new SelectItem { Id = "Asia/Tokyo", Name = "(GMT+09:00) Osaka, Sapporo, Tokyo" },
+            new SelectItem { Id = "Asia/Seoul", Name = "(GMT+09:00) Seoul" },
+            new SelectItem { Id = "Asia/Yakutsk", Name = "(GMT+09:00) Yakutsk" },
+            new SelectItem { Id = "Australia/Adelaide", Name = "(GMT+09:30) Adelaide" },
+            new SelectItem { Id = "Australia/Darwin", Name = "(GMT+09:30) Darwin" },
+            new SelectItem { Id = "Australia/Brisbane", Name = "(GMT+10:00) Brisbane" },
+            new SelectItem { Id = "Australia/Hobart", Name = "(GMT+10:00) Hobart" },
+            new SelectItem { Id = "Asia/Vladivostok", Name = "(GMT+10:00) Vladivostok" },
+            new SelectItem { Id = "Australia/Lord_Howe", Name = "(GMT+10:30) Lord Howe Island" },
+            new SelectItem { Id = "Etc/GMT-11", Name = "(GMT+11:00) Solomon Is., New Caledonia" },
+            new SelectItem { Id = "Asia/Magadan", Name = "(GMT+11:00) Magadan" },
+            new SelectItem { Id = "Pacific/Norfolk", Name = "(GMT+11:30) Norfolk Island" },
+            new SelectItem { Id = "Asia/Anadyr", Name = "(GMT+12:00) Anadyr, Kamchatka" },
+            new SelectItem { Id = "Pacific/Auckland", Name = "(GMT+12:00) Auckland, Wellington" },
+            new SelectItem { Id = "Etc/GMT-12", Name = "(GMT+12:00) Fiji, Kamchatka, Marshall Is." },
+            new SelectItem { Id = "Pacific/Chatham", Name = "(GMT+12:45) Chatham Islands" },
+            new SelectItem { Id = "Pacific/Tongatapu", Name = "(GMT+13:00) Nuku'alofa" },
+            new SelectItem { Id = "Pacific/Kiritimati", Name = "(GMT+14:00) Kiritimati" }
+        };
+        _selectedItems = _timezoneOptions.Take(1).ToList();
+    }
+
+
+}

@@ -1,0 +1,31 @@
+::ng-deep {
+    .main-dropdown-form-demo {
+        .dropdown-toggle::after,
+        &.dropup .dropdown-toggle::after {
+            display: none;
+        }
+    }
+    .ng-dropdown-panel{
+        z-index: 3 !important;
+    }
+    .btn-equalizer {
+        padding: 8px !important;
+        font-size: 0.7rem !important;
+    }
+    .rtl{
+        .main-dropdown-form-demo{
+            .dropdown-menu{
+                transform: translate3d(1271.5px, -44px, 0px) !important;
+            }
+        }
+    }
+    .input-equalizer{
+        margin-top: 1px;
+        input{
+            padding: 7px;
+        }
+    }
+    .modal-dialog{
+       width: 400px !important;
+    }
+}

@@ -1,0 +1,22 @@
+---
+const { pos, cardClass, bodyClass } = Astro.props;
+---
+
+<div
+    class={`card custom-card border-0 shadow-none ${cardClass} bg-${pos.color}-transparent`}
+>
+    <div class={`card-body ${bodyClass}`}>
+        <a href="javascript:void(0);" class="stretched-link"></a>
+        <div class="d-flex align-items-start justify-content-between mb-1">
+            <div>
+                <span class="fs-13">Order - {pos.id}</span>
+                <span class="d-block fw-semibold">{pos.title}</span>
+            </div>
+            <div class="fs-13 text-muted">{pos.items}</div>
+        </div>
+        <div class="d-flex align-items-end justify-content-between flex-wrap">
+            <span class="fs-13 text-muted">{pos.time}</span>
+            <span class={`badge bg-${pos.color}`}>{pos.badge}</span>
+        </div>
+    </div>
+</div>

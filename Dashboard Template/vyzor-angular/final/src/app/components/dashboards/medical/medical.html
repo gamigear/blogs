@@ -1,0 +1,394 @@
+<app-breadcrumb title="Dashboards" [subtitle]='false' active_item="Medical"></app-breadcrumb>
+
+<!-- Start:: row-1 -->
+<div class="row">
+  <div class="col-xxl-5">
+    <div class="row">
+      @for (medical of MedicalCards; track $index) {
+      <div class="col-xl-6">
+        <spk-medical-card [medical]="medical"></spk-medical-card>
+      </div>
+      }
+      <div class="col-xl-12">
+        <div class="card custom-card">
+          <div class="card-header justify-content-between">
+            <div class="card-title">
+              Patient Statistics
+            </div>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-primary btn-sm btn-wave waves-effect waves-light">1D</button>
+              <button type="button" class="btn btn-primary-light btn-sm btn-wave waves-effect waves-light">1W</button>
+              <button type="button" class="btn btn-primary-light btn-sm btn-wave waves-effect waves-light">1M</button>
+              <button type="button" class="btn btn-primary-light btn-sm btn-wave waves-effect waves-light">6M</button>
+              <button type="button" class="btn btn-primary-light btn-sm btn-wave waves-effect waves-light">1Y</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="patients-statistics">
+              <spk-apexcharts [chartOptions]="MedicalOptions"></spk-apexcharts>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-7">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card custom-card available-treatments-card">
+          <div class="card-header justify-content-between">
+            <div class="card-title">
+              Available Treatments
+            </div>
+            <a href="javascript:void(0);" class="text-muted fs-13">View All<i
+                class="ti ti-arrow-narrow-right ms-1"></i></a>
+          </div>
+          <div class="card-body">
+            <div class="row gy-sm-0 gy-3 gx-3">
+              @for (dept of Departments; track $index) {
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-3 col-sm-3 col text-center">
+                <a aria-label="anchor" href="javascript:void(0);" class="btn {{dept.btnClass}} btn-icon">
+                  <i class={{dept.iconClass}}></i>
+                </a>
+                <a href="javascript:void(0);" class="d-block mt-3 fw-medium">{{dept.label}}</a>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-7">
+        <div class="card custom-card overflow-hidden">
+          <div class="card-header justify-content-between">
+            <div class="card-title">
+              Today's Appointments
+            </div>
+            <a href="javascript:void(0);" class="text-muted fs-13">View All<i
+                class="ti ti-arrow-narrow-right ms-1"></i></a>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <spk-reusable-tables tableClass="table text-nowrap appointments-table" [showCheckbox]="false">
+                @for (appt of Appointments; track $index) {
+                <tr>
+                  <td [ngClass]="$index === Appointments.length - 1 ? 'border-bottom-0' : ''">
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="lh-1">
+                        <span class="avatar avatar-sm avatar-rounded">
+                          <img [src]="appt.imageUrl" alt="">
+                        </span>
+                      </div>
+                      <div>
+                        <span class="fw-semibold d-block">{{appt.name}}</span>
+                        <span class="fs-13 text-muted">{{appt.gender}},{{appt.age}}Yrs</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td [ngClass]="$index === Appointments.length - 1 ? 'border-bottom-0' : ''">
+                    <span class="badge {{appt.badgeClass}}">{{appt.department}}</span>
+                  </td>
+                  <td [ngClass]="$index === Appointments.length - 1 ? 'border-bottom-0' : ''">
+                    {{appt.time}}
+                  </td>
+                </tr>
+                }
+              </spk-reusable-tables>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-5">
+        <div class="card custom-card">
+          <div class="card-header">
+            <div class="card-title">
+              Available Doctors
+            </div>
+          </div>
+          <div class="card-body pe-2">
+            <nav ngbNav #nav="ngbNav" [activeId]="3" class="nav nav-style-1 nav-pills mb-4 nav-justified pe-2"
+              role="tablist">
+              <ng-container [ngbNavItem]="1">
+                <a ngbNavLink class="nav-link px-2" data-bs-toggle="tab" role="tab" href="#tue" aria-selected="false"
+                  tabindex="-1">
+                  <span class="d-block mb-1">22</span>
+                  <span class="op-6 fs-12">Sat</span>
+                </a>
+              </ng-container>
+              <ng-container [ngbNavItem]="2">
+                <a ngbNavLink class="nav-link px-2" data-bs-toggle="tab" role="tab" href="#wed" aria-selected="false"
+                  tabindex="-1">
+                  <span class="d-block mb-1">23</span>
+                  <span class="op-6 fs-12">Sun</span>
+                </a>
+              </ng-container>
+              <ng-container [ngbNavItem]="3">
+                <a ngbNavLink class="nav-link px-2 " data-bs-toggle="tab" aria-current="page" role="tab" href="#thu"
+                  aria-selected="true" tabindex="-1">
+                  <span class="d-block mb-1">24</span>
+                  <span class="op-6 fs-12">Mon</span>
+                </a>
+              </ng-container>
+              <ng-container [ngbNavItem]="4">
+                <a ngbNavLink class="nav-link px-2" data-bs-toggle="tab" role="tab" href="#fri" aria-selected="false"
+                  tabindex="-1">
+                  <span class="d-block mb-1">25</span>
+                  <span class="op-6 fs-12">Tue</span>
+                </a>
+              </ng-container>
+              <ng-container [ngbNavItem]="5">
+                <a ngbNavLink class="nav-link px-2" data-bs-toggle="tab" role="tab" href="#sat" aria-selected="false"
+                  tabindex="-1">
+                  <span class="d-block mb-1">26</span>
+                  <span class="op-6 fs-12">Wed</span>
+                </a>
+              </ng-container>
+            </nav>
+            <overlay-scrollbars>
+              <ul class="list-unstyled availabe-doctors-list pe-3" id="available-doctors">
+                @for (doctor of DoctorSchedules; track $index) {
+                <li>
+                  <div class="d-flex align-items-start gap-2">
+                    <div class="flex-fill">
+                      <span class="d-block fw-semibold">{{doctor.name}}</span>
+                      <span class="{{doctor.departmentClass}} fs-13">{{doctor.department}}</span>
+                    </div>
+                    <div class="fs-13 text-muted d-flex align-items-center gap-1"><i
+                        class="ti ti-clock-hour-3"></i>{{doctor.time}}</div>
+                  </div>
+                </li>
+                }
+              </ul>
+            </overlay-scrollbars>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="row">
+  <div class="col-xxl-3 col-xl-6">
+    <div class="card custom-card overflow-hidden">
+      <div class="card-header">
+        <div class="card-title">
+          Patients Visits
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="patients-visits">
+          <spk-apexcharts [chartOptions]="PatientsOptions"></spk-apexcharts>
+        </div>
+      </div>
+      <div class="card-footer p-0">
+        <ul class="list-group list-group-flush">
+          @for (item of GenderData; track $index) {
+          <li class="list-group-item">
+            <div class="d-flex align-items-center gap-2">
+              <div class="lh-1">
+                <span class="avatar avatar-md avatar-rounded bg-{{item.avatarBgClass}}-transparent ">
+                  <i class={{item.iconClass}}></i>
+                </span>
+              </div>
+              <div class="flex-fill">
+                <span class="fw-semibold d-block">{{item.label}}</span>
+                <span class="fs-13 d-block text-muted">
+                  <span class="{{item.trendColorClass}} me-2 d-inline-flex align-items-center">
+                    <i class={{item.trendIconClass}}></i>{{item.trendText}}</span>{{item.trendLabel}}</span>
+              </div>
+              <div class="text-{{item.avatarBgClass}} fw-semibold">{{item.percentage}}</div>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-xl-6">
+    <div class="card custom-card overflow-hidden">
+      <div class="card-header justify-content-between">
+        <div class="card-title">
+          Top Dcotors
+        </div>
+        <a href="javascript:void(0);" class="fs-13 text-muted">View All<i class="ti ti-arrow-narrow-right ms-1"></i></a>
+      </div>
+      <div class="card-body p-0">
+        <ul class="list-group list-group-flush">
+          @for (doctor of Doctors; track $index) {
+          <li class="list-group-item">
+            <a href="javascript:void(0);" class="stretched-link"></a>
+            <div class="d-flex align-items-center gap-3">
+              <div class="lh-1">
+                <span class="avatar avatar-md avatar-rounded bg-light">
+                  <img [src]="doctor.image" alt="">
+                </span>
+              </div>
+              <div class="flex-fill">
+                <span class="d-block fw-semibold">{{doctor.name}}</span>
+                <span class="d-block fs-13 text-muted">{{doctor.specialization}}</span>
+              </div>
+              <div class="text-end">
+                <div>
+                  <span class="d-inline-flex align-items-center">{{doctor.rating}}<i
+                      class="ti ti-star-filled ms-1 text-warning"></i></span>
+                </div>
+                <span class="fs-13 text-muted">{{doctor.experience}}</span>
+              </div>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-xl-6">
+    <div class="card custom-card">
+      <div class="card-header justify-content-between">
+        <div class="card-title">
+          Patients Reports
+        </div>
+        <a href="javascript:void(0);" class="fs-13 text-muted">View All<i class="ti ti-arrow-narrow-right ms-1"></i></a>
+      </div>
+      <div class="card-body">
+        <ul class="list-unstyled patients-reports-list">
+          @for (record of TestRecords; track $index) {
+          <li>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <div class="lh-1">
+                <span class="avatar avatar-md {{record.bgClass}} avatar-rounded">
+                  <i class={{record.iconClass}}></i>
+                </span>
+              </div>
+              <div class="flex-fill">
+                <span class="d-block fw-semibold">{{record.name}}</span>
+                <span class="d-block fs-13 text-muted">{{record.testType}}</span>
+              </div>
+              <div class="text-end">
+                <span class="d-flex align-items-center gap-1"><i
+                    class="{{record.statusIcon}} {{record.statusColor}} fs-20"></i>{{record.statusText}}</span>
+                <span class="fs-13 text-muted">{{record.date}}</span>
+              </div>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-xl-6">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Top Departments
+        </div>
+      </div>
+      <div class="card-body py-0">
+        <div id="top-departments">
+          <spk-apexcharts [chartOptions]="DepartmentOptions"></spk-apexcharts>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-2 -->
+
+<!-- Start:: row-3 -->
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card custom-card">
+      <div class="card-header justify-content-between">
+        <div class="card-title">
+          Patient Records
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <div>
+            <input class="form-control form-control-sm" type="text" placeholder="Search Here"
+              aria-label=".form-control-sm example">
+          </div>
+          <spk-dropdowns [Customclass]="'dropdown '" [Toggletext]="'Sort By'" [Icon]="true"
+            [IconClass]="'ri-arrow-down-s-line align-middle ms-1 d-inline-block'"
+            [class]="'btn btn-primary btn-sm btn-wave waves-effect waves-light no-caret'"
+            [Menuclass]="'dropdown-menu dropdown-menu-end'">
+            <li><a class="dropdown-item" href="javascript:void(0);">New</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Popular</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Relevant</a></li>
+          </spk-dropdowns>
+
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <spk-reusable-tables [columns]="PatientsHeader" tableClass="table text-nowrap" [showCheckbox]="false">
+            @for (appt of PatientRecords; track $index) {
+            <tr>
+              <td>{{appt.id}}</td>
+              <td>{{appt.name}}</td>
+              <td>{{appt.age}}</td>
+              <td>{{appt.gender}}</td>
+              <td>{{appt.department}}</td>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="lh-1">
+                    <span class="avatar avatar-sm avatar-rounded bg-light">
+                      <img [src]="appt.doctorImage" alt="">
+                    </span>
+                  </div>
+                  <div>{{appt.doctorName}}</div>
+                </div>
+              </td>
+              <th>
+                <span class="badge {{appt.statusBadgeClass}}">{{appt.status}}</span>
+              </th>
+              <th>{{appt.date}}</th>
+              <th>{{appt.time}}</th>
+              <th>
+                <spk-dropdowns [Customclass]="'dropdown '" [Icon]="true" [IconClass]="'ti ti-dots-vertical'"
+                  [class]="'btn btn-icon btn-sm btn-light no-caret'" [Menuclass]="'dropdown-menu dropdown-menu-end'">
+                  <li><a class="dropdown-item d-inline-flex align-items-center" href="javascript:void(0);"><i
+                        class="ti ti-eye me-2"></i>View</a></li>
+                  <li><a class="dropdown-item d-inline-flex align-items-cente" href="javascript:void(0);"><i
+                        class="ti ti-edit me-2"></i>Edit</a></li>
+                  <li><a class="dropdown-item d-inline-flex align-items-cente" href="javascript:void(0);"><i
+                        class="ti ti-trash me-2"></i>Delete</a></li>
+                </spk-dropdowns>
+
+              </th>
+            </tr>
+            }
+          </spk-reusable-tables>
+        </div>
+      </div>
+      <div class="card-footer ">
+        <div class="d-flex align-items-center">
+          <div> Showing 6 Entries <i class="bi bi-arrow-right ms-2 fw-semibold"></i> </div>
+          <div class="ms-auto">
+            <nav aria-label="Page navigation" class="pagination-style-2">
+              <ul class="pagination mb-0 flex-wrap">
+                <li class="page-item disabled">
+                  <a class="page-link" href="javascript:void(0);">
+                    Prev
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                <li class="page-item active"><a class="page-link" href="javascript:void(0);">2</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="javascript:void(0);">
+                    <i class="bi bi-three-dots"></i>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0);">17</a></li>
+                <li class="page-item">
+                  <a class="page-link text-primary" href="javascript:void(0);">
+                    next
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-3 -->

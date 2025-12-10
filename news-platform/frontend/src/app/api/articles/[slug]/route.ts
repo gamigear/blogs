@@ -15,6 +15,8 @@ import { query, queryOne } from '@/lib/db';
 import { sanitizeInput, addSecurityHeaders } from '@/lib/security';
 import { createAuditLog } from '@/lib/moderation';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/articles/[slug] - Get article by slug
  * Requirements: 2.1

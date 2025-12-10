@@ -1,0 +1,121 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Pageheader from "../../../components/Pageheader.astro";
+---
+
+<Layout Seo="Bar Charts">
+    <Pageheader
+        title="Charts"
+        currentpage="Apex Bar Charts"
+        subtitle="Apex Charts"
+        activepage="Apex Bar Charts"
+    />
+    <!-- Start::row-1 -->
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Basic Bar Chart</div>
+                </div>
+                <div class="card-body">
+                    <div id="bar-basic"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Grouped Bar Chart</div>
+                </div>
+                <div class="card-body">
+                    <div id="bar-group"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Stacked Bar Chart</div>
+                </div>
+                <div class="card-body">
+                    <div id="bar-stacked"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">100% Stacked Bar Chart</div>
+                </div>
+                <div class="card-body">
+                    <div id="bar-full"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Bar Chart With Negative Values</div>
+                </div>
+                <div class="card-body">
+                    <div id="bar-negative"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Bar Chart With Markers</div>
+                </div>
+                <div class="card-body">
+                    <div id="bar-markers"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Reversed Bar Chart</div>
+                </div>
+                <div class="card-body">
+                    <div id="bar-reversed"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Bar With Category DataLabels</div>
+                </div>
+                <div class="card-body">
+                    <div id="bar-categories"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Patterned Bar Chart</div>
+                </div>
+                <div class="card-body">
+                    <div id="bar-pattern"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Bar With Image Fill</div>
+                </div>
+                <div class="card-body">
+                    <div id="bar-image"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End::row-1 -->
+    <script>
+        import "../../../scripts/js/custom.js";
+        import "../../../scripts/js/apexcharts-bar.js";
+    </script>
+</Layout>

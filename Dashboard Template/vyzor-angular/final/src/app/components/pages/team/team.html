@@ -1,0 +1,11 @@
+<app-breadcrumb title="Pages" [subtitle]="false" active_item="Team"></app-breadcrumb>
+
+<!-- Start:: row-1 -->
+<div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1">
+  @for(team of TeamMembers;track $index){
+  <div class="col">
+    <spk-team-card [team]="team"></spk-team-card>
+  </div>
+  }
+</div>
+<!-- End:: row-1 -->

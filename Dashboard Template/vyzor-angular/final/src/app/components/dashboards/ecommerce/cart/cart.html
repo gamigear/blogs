@@ -1,0 +1,156 @@
+<app-breadcrumb title="Dashboards" sub_title="Ecommerce"  active_item="Cart"></app-breadcrumb>
+
+                <!-- Start::row-1 -->
+                <div class="row">
+                  <div class="col-xxl-9">
+                    @if(products.length > 0){
+                      <div class="card custom-card border-0">
+                          <div class="card-body p-0">
+                              <div class="table-responsive">
+                                <spk-reusable-tables tableClass="table text-nowrap border"  [showCheckbox]="false">
+                                       @for (product of products; track $index) {
+                                        <tr >
+                                          <td [ngClass]="{'border-bottom-0': $index === products.length - 1}">
+                                            <div class="d-flex align-items-center gap-3">
+                                              <div class="lh-1">
+                                                <span class="avatar avatar-xxl">
+                                                  <img [src]="product.imageUrl" alt="">
+                                                </span>
+                                              </div>
+                                              <div>
+                                                <span class="d-block text-muted mb-1">{{ product.brand }}</span>
+                                                <h6 class="fw-semibold">{{ product.name }}</h6>
+                                                <div class="d-flex align-items-center gap-2 fs-13">
+                                                  <div>Color : <span class="fw-medium text-muted">{{ product.color }}</span></div>
+                                                  <div class="vr"></div>
+                                                  <div>Size : <span class="fw-medium text-muted">{{ product.size }}</span></div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </td>
+                                          <td [ngClass]="{'border-bottom-0': $index === products.length - 1}">
+                                            <span class="badge fs-13" [ngClass]="{ 'bg-success-transparent': product.status === 'In Stock', 'bg-danger-transparent': product.status === 'Limited Stock' }">{{ product.status }}</span>
+                                          </td>
+                                          <td [ngClass]="{'border-bottom-0': $index === products.length - 1}">
+                                            <div class="fw-medium">${{ product.price }}</div>
+                                          </td>
+                                          <td [ngClass]="{'border-bottom-0': $index === products.length - 1}">
+                                            <div class="d-inline-flex rounded align-items-center flex-nowrap order-qnt gap-2 p-1 bg-light">
+                                              <a href="javascript:void(0);" class="badge bg-white p-2 border text-muted fs-13 product-quantity-minus" (click)="decreaseQuantity(product)">
+                                                <i class="ri-subtract-line"></i>
+                                              </a>
+                                              <input type="text" class="form-control form-control-cart border-0 text-center w-100 shadow-none" aria-label="quantity" [value]="product.quantity" (change)="updateQuantity($event, product)">
+                                              <a href="javascript:void(0);" class="badge bg-white p-2 border text-muted fs-13 product-quantity-plus" (click)="increaseQuantity(product)">
+                                                <i class="ri-add-line"></i>
+                                              </a>
+                                            </div>
+                                          </td>
+                                          <td [ngClass]="{'border-bottom-0': $index === products.length - 1}">
+                                            <div class="fw-medium">${{ product.price * product.quantity }}</div>
+                                          </td>
+                                          <td [ngClass]="{'border-bottom-0': $index === products.length - 1}">
+                                            <div class="d-flex align-items-center gap-2 lh-1">
+                                              <div><a href="javascript:void(0);" class="text-muted d-inline-flex align-items-center justify-content-center" (click)="deleteProduct(product)"><i class="ti ti-trash me-1"></i>Delete</a></div>
+                                              <div class="vr"></div>
+                                              <div><a href="javascript:void(0);" class="text-muted d-inline-flex align-items-center justify-content-center"><i class="ti ti-heart me-1"></i>Save For Later</a></div>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                    }
+                                </spk-reusable-tables>
+                              </div>
+                          </div>
+                      </div>
+                    }
+                    @else{
+                      <div class="card custom-card " id="cart-empty-cart">
+                          <div class="card-header">
+                              <div class="card-title">
+                                  Empty Cart
+                              </div>
+                          </div>
+                          <div class="card-body">
+                              <div class="cart-empty text-center">
+                                  <span class="svg-muted">
+                                      <svg xmlns="http://www.w3.org/2000/svg" class="" width="24" height="24" viewBox="0 0 24 24">
+                                          <path
+                                              d="M18.6 16.5H8.9c-.9 0-1.6-.6-1.9-1.4L4.8 6.7c0-.1 0-.3.1-.4.1-.1.2-.1.4-.1h17.1c.1 0 .3.1.4.2.1.1.1.3.1.4L20.5 15c-.2.8-1 1.5-1.9 1.5zM5.9 7.1 8 14.8c.1.4.5.8 1 .8h9.7c.5 0 .9-.3 1-.8l2.1-7.7H5.9z">
+                                          </path>
+                                          <path d="M6 10.9 3.7 2.5H1.3v-.9H4c.2 0 .4.1.4.3l2.4 8.7-.8.3zM8.1 18.8 6 11l.9-.3L9 18.5z">
+                                          </path>
+                                          <path
+                                              d="M20.8 20.4h-.9V20c0-.7-.6-1.3-1.3-1.3H8.9c-.7 0-1.3.6-1.3 1.3v.5h-.9V20c0-1.2 1-2.2 2.2-2.2h9.7c1.2 0 2.2 1 2.2 2.2v.4z">
+                                          </path>
+                                          <path
+                                              d="M8.9 22.2c-1.2 0-2.2-1-2.2-2.2s1-2.2 2.2-2.2c1.2 0 2.2 1 2.2 2.2s-1 2.2-2.2 2.2zm0-3.5c-.7 0-1.3.6-1.3 1.3 0 .7.6 1.3 1.3 1.3.8 0 1.3-.6 1.3-1.3 0-.7-.5-1.3-1.3-1.3zM18.6 22.2c-1.2 0-2.2-1-2.2-2.2s1-2.2 2.2-2.2c1.2 0 2.2 1 2.2 2.2s-.9 2.2-2.2 2.2zm0-3.5c-.8 0-1.3.6-1.3 1.3 0 .7.6 1.3 1.3 1.3.7 0 1.3-.6 1.3-1.3 0-.7-.5-1.3-1.3-1.3z">
+                                          </path>
+                                      </svg>
+                                  </span>
+                                  <h3 class="fw-bold mb-1">Your Cart is Empty</h3>
+                                  <h5 class="mb-3">Add some items to make me happy :)</h5>
+                                  <a [routerLink]="'/dashboards/ecommerce/products'" class="btn btn-primary btn-wave m-3"
+                                      data-abc="true">continue shopping <i class="bi bi-arrow-right ms-1"></i></a>
+                              </div>
+                          </div>
+                      </div>
+                      }
+                  </div>
+                  <div class="col-xxl-3">
+                      <div class="card custom-card">
+                          <div class="card-header justify-content-between">
+                              <div class="card-title">
+                                  Order Summary
+                              </div>
+                              <div class="text-end">
+                                  <span class="text-muted fs-13">Estimated Delivery</span>
+                                  <span class="d-block fw-medium">13,Apr 2025</span>
+                              </div>
+                          </div>
+                          <div class="card-header">
+                              <span class="d-block fs-14 fw-medium mb-1">Have a coupon?</span>
+                              <div class="input-group mb-1">
+                                  <input type="text" class="form-control form-control-sm" placeholder="Coupon Code" aria-label="coupon-code" aria-describedby="coupons">
+                                  <button class="btn btn-primary input-group-text" id="coupons">Apply</button>
+                              </div>
+                          </div>
+                          <div class="card-body">
+                              <ul class="list-unstyled cart-order-summary-list">
+                                  <li>
+                                      <div class="d-flex align-items-center justify-content-between">
+                                          <div>Sub Total</div>
+                                          <div class="fw-medium">$929.79</div>
+                                      </div>
+                                  </li>
+                                  <li>
+                                      <div class="d-flex align-items-center justify-content-between">
+                                          <div>Discount (10%)</div>
+                                          <div class="fw-medium">- $92.97</div>
+                                      </div>
+                                  </li>
+                                  <li>
+                                      <div class="d-flex align-items-center justify-content-between">
+                                          <div>Tax</div>
+                                          <div class="fw-medium">$0.00</div>
+                                      </div>
+                                  </li>
+                                  <li>
+                                      <div class="d-flex align-items-center justify-content-between">
+                                          <div>Shipping</div>
+                                          <div class="fw-medium text-success">Free</div>
+                                      </div>
+                                  </li>
+                                  <li>
+                                      <div class="d-flex align-items-center justify-content-between">
+                                          <div>Total</div>
+                                          <div class="fw-medium">$837.79</div>
+                                      </div>
+                                  </li>
+                              </ul>
+                          </div>
+                          <div class="card-footer d-grid">
+                              <a [routerLink]="['/dashboards/ecommerce/checkout']" class="btn btn-primary d-inline-flex align-items-center justify-content-center">Proceed to checkout<i class="ti ti-arrow-narrow-right ms-1"></i></a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!--End::row-1 -->

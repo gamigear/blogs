@@ -1,0 +1,1008 @@
+@page "/dashboards/school"
+@using ApexCharts
+
+
+<!-- Start::page-header -->
+<div class="page-header-breadcrumb mb-3">
+    <div class="d-flex align-center justify-content-between flex-wrap">
+        <h1 class="page-title fw-medium fs-18 mb-0">School</h1>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboards</a></li>
+            <li class="breadcrumb-item active" aria-current="page">School</li>
+        </ol>
+    </div>
+</div>
+<!-- End::page-header -->
+
+<!-- Start:: row-1 -->
+<div class="row">
+    <div class="col-xxl-3">
+        <div class="row">
+            @foreach(var card in statCards)
+            {
+                <div class="col-xxl-12 col-lg-6">
+                    <div class="card custom-card dashboard-main-card @card.CardClass school-card flex-wrap">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center gap-2 justify-content-between flex-nowrap">
+                                <div>
+                                    <span class="d-block mb-1 @(card.Title == "Students" ? "" : "text-muted")">@card.Title</span>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                        <h5 class="fw-semibold mb-0">@card.Count</h5>
+                                        <div class="fs-12 text-muted">
+                                            <span class="badge bg-@card.PercentChangeClass-transparent rounded-pill d-inline-flex align-items-center">
+                                                <i class="ti @(card?.PercentChangeClass?.Contains("success") == true ? "ti-trending-up" : "ti-trending-down") me-1 align-middle"></i>
+                                               @card?.PercentChange
+                                            </span>
+                                            This Year
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lh-1">
+                                    <span class="avatar avatar-lg bg-@(card?.CardClass ?? "")-transparent svg-@(card?.CardClass ?? "")">
+                                        @((MarkupString)(card?.IconSvg?? string.Empty))
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-xxl-6">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    School Revenue
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="school-revenue">
+                <ApexChart TItem="SchoolRevenue" Height="320" Options="SchoolRevenueChartOptions">
+                    <ApexPointSeries TItem="SchoolRevenue" Items="schoolRevenueData" SeriesType="@SeriesType.Bar" Name="This Year"
+                                    XValue="@(e => e.Month)" YAggregate="@(e => e.Sum(e => e.ThisYear))" />
+                    <ApexPointSeries TItem="SchoolRevenue" Items="schoolRevenueData" SeriesType="@SeriesType.Area" Name="Last Year"
+                                    XValue="@(e => e.Month)" YAggregate="@(e => e.Sum(e => e.LastYear))" />
+                </ApexChart>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Events
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled school-events-list">
+                    @foreach (var ev in events)
+                    {
+                        <li>
+                            <div class="d-flex align-items-center gap-3 flex-wrap flex-xxl-nowrap">
+                                <div class="lh-1">
+                                    <span class="avatar avatar-md bg-@ev.BgColorClass-transparent">
+                                        <i class="ti ti-@ev.IconClass fs-5"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center gap-3 justify-content-between flex-wrap">
+                                        <span class="d-block fw-semibold">@ev.Title</span>
+                                        <span class="badge bg-light text-default border">@ev.Date</span>
+                                    </div>
+                                    <div class="text-muted fs-13 event-description">@ev.Description</div>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="row">
+    <div class="col-xxl-3">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Students Activity
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled students-activity-list">             
+                    @foreach (var activity in activities)
+                    {
+                        <li>
+                            <div class="d-flex align-items-start gap-2">
+                                <div class="lh-1">
+                                    @if (!string.IsNullOrEmpty(activity.AvatarUrl))
+                                    {
+                                        <span class="avatar avatar-md avatar-rounded">
+                                            <img src="@activity.AvatarUrl" alt="@activity.Name" />
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="avatar avatar-md avatar-rounded bg-@activity.AvatarBackgroundClass">
+                                            @activity.Initials
+                                        </span>
+                                    }
+                                </div>
+                                <div class="flex-fill">
+                                    <div class="d-flex align-items-start justify-content-between gap-3">
+                                        <span class="d-block fw-semibold">@activity.Name</span>
+                                        <span class="badge bg-@activity.BadgeClass-transparent">@activity.Date</span>
+                                    </div>
+                                    <span class="fs-13 text-muted">@activity.ActivityDescription</span>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Students Overview
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="students-overview">
+                <ApexChart TItem="StudentsOverview" Options="StudentsOverviewOptions" Height="227">
+                    <ApexPointSeries TItem="StudentsOverview"
+                                    Items="studentsOverviewList"
+                                    SeriesType="SeriesType.Donut"
+                                    XValue="@(e => e.Category)"
+                                    YAggregate="@(e => e.Sum(e => e.Count))" />
+                </ApexChart>
+
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row !g-0">
+                    <div class="col border-end border-inline-end-dashed">
+                        <div class="text-center">
+                            <span class="student-overview-type boys">Boys</span>
+                            <h5 class="mb-0 mt-1 fw-semibold d-flex align-items-center justify-content-center gap-1">
+                                6,560
+                                <span
+                                    class="badge bg-success-transparent rounded-pill fs-10 d-inline-flex align-items-center">
+                                    <i class="ti ti-arrow-up me-1"></i>2.45%
+                                </span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="text-center">
+                            <span class="student-overview-type girls">Girls</span>
+                            <h5 class="mb-0 mt-1 fw-semibold d-flex align-items-center justify-content-center gap-1">
+                                3,354
+                                <span
+                                    class="badge bg-danger-transparent rounded-pill fs-10 d-inline-flex align-items-center">
+                                    <i class="ti ti-arrow-down me-1"></i>6.76%
+                                </span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Top Students
+                </div>
+                <a href="javascript:void(0);" class="text-muted fs-13">View All<i
+                        class="ti ti-arrow-narrow-right ms-1"></i></a>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    @foreach (var student in TopStudents)
+                    {
+                        <li class="list-group-item">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="lh-1">
+                                    <span class="avatar avatar-md">
+                                        <img src="@student.AvatarUrl" alt="@student.Name" />
+                                    </span>
+                                </div>
+                                <div class="flex-fill">
+                                    <span class="d-block fw-semibold">@student.Name</span>
+                                    <span class="fs-13 text-muted">@student.Grade</span>
+                                </div>
+                                <div class="text-end">
+                                    <span>GPA : <span class="fw-medium text-primary">@student.Gpa</span></span>
+                                    <span class="text-@student.AchievementClass fs-13 d-block">@student.Achievement</span>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Students Fee Analytics
+                </div>
+                <a href="javascript:void(0);" class="text-muted fs-13">View All<i
+                        class="ti ti-arrow-narrow-right ms-1"></i></a>
+            </div>
+            <div class="card-body p-0">
+               <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <tbody>
+                            @for (int i = 0; i < StudentsFeeAnalytics.Count; i++)
+                            {
+                                var student = StudentsFeeAnalytics[i];
+                                bool isLast = (i == StudentsFeeAnalytics.Count - 1);
+                                string tdClass = isLast ? "border-bottom-0" : "";
+
+                                <tr>
+                                    <td class="@tdClass">@student.ID</td>
+                                    <td class="@tdClass">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="lh-1">
+                                                <span class="avatar avatar-md avatar-rounded">
+                                                    <img src="@student.AvatarUrl" alt="img">
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <span class="d-block fw-semibold lh-1 mb-1">@student.Name</span>
+                                                <span class="fs-13 text-muted">@student.FeeType</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-end @tdClass">
+                                        <span class="text-@(
+                                            student.Status == "Paid" ? "success" :
+                                            student.Status == "Pending" ? "danger" :
+                                            student.Status == "Overdue" ? "warning" : "muted"
+                                        ) fs-13 fw-semibold">
+                                            @student.Status
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-2 -->
+
+<!-- Start:: row-3 -->
+<div class="row">
+    <div class="col-xxl-9">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Student Summary
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <div>
+                        <input class="form-control form-control-sm" type="text" placeholder="Search Here"
+                            aria-label=".form-control-sm example">
+                    </div>
+                    <div class="dropdown">
+                        <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-wave waves-effect waves-light"
+                            data-bs-toggle="dropdown" aria-expanded="false"> Sort By<i
+                                class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">New</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Popular</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Relevant</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <th>
+                                Student ID
+                            </th>
+                            <th>Name</th>
+                            <th>Grade</th>
+                            <th>Fee FeeStatus</th>
+                            <th>Attendance (%)</th>
+                            <th>Marks (%)</th>
+                            <th>LastPaymentDate</th>
+                            <th>Total Fees Paid</th>
+                        </thead>
+                        <tbody>
+                             @foreach (var student in students)
+                                {
+                                    <tr>
+                                        <td>@student.Id</td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="lh-1">
+                                                    <span class="avatar avatar-sm avatar-rounded">
+                                                        <img src="@student.Avatar" alt="@student.Name">
+                                                    </span>
+                                                </div>
+                                                <div class="fw-semibold">@student.Name</div>
+                                            </div>
+                                        </td>
+                                        <td>@student.Grade</td>
+                                        <td>
+                                            <span class="badge bg-@student.FeeStatusBgColor">@student.FeeStatus</span>
+                                        </td>
+                                        <td>@student.Attendance</td>
+                                        <td>@student.MarksPercentage</td>
+                                        <td>@student.LastPaymentDate</td>
+                                        <td>@student.TotalFeesPaid</td>
+                                    </tr>
+                                }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer border-top-0">
+                <div class="d-flex align-items-center">
+                    <div> Showing 6 Entries <i class="bi bi-arrow-right ms-2 fw-semibold"></i> </div>
+                    <div class="ms-auto">
+                        <nav aria-label="Page navigation" class="pagination-style-2">
+                            <ul class="pagination mb-0 flex-wrap">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="javascript:void(0);">
+                                        Prev
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">2</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0);">
+                                        <i class="bi bi-three-dots"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="javascript:void(0);">17</a></li>
+                                <li class="page-item">
+                                    <a class="page-link text-primary" href="javascript:void(0);">
+                                        next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Attendance Overview
+                </div>
+                <a href="javascript:void(0)" class="btn btn-primary-light btn-sm">View All</a>
+            </div>
+            <div class="card-body">
+                <div id="attendance-overview">
+                <ApexChart TItem="AttendanceOverview" Height="365" Options="AttendanceOverviewOptions">
+                    <ApexPointSeries TItem="AttendanceOverview" Items="attendanceOverviewList" SeriesType="@SeriesType.Bar"
+                        Name="Boys" XValue="@(e => e.Month)" YAggregate="@(e => e.Sum(e => e.LastYear))" />
+                    <ApexPointSeries TItem="AttendanceOverview" Items="attendanceOverviewList" SeriesType="@SeriesType.Bar"
+                        Name="Girls" XValue="@(e => e.Month)" YAggregate="@(e => e.Sum(e => e.ThisYear))" />
+                </ApexChart>
+
+                </div>
+            </div>
+            <div class="card-footer p-0">
+                <div class="row mt-0 g-0">
+                    <div class="col-6 border-end border-inline-end-dashed text-center p-3">
+                        <p class="mb-1 fw-medium">Boys</p>
+                        <h5 class="text-warning fw-semibold mb-0">12.34K</h5>
+                    </div>
+                    <div class="col-6 text-center p-3">
+                        <p class="mb-1 fw-medium">Girls</p>
+                        <h5 class="text-primary fw-semibold mb-0">10.19K</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-3 -->
+
+
+<!-- Charts -->
+@code{
+    // Schoo lRevenue start//
+    private List<SchoolRevenue> schoolRevenueData { get; set; } = SchoolRevenueData.GetSchoolRevenue();
+
+    private ApexChartOptions<SchoolRevenue> SchoolRevenueChartOptions { get; set; } = new ApexChartOptions<SchoolRevenue>
+    {
+        Chart = new()
+        {
+            Height = 320,
+            Type = ChartType.Line,
+            Toolbar = new ApexCharts.Toolbar
+            {
+                Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false, Pan = false, Reset = false, Download = false },
+            },
+             DropShadow = new ApexCharts.DropShadow {
+                    Enabled = true,
+                    Top = 6,
+                    Left = 0,
+                    Blur = 4,
+                    Color = "var(--primary-color)",
+                    Opacity = 0.05
+            },
+
+        },
+        Grid = new Grid{
+            BorderColor = "#f1f1f1",
+            StrokeDashArray = 2,
+            Xaxis = new(){
+                Lines = new(){
+                    Show = true
+                }
+            },
+            Yaxis = new(){
+                Lines = new(){
+                    Show = false
+                }
+            }
+        },
+        DataLabels = new DataLabels { Enabled = false },
+        Legend = new Legend { 
+            Show = true,
+            Position = LegendPosition.Top, 
+        },
+        Colors = new List<string> {"var(--primary-color)", "rgb(255, 73, 205)" },
+        Fill = new Fill {
+                Type = new List<FillType> { FillType.Solid, FillType.Gradient},
+                Gradient = new FillGradient {
+                    ShadeIntensity = 1,
+                    OpacityFrom = 0.4,
+                    OpacityTo = 0.1,
+                    Stops= [0, 90, 100],
+                    ColorStops = new List<FillGradientStops> { 
+                        new FillGradientStops { Offset = 0, Color = "rgba(255, 73, 205, 0.1)", Opacity = 0.1 },
+                        new FillGradientStops { Offset = 75, Color = "rgba(255, 73, 205, 0.1)", Opacity = 0.1 },
+                        new FillGradientStops { Offset = 100, Color = "rgba(255, 73, 205, 0.1)", Opacity = 1 },
+                    }
+                },
+        },
+        Stroke = new Stroke{
+            Width = [1.5, 1.5],
+            Curve = [Curve.Smooth],
+            DashArray = [0, 4],
+        },
+         
+        PlotOptions = new PlotOptions{
+            Bar = new PlotOptionsBar
+            {
+                ColumnWidth = "25%",
+                BorderRadius = 2,
+            }
+        },
+        Tooltip = new ApexCharts.Tooltip { 
+            Enabled =true,
+            Theme= ApexCharts.Mode.Dark,
+        },
+       
+       
+    };
+
+    public class SchoolRevenue
+    {
+        public string? Month { get; set; }
+        public decimal ThisYear { get; set; }
+        public decimal LastYear { get; set; }
+    }
+
+    public static class SchoolRevenueData
+    {
+        public static List<SchoolRevenue> GetSchoolRevenue()
+        {
+            return new List<SchoolRevenue>
+            {
+                new SchoolRevenue { Month = "Jan", ThisYear = 44, LastYear = 30 },
+                new SchoolRevenue { Month = "Feb", ThisYear = 30, LastYear = 25 },
+                new SchoolRevenue { Month = "Mar", ThisYear = 57, LastYear = 36 },
+                new SchoolRevenue { Month = "Apr", ThisYear = 80, LastYear = 30 },
+                new SchoolRevenue { Month = "May", ThisYear = 90, LastYear = 45 },
+                new SchoolRevenue { Month = "Jun", ThisYear = 55, LastYear = 35 },
+                new SchoolRevenue { Month = "Jul", ThisYear = 70, LastYear = 64 },
+                new SchoolRevenue { Month = "Aug", ThisYear = 43, LastYear = 51 },
+                new SchoolRevenue { Month = "Sep", ThisYear = 23, LastYear = 59 },
+                new SchoolRevenue { Month = "Oct", ThisYear = 54, LastYear = 36 },
+                new SchoolRevenue { Month = "Nov", ThisYear = 77, LastYear = 39 },
+                new SchoolRevenue { Month = "Dec", ThisYear = 34, LastYear = 51 },
+            };
+        }
+    }
+    // School Revenue end //
+
+    // Students Overview Chart Start //
+    private List<StudentsOverview> studentsOverviewList { get; set; } = DataStudentsOverview.GetStudentsOverview();
+
+    private ApexChartOptions<StudentsOverview> StudentsOverviewOptions { get; set; } = new ApexChartOptions<StudentsOverview>
+    {
+        Chart = new() { 
+            Height = 227,
+            Type = ChartType.Donut, 
+        },
+        Colors = new List<string> {"var(--primary-color)", "rgba(255, 73, 205, 1)"},
+        Legend = new Legend { Show = false },
+        PlotOptions = new PlotOptions{
+            Pie = new(){
+                OffsetY = 10,
+                ExpandOnClick = false,
+                Donut = new(){
+                    Size = "85%",
+                    Labels = new(){
+                        Show = true,
+                        Name = new(){
+                            Show = true,
+                            FontSize = "20px",
+                            Color = "#495057",
+                            OffsetY = -5
+                        },
+                        Value = new(){
+                            Show = true,
+                            FontSize = "22px",
+                            Color = null,
+                            OffsetY = 5,
+                            FontWeight = 600,
+                            Formatter = @"function (val) { return val + '%'}"
+                        },
+                        Total = new(){
+                            Show = true,
+                            ShowAlways = true,
+                            Label = "Total Students",
+                            FontSize = "14px",
+                            FontWeight = 400,
+                            Color = "#495057"
+                        }
+                    }
+                }
+            }
+        },
+        Stroke = new Stroke{
+            Width = 0,
+        },
+        DataLabels = new DataLabels{
+            Enabled = false,
+           DropShadow = new ApexCharts.DropShadow{
+                Enabled = false
+            }
+        },
+        
+       
+    };
+
+    public class StudentsOverview
+    {
+        public string? Category { get; set; }
+        public decimal Count { get; set; }
+    }
+
+    public static class DataStudentsOverview
+    {
+        public static List<StudentsOverview> GetStudentsOverview()
+        {
+            return new List<StudentsOverview>
+            {
+                new StudentsOverview { Category = "Boys", Count = 6560 },
+                new StudentsOverview { Category = "Girls", Count = 3354 },
+            };
+        }
+    }
+    // Students Overview Chart End //
+
+    // Attendance Overview Statistics Start //
+    private List<AttendanceOverview> attendanceOverviewList { get; set; } = AttendanceOverviewData.GetAttendanceOverview();
+
+    private ApexChartOptions<AttendanceOverview> AttendanceOverviewOptions { get; set; } = new();
+
+    public class AttendanceOverview {
+        public string? Month { get; set; }
+        public decimal ThisYear { get; set; }
+        public decimal LastYear { get; set; }
+    }
+
+    public static class AttendanceOverviewData {
+        public static List<AttendanceOverview> GetAttendanceOverview() {
+            return new List<AttendanceOverview>
+            {
+                new AttendanceOverview { Month = "Sun", ThisYear = 44, LastYear = 30 },
+                new AttendanceOverview { Month = "Mon", ThisYear = 30, LastYear = 25 },
+                new AttendanceOverview { Month = "Tue", ThisYear = 57, LastYear = 36 },
+                new AttendanceOverview { Month = "Wed", ThisYear = 80, LastYear = 30 },
+                new AttendanceOverview { Month = "Thu", ThisYear = 90, LastYear = 45 },
+                new AttendanceOverview { Month = "Fri", ThisYear = 55, LastYear = 35 },
+                new AttendanceOverview { Month = "Sat", ThisYear = 70, LastYear = 64 },
+            };
+        }
+    }
+    // Attendance Overview Statistics End //
+
+    protected override void OnInitialized(){
+        AttendanceOverviewOptions = new ApexChartOptions<AttendanceOverview>
+        {
+            Chart = new () {
+                Height = 365,
+                Type = ChartType.Bar,
+                Toolbar = new ApexCharts.Toolbar {
+                    Show = false,
+                    Tools = new Tools {
+                        Zoom = true,
+                        Zoomin = false,
+                        Zoomout = false,
+                        Pan = false,
+                        Reset = false,
+                        Download = true
+                    },
+                },
+                Stacked = true,
+            },
+            Grid = new Grid {
+                BorderColor = "#f1f1f1",
+                StrokeDashArray = 2,
+                Xaxis = new(){
+                    Lines = new(){
+                        Show = false
+                    }
+                },
+                Yaxis = new(){
+                    Lines = new(){
+                        Show = false
+                    }
+                }
+            },
+             Colors = new Color(new List<string> {
+                "rgba(253, 175, 34, 1) ",
+                "var(--primary-color)",
+            }),
+            PlotOptions = new PlotOptions {
+                Bar = new PlotOptionsBar {
+                    BorderRadius = 2,
+                    ColumnWidth = "25%",
+                },
+            },
+            DataLabels = new DataLabels {
+                Enabled = false,
+            },
+            Legend = new Legend {
+                Show = true,
+                Position = LegendPosition.Top,
+                FontFamily = "Mulish",
+                Markers = new LegendMarkers {
+                    Width = 10,
+                    Height = 10,
+                },
+            },
+            Yaxis = new List<YAxis>() {
+                new YAxis {
+                    Show = false,
+                    AxisBorder = new AxisBorder {
+                        Show = false,
+                    },
+                    AxisTicks = new () {
+                        Show = false,
+                    },
+                },
+            },
+            Xaxis = new XAxis {
+                AxisBorder = new AxisBorder {
+                    Show = false,
+                },
+                AxisTicks = new () {
+                    Show = false,
+                },
+                Labels = new(){
+                    Rotate = -90
+                }
+            },
+            Stroke = new Stroke{
+                Width = [1.5, 1.5],
+                Curve = Curve.Smooth,
+                DashArray = [0, 4],
+            }
+            
+        };
+
+    }
+
+}
+<!-- Charts End -->
+
+<!-- Looping -->
+@code{
+
+    public class StudentSummary
+    {
+        public string? Id { get; set; }
+        public string? Name { get; set; }
+        public string? Avatar { get; set; }
+        public int Grade { get; set; }
+        public string? FeeStatus { get; set; }
+        public string? FeeStatusBgColor { get; set; } // e.g., "bg-success"
+        public string? Attendance { get; set; }
+        public string? MarksPercentage { get; set; }
+        public string? LastPaymentDate { get; set; }
+        public string? TotalFeesPaid { get; set; }
+    }
+    private List<StudentSummary> students = new()
+    {
+        new StudentSummary { Id = "SPK01", Name = "Aarav Sharma", Avatar = "../assets/images/faces/11.jpg", Grade = 10, FeeStatus = "Paid", FeeStatusBgColor = "success", Attendance = "95%", MarksPercentage = "92%", LastPaymentDate = "March 1, 2025", TotalFeesPaid = "₹50,000" },
+        new StudentSummary { Id = "SPK02", Name = "Sophia Patel", Avatar = "../assets/images/faces/2.jpg", Grade = 9, FeeStatus = "Pending", FeeStatusBgColor = "warning", Attendance = "88%", MarksPercentage = "85%", LastPaymentDate = "January 15, 2025", TotalFeesPaid = "₹20,000" },
+        new StudentSummary { Id = "SPK03", Name = "Ryan Verma", Avatar = "../assets/images/faces/14.jpg", Grade = 12, FeeStatus = "Overdue", FeeStatusBgColor = "danger", Attendance = "80%", MarksPercentage = "78%", LastPaymentDate = "February 10, 2025", TotalFeesPaid = "₹40,000" },
+        new StudentSummary { Id = "SPK04", Name = "Karan Singh", Avatar = "../assets/images/faces/13.jpg", Grade = 8, FeeStatus = "Paid", FeeStatusBgColor = "success", Attendance = "70%", MarksPercentage = "65%", LastPaymentDate = "March 5, 2025", TotalFeesPaid = "₹25,000" },
+        new StudentSummary { Id = "SPK05", Name = "Karan Singh", Avatar = "../assets/images/faces/13.jpg", Grade = 8, FeeStatus = "Paid", FeeStatusBgColor = "success", Attendance = "70%", MarksPercentage = "65%", LastPaymentDate = "March 5, 2025", TotalFeesPaid = "₹25,000" },
+        new StudentSummary { Id = "SPK06", Name = "Aditi Rao", Avatar = "../assets/images/faces/13.jpg", Grade = 10, FeeStatus = "Pending", FeeStatusBgColor = "warning", Attendance = "85%", MarksPercentage = "88%", LastPaymentDate = "February 25, 2025", TotalFeesPaid = "₹30,000" }
+    };
+
+    //Students Fee Analytics
+    public class StudentFee
+    {
+        public string? ID { get; set; }
+        public string? Name { get; set; }
+        public string? FeeType { get; set; }
+        public string? Status { get; set; } 
+        public string? AvatarUrl { get; set; }
+    }
+    private List<StudentFee> StudentsFeeAnalytics = new()
+    {
+        new StudentFee { ID = "#SP01", Name = "Aarav Sharma", FeeType = "Tuition Fees", Status = "Paid", AvatarUrl = "../assets/images/faces/12.jpg" },
+        new StudentFee { ID = "#SP02", Name = "Sophia Patel", FeeType = "Library Fees", Status = "Pending", AvatarUrl = "../assets/images/faces/4.jpg" },
+        new StudentFee { ID = "#SP03", Name = "Ryan Verma", FeeType = "Exam Fees", Status = "Paid", AvatarUrl = "../assets/images/faces/15.jpg" },
+        new StudentFee { ID = "#SP04", Name = "Neha Kapoor", FeeType = "Sports Fees", Status = "Overdue", AvatarUrl = "../assets/images/faces/8.jpg" },
+        new StudentFee { ID = "#SP05", Name = "Karan Singh", FeeType = "Lab Fees", Status = "Paid", AvatarUrl = "../assets/images/faces/10.jpg" }
+    };
+
+    //Top Students
+    public class TopStudent
+    {
+        public string? Name { get; set; }
+        public string? Grade { get; set; }
+        public string? Gpa { get; set; }
+        public string? Achievement { get; set; }
+        public string? AchievementClass { get; set; } 
+        public string? AvatarUrl { get; set; }
+    }
+    private List<TopStudent> TopStudents = new()
+    {
+        new TopStudent
+        {
+            Name = "Aarav Sharma",
+            Grade = "Grade-10",
+            Gpa = "9.8",
+            Achievement = "Science Olympiad Winner",
+            AchievementClass = "primary",
+            AvatarUrl = "../assets/images/faces/13.jpg"
+        },
+        new TopStudent
+        {
+            Name = "Sophia Patel",
+            Grade = "Grade-9",
+            Gpa = "9.7",
+            Achievement = "Best Speaker in Debate",
+            AchievementClass = "secondary",
+            AvatarUrl = "../assets/images/faces/5.jpg"
+        },
+        new TopStudent
+        {
+            Name = "Ryan Verma",
+            Grade = "Grade-12",
+            Gpa = "9.6",
+            Achievement = "Top Scorer in Math",
+            AchievementClass = "warning",
+            AvatarUrl = "../assets/images/faces/3.jpg"
+        },
+        new TopStudent
+        {
+            Name = "Neha Kapoor",
+            Grade = "Grade-11",
+            Gpa = "9.5",
+            Achievement = "Art Competition Champion",
+            AchievementClass = "info",
+            AvatarUrl = "../assets/images/faces/7.jpg"
+        },
+        new TopStudent
+        {
+            Name = "Karan Singh",
+            Grade = "Grade-8",
+            Gpa = "9.4",
+            Achievement = "Chess Tournament Winner",
+            AchievementClass = "success",
+            AvatarUrl = "../assets/images/faces/14.jpg"
+        }
+    };
+
+    //Events
+     public class EventItem
+    {
+        public string? Title { get; set; }
+        public string? Date { get; set; }
+        public string? Description { get; set; }
+        public string? IconClass { get; set; }        
+        public string? BgColorClass { get; set; }    
+    }
+    private List<EventItem> events = new()
+    {
+        new EventItem
+        {
+            Title = "School Timings Update",
+            Date = "Mar 10,2025",
+            Description = "New school hours are now in effect. Check the updated schedule.",
+            IconClass = "alarm",
+            BgColorClass = "primary"
+        },
+        new EventItem
+        {
+            Title = "Exam Guidelines",
+            Date = "March 18, 2025",
+            Description = "Students must adhere to exam rules and bring valid ID cards.",
+            IconClass = "file-text",
+            BgColorClass = "secondary"
+        },
+        new EventItem
+        {
+            Title = "Lost & Found",
+            Date = "March 20, 2025",
+            Description = "A wallet was found near the library. Contact the admin office to claim.",
+            IconClass = "search",
+            BgColorClass = "warning"
+        },
+        new EventItem
+        {
+            Title = "School Uniform",
+            Date = "March 25, 2025",
+            Description = "Students must follow proper uniform guidelines.",
+            IconClass = "hanger-2",
+            BgColorClass = "info"
+        },
+        new EventItem
+        {
+            Title = "Canteen Menu Change",
+            Date = "March 28, 2025",
+            Description = "The new weekly cafeteria menu is now available.",
+            IconClass = "tools-kitchen",
+            BgColorClass = "success"
+        },
+        new EventItem
+        {
+            Title = "Emergency Update",
+            Date = "March 25, 2025",
+            Description = "Parents must update emergency contact details in the portal.",
+            IconClass = "phone",
+            BgColorClass = "danger"
+        }
+    };
+
+    //stat cards
+    public class StatCard
+    {
+        public string? Title { get; set; }
+        public string? Count { get; set; }
+        public string? PercentChange { get; set; }
+        public string? PercentChangeClass { get; set; } 
+        public string? IconSvg { get; set; }
+        public string? CardClass { get; set; } 
+    }
+    List<StatCard> statCards = new List<StatCard>
+    {
+        new StatCard
+        {
+            Title = "Students",
+            Count = "28,754",
+            PercentChange = "12.75%",
+            PercentChangeClass = "success",
+            CardClass = "primary",
+            IconSvg = @"<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 24 24' width='24px' fill='#5f6368'>
+                            <path d='M0 0h24v24H0z' fill='none'/>
+                            <path d='M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3 1 9l11 6 9-4.91V17h2V9L12 3z'/>
+                        </svg>"
+        },
+        new StatCard
+        {
+            Title = "Teachers",
+            Count = "385",
+            PercentChange = "8.65%",
+            PercentChangeClass = "success",
+            CardClass = "secondary",
+            IconSvg = @"<svg xmlns='http://www.w3.org/2000/svg' enable-background='new 0 0 24 24' height='24px' viewBox='0 0 24 24' width='24px' fill='#5f6368'>
+                            <g><rect fill='none' height='24' width='24'/></g>
+                            <g><path d='M20,7h-5V4c0-1.1-0.9-2-2-2h-2C9.9,2,9,2.9,9,4v3H4C2.9,7,2,7.9,2,9v11c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V9 C22,7.9,21.1,7,20,7z M9,12c0.83,0,1.5,0.67,1.5,1.5S9.83,15,9,15s-1.5-0.67-1.5-1.5S8.17,12,9,12z M12,18H6v-0.75c0-1,2-1.5,3-1.5 s3,0.5,3,1.5V18z M13,9h-2V4h2V9z M18,16.5h-4V15h4V16.5z M18,13.5h-4V12h4V13.5z'/></g>
+                        </svg>"
+        },
+        new StatCard
+        {
+            Title = "Awards",
+            Count = "32",
+            PercentChange = "0.75%",
+            PercentChangeClass = "danger",
+            CardClass = "success",
+            IconSvg = @"<svg xmlns='http://www.w3.org/2000/svg' enable-background='new 0 0 24 24' height='24px' viewBox='0 0 24 24' width='24px' fill='#5f6368'>
+                            <rect fill='none' height='24' width='24'/>
+                            <path d='M19,5h-2V3H7v2H5C3.9,5,3,5.9,3,7v1c0,2.55,1.92,4.63,4.39,4.94c0.63,1.5,1.98,2.63,3.61,2.96V19H7v2h10v-2h-4v-3.1 c1.63-0.33,2.98-1.46,3.61-2.96C19.08,12.63,21,10.55,21,8V7C21,5.9,20.1,5,19,5z M5,8V7h2v3.82C5.84,10.4,5,9.3,5,8z M19,8 c0,1.3-0.84,2.4-2,2.82V7h2V8z'/>
+                        </svg>"
+        },
+        new StatCard
+        {
+            Title = "Earning",
+            Count = "$12,765,233",
+            PercentChange = "4.07%",
+            PercentChangeClass = "success",
+            CardClass = "warning",
+            IconSvg = @"<svg xmlns='http://www.w3.org/2000/svg' enable-background='new 0 0 24 24' height='24px' viewBox='0 0 24 24' width='24px' fill='#5f6368'>
+                            <g><rect fill='none' height='24' width='24'/></g>
+                            <g><path d='M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12.88,17.76V19h-1.75v-1.29 c-0.74-0.18-2.39-0.77-3.02-2.96l1.65-0.67c0.06,0.22,0.58,2.09,2.4,2.09c0.93,0,1.98-0.48,1.98-1.61c0-0.96-0.7-1.46-2.28-2.03 c-1.1-0.39-3.35-1.03-3.35-3.31c0-0.1,0.01-2.4,2.62-2.96V5h1.75v1.24c1.84,0.32,2.51,1.79,2.66,2.23l-1.58,0.67 c-0.11-0.35-0.59-1.34-1.9-1.34c-0.7,0-1.81,0.37-1.81,1.39c0,0.95,0.86,1.31,2.64,1.9c2.4,0.83,3.01,2.05,3.01,3.45 C15.9,17.17,13.4,17.67,12.88,17.76z'/></g>
+                        </svg>"
+        }
+    };
+
+    //Students Activity
+    public class StudentActivity
+    {
+        public string? Name { get; set; }
+        public string? AvatarUrl { get; set; } 
+        public string? Initials { get; set; }  
+        public string? AvatarBackgroundClass { get; set; } 
+        public string? Date { get; set; }
+        public string? BadgeClass { get; set; }
+        public string? ActivityDescription { get; set; }
+    }
+    List<StudentActivity> activities = new()
+    {
+        new StudentActivity {
+            Name = "Aarav Sharma",
+            AvatarUrl = "../assets/images/faces/12.jpg",
+            Date = "Mar 10, 2025",
+            BadgeClass = "primary",
+            ActivityDescription = "Submitted the Math Assignment on time"
+        },
+        new StudentActivity {
+            Name = "Sophia Patel",
+            AvatarUrl = "../assets/images/faces/2.jpg",
+            Date = "Mar 11, 2025",
+            BadgeClass = "secondary",
+            ActivityDescription = "Borrowed \"Physics Essentials\" from the library"
+        },
+        new StudentActivity {
+            Name = "Ryan Verma",
+            Initials = "RV",
+            AvatarBackgroundClass = "warning",
+            Date = "Mar 11, 2025",
+            BadgeClass = "warning",
+            ActivityDescription = "Won 1st place in the Inter-School Debate Competition"
+        },
+        new StudentActivity {
+            Name = "Neha Kapoor",
+            AvatarUrl = "../assets/images/faces/5.jpg",
+            Date = "Mar 13, 2025",
+            BadgeClass = "info",
+            ActivityDescription = "Uploaded a new Art Project for review."
+        },
+        new StudentActivity {
+            Name = "Karan Singh",
+            AvatarUrl = "../assets/images/faces/15.jpg",
+            Date = "Mar 14, 2025",
+            BadgeClass = "success",
+            ActivityDescription = "Missed the deadline for the Science Project Submission."
+        }
+    };
+
+}

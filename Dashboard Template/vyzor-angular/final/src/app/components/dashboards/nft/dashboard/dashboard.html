@@ -1,0 +1,312 @@
+<app-breadcrumb title="Dashboards" sub_title="NFT" active_item="Dashboard"></app-breadcrumb>
+<!-- Start:: row-1 -->
+<div class="row">
+    <div class="col-xxl-9">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card nft-main-banner-card border-0">
+                    <div class="card-body">
+                        <div class="nft-main-bannr-background">
+                            <img src="./assets/images/nft-images/1.png" alt="" class="d-md-block d-none">
+                        </div>
+                        <h2 class="text-fixed-white">Discover, buy, and sell unique NFTs</h2>
+                        <p class="fs-16 op-8 mb-4">Immerse yourself in a world where digital creativity <br> meets
+                            blockchain technology</p>
+                        <div class="btn-list">
+                            <button class="btn btn-lg btn-light me-2">Explore</button>
+                            <button class="btn btn-lg btn-outline-light text-fixed-white">Sell Artwork</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <h6 class="fw-medium mb-0">Trending NFT'S :</h6>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-primary btn-sm btn-wave waves-effect waves-light">1D</button>
+                    <button type="button"
+                        class="btn btn-primary-light btn-sm btn-wave waves-effect waves-light">1W</button>
+                    <button type="button"
+                        class="btn btn-primary-light btn-sm btn-wave waves-effect waves-light">1M</button>
+                    <button type="button"
+                        class="btn btn-primary-light btn-sm btn-wave waves-effect waves-light">1Y</button>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-4 mb-4 flex-wrap">
+                @for (tag of NftTags; track $index) {
+                <div class="nft-tag {{tag.className}} " [ngClass]="tag.isActive  ? 'active' : ''">
+                    <a href="javascript:void(0);" class="stretched-link"></a>
+                    <span class="nft-tag-text">{{tag.label}}</span>
+                </div>
+                }
+            </div>
+            @for (card of NftCards; track $index) {
+            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                <spk-nft-card [nft]="card"></spk-nft-card>
+            </div>
+            }
+        </div>
+    </div>
+    <div class="col-xxl-3">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start gap-3 mb-2">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md bg-primary-transparent svg-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24"
+                                        width="24px" fill="#000000">
+                                        <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                        <path
+                                            d="M21 7.28V5c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-2.28c.59-.35 1-.98 1-1.72V9c0-.74-.41-1.37-1-1.72zM20 9v6h-7V9h7zM5 19V5h14v2h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6v2H5z">
+                                        </path>
+                                        <circle cx="16" cy="12" r="1.5"></circle>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="d-block fs-13">Your Balance</span>
+                                <h4 class="fw-semibold mb-1">162.87ETH</h4>
+                                <span class="text-muted fs-12 d-inline-flex align-items-center"><span
+                                        class="text-success me-2"><i
+                                            class="ti ti-arrow-narrow-up me-1"></i>2.55%</span>This Year</span>
+                            </div>
+                        </div>
+                        <div id="nft-balance-chart">
+                            <spk-apexcharts [chartOptions]="NftBalanceOptions"></spk-apexcharts>
+                        </div>
+                        <div class="d-grid mt-3">
+                            <button class="btn btn-primary d-inline-flex align-items-center justify-content-center"><i
+                                    class="ti ti-circle-plus me-1 align-middle fs-14"></i>Top Up Balance</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12">
+                <div class="card custom-card overflow-hidden">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">
+                            Top Creators
+                        </div>
+                        <a href="javascript:void(0);" class="text-muted fs-13">View All <i
+                                class="ti ti-arrow-narrow-right ms-1"></i></a>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled nft-top-collectors-list">
+                            @for (follower of Followers; track $index) {
+                            <li>
+                                <div class="d-flex align-items-center gap-2 flex-wrap">
+                                    <div class="lh-1">
+                                        <span class="avatar avatar-md avatar-rounded">
+                                            <img [src]="follower.image" alt={{follower.name}}>
+                                        </span>
+                                    </div>
+                                    <div class="flex-fill">
+                                        <span class="fw-semibold d-block">{{follower.name}} <i
+                                                class="bi bi-patch-check-fill text-primary align-middle ms-2"></i></span>
+                                        <span class="text-muted fs-13">{{follower.handle}}</span>
+                                    </div>
+                                    <div>
+                                        <button class="btn rounded-pill"
+                                            [ngClass]="follower.isFollowing ? 'btn-primary' : 'btn-light'">{{follower.isFollowing
+                                            ? 'Following' : 'Follow'}}</button>
+                                    </div>
+                                </div>
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="row">
+    <div class="col-xxl-6">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    NFT Statistics
+                </div>
+            </div>
+            <div class="card-body pb-2">
+                <div class="p-3 border border-dashed rounded mb-4">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap gap-5">
+                        @for (item of StatItems; track $index) {
+                        <div>
+                            <div class="mb-2">{{item.title}}<span class="badge bg-{{item.badgeColor}} ms-2"><i
+                                        class="{{item.badgeIcon}} me-1"></i>{{item.badge}}</span></div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="fs-13 text-muted">{{item.label}}</div>
+                                <h5 class="fw-semibold mb-0">{{item.value}}</h5>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                <div id="nft-statistics">
+                    <spk-apexcharts [chartOptions]="NftOptions"></spk-apexcharts>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-xl-6">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Top Drops
+                </div>
+                <a href="javascript:void(0);" class="text-muted fs-13">View All<i
+                        class="ti ti-arrow-narrow-right ms-1"></i></a>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled nft-top-drops-list">
+                    @for (item of NftSales; track $index) {
+                    <li>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded">
+                                    <img [src]="item.image" alt={{item.title}}>
+                                </span>
+                            </div>
+                            <div class="flex-fill">
+                                <span class="d-block fw-semibold">{{item.title}}</span>
+                                <span class="fs-13 text-muted">By {{item.author}}</span>
+                            </div>
+                            <div class="text-end">
+                                <div class="d-flex align-items-center gap-1">
+                                    <div class="lh-1">
+                                        <span class="avatar avatar-xs">
+                                            <img [src]="item.avatar" alt="">
+                                        </span>
+                                    </div>
+                                    <span class="fw-semibold">{{item.price}}</span>
+                                </div>
+                                <span class="fs-13 text-muted d-block">Sold At</span>
+                            </div>
+                        </div>
+                    </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-xl-6">
+        <div class="card custom-card featuredAuthors-nft">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Featured Authors
+                </div>
+                <a href="javascript:void(0);" class="text-muted fs-13">View All <i
+                        class="ti ti-arrow-narrow-right ms-1"></i></a>
+            </div>
+            <div class="card-body p-2 custom-crypto2">
+                <swiper-container #swiperContainer
+                    class="swiper pagination-dynamic text-start featured-collections swiper-initialized swiper-horizontal swiper-backface-hidden"
+                    space-between="10" slides-per-view="1" slides-per-group="1" autoplay-delay="2000"
+                    autoplay-disable-on-interaction="false">
+                    @for (nft of FeaturedAuthors; track $index) {
+                    <swiper-slide>
+                        <spk-nft-swiper [nft]="nft"></spk-nft-swiper>
+                    </swiper-slide>
+                    }
+                </swiper-container>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-2 -->
+
+<!-- Start:: row-3 -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    NFT Collection Overview
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <spk-dropdowns [Customclass]="'dropdown '" [Toggletext]="'Price'" [Icon]="true"
+                        [IconClass]="'ri-arrow-down-s-line align-middle ms-1 d-inline-block'"
+                        [class]="'btn btn-outline-light btn-wave waves-effect waves-light no-caret'"
+                        [Menuclass]="'dropdown-menu '">
+                        <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Under 5 ETH</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">5 ETH - 10 ETH</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">10 ETH - 20 ETH</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Above 20 ETH</a></li>
+                    </spk-dropdowns>
+                    <div>
+                        <input class="form-control" type="text" placeholder="Search Here"
+                            aria-label=".form-control-sm example">
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <spk-reusable-tables [columns]="NftHeader" tableClass="table text-nowrap" [showCheckbox]="false">
+                        @for (item of NftTableData; track $index) {
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="lh-1">
+                                        <span class="avatar avatar-md avatar-rounded">
+                                            <img [src]="item.image" alt={{item.title}}>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="fw-semibold d-block">{{item.title}}</span>
+                                        <span class="fs-13 text-muted">{{item.handle}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{item.creator}}</td>
+                            <td>{{item.date}}</td>
+                            <td>{{item.price}}</td>
+                            <td><span class="badge {{item.statusClass}}">{{item.status}}</span></td>
+                            <td>{{item.category}}</td>
+                            <td>{{item.chain}}</td>
+                            <td>{{item.edition}}</td>
+                            <td>{{item.volume}}</td>
+                        </tr>
+                        }
+                    </spk-reusable-tables>
+                </div>
+            </div>
+            <div class="card-footer ">
+                <div class="d-flex align-items-center">
+                    <div> Showing 6 Entries <i class="bi bi-arrow-right ms-2 fw-semibold"></i> </div>
+                    <div class="ms-auto">
+                        <nav aria-label="Page navigation" class="pagination-style-2">
+                            <ul class="pagination mb-0 flex-wrap">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="javascript:void(0);">
+                                        Prev
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">2</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0);">
+                                        <i class="bi bi-three-dots"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="javascript:void(0);">17</a></li>
+                                <li class="page-item">
+                                    <a class="page-link text-primary" href="javascript:void(0);">
+                                        next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-3 -->

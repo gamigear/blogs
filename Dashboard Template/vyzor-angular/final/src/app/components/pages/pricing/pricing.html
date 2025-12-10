@@ -1,0 +1,89 @@
+<app-breadcrumb title="Pages" [subtitle]="false" active_item="Pricing"></app-breadcrumb>
+
+  <!-- Start:: row-1 -->
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="pricing-heading-section text-center mb-5">
+        <span class="badge bg-primary-transparent rounded-pill">
+            Pricing Plans
+        </span>
+        <h2 class="fw-semibold mt-2">Choose the Right Plan for Your Needs</h2>
+        <span class="d-block text-muted fs-16 mb-3">Choose a plan that fits your needs with scalable features and great value.</span>
+        <div class="tab-style-1 border p-1 bg-white rounded-pill d-inline-block">
+            <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-pills" role="tablist">
+                <li [ngbNavItem]="1" class="nav-item" role="presentation">
+                    <button ngbNavLink type="button" class="nav-link rounded-pill fw-medium" data-bs-toggle="pill" data-bs-target="#pricing-monthly" aria-selected="true" role="tab">Monthly</button>
+                    <ng-template ngbNavContent>
+                      <div class="row">
+                        @for(price of PricingData;track $index){
+                          <div class="col-xxl-4 col-xl-12">
+                            <spk-pricing-card [price]="price"></spk-pricing-card>
+                          </div>
+                          }
+                    </div>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="2" class="nav-item" role="presentation">
+                    <button ngbNavLink type="button" class="nav-link rounded-pill fw-medium" data-bs-toggle="pill" data-bs-target="#pricing-yearly" aria-selected="false" role="tab" tabindex="-1">Yearly</button>
+                    <ng-template ngbNavContent>
+                      <div class="row">
+                        @for(price of YearData;track $index){
+                          <div class="col-xxl-4 col-xl-12">
+                            <spk-pricing-card [price]="price"></spk-pricing-card>
+                          </div>
+                          }
+                    </div>
+                    </ng-template>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xl-9 custom-tabs">
+        <div class="tab-content" [ngbNavOutlet]="nav">
+        </div>
+    </div>
+</div>
+<!-- End:: row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="row d-flex justify-content-center">
+    <div class="pricing-heading-section text-center mb-5">
+        <span class="badge bg-primary-transparent rounded-pill">
+            Our Pricing
+        </span>
+        <h2 class="fw-semibold mt-2">Choose the Plan That Fits Your Needs</h2>
+        <span class="d-block text-muted fs-16 mb-3">Select the right fit and enjoy seamless access to all features.</span>
+        <div class="tab-style-1 border bg-white rounded-0 d-inline-block">
+            <ul ngbNav #nav1="ngbNav" [activeId]="1" class="nav nav-pills" role="tablist">
+                <li [ngbNavItem]="1" class="nav-item" role="presentation">
+                    <button ngbNavLink type="button" class="nav-link rounded-0 fw-medium" data-bs-toggle="pill" data-bs-target="#pricing1-monthly" aria-selected="true" role="tab">Monthly</button>
+                    <ng-template ngbNavContent>
+                      <div class="row">
+                        @for(price of BasicPricingdata;track $index){
+                          <div class="col-xxl-4">
+                            <spk-basicpricecard   [price]="price" ></spk-basicpricecard>
+                          </div>
+                          }
+                    </div>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="2" class="nav-item" role="presentation">
+                    <button ngbNavLink type="button" class="nav-link rounded-0 fw-medium" data-bs-toggle="pill" data-bs-target="#pricing1-yearly" aria-selected="false" role="tab" tabindex="-1">Yearly</button>
+                    <ng-template ngbNavContent>
+                      <div class="row">
+                        @for(price of BasicPricing1data;track $index){
+                          <div class="col-xxl-4">
+                            <spk-basicpricecard   [price]="price" ></spk-basicpricecard>
+                          </div>
+                          }
+                    </div>
+                    </ng-template>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xl-9 custom-tabs">
+        <div class="tab-content" [ngbNavOutlet]="nav1">
+        </div>
+    </div>
+</div>
+<!-- End:: row-2 -->

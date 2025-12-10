@@ -1,0 +1,33 @@
+<!-- Page Header -->
+<app-breadcrumb title="Apex Charts" [subtitle]="false" active_item="Apex Bubble Charts"></app-breadcrumb><!-- breadcrumb -->
+
+<!-- Page Header Close -->
+<!-- Start::row-1 -->
+<div class="row">
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Simple Bubble Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="bubble-simple">
+                  <spk-apexcharts [chartOptions]="BubbleChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">3D Bubble Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="bubble-3d">
+                  <spk-apexcharts [chartOptions]="ThreeDChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!--End::row-1 -->

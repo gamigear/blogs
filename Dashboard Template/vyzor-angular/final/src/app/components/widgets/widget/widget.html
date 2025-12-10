@@ -1,0 +1,383 @@
+<app-breadcrumb title="Widgets" [subtitle]="false" active_item="Widgets"></app-breadcrumb>
+
+<!-- Start:: row-1 -->
+<div class="row row-cols-xxl-5">
+  @for(widget of Employeesdata;track $index){
+  <div class="col">
+    <spk-employee-card [widget]="widget"></spk-employee-card>
+  </div>
+  }
+</div>
+<!-- End:: row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="row">
+  @for(sales of Salesdata;track $index){
+  <div class="col-md-6 col-lg-6 col-xl-3">
+    <spk-sales-card [sales]="sales"></spk-sales-card>
+  </div>
+  }
+</div>
+<!-- End:: row-2 -->
+
+<!-- Start:: row-3 -->
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card custom-card">
+      <div class="card-body">
+        <div class="row gy-4">
+          @for(products of Productsdata;track $index){
+          <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6">
+            <spk-products-card [products]="products"></spk-products-card>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-3 -->
+
+<!-- Start:: row-4 -->
+<div class="row">
+  <div class="col-xxl-3 col-xl-6">
+    <div class="card custom-card overflow-hidden">
+      <div class="card-header justify-content-between">
+        <div class="card-title">
+          Top Categories
+        </div>
+        <a href="javascript:void(0);" class="fs-12 text-muted"> View All<i class="ti ti-arrow-narrow-right ms-1"></i>
+        </a>
+      </div>
+      <div class="card-body">
+        <div id="top-categories">
+          <spk-apexcharts [chartOptions]="TopCategories"></spk-apexcharts>
+        </div>
+      </div>
+      <div class="card-footer p-0">
+        <ul class="list-group list-group-flush">
+          @for(category of CategoryData;track $index){
+          <li class="list-group-item">
+            <div class="d-flex align-items-start justify-content-between">
+              <div class="top-category-type {{category.type}}">
+                <div class="fw-medium">{{category.title}}</div>
+                <span class="fs-13 text-muted">{{category.percentageChange}}<span
+                    class="text-{{category.percentageColor}} ms-1 fw-medium d-inline-block">{{category.percentage}}</span></span>
+              </div>
+              <div class="text-end">
+                <span class="d-block fs-13 text-muted">Sales</span>
+                <span class="d-block fw-semibold mb-0">{{category.sales}}</span>
+              </div>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-xl-6">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Top Country Sales
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="sales-locations" leaflet [leafletOptions]="options5"></div>
+        <div class="mt-4">
+          <ul class="list-unstyled sales-locations-list">
+            <li>
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="lh-1">
+                  <span class="avatar avatar-xs avatar-rounded">
+                    <img src="./assets/images/flags/argentina_flag.jpg" alt="">
+                  </span>
+                </div>
+                <div class="flex-fill">Argentina</div>
+                <div>43,765</div>
+              </div>
+              <div class="progress progress-animate progress-xs" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                aria-valuemax="100">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+              </div>
+            </li>
+            <li>
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="lh-1">
+                  <span class="avatar avatar-xs avatar-rounded">
+                    <img src="./assets/images/flags/french_flag.jpg" alt="">
+                  </span>
+                </div>
+                <div class="flex-fill">France</div>
+                <div>36,055</div>
+              </div>
+              <div class="progress progress-animate progress-xs" role="progressbar" aria-valuenow="64" aria-valuemin="0"
+                aria-valuemax="100">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 64%"></div>
+              </div>
+            </li>
+            <li>
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="lh-1">
+                  <span class="avatar avatar-xs avatar-rounded">
+                    <img src="./assets/images/flags/us_flag.jpg" alt="">
+                  </span>
+                </div>
+                <div class="flex-fill">Usa</div>
+                <div>26,734</div>
+              </div>
+              <div class="progress progress-animate progress-xs" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                aria-valuemax="100">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 60%"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-6">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">Sales Revenue</div>
+      </div>
+      <div class="card-body">
+        <div id="salesOverview">
+          <spk-apexcharts [chartOptions]="SalesOverview"></spk-apexcharts>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-4 -->
+
+<!-- Start:: row-5 -->
+<div class="row">
+  <div class="col-xxl-4 col-xl-6">
+    <div class="card custom-card">
+      <div class="card-header justify-content-between">
+        <div class="card-title">
+          Top Categories
+        </div>
+        <spk-dropdowns [Customclass]="'dropdown text-end'" [title]="'This Week'" [Icon]="true"
+            [IconClass]="'ri-arrow-down-s-line align-middle ms-1 d-inline-block'"
+            [class]="'btn btn-primary-light btn-sm no-caret'"
+            [Menuclass]="'dropdown-menu'">
+            <li><a class="dropdown-item" href="javascript:void(0);">Today</a></li>
+            <li><a class="dropdown-item active" href="javascript:void(0);">This Week</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Last Week</a></li>
+          </spk-dropdowns>
+
+
+      </div>
+      <div class="card-body">
+        <div class="row align-items-center justify-content-center">
+          <div class="col">
+            <div id="top-categories1" class="py-3 text-center">
+              <spk-apexcharts [chartOptions]="TopCategories1"></spk-apexcharts>
+            </div>
+          </div>
+          <div class="col">
+            <ul class="list-unstyled top-categories-list1 gy-1">
+              @for(category of CategoryItemsData;track $index){
+              <li>
+                <div class="d-flex align-items-center gap-2 justify-content-between">
+                  <div class="d-flex align-items-center gap-2"><i
+                      class="ri-circle-fill fs-10 {{category.colorClass}}"></i>{{category.name}}</div>
+                  <div class="fw-semibold {{category.colorClass}}">{{category.percentage}}</div>
+                </div>
+              </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col border-end border-inline-end-dashed">
+            <div class="text-center">
+              <span class="text-muted">Last Month</span>
+              <h4 class="fw-semibold mb-0">13,965</h4>
+            </div>
+          </div>
+          <div class="col">
+            <div class="text-center">
+              <span class="d-block text-muted mb-1">This Month</span>
+              <h4 class="fw-semibold mb-0">15,367</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-5 col-xl-6">
+    <div class="card custom-card overflow-hidden">
+      <div class="card-header justify-content-between">
+        <div class="card-title">
+          Recent Orders
+        </div>
+        <a href="javascript:void(0);" class="link-primary fw-semibold">View All Orders<i
+            class="ri-arrow-right-s-line ms-1 align-middle"></i></a>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <spk-reusable-tables [columns]="Recentheader" tableBody="" tableClass="text-nowrap" [showCheckbox]="false">
+            @for(txn of Ordersdata;track $index){
+            <tr>
+              <td [ngClass]="$index === Ordersdata.length - 1 ? 'border-bottom-0' : ''"><span class="fw-semibold">{{txn.id}}</span></td>
+              <td [ngClass]="$index === Ordersdata.length - 1 ? 'border-bottom-0' : ''">
+                <div>
+                  <span class="d-block fw-semibold">{{txn.method}}</span>
+                  <span class="d-block fs-12 text-muted">{{txn.methodDetails}}</span>
+                </div>
+              </td>
+              <td [ngClass]="$index === Ordersdata.length - 1 ? 'border-bottom-0' : ''"><span class="badge bg-{{txn.statusColor}}">{{txn.status}}</span></td>
+              <td [ngClass]="$index === Ordersdata.length - 1 ? 'border-bottom-0' : ''">
+                <div>
+                  <span class="d-block fw-semibold">{{txn.amount}}</span>
+                  <span class="d-block fs-12 text-muted">{{txn.date}}</span>
+                </div>
+              </td>
+              <td [ngClass]="$index === Ordersdata.length - 1 ? 'border-bottom-0' : ''">
+                <button class="btn btn-sm btn-outline-light btn-wave waves-effect waves-light">
+                  <i class="fe fe-eye text-muted align-middle me-1"></i>
+                  View
+                </button>
+              </td>
+            </tr>
+            }
+          </spk-reusable-tables>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Social Visitors
+        </div>
+      </div>
+      <div class="card-body py-0">
+        <div id="social-visitors">
+          <spk-apexcharts [chartOptions]="SocialVisitors"></spk-apexcharts>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-5 -->
+
+<!-- Start:: row-6 -->
+<div class="row">
+  <div class="col-xxl-3 col-xl-6">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Social Traffic
+        </div>
+      </div>
+      <div class="card-body pb-0 px-0">
+        <div id="social-traffic1">
+          <spk-apexcharts [chartOptions]="SocialTraffic"></spk-apexcharts>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-xl-6">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">
+          Recent Orders
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="recent-orders">
+          <spk-apexcharts [chartOptions]="RecentOrders"></spk-apexcharts>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="row gy-4">
+          @for(item of StatusData;track $index){
+          <div class="col-xl-6">
+            <div class="d-flex align-items-start gap-3 flex-wrap">
+              <div>
+                <span class="avatar avatar-rounded {{item.colorClass}}" [innerHTML]="getSanitizedSVG(item.svg)">
+                </span>
+              </div>
+              <div>
+                <span class="d-block text-muted fs-13">{{item.label}}</span>
+                <span class="d-block fw-semibold fs-16">{{item.count}}</span>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-xl-6">
+    <div class="card custom-card">
+      <div class="card-header justify-content-between">
+        <div class="card-title">
+          Recent Transactions
+        </div>
+        <a href="javascript:void(0);" class="fs-12 text-muted fw-medium"> View All<i
+            class="ti ti-arrow-narrow-right ms-1"></i> </a>
+      </div>
+      <div class="card-body">
+        <ul class="list-unstyled widgets-transactions-list">
+          @for(item of Transactionsdata;track $index){
+          <li>
+            <div class="d-flex align-items-center gap-2">
+              <div class="lh-1">
+                <span class="avatar avatar-md avatar-rounded {{item.bgClass}}" [innerHTML]="getSanitizedSVG(item.svg)">
+                </span>
+              </div>
+              <div class="flex-fill">
+                <span class="d-block fw-semibold">{{item.name}}</span>
+                <span class="d-block text-muted fs-12">{{item.time}}</span>
+              </div>
+              <div class="text-end">
+                <span class="badge {{item.badgeClass}}">{{item.status}}</span>
+                <span class="d-block mt-1">{{item.amount}}</span>
+              </div>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-xl-6">
+    <div class="card custom-card">
+      <div class="card-header">
+        <div class="card-title">Recent Activity</div>
+      </div>
+      <div class="card-body">
+        <ul class="list-unstyled mb-0 ecommerce-recent-activity">
+          @for(item of ActivityItems;track $index){
+          <li class="ecommerce-recent-activity-content ">
+            <div class="d-flex align-items-start">
+              <div class="me-3">
+                <span class="avatar avatar-sm avatar-rounded bg-light {{item.avatarTextClass}} fw-semibold">
+                  <i class="{{item.iconClass}}"></i>
+                </span>
+              </div>
+              <div class="activity-content">
+                <span class="d-block fw-medium">{{item.title}}</span>
+                <span class="d-block fs-12 text-muted">{{item.subtitle}}</span>
+              </div>
+              <div class="flex-fill text-end">
+                <span class="d-block {{item.timeColorClass}} fs-11 op-7">{{item.time}}</span>
+              </div>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-6 -->

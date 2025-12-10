@@ -1,0 +1,63 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Pageheader from "../../../components/Pageheader.astro";
+---
+
+<Layout Seo="Apex Mixed Charts">
+    <Pageheader
+        title="Charts"
+        subtitle="Apex Charts"
+        currentpage="Apex Mixed Charts"
+        activepage="Apex Mixed Charts"
+    />
+
+    <!-- Start::row-1 -->
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Line & Column Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="mixed-linecolumn"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Multiple Y-Axis Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="mixed-multiple-y"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Line & Area Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="mixed-linearea"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Line,Column & Area Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="mixed-all"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End::row-1 -->
+
+    <script>
+        import "../../../scripts/js/custom.js";
+        import "../../../scripts/js/apexcharts-mixed.js";
+    </script>
+</Layout>

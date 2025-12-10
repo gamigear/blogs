@@ -1,0 +1,124 @@
+<app-breadcrumb title="Pages" sub_title="Blog" active_item="Blog"></app-breadcrumb>
+
+<!-- Start:: row-1 -->
+<div class="row">
+  <div class="col-xxl-5">
+    <div class="card custom-card overlay-card blog-card">
+      <a [routerLink]="['/pages/blog/blogdetails']" class="stretched-link"></a>
+      <img src="./assets/images/media/blog/1.jpg" class="card-img" alt="...">
+      <div class="card-img-overlay d-flex flex-column p-0 over-content-bottom">
+        <div class="card-body text-fixed-white">
+          <div class="text-fixed-white fs-14 mb-2">
+            FEATURED POST
+          </div>
+          <div class="card-text mb-2 fs-2 fw-semibold lh-sm">Exploring the Future of Artificial Intelligence</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-4">
+    <div class="row">
+      @for(blog of BlogPosts;track $index){
+      <div class="col-xl-6">
+        <spk-blog-card [blog]="blog"></spk-blog-card>
+      </div>
+      }
+    </div>
+  </div>
+  <div class="col-xxl-3">
+    <div class="card custom-card">
+      <div class="card-header justify-content-between">
+        <div class="card-title">
+          Top Stories
+        </div>
+        <a href="javascript:void(0);" class="fs-13 text-muted text-decoration-underline">View All <i
+            class="ti ti-arrow-narrow-right"></i></a>
+      </div>
+      <div class="card-body">
+        <ul class="list-unstyled blog-top-stories-list">
+          @for(story of TopStories;track $index){
+          <li>
+            <a [routerLink]="['/pages/blog/blogdetails']" class="stretched-link"></a>
+            <div class="d-flex align-items-center gap-3">
+              <div class="lh-1">
+                <span class="avatar avatar-xl">
+                  <img [src]="story.image" alt="">
+                </span>
+              </div>
+              <div class="flex-fill">
+                <span class="badge {{story.badgeClass}}">{{story.badgeText}}</span>
+                <h6 class="fw-semibold mb-0 lh-base top-stories-title mt-1">{{story.title}}</h6>
+              </div>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="col-xl-12">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0 fw-semibold">Popular Topics</h5>
+    <p class="mb-0 fw-semibold">
+      <a href="javascript:void(0);" class="text-primary"><u>View All</u></a>
+    </p>
+  </div>
+  <div class="d-flex align-items-center gap-4 justify-content-xxl-center popular-topics-container mb-4">
+    @for(blog of BlogCategoryCards;track $index){
+    <div class="flex-fill">
+      <spk-popular-card [blog]="blog"></spk-popular-card>
+    </div>
+    }
+  </div>
+
+</div>
+<!-- End:: row-2 -->
+
+<!-- Start:: row-3 -->
+<div class="row">
+  <div class="col-xxl-9">
+    <div class="row">
+      @for(blog of BlogCards;track $index){
+      <div class="col-xl-3 col-lg-4 col-md-6">
+        <spk-blog-card [blog]="blog"></spk-blog-card>
+      </div>
+      }
+    </div>
+  </div>
+  <div class="col-xxl-3">
+    <div class="card custom-card overflow-hidden">
+      <div class="card-header justify-content-between">
+        <div class="card-title">
+          Popular Blogs
+        </div>
+        <a href="javascript:void(0);" class="fs-13 text-muted text-decoration-underline py-2">View All <i
+            class="ti ti-arrow-narrow-right"></i></a>
+      </div>
+      <div class="card-body p-0">
+        <ul class="list-group list-group-flush list-popular-blogs">
+          @for(post of PopularPosts;track $index){
+          <li class="list-group-item">
+            <a [routerLink]="['/pages/blog/blogdetails']" class="stretched-link"></a>
+            <div class="d-flex align-items-center gap-3">
+              <div class="lh-1">
+                <span class="avatar avatar-xl">
+                  <img [src]="post.image" alt="">
+                </span>
+              </div>
+              <div class="flex-fill">
+                <div class="popular-blogs-title fw-semibold mb-1">{{post.title}}</div>
+                <span class="d-block text-muted fs-13 fw-normal">{{post.dateViews}}</span>
+              </div>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End:: row-3 -->

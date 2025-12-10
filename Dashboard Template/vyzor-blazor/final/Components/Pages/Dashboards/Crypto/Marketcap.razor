@@ -1,0 +1,2351 @@
+@page "/crypto/marketcap"
+@using ApexCharts
+
+<!-- Start::page-header -->
+<div class="page-header-breadcrumb mb-3">
+    <div class="d-flex align-center justify-content-between flex-wrap">
+        <h1 class="page-title fw-medium fs-18 mb-0">Marketcap</h1>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboards</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Crypto</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Marketcap</li>
+        </ol>
+    </div>
+</div>
+<!-- End::page-header -->
+
+<!-- Start::row-1 -->
+<div class="row">
+    <div class="col-xxl-3 col-xl-6 col-lg-12">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-4 flex-wrap">
+                    <div class="d-flex align-items-center">
+                        <div class="me-2">
+                            <span class="avatar avatar-md avatar-rounded bg-light p-2">
+                                <img src="../assets/images/crypto-currencies/regular/Bitcoin.svg" alt="">
+                            </span>
+                        </div>
+                        <div class="mb-0 fw-medium">
+                            Bitcoin - BTC
+                        </div>
+                    </div>
+                    <div class="ms-auto">
+                        <div id="bitcoin-chart">
+                        <ApexChart TItem="BitcoinCurrencyChart" Height="40" Width="150" Options="BitcoinCurrencyChartOptions">
+                            <ApexPointSeries TItem="BitcoinCurrencyChart" Items="btcChart" SeriesType="@SeriesType.Bar" Name=""
+                                XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                        </ApexChart>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end">
+                    <div>
+                        <p class="mb-1">BTC / USD</p>
+                        <p class="fs-20 mb-0 fw-medium lh-1 text-primary">$35,876.29</p>
+                    </div>
+                    <div class="ms-auto text-end">
+                        <p class="mb-0">$0.04</p>
+                        <p class="mb-0 text-muted"><span class="text-muted">Vol:</span>(+2.33%)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer p-0">
+                <div class="list-group border-0 list-group-flush">
+                    <a href="javascript:void(0);" class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <p class="mb-0 font-weight-semibold text-dark">Price Change <span
+                                    class="badge bg-primary-transparent ms-3 text-primary">Increased</span></p>
+                            <p class="text-success mb-0 font-weight-normal fs-13">
+                                <span class="numberfont">+280.30(0.96%)</span> today
+                            </p>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <p class="mb-0 font-weight-semibold text-dark">Market Rank<span
+                                    class="badge bg-secondary-transparent ms-3">3 Years</span></p>
+                            <p class="text-dark mb-0 fs-15">
+                                <span class="numberfont">#1</span>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-xl-6 col-lg-12">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-4 flex-wrap">
+                    <div class="d-flex align-items-center">
+                        <div class="me-2">
+                            <span class="avatar avatar-md avatar-rounded bg-light p-2">
+                                <img src="../assets/images/crypto-currencies/regular/Ethereum.svg" alt="">
+                            </span>
+                        </div>
+                        <div class="mb-0 fw-medium">
+                            Etherium - ETH
+                        </div>
+                    </div>
+                    <div class="ms-auto">
+                        <div id="etherium-chart">
+                        <ApexChart TItem="EthereumCurrencyChart" Height="40" Width="150" Options="EthereumCurrencyChartOptions">
+                            <ApexPointSeries TItem="EthereumCurrencyChart" Items="ethChart" SeriesType="@SeriesType.Bar" Name=""
+                                XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                        </ApexChart>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end">
+                    <div>
+                        <p class="mb-1">ETH / USD</p>
+                        <p class="fs-20 mb-0 fw-medium lh-1 text-primary">$31,244.12</p>
+                    </div>
+                    <div class="ms-auto text-end">
+                        <p class="mb-0">$2.57</p>
+                        <p class="mb-0 text-muted"><span class="text-muted">Vol:</span>(+13.45%)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer p-0">
+                <div class="list-group list-group-flush">
+                    <a href="javascript:void(0);" class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <p class="mb-0 font-weight-semibold text-dark">Price Change <span
+                                    class="badge bg-primary-transparent ms-3 text-primary">Increased</span></p>
+                            <p class="text-success mb-0 font-weight-normal fs-13">
+                                <span class="numberfont">+2,044.24 (1.32%)</span> today
+                            </p>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <p class="mb-0 font-weight-semibold text-dark">Market Rank</p>
+                            <p class="text-dark mb-0 fs-15">
+                                <span class="numberfont">#2</span>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-xl-6 col-lg-12">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-4 flex-wrap">
+                    <div class="d-flex align-items-center">
+                        <div class="me-2">
+                            <span class="avatar avatar-md avatar-rounded bg-light p-2">
+                                <img src="../assets/images/crypto-currencies/regular/Dash.svg" alt="">
+                            </span>
+                        </div>
+                        <div class="mb-0 fw-medium">
+                            Dash - DASH
+                        </div>
+                    </div>
+                    <div class="ms-auto">
+                        <div id="dashcoin-chart">
+                        <ApexChart TItem="DashCurrencyChart" Height="40" Width="150" Options="DashCurrencyChartOptions">
+                            <ApexPointSeries TItem="DashCurrencyChart" Items="dashChart" SeriesType="@SeriesType.Bar" Name=""
+                                XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                        </ApexChart>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end">
+                    <div>
+                        <p class="mb-1">DASH / USD</p>
+                        <p class="fs-20 mb-0 fw-medium lh-1 text-primary">$26,345.000</p>
+                    </div>
+                    <div class="ms-auto text-end">
+                        <p class="mb-0">$12.32</p>
+                        <p class="mb-0 text-muted"><span class="text-muted">Vol:</span>(+112.95%)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer p-0">
+                <div class="list-group list-group-flush">
+                    <a href="javascript:void(0);" class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <p class="mb-0 font-weight-semibold text-dark">Price Change <span
+                                    class="badge bg-primary-transparent ms-3 text-primary">Increased</span></p>
+                            <p class="text-success mb-0 font-weight-normal fs-13">
+                                <span class="numberfont">+40.17 (1.52%)</span> today
+                            </p>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <p class="mb-0 font-weight-semibold text-dark">Market Rank</p>
+                            <p class="text-dark mb-0 fs-15">
+                                <span class="numberfont">#105</span>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-xl-6 col-lg-12">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    My Top Currencies
+                </div>
+                <div>
+                    <a href="javascript:void(0);" class="fw-medium text-success fs-13 text-decoration-underline">View
+                        All</a>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <div>
+                                    <span class="avatar avatar-sm p-1 bg-light">
+                                        <img src="../assets/images/crypto-currencies/regular/Bitcoin.svg" alt="">
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="d-block fw-medium">Bitcoin</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="fw-medium d-block">0.5 BTC</span>
+                            </div>
+                            <div>
+                                <span class="fw-medium d-block">$22,500</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <div>
+                                    <span class="avatar avatar-sm p-1 bg-light">
+                                        <img src="../assets/images/crypto-currencies/regular/litecoin.svg" alt="">
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="d-block fw-medium">Litecon</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="fw-medium d-block">20 LTC</span>
+                            </div>
+                            <div class="text-end">
+                                <span class="fw-medium d-block">$4,000</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <div>
+                                    <span class="avatar avatar-sm p-1 bg-light">
+                                        <img src="../assets/images/crypto-currencies/regular/Ethereum.svg" alt="">
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="d-block fw-medium">Etherium</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="fw-medium d-block">5 ETH</span>
+                            </div>
+                            <div>
+                                <span class="fw-medium d-block">$16,000</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End::row-1 -->
+
+<!-- Start::row-2  -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Crypto MarketCap
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <div>
+                        <input class="form-control form-control-sm" type="text" placeholder="Search Here"
+                            aria-label=".form-control-sm example">
+                    </div>
+                    <div class="dropdown">
+                        <a href="" class="btn btn-primary btn-sm btn-wave" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Sort By<i class="ri-arrow-down-s-line ms-1 d-inline-block"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Market Cap</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Price</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Trading Volume</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Price Change (24h)</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Rank</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">A - Z</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">All-Time High (ATH)</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <button class="btn btn-light btn-sm btn-wave border">View All</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th scope="col" class="fw-medium">#</th>
+                                <th scope="col">Crypto Name</th>
+                                <th scope="col">MarketCap</th>
+                                <th scope="col">Price<span class="text-muted ms-1">(USD)</span></th>
+                                <th scope="col">1h Change</th>
+                                <th scope="col">24h Change</th>
+                                <th scope="col">Volume (24h)</th>
+                                <th scope="col">Circulating Supply</th>
+                                <th scope="col">last 1Week</th>
+                                <th scope="col">Trade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">
+                                    <a href="javascript:void(0);"><i class="ri-star-line fs-16 text-muted"></i></a>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="lh-1">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="../assets/images/crypto-currencies/square-color/Bitcoin.svg"
+                                                    alt="">
+                                            </span>
+                                        </div>
+                                        <div class="fw-medium"><a href="javascript:void(0);">Bitcoin (BTC)</a></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">$850B</span>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">
+                                        <a href="javascript:void(0);">$44,500</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-medium"><i
+                                            class="ti ti-arrow-narrow-up fs-15 fw-medium"></i>+0.5%</span>
+                                </td>
+                                <td>
+                                    <span class="text-danger fw-medium"><i
+                                            class="ti ti-arrow-narrow-down fs-15 fw-medium"></i>-1.2%</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <span class="d-block fw-medium">$35B</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);">
+                                        <span class="fw-medium d-block">
+                                            19M BTC
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div id="btc-chart">
+                                  <ApexChart TItem="Cryptograph" Height="30" Width="120" Options="BitcoinGraphChartOptions">
+                                        <ApexPointSeries TItem="Cryptograph" Items="bitcoingraph" SeriesType="@SeriesType.Line" Name=""
+                                            XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                                    </ApexChart>  
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-success-light btn-sm">Trade</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    <a href="javascript:void(0);"><i class="ri-star-line fs-16 text-muted"></i></a>
+                                </td>
+                                <td>2</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="lh-1">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="../assets/images/crypto-currencies/square-color/Ethereum.svg"
+                                                    alt="">
+                                            </span>
+                                        </div>
+                                        <div class="fw-medium"><a href="javascript:void(0);">Etherium (ETH)</a></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">$400B</span>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">
+                                        <a href="javascript:void(0);">$3,200</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-danger fw-medium"><i
+                                            class="ti ti-arrow-narrow-down fs-15 fw-medium"></i>-1.2%</span>
+                                </td>
+                                <td>
+                                    <span class="text-danger fw-medium"><i
+                                            class="ti ti-arrow-narrow-down fs-15 fw-medium"></i>-1.2%</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <span class="d-block fw-medium">$25B</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);">
+                                        <span class="fw-medium d-block">
+                                            118M ETH
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div id="eth-chart">
+                                    <ApexChart TItem="Cryptograph" Height="30" Width="120" Options="EtheriumGraphChartOptions">
+                                        <ApexPointSeries TItem="Cryptograph" Items="etheriumgraph" SeriesType="@SeriesType.Line" Name=""
+                                            XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                                    </ApexChart>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-success-light btn-sm">Trade</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    <a href="javascript:void(0);"><i class="ri-star-line fs-16 text-muted"></i></a>
+                                </td>
+                                <td>3</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="lh-1">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="../assets/images/crypto-currencies/square-color/Golem.svg"
+                                                    alt="">
+                                            </span>
+                                        </div>
+                                        <div class="fw-medium"><a href="javascript:void(0);">Golem (GLM)</a></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">$1.2B</span>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">
+                                        <a href="javascript:void(0);">$0.56</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-medium"><i
+                                            class="ti ti-arrow-narrow-up fs-15 fw-medium"></i>+0.3%</span>
+                                </td>
+                                <td>
+                                    <span class="text-danger fw-medium"><i
+                                            class="ti ti-arrow-narrow-down fs-15 fw-medium"></i>-2.0%</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <span class="d-block fw-medium">$15M</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);">
+                                        <span class="fw-medium d-block">
+                                            1.2B GNT
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div id="glm-chart">
+                                   <ApexChart TItem="Cryptograph" Height="30" Width="120" Options="GolemGraphChartOptions">
+                                        <ApexPointSeries TItem="Cryptograph" Items="golemgraph" SeriesType="@SeriesType.Line" Name=""
+                                            XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                                    </ApexChart> 
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-success-light btn-sm">Trade</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    <a href="javascript:void(0);"><i class="ri-star-line fs-16 text-muted"></i></a>
+                                </td>
+                                <td>4</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="lh-1">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="../assets/images/crypto-currencies/square-color/Dash.svg"
+                                                    alt="">
+                                            </span>
+                                        </div>
+                                        <div class="fw-medium"><a href="javascript:void(0);">Dash (DASH)</a></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">$12B</span>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">
+                                        <a href="javascript:void(0);">$200</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-danger fw-medium"><i
+                                            class="ti ti-arrow-narrow-down fs-15 fw-medium"></i>-0.5%</span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-medium"><i
+                                            class="ti ti-arrow-narrow-up fs-15 fw-medium"></i>+2.8%</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <span class="d-block fw-medium">$5B</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);">
+                                        <span class="fw-medium d-block">
+                                            10M DASH
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div id="dash-chart">
+                                    <ApexChart TItem="Cryptograph" Height="30" Width="120" Options="DashGraphChartOptions">
+                                        <ApexPointSeries TItem="Cryptograph" Items="dashgraph" SeriesType="@SeriesType.Line" Name=""
+                                            XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                                    </ApexChart>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-success-light btn-sm">Trade</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    <a href="javascript:void(0);"><i class="ri-star-line fs-16 text-muted"></i></a>
+                                </td>
+                                <td>5</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="lh-1">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="../assets/images/crypto-currencies/square-color/Litecoin.svg"
+                                                    alt="">
+                                            </span>
+                                        </div>
+                                        <div class="fw-medium"><a href="javascript:void(0);">Litecoin (LTC)</a></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">$13B</span>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">
+                                        <a href="javascript:void(0);">$185</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-medium"><i
+                                            class="ti ti-arrow-narrow-up fs-15 fw-medium"></i>+0.7%</span>
+                                </td>
+                                <td>
+                                    <span class="text-danger fw-medium"><i
+                                            class="ti ti-arrow-narrow-down fs-15 fw-medium"></i>-1.0%</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <span class="d-block fw-medium">$3B</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);">
+                                        <span class="fw-medium d-block">
+                                            69M LTC
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div id="lite-chart" class="overflow-hidden">
+                                    <ApexChart TItem="Cryptograph" Height="30" Width="120" Options="LiteCoinGraphChartOptions">
+                                        <ApexPointSeries TItem="Cryptograph" Items="litecoingraph" SeriesType="@SeriesType.Line" Name=""
+                                            XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                                    </ApexChart>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-success-light btn-sm">Trade</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    <a href="javascript:void(0);"><i class="ri-star-line fs-16 text-muted"></i></a>
+                                </td>
+                                <td>6</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="lh-1">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="../assets/images/crypto-currencies/square-color/Ripple.svg"
+                                                    alt="">
+                                            </span>
+                                        </div>
+                                        <div class="fw-medium"><a href="javascript:void(0);">Ripple (XRP)</a></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">$35B</span>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">
+                                        <a href="javascript:void(0);">$1.00</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-medium"><i
+                                            class="ti ti-arrow-narrow-up fs-15 fw-medium"></i>+0.1%</span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-medium"><i
+                                            class="ti ti-arrow-narrow-up fs-15 fw-medium"></i>+0.5%</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <span class="d-block fw-medium">$2B</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);">
+                                        <span class="fw-medium d-block">
+                                            40B XRP
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div id="ripple-chart" class="overflow-hidden">
+                                    <ApexChart TItem="Cryptograph" Height="30" Width="120" Options="RippleGraphChartOptions">
+                                        <ApexPointSeries TItem="Cryptograph" Items="ripplegraph" SeriesType="@SeriesType.Line" Name=""
+                                            XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                                    </ApexChart>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-success-light btn-sm">Trade</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    <a href="javascript:void(0);"><i class="ri-star-line fs-16 text-muted"></i></a>
+                                </td>
+                                <td>7</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="lh-1">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="../assets/images/crypto-currencies/square-color/EOS.svg"
+                                                    alt="">
+                                            </span>
+                                        </div>
+                                        <div class="fw-medium"><a href="javascript:void(0);">EOS</a></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">$6.5B</span>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">
+                                        <a href="javascript:void(0);">$7.00</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-danger fw-medium"><i
+                                            class="ti ti-arrow-narrow-down fs-15 fw-medium"></i>-0.3%</span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-medium"><i
+                                            class="ti ti-arrow-narrow-up fs-15 fw-medium"></i>+1.4%</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <span class="d-block fw-medium">$800M</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);">
+                                        <span class="fw-medium d-block">
+                                            1B EOS
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div id="eos-chart" class="overflow-hidden">
+                                    <ApexChart TItem="Cryptograph" Height="30" Width="120" Options="EosGraphChartOptions">
+                                        <ApexPointSeries TItem="Cryptograph" Items="eosgraph" SeriesType="@SeriesType.Line" Name=""
+                                            XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                                    </ApexChart>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-success-light btn-sm">Trade</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    <a href="javascript:void(0);"><i class="ri-star-line fs-16 text-muted"></i></a>
+                                </td>
+                                <td>8</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="lh-1">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="../assets/images/crypto-currencies/square-color/Bytecoin.svg"
+                                                    alt="">
+                                            </span>
+                                        </div>
+                                        <div class="fw-medium"><a href="javascript:void(0);">Bytecoin (BCN)</a></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">$3.5B</span>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">
+                                        <a href="javascript:void(0);">$0.03</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-medium"><i
+                                            class="ti ti-arrow-narrow-up fs-15 fw-medium"></i>+2.1%</span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-medium"><i
+                                            class="ti ti-arrow-narrow-up fs-15 fw-medium"></i>+0.9%</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <span class="d-block fw-medium">$50M</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);">
+                                        <span class="fw-medium d-block">
+                                            184B BCN
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div id="bytecoin-chart" class="overflow-hidden">
+                                    <ApexChart TItem="Cryptograph" Height="30" Width="120" Options="ByteCoinGraphChartOptions">
+                                        <ApexPointSeries TItem="Cryptograph" Items="bytecoingraph" SeriesType="@SeriesType.Line" Name=""
+                                            XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                                    </ApexChart>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-success-light btn-sm">Trade</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    <a href="javascript:void(0);"><i class="ri-star-line fs-16 text-muted"></i></a>
+                                </td>
+                                <td>9</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="lh-1">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="../assets/images/crypto-currencies/square-color/IOTA.svg"
+                                                    alt="">
+                                            </span>
+                                        </div>
+                                        <div class="fw-medium"><a href="javascript:void(0);">IOTA</a></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">$3.2B</span>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">
+                                        <a href="javascript:void(0);">$1.15</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-medium"><i
+                                            class="ti ti-arrow-narrow-up fs-15 fw-medium"></i>+0.2%</span>
+                                </td>
+                                <td>
+                                    <span class="text-danger fw-medium"><i
+                                            class="ti ti-arrow-narrow-down fs-15 fw-medium"></i>-0.4%</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <span class="d-block fw-medium">$100M</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);">
+                                        <span class="fw-medium d-block">
+                                            2.7B IOTA
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div id="iota-chart" class="overflow-hidden">
+                                    <ApexChart TItem="Cryptograph" Height="30" Width="120" Options="IOTAGraphChartOptions">
+                                        <ApexPointSeries TItem="Cryptograph" Items="iotagraph" SeriesType="@SeriesType.Line" Name=""
+                                            XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                                    </ApexChart>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-success-light btn-sm">Trade</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    <a href="javascript:void(0);"><i class="ri-star-line fs-16 text-muted"></i></a>
+                                </td>
+                                <td>10</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="lh-1">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="../assets/images/crypto-currencies/square-color/Monero.svg"
+                                                    alt="">
+                                            </span>
+                                        </div>
+                                        <div class="fw-medium"><a href="javascript:void(0);">Monero</a></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">$3.8B</span>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">
+                                        <a href="javascript:void(0);">$200</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-danger fw-medium"><i
+                                            class="ti ti-arrow-narrow-up fs-15 fw-medium"></i>-0.8%</span>
+                                </td>
+                                <td>
+                                    <span class="text-danger fw-medium"><i
+                                            class="ti ti-arrow-narrow-down fs-15 fw-medium"></i>-1.3%</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <span class="d-block fw-medium">$200M</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);">
+                                        <span class="fw-medium d-block">
+                                            18M XMR
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div id="monero-chart" class="overflow-hidden">
+                                    <ApexChart TItem="Cryptograph" Height="30" Width="120" Options="MoneroGraphChartOptions">
+                                        <ApexPointSeries TItem="Cryptograph" Items="monerograph" SeriesType="@SeriesType.Line" Name=""
+                                            XValue="@(e => e.Series)" YAggregate="@(e => e.Sum(e => e.Value))" />
+                                    </ApexChart>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-success-light btn-sm">Trade</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer border-top-0">
+                <nav aria-label="Page navigation" class="pagination-style-2">
+                    <ul class="pagination mb-0 flex-wrap justify-content-end">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="javascript:void(0);">
+                                Prev
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                        <li class="page-item active"><a class="page-link" href="javascript:void(0);">2</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);">
+                                <i class="bi bi-three-dots"></i>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">17</a></li>
+                        <li class="page-item">
+                            <a class="page-link text-primary" href="javascript:void(0);">
+                                next
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End::row-2  -->
+
+
+<!-- Charts -->
+@code{
+
+    // bitcoin-currency-chart start //
+    private List<BitcoinCurrencyChart> btcChart { get; set; } = BitcoinCurrencyChartData.GetData();
+    private ApexChartOptions<BitcoinCurrencyChart> BitcoinCurrencyChartOptions { get; set; } = new ApexChartOptions<BitcoinCurrencyChart>
+    {
+        Chart = new()
+        {
+            Height = 40,
+            Width = 150,
+            Type = ChartType.Bar,
+            Toolbar = new ApexCharts.Toolbar
+            {
+                Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false, Pan = false, Reset = false, Download = false },
+            },
+            Sparkline = new()
+            {
+                Enabled = true,
+            },
+        },
+        Stroke = new Stroke
+        {
+            Show = true,
+            Curve = [Curve.Smooth],
+            LineCap = ApexCharts.LineCap.Butt,
+            Width = 1,
+            DashArray = 0
+        },
+        Yaxis = new List<YAxis>
+        {
+            new YAxis
+            {
+                Min = 0,
+                Show = false,
+                AxisBorder = new AxisBorder { Show = false },
+            }
+        },
+        Xaxis = new XAxis
+        {
+            AxisBorder = new AxisBorder { Show = false }
+        },
+        PlotOptions = new PlotOptions {
+                Bar = new PlotOptionsBar {
+                    ColumnWidth = "75%",
+                    BorderRadius = 1
+                }
+        },
+        Tooltip = new Tooltip
+        {
+            Enabled = true,
+            Y = new TooltipY
+            {
+                Formatter = "function (val) { return 'Value:  ' + val; }"
+            }
+        },
+        Colors = new List<string> { "rgb(50, 212, 132)" },
+    };
+    public class BitcoinCurrencyChart
+    {
+        public decimal Series { get; set; }
+        public decimal Value { get; set; }
+    };
+    public static class BitcoinCurrencyChartData
+    {
+        public static List<BitcoinCurrencyChart> GetData()
+        {
+            return new List<BitcoinCurrencyChart>
+            {
+                new BitcoinCurrencyChart { Series = 1,  Value = 20 },
+                new BitcoinCurrencyChart { Series = 2,  Value = 45 },
+                new BitcoinCurrencyChart { Series = 3,  Value = 54 },
+                new BitcoinCurrencyChart { Series = 4,  Value = 38 },
+                new BitcoinCurrencyChart { Series = 5,  Value = 56 },
+                new BitcoinCurrencyChart { Series = 6,  Value = 24 },
+                new BitcoinCurrencyChart { Series = 7,  Value = 65 },
+                new BitcoinCurrencyChart { Series = 8,  Value = 31 },
+                new BitcoinCurrencyChart { Series = 9,  Value = 37 },
+                new BitcoinCurrencyChart { Series = 10,  Value = 39 },
+                new BitcoinCurrencyChart { Series = 11,  Value = 62 },
+                new BitcoinCurrencyChart { Series = 12,  Value = 51 },
+                new BitcoinCurrencyChart { Series = 13,  Value = 35 },
+                new BitcoinCurrencyChart { Series = 14,  Value = 41 },
+                new BitcoinCurrencyChart { Series = 15,  Value = 35 },
+                new BitcoinCurrencyChart { Series = 16,  Value = 27 },
+                new BitcoinCurrencyChart { Series = 17,  Value = 93 },
+                new BitcoinCurrencyChart { Series = 18,  Value = 53 },
+                new BitcoinCurrencyChart { Series = 19,  Value = 61 },
+                new BitcoinCurrencyChart { Series = 20,  Value = 27 },
+                new BitcoinCurrencyChart { Series = 21,  Value = 54 },
+                new BitcoinCurrencyChart { Series = 22,  Value = 43 },
+                new BitcoinCurrencyChart { Series = 23,  Value = 19 },
+                new BitcoinCurrencyChart { Series = 24,  Value = 46 },
+            };
+        }
+    }
+    // bitcoin-currency-chart end //
+
+    // ethereum-currency-chart start //
+    private List<EthereumCurrencyChart> ethChart { get; set; } = EthereumCurrencyChartData.GetData();
+    private ApexChartOptions<EthereumCurrencyChart> EthereumCurrencyChartOptions { get; set; } = new ApexChartOptions<EthereumCurrencyChart>
+    {
+        Chart = new()
+        {
+            Height = 40,
+            Width = 150,
+            Type = ChartType.Bar,
+            Toolbar = new ApexCharts.Toolbar
+            {
+                Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false, Pan = false, Reset = false, Download = false },
+            },
+            Sparkline = new()
+            {
+                Enabled = true,
+            },
+        },
+        Stroke = new Stroke
+        {
+            Show = true,
+            Curve = [Curve.Smooth],
+            LineCap = ApexCharts.LineCap.Butt,
+            Width = 1,
+            DashArray = 0
+        },
+        Yaxis = new List<YAxis>
+        {
+            new YAxis
+            {
+                Min = 0,
+                Show = false,
+                AxisBorder = new AxisBorder { Show = false },
+            }
+        },
+        Xaxis = new XAxis
+        {
+            AxisBorder = new AxisBorder { Show = false }
+        },
+        PlotOptions = new PlotOptions
+        {
+            Bar = new PlotOptionsBar
+            {
+                ColumnWidth = "75%",
+                BorderRadius = 1
+            }
+        },
+        Tooltip = new Tooltip
+        {
+            Enabled = true,
+            Y = new TooltipY
+            {
+                Formatter = "function (val) { return 'Value:  ' + val; }"
+            }
+        },
+        Colors = new List<string> { "rgb(50, 212, 132)" },
+    };
+    public class EthereumCurrencyChart
+    {
+        public decimal Series { get; set; }
+        public decimal Value { get; set; }
+    };
+    public static class EthereumCurrencyChartData
+    {
+        public static List<EthereumCurrencyChart> GetData()
+        {
+            return new List<EthereumCurrencyChart>
+            {
+                new EthereumCurrencyChart { Series = 1,  Value = 20 },
+                new EthereumCurrencyChart { Series = 2,  Value = 45 },
+                new EthereumCurrencyChart { Series = 3,  Value = 54 },
+                new EthereumCurrencyChart { Series = 4,  Value = 38 },
+                new EthereumCurrencyChart { Series = 5,  Value = 56 },
+                new EthereumCurrencyChart { Series = 6,  Value = 24 },
+                new EthereumCurrencyChart { Series = 7,  Value = 65 },
+                new EthereumCurrencyChart { Series = 8,  Value = 31 },
+                new EthereumCurrencyChart { Series = 9,  Value = 37 },
+                new EthereumCurrencyChart { Series = 10,  Value = 39 },
+                new EthereumCurrencyChart { Series = 11,  Value = 62 },
+                new EthereumCurrencyChart { Series = 12,  Value = 51 },
+                new EthereumCurrencyChart { Series = 13,  Value = 35 },
+                new EthereumCurrencyChart { Series = 14,  Value = 41 },
+                new EthereumCurrencyChart { Series = 15,  Value = 35 },
+                new EthereumCurrencyChart { Series = 16,  Value = 27 },
+                new EthereumCurrencyChart { Series = 17,  Value = 93 },
+                new EthereumCurrencyChart { Series = 18,  Value = 53 },
+                new EthereumCurrencyChart { Series = 19,  Value = 61 },
+                new EthereumCurrencyChart { Series = 20,  Value = 27 },
+                new EthereumCurrencyChart { Series = 21,  Value = 54 },
+                new EthereumCurrencyChart { Series = 22,  Value = 43 },
+                new EthereumCurrencyChart { Series = 23,  Value = 19 },
+                new EthereumCurrencyChart { Series = 24,  Value = 46 },
+            };
+        }
+    }
+    // ethereum-currency-chart end //
+
+    // dash-currency-chart start //
+    private List<DashCurrencyChart> dashChart { get; set; } = DashCurrencyChartData.GetData();
+    private ApexChartOptions<DashCurrencyChart> DashCurrencyChartOptions { get; set; } = new ApexChartOptions<DashCurrencyChart>
+    {
+        Chart = new()
+        {
+            Height = 40,
+            Width = 150,
+            Type = ChartType.Bar,
+            Toolbar = new ApexCharts.Toolbar
+            {
+                Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false, Pan = false, Reset = false, Download = false },
+            },
+            Sparkline = new()
+            {
+                Enabled = true,
+            },
+        },
+        Stroke = new Stroke
+        {
+            Show = true,
+            Curve = [Curve.Smooth],
+            LineCap = ApexCharts.LineCap.Butt,
+            Width = 1,
+            DashArray = 0
+        },
+        Yaxis = new List<YAxis>
+        {
+            new YAxis
+            {
+                Min = 0,
+                Show = false,
+                AxisBorder = new AxisBorder { Show = false },
+            }
+        },
+        Xaxis = new XAxis
+        {
+            AxisBorder = new AxisBorder { Show = false }
+        },
+        PlotOptions = new PlotOptions
+        {
+            Bar = new PlotOptionsBar
+            {
+                ColumnWidth = "75%",
+                BorderRadius = 1
+            }
+        },
+        Tooltip = new Tooltip
+        {
+            Enabled = true,
+            Y = new TooltipY
+            {
+                Formatter = "function (val) { return 'Value:  ' + val; }"
+            }
+        },
+        Colors = new List<string> { "rgb(255, 103, 87)" },
+    };
+    public class DashCurrencyChart
+    {
+        public decimal Series { get; set; }
+        public decimal Value { get; set; }
+    };
+    public static class DashCurrencyChartData
+    {
+        public static List<DashCurrencyChart> GetData()
+        {
+            return new List<DashCurrencyChart>
+            {
+                new DashCurrencyChart { Series = 1,  Value = 20 },
+                new DashCurrencyChart { Series = 2,  Value = 45 },
+                new DashCurrencyChart { Series = 3,  Value = 54 },
+                new DashCurrencyChart { Series = 4,  Value = 38 },
+                new DashCurrencyChart { Series = 5,  Value = 56 },
+                new DashCurrencyChart { Series = 6,  Value = 24 },
+                new DashCurrencyChart { Series = 7,  Value = 65 },
+                new DashCurrencyChart { Series = 8,  Value = 31 },
+                new DashCurrencyChart { Series = 9,  Value = 37 },
+                new DashCurrencyChart { Series = 10,  Value = 39 },
+                new DashCurrencyChart { Series = 11,  Value = 62 },
+                new DashCurrencyChart { Series = 12,  Value = 51 },
+                new DashCurrencyChart { Series = 13,  Value = 35 },
+                new DashCurrencyChart { Series = 14,  Value = 41 },
+                new DashCurrencyChart { Series = 15,  Value = 35 },
+                new DashCurrencyChart { Series = 16,  Value = 27 },
+                new DashCurrencyChart { Series = 17,  Value = 93 },
+                new DashCurrencyChart { Series = 18,  Value = 53 },
+                new DashCurrencyChart { Series = 19,  Value = 61 },
+                new DashCurrencyChart { Series = 20,  Value = 27 },
+                new DashCurrencyChart { Series = 21,  Value = 54 },
+                new DashCurrencyChart { Series = 22,  Value = 43 },
+                new DashCurrencyChart { Series = 23,  Value = 19 },
+                new DashCurrencyChart { Series = 24,  Value = 46 },
+            };
+        }
+    }
+    // dash-currency-chart end //
+
+    public interface IBarGraph{
+        int Series { get; set; }
+        decimal Value { get; set; }
+    }
+    public class Cryptograph : IBarGraph {
+        public int Series { get; set; }
+        public decimal Value { get; set; }
+    };
+    private List<Cryptograph> bitcoingraph { get; set; } = GetCryptograph();
+    private List<Cryptograph> etheriumgraph { get; set; } = GetCryptograph1();
+    private List<Cryptograph> dashgraph { get; set; } = GetCryptograph2();
+    private List<Cryptograph> ripplegraph { get; set; } = GetCryptograph3();
+    private List<Cryptograph> iotagraph { get; set; } = GetCryptograph4();
+    private List<Cryptograph> golemgraph { get; set; } = GetCryptograph5();
+    private List<Cryptograph> litecoingraph { get; set; } = GetCryptograph6();
+    private List<Cryptograph> eosgraph { get; set; } = GetCryptograph7();
+    private List<Cryptograph> bytecoingraph { get; set; } = GetCryptograph8();
+    private List<Cryptograph> monerograph { get; set; } = GetCryptograph9();
+
+    private ApexChartOptions<Cryptograph>? BitcoinGraphChartOptions { get; set; }
+
+    private ApexChartOptions<Cryptograph>? EtheriumGraphChartOptions { get; set; }
+
+    private ApexChartOptions<Cryptograph>? DashGraphChartOptions { get; set; }
+
+    private ApexChartOptions<Cryptograph>? RippleGraphChartOptions { get; set; }
+
+    private ApexChartOptions<Cryptograph>? IOTAGraphChartOptions { get; set; }
+
+   private ApexChartOptions<Cryptograph>? GolemGraphChartOptions { get; set; }
+
+    private ApexChartOptions<Cryptograph>? LiteCoinGraphChartOptions { get; set; }
+
+    private ApexChartOptions<Cryptograph>? EosGraphChartOptions { get; set; }
+
+    private ApexChartOptions<Cryptograph>? ByteCoinGraphChartOptions { get; set; }
+
+    private ApexChartOptions<Cryptograph>? MoneroGraphChartOptions { get; set; }
+
+    public static List<Cryptograph> GetCryptograph()
+    {
+        var crypto = new List<Cryptograph>();
+        crypto.Add(new Cryptograph { Series = 1, Value = 20 });
+        crypto.Add(new Cryptograph { Series = 2, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 3, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 4, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 5, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 6, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 7, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 8, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 9, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 10, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 11, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 12, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 13, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 14, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 15, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 16, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 17, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 18, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 19, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 20, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 21, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 22, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 23, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 24, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 25, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 26, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 27, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 28, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 29, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 30, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 31, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 32, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 33, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 34, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 35, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 36, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 37, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 38, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 39, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 40, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 41, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 42, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 43, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 44, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 45, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 46, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 47, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 48, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 49, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 50, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 51, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 52, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 53, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 54, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 55, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 56, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 57, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 58, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 59, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 60, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 61, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 62, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 63, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 64, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 65, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 66, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 67, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 68, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 69, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 70, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 71, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 72, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 73, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 74, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 75, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 76, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 77, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 78, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 79, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 80, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 81, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 82, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 83, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 84, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 85, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 86, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 87, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 88, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 89, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 90, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 91, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 92, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 93, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 94, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 95, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 96, Value = 46 });
+
+        return crypto;
+    } 
+    public static List<Cryptograph> GetCryptograph1()
+    {
+        var crypto = new List<Cryptograph>();
+        crypto.Add(new Cryptograph { Series = 1, Value = 20 });
+        crypto.Add(new Cryptograph { Series = 2, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 3, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 4, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 5, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 6, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 7, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 8, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 9, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 10, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 11, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 12, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 13, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 14, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 15, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 16, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 17, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 18, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 19, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 20, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 21, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 22, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 23, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 24, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 25, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 26, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 27, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 28, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 29, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 30, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 31, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 32, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 33, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 34, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 35, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 36, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 37, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 38, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 39, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 40, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 41, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 42, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 43, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 44, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 45, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 46, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 47, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 48, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 49, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 50, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 51, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 52, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 53, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 54, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 55, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 56, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 57, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 58, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 59, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 60, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 61, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 62, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 63, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 64, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 65, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 66, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 67, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 68, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 69, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 70, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 71, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 72, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 73, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 74, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 75, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 76, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 77, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 78, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 79, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 80, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 81, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 82, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 83, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 84, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 85, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 86, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 87, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 88, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 89, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 90, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 91, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 92, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 93, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 94, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 95, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 96, Value = 46 });
+
+        return crypto;
+    } 
+    public static List<Cryptograph> GetCryptograph2()
+    {
+        var crypto = new List<Cryptograph>();
+        crypto.Add(new Cryptograph { Series = 1, Value = 20 });
+        crypto.Add(new Cryptograph { Series = 2, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 3, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 4, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 5, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 6, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 7, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 8, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 9, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 10, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 11, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 12, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 13, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 14, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 15, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 16, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 17, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 18, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 19, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 20, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 21, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 22, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 23, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 24, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 25, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 26, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 27, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 28, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 29, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 30, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 31, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 32, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 33, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 34, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 35, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 36, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 37, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 38, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 39, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 40, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 41, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 42, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 43, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 44, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 45, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 46, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 47, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 48, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 49, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 50, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 51, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 52, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 53, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 54, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 55, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 56, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 57, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 58, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 59, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 60, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 61, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 62, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 63, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 64, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 65, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 66, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 67, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 68, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 69, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 70, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 71, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 72, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 73, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 74, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 75, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 76, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 77, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 78, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 79, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 80, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 81, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 82, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 83, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 84, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 85, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 86, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 87, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 88, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 89, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 90, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 91, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 92, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 93, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 94, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 95, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 96, Value = 46 });
+
+        return crypto;
+    } 
+    public static List<Cryptograph> GetCryptograph3()
+    {
+        var crypto = new List<Cryptograph>();
+        crypto.Add(new Cryptograph { Series = 1, Value = 20 });
+        crypto.Add(new Cryptograph { Series = 2, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 3, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 4, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 5, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 6, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 7, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 8, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 9, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 10, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 11, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 12, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 13, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 14, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 15, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 16, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 17, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 18, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 19, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 20, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 21, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 22, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 23, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 24, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 25, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 26, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 27, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 28, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 29, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 30, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 31, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 32, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 33, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 34, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 35, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 36, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 37, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 38, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 39, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 40, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 41, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 42, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 43, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 44, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 45, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 46, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 47, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 48, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 49, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 50, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 51, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 52, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 53, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 54, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 55, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 56, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 57, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 58, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 59, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 60, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 61, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 62, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 63, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 64, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 65, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 66, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 67, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 68, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 69, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 70, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 71, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 72, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 73, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 74, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 75, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 76, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 77, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 78, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 79, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 80, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 81, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 82, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 83, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 84, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 85, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 86, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 87, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 88, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 89, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 90, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 91, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 92, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 93, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 94, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 95, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 96, Value = 46 });
+
+        return crypto;
+    } 
+    public static List<Cryptograph> GetCryptograph4()
+    {
+        var crypto = new List<Cryptograph>();
+        crypto.Add(new Cryptograph { Series = 1, Value = 20 });
+        crypto.Add(new Cryptograph { Series = 2, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 3, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 4, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 5, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 6, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 7, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 8, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 9, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 10, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 11, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 12, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 13, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 14, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 15, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 16, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 17, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 18, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 19, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 20, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 21, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 22, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 23, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 24, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 25, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 26, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 27, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 28, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 29, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 30, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 31, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 32, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 33, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 34, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 35, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 36, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 37, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 38, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 39, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 40, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 41, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 42, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 43, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 44, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 45, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 46, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 47, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 48, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 49, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 50, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 51, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 52, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 53, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 54, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 55, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 56, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 57, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 58, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 59, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 60, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 61, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 62, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 63, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 64, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 65, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 66, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 67, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 68, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 69, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 70, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 71, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 72, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 73, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 74, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 75, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 76, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 77, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 78, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 79, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 80, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 81, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 82, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 83, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 84, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 85, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 86, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 87, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 88, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 89, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 90, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 91, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 92, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 93, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 94, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 95, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 96, Value = 46 });
+
+        return crypto;
+    } 
+    public static List<Cryptograph> GetCryptograph5()
+    {
+        var crypto = new List<Cryptograph>();
+        crypto.Add(new Cryptograph { Series = 1, Value = 20 });
+        crypto.Add(new Cryptograph { Series = 2, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 3, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 4, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 5, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 6, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 7, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 8, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 9, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 10, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 11, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 12, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 13, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 14, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 15, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 16, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 17, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 18, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 19, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 20, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 21, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 22, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 23, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 24, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 25, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 26, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 27, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 28, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 29, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 30, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 31, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 32, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 33, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 34, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 35, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 36, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 37, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 38, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 39, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 40, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 41, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 42, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 43, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 44, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 45, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 46, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 47, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 48, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 49, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 50, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 51, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 52, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 53, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 54, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 55, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 56, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 57, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 58, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 59, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 60, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 61, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 62, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 63, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 64, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 65, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 66, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 67, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 68, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 69, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 70, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 71, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 72, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 73, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 74, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 75, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 76, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 77, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 78, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 79, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 80, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 81, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 82, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 83, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 84, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 85, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 86, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 87, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 88, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 89, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 90, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 91, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 92, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 93, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 94, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 95, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 96, Value = 46 });
+
+        return crypto;
+    } 
+    public static List<Cryptograph> GetCryptograph6()
+    {
+        var crypto = new List<Cryptograph>();
+        crypto.Add(new Cryptograph { Series = 1, Value = 20 });
+        crypto.Add(new Cryptograph { Series = 2, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 3, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 4, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 5, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 6, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 7, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 8, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 9, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 10, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 11, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 12, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 13, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 14, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 15, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 16, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 17, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 18, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 19, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 20, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 21, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 22, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 23, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 24, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 25, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 26, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 27, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 28, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 29, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 30, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 31, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 32, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 33, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 34, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 35, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 36, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 37, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 38, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 39, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 40, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 41, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 42, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 43, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 44, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 45, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 46, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 47, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 48, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 49, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 50, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 51, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 52, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 53, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 54, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 55, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 56, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 57, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 58, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 59, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 60, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 61, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 62, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 63, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 64, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 65, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 66, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 67, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 68, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 69, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 70, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 71, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 72, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 73, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 74, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 75, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 76, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 77, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 78, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 79, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 80, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 81, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 82, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 83, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 84, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 85, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 86, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 87, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 88, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 89, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 90, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 91, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 92, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 93, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 94, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 95, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 96, Value = 46 });
+
+        return crypto;
+    } 
+    public static List<Cryptograph> GetCryptograph7()
+    {
+        var crypto = new List<Cryptograph>();
+        crypto.Add(new Cryptograph { Series = 1, Value = 20 });
+        crypto.Add(new Cryptograph { Series = 2, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 3, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 4, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 5, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 6, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 7, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 8, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 9, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 10, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 11, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 12, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 13, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 14, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 15, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 16, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 17, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 18, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 19, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 20, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 21, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 22, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 23, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 24, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 25, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 26, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 27, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 28, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 29, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 30, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 31, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 32, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 33, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 34, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 35, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 36, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 37, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 38, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 39, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 40, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 41, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 42, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 43, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 44, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 45, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 46, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 47, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 48, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 49, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 50, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 51, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 52, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 53, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 54, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 55, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 56, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 57, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 58, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 59, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 60, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 61, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 62, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 63, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 64, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 65, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 66, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 67, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 68, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 69, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 70, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 71, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 72, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 73, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 74, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 75, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 76, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 77, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 78, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 79, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 80, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 81, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 82, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 83, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 84, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 85, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 86, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 87, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 88, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 89, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 90, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 91, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 92, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 93, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 94, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 95, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 96, Value = 46 });
+
+        return crypto;
+    } 
+    public static List<Cryptograph> GetCryptograph8()
+    {
+        var crypto = new List<Cryptograph>();
+        crypto.Add(new Cryptograph { Series = 1, Value = 20 });
+        crypto.Add(new Cryptograph { Series = 2, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 3, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 4, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 5, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 6, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 7, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 8, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 9, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 10, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 11, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 12, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 13, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 14, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 15, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 16, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 17, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 18, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 19, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 20, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 21, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 22, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 23, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 24, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 25, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 26, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 27, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 28, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 29, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 30, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 31, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 32, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 33, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 34, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 35, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 36, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 37, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 38, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 39, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 40, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 41, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 42, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 43, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 44, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 45, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 46, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 47, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 48, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 49, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 50, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 51, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 52, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 53, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 54, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 55, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 56, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 57, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 58, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 59, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 60, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 61, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 62, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 63, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 64, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 65, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 66, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 67, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 68, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 69, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 70, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 71, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 72, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 73, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 74, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 75, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 76, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 77, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 78, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 79, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 80, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 81, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 82, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 83, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 84, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 85, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 86, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 87, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 88, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 89, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 90, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 91, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 92, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 93, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 94, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 95, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 96, Value = 46 });
+
+        return crypto;
+    } 
+    public static List<Cryptograph> GetCryptograph9()
+    {
+        var crypto = new List<Cryptograph>();
+        crypto.Add(new Cryptograph { Series = 1, Value = 20 });
+        crypto.Add(new Cryptograph { Series = 2, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 3, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 4, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 5, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 6, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 7, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 8, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 9, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 10, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 11, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 12, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 13, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 14, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 15, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 16, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 17, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 18, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 19, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 20, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 21, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 22, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 23, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 24, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 25, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 26, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 27, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 28, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 29, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 30, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 31, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 32, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 33, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 34, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 35, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 36, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 37, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 38, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 39, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 40, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 41, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 42, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 43, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 44, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 45, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 46, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 47, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 48, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 49, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 50, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 51, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 52, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 53, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 54, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 55, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 56, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 57, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 58, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 59, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 60, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 61, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 62, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 63, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 64, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 65, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 66, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 67, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 68, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 69, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 70, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 71, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 72, Value = 46 });
+        crypto.Add(new Cryptograph { Series = 73, Value = 0 });
+        crypto.Add(new Cryptograph { Series = 74, Value = 45 });
+        crypto.Add(new Cryptograph { Series = 75, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 76, Value = 38 });
+        crypto.Add(new Cryptograph { Series = 77, Value = 56 });
+        crypto.Add(new Cryptograph { Series = 78, Value = 24 });
+        crypto.Add(new Cryptograph { Series = 79, Value = 65 });
+        crypto.Add(new Cryptograph { Series = 80, Value = 31 });
+        crypto.Add(new Cryptograph { Series = 81, Value = 37 });
+        crypto.Add(new Cryptograph { Series = 82, Value = 39 });
+        crypto.Add(new Cryptograph { Series = 83, Value = 62 });
+        crypto.Add(new Cryptograph { Series = 84, Value = 51 });
+        crypto.Add(new Cryptograph { Series = 85, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 86, Value = 41 });
+        crypto.Add(new Cryptograph { Series = 87, Value = 35 });
+        crypto.Add(new Cryptograph { Series = 88, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 89, Value = 93 });
+        crypto.Add(new Cryptograph { Series = 90, Value = 53 });
+        crypto.Add(new Cryptograph { Series = 91, Value = 61 });
+        crypto.Add(new Cryptograph { Series = 92, Value = 27 });
+        crypto.Add(new Cryptograph { Series = 93, Value = 54 });
+        crypto.Add(new Cryptograph { Series = 94, Value = 43 });
+        crypto.Add(new Cryptograph { Series = 95, Value = 19 });
+        crypto.Add(new Cryptograph { Series = 96, Value = 46 });
+
+        return crypto;
+    } 
+    
+    protected override void OnInitialized()
+    {
+
+            List<string> BitcoinGraphColors = new List<string> { "rgb(255, 103, 87)"};
+            List<string> EthereumGraphColors = new List<string> { "rgb(50, 212, 132)"};
+            List<string> DashGraphColors = new List<string> { "rgb(50, 212, 132)"};
+            List<string> RippleGraphColors = new List<string> { "rgb(50, 212, 132)"};
+            List<string> IOTAGraphColors = new List<string> { "rgb(255, 103, 87)"};
+            List<string> GolemGraphColors = new List<string> { "rgb(50, 212, 132)"}; 
+            List<string> LiteCoinGraphColors = new List<string> { "rgb(255, 103, 87)"}; 
+            List<string> EosGraphColors = new List<string> { "rgb(50, 212, 132)"}; 
+            List<string> ByteGraphColors = new List<string> { "rgb(255, 103, 87)"}; 
+            List<string> MoneroGraphColors = new List<string> { "rgb(50, 212, 132)"};
+
+
+        BitcoinGraphChartOptions = InitializeGraphChartOptions<Cryptograph>(BitcoinGraphColors);
+        EtheriumGraphChartOptions = InitializeGraphChartOptions<Cryptograph>(EthereumGraphColors);
+        DashGraphChartOptions = InitializeGraphChartOptions<Cryptograph>(DashGraphColors);
+        RippleGraphChartOptions = InitializeGraphChartOptions<Cryptograph>(RippleGraphColors);
+        IOTAGraphChartOptions = InitializeGraphChartOptions<Cryptograph>(IOTAGraphColors);
+        GolemGraphChartOptions = InitializeGraphChartOptions<Cryptograph>(GolemGraphColors);
+        LiteCoinGraphChartOptions = InitializeGraphChartOptions<Cryptograph>(LiteCoinGraphColors);
+        EosGraphChartOptions = InitializeGraphChartOptions<Cryptograph>(EosGraphColors);
+        ByteCoinGraphChartOptions = InitializeGraphChartOptions<Cryptograph>(ByteGraphColors);
+        MoneroGraphChartOptions = InitializeGraphChartOptions<Cryptograph>(MoneroGraphColors);
+    }
+
+    private ApexChartOptions<T> InitializeGraphChartOptions<T>(List<string> colors) where T : class, IBarGraph
+    {
+        return new ApexChartOptions<T>
+        {
+            Chart = new()
+            {
+                Height = 30,
+                Width = 120,
+                Type = ChartType.Line,
+                Toolbar = new ApexCharts.Toolbar
+                {
+                    Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false, Pan = false, Reset = false, Download = false },
+                },
+                Sparkline = new()
+                {
+                    Enabled = true,
+                },
+                DropShadow = new() {
+                    Enabled = true,
+                    Top = 0,
+                    Left = 0,
+                    Blur = 3,
+                    Color = "#000",
+                    Opacity = 0.1,
+                },
+            },
+            Stroke = new Stroke
+            {
+                Show = true,
+                Curve = [Curve.Smooth],
+                LineCap = ApexCharts.LineCap.Butt,
+                Width = 1,
+                DashArray = 0
+            },
+            Yaxis = new List<YAxis>
+            {
+                new YAxis
+                {
+                    Min = 0,
+                    Show = false,
+                    AxisBorder = new AxisBorder { Show = false },
+                }
+            },
+            Xaxis = new XAxis
+            {
+                AxisBorder = new AxisBorder { Show = false }
+            },
+            Tooltip = new Tooltip { 
+                Enabled= false,
+            },
+            Colors = new Color(colors),
+        };
+    }
+
+}
+

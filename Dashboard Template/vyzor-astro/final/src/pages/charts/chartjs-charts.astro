@@ -1,0 +1,113 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Pageheader from "../../components/Pageheader.astro";
+---
+
+<Layout Seo="Chartjs Charts">
+    <Pageheader
+        title="Charts"
+        currentpage="ChartJs Charts"
+        activepage="ChartJs Charts"
+    />
+
+    <!-- Start::row-1 -->
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Chartjs Line Chart</div>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-line" style="max-width: 100%; height:290px" class="chartjs-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Chartjs Bar Chart</div>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-bar" class="chartjs-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Chartjs Pie Chart</div>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-pie" class="chartjs-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Chartjs Doughnut Chart</div>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-doughnut" class="chartjs-chart"
+                    ></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Chartjs Mixed Chart</div>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-mixed" class="chartjs-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Chartjs Polar Chart</div>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-polar" class="chartjs-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Chartjs Radial Chart</div>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-radar" class="chartjs-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Chartjs Scatter Chart</div>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-scatter" class="chartjs-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Chartjs Bubble Chart</div>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-bubble" class="chartjs-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End::row-1 -->
+
+    <script>
+        import "../../scripts/js/custom.js";
+        import "../../scripts/js/chartjs-charts.js";
+    </script>
+</Layout>

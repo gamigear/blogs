@@ -1,0 +1,960 @@
+---
+import LandingLayout from "../../layouts/LandingLayout.astro";
+import {
+    LandingFeatures,
+    LandingSwiperdata,
+    ServiceCards,
+    WorkflowCards,
+} from "../../shared/data/pages/landingdata";
+import {
+    BasicPricing1data,
+    BasicPricingdata,
+} from "../../shared/data/pages/pricingdata";
+import { CustomReviews } from "../../shared/data/pages/testimonialsdata";
+import { TeamMembersLanding } from "../../shared/data/pages/teamdata";
+import BG1 from "../../assets/images/media/backgrounds/1.png";
+import BG2 from "../../assets/images/media/backgrounds/2.png";
+import BG5 from "../../assets/images/media/backgrounds/5.png";
+import BG7 from "../../assets/images/media/backgrounds/7.png";
+import media67 from "../../assets/images/media/media-67.png";
+import SpkBasicpricecard from "../../shared/@spk-reusable-components/reusable-pages/spk-basicpricecard.astro";
+import SpkTeststylecard from "../../shared/@spk-reusable-components/reusable-pages/spk-teststylecard.astro";
+import SpkTeamcard from "../../shared/@spk-reusable-components/reusable-pages/spk-teamcard.astro";
+import { Image } from "astro:assets";
+const basePath = import.meta.env.BASE_URL;
+---
+
+<LandingLayout Seo="Landing" bodyClass="landing-body">
+    <!-- Start:: Landing Banner -->
+    <div class="landing-banner">
+        <div class="banner-image-container">
+            <Image src={BG5} alt="" />
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 my-auto">
+                    <div
+                        class="d-inline-flex align-items-center gap-2 text-default badge bg-white border fs-13 rounded-pill"
+                    >
+                        <span class="avatar avatar-xs avatar-rounded bg-warning"
+                            ><i class="ri-flashlight-fill fs-14"></i></span
+                        >Seamless Integration
+                    </div>
+                    <h1 class="fw-semibold mt-3 landing-banner-heading">
+                        Track key metrics <br /> and <span class="text-primary"
+                            >optimize</span
+                        > your business
+                    </h1>
+                    <span class="d-block fs-18"
+                        >Keep track of important business metrics and optimize
+                        processes to drive growth and improve efficiency.</span
+                    >
+                    <div class="btn-list banner-buttons">
+                        <a
+                            href={basePath}
+                            class="btn btn-primary btn-lg rounded-pill btn-w-lg"
+                            >Get Started for free</a
+                        >
+                        <a
+                            class="btn btn-lg btn-light border rounded-pill btn-w-lg"
+                            href="javascript:void(0);">View Demo</a
+                        >
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="banner-main-img text-end d-xl-block d-none">
+                        <Image
+                            src={BG7}
+                            width={520}
+                            height={400}
+                            alt=""
+                            class="img-fluid"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End:: Landing Banner -->
+
+    <!-- Start:: Section-1 -->
+    <section class="section">
+        <div class="container">
+            <div class="heading-section">
+                <div class="heading-subtitle">Clients</div>
+                <div class="heading-title">
+                    Trusted by Leading Companies Worldwide
+                </div>
+                <div class="heading-description">
+                    Thousands of businesses trust our solutions <br /> to optimize
+                    their operations and drive growth.
+                </div>
+            </div>
+            <div class="swiper trusted-clients">
+                <div class="swiper-wrapper">
+                    {
+                        LandingSwiperdata.map((idx) => (
+                            <div class="swiper-slide">
+                                <div class="card custom-card trusted-clients-container mb-0 border border-dashed">
+                                    <div class="card-body">
+                                        <img
+                                            src={idx.imgsrc.src}
+                                            alt=""
+                                            class="img-fluid"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End:: Section-1 -->
+
+    <!-- Start:: Section-2 -->
+    <section class="section" id="feature">
+        <div class="container">
+            <div class="heading-section">
+                <div class="heading-subtitle">Features</div>
+                <div class="heading-title">
+                    Powerful Features to Streamline Your Workflow
+                </div>
+                <div class="heading-description">
+                    Boost productivity and simplify management with our
+                    powerful, real-time features.
+                </div>
+            </div>
+            <div class="row">
+                {
+                    LandingFeatures.map((feature) => (
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card custom-card">
+                                <div class="card-body">
+                                    <div class="lh-1 mb-3">
+                                        <span
+                                            class={`avatar avatar-lg avatar-rounded ${feature.bgClass} ${feature.svgClass}`}
+                                            set:html={feature.svgIcon}
+                                        />
+                                    </div>
+                                    <h5 class="fw-semibold">{feature.title}</h5>
+                                    <span class="fs-15 text-muted">
+                                        {feature.description}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+    <!-- End:: Section-2 -->
+
+    <!-- Start:: Section-3 -->
+    <section class="section" id="service">
+        <div class="container">
+            <div class="heading-section">
+                <div class="heading-subtitle">Services</div>
+                <div class="heading-title">
+                    Comprehensive Solutions for Your Business Needs
+                </div>
+                <div class="heading-description">
+                    Discover our services to streamline operations, boost
+                    productivity, <br /> and drive growth, from analytics to automation.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-7">
+                    <div class="row">
+                        {
+                            ServiceCards.map((card) => (
+                                <div class="col-lg-6">
+                                    <div
+                                        class={`card custom-card landing-services-card ${card.cardClass}`}
+                                    >
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-start gap-3">
+                                                <div class="lh-1">
+                                                    <span
+                                                        class={`avatar avatar-lg avatar-rounded ${card.iconBgClass} ${card.iconColorClass}`}
+                                                        set:html={card.icon}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <h6 class="d-block fw-semibold">
+                                                        {card.title}
+                                                    </h6>
+                                                    <span class="d-block text-muted">
+                                                        {card.description}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
+                <div class="col-xl-5 my-auto">
+                    <div
+                        class="services-image-container text-end d-xl-block d-none"
+                    >
+                        <img src={media67.src} alt="" class="img-fluid" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End:: Section-3 -->
+
+    <!-- Start:: Buy Now Section -->
+    <section
+        class="section section-md section-primary text-fixed-white py-5 buy-now-section"
+    >
+        <div class="testimonials-background-container">
+            <Image src={BG1} alt="" />
+        </div>
+        <div class="container">
+            <div
+                class="d-flex align-items-center gap-2 justify-content-between flex-wrap"
+            >
+                <div>
+                    <h4 class="fw-semibold text-fixed-white">
+                        Transform Your Workflow Today
+                    </h4>
+                    <span class="d-block fs-16 op-8"
+                        >Unlock all the powerful features of our admin template. <br
+                        /> Purchase now or try the demo to see it in action!</span
+                    >
+                </div>
+                <div class="btn-list">
+                    <a
+                        href={basePath}
+                        class="btn btn-danger btn-lg btn-w-md d-inline-flex align-items-center"
+                        >View Demo<i class="ti ti-arrow-narrow-right ms-2"
+                        ></i></a
+                    >
+                    <button
+                        class="btn btn-success btn-lg btn-w-md d-inline-flex align-items-center"
+                        >Buy Now<i class="ti ti-shopping-cart ms-2"></i></button
+                    >
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End:: Buy Now Section -->
+
+    <!-- Start:: Section-4 -->
+    <section class="section" id="price">
+        <div class="container">
+            <div class="heading-section">
+                <div class="heading-subtitle">Our Pricing</div>
+                <div class="heading-title">
+                    Choose the Plan That Fits Your Needs
+                </div>
+                <div class="heading-description mb-3">
+                    Select the right fit and enjoy seamless access to all
+                    features.
+                </div>
+                <div
+                    class="tab-style-1 border bg-white rounded-0 d-inline-block"
+                >
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button
+                                type="button"
+                                class="nav-link rounded-0 fw-medium active"
+                                data-bs-toggle="pill"
+                                data-bs-target="#pricing1-monthly"
+                                aria-selected="true"
+                                role="tab">Monthly</button
+                            >
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button
+                                type="button"
+                                class="nav-link rounded-0 fw-medium"
+                                data-bs-toggle="pill"
+                                data-bs-target="#pricing1-yearly"
+                                aria-selected="false"
+                                role="tab"
+                                tabindex="-1">Yearly</button
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div
+                    class="tab-pane show active p-0 border-0"
+                    id="pricing1-monthly"
+                    role="tabpanel"
+                >
+                    <div class="row">
+                        {
+                            BasicPricingdata.map((card) => (
+                                <div class="col-xxl-4">
+                                    <SpkBasicpricecard
+                                        cardClass={card.cardClass}
+                                        price={card}
+                                    />
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
+                <div
+                    class="tab-pane p-0 border-0"
+                    id="pricing1-yearly"
+                    role="tabpanel"
+                >
+                    <div class="row">
+                        {
+                            BasicPricing1data.map((card) => (
+                                <div class="col-xxl-4">
+                                    <SpkBasicpricecard
+                                        cardClass={card.cardClass}
+                                        price={card}
+                                    />
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End:: Section-4 -->
+
+    <!-- Start:: Section-5 -->
+    <section class="section">
+        <div class="container">
+            <div class="heading-section">
+                <div class="heading-subtitle">FAQ's</div>
+                <div class="heading-title">
+                    Need Help? Find Your Answers Here
+                </div>
+                <div class="heading-description">
+                    Browse through common questions to get quick solutions.
+                    We're here to help!
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div
+                        class="accordion faq-accordion accordions-items-seperate"
+                        id="accordionFAQ3"
+                    >
+                        <div class="accordion-item">
+                            <h2
+                                class="accordion-header"
+                                id="headingcustomicon2Eleven"
+                            >
+                                <button
+                                    class="accordion-button"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsecustomicon2Eleven"
+                                    aria-expanded="true"
+                                    aria-controls="collapsecustomicon2Eleven"
+                                >
+                                    <i
+                                        class="ri-layout-4-line fw-medium avatar avatar-sm avatar-rounded bg-primary-transparent fs-5 me-2 text-primary"
+                                    ></i>How do I customize my dashboard layout?
+                                </button>
+                            </h2>
+                            <div
+                                id="collapsecustomicon2Eleven"
+                                class="accordion-collapse collapse show"
+                                aria-labelledby="headingcustomicon2Eleven"
+                                data-bs-parent="#accordionFAQ3"
+                            >
+                                <div class="accordion-body">
+                                    You can easily customize the dashboard by
+                                    dragging and dropping widgets. Go to the
+                                    settings menu and select 'Customize
+                                    Dashboard' to rearrange the layout.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2
+                                class="accordion-header"
+                                id="headingcustomicon2Twelve"
+                            >
+                                <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsecustomicon2Twelve"
+                                    aria-expanded="false"
+                                    aria-controls="collapsecustomicon2Twelve"
+                                >
+                                    <i
+                                        class="ri-plug-line fw-medium avatar avatar-sm avatar-rounded bg-primary-transparent fs-5 me-2 text-primary"
+                                    ></i>Can I integrate third-party apps with
+                                    the admin template?
+                                </button>
+                            </h2>
+                            <div
+                                id="collapsecustomicon2Twelve"
+                                class="accordion-collapse collapse"
+                                aria-labelledby="headingcustomicon2Twelve"
+                                data-bs-parent="#accordionFAQ3"
+                            >
+                                <div class="accordion-body">
+                                    Yes! Our admin template supports seamless
+                                    integrations with third-party apps. You can
+                                    easily connect tools like Google Analytics,
+                                    CRM software, and more.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2
+                                class="accordion-header"
+                                id="headingcustomicon2Thirteen"
+                            >
+                                <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsecustomicon2Thirteen"
+                                    aria-expanded="false"
+                                    aria-controls="collapsecustomicon2Thirteen"
+                                >
+                                    <i
+                                        class="ri-phone-line fw-medium avatar avatar-sm avatar-rounded bg-primary-transparent fs-5 me-2 text-primary"
+                                    ></i>Is this admin template mobile
+                                    responsive?
+                                </button>
+                            </h2>
+                            <div
+                                id="collapsecustomicon2Thirteen"
+                                class="accordion-collapse collapse"
+                                aria-labelledby="headingcustomicon2Thirteen"
+                                data-bs-parent="#accordionFAQ3"
+                            >
+                                <div class="accordion-body">
+                                    Absolutely! The admin template is fully
+                                    responsive and optimized for mobile,
+                                    ensuring that it works perfectly on
+                                    smartphones and tablets.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2
+                                class="accordion-header"
+                                id="headingcustomicon2Fourteen"
+                            >
+                                <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsecustomicon2Fourteen"
+                                    aria-expanded="false"
+                                    aria-controls="collapsecustomicon2Fourteen"
+                                >
+                                    <i
+                                        class="ri-user-settings-line fw-medium avatar avatar-sm avatar-rounded bg-primary-transparent fs-5 me-2 text-primary"
+                                    ></i>How do I manage user roles and
+                                    permissions?
+                                </button>
+                            </h2>
+                            <div
+                                id="collapsecustomicon2Fourteen"
+                                class="accordion-collapse collapse"
+                                aria-labelledby="headingcustomicon2Fourteen"
+                                data-bs-parent="#accordionFAQ3"
+                            >
+                                <div class="accordion-body">
+                                    You can manage user roles and permissions
+                                    under the 'User Management' section. Simply
+                                    assign roles like Admin, Manager, or Viewer
+                                    to control access.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2
+                                class="accordion-header"
+                                id="headingcustomicon2Fifteen"
+                            >
+                                <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsecustomicon2Fifteen"
+                                    aria-expanded="false"
+                                    aria-controls="collapsecustomicon2Fifteen"
+                                >
+                                    <i
+                                        class="ri-file-excel-line fw-medium avatar avatar-sm avatar-rounded bg-primary-transparent fs-5 me-2 text-primary"
+                                    ></i>Can I export data from the reports
+                                    section?
+                                </button>
+                            </h2>
+                            <div
+                                id="collapsecustomicon2Fifteen"
+                                class="accordion-collapse collapse"
+                                aria-labelledby="headingcustomicon2Fifteen"
+                                data-bs-parent="#accordionFAQ3"
+                            >
+                                <div class="accordion-body">
+                                    Yes, you can easily export reports as CSV,
+                                    PDF, or Excel files. Just click the export
+                                    button at the top of the reports page."
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2
+                                class="accordion-header"
+                                id="headingcustomicon2Sixteen"
+                            >
+                                <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsecustomicon2Sixteen"
+                                    aria-expanded="false"
+                                    aria-controls="collapsecustomicon2Sixteen"
+                                >
+                                    <i
+                                        class="ri-notification-line fw-medium avatar avatar-sm avatar-rounded bg-primary-transparent fs-5 me-2 text-primary"
+                                    ></i>How do I enable notifications for
+                                    updates?
+                                </button>
+                            </h2>
+                            <div
+                                id="collapsecustomicon2Sixteen"
+                                class="accordion-collapse collapse"
+                                aria-labelledby="headingcustomicon2Sixteen"
+                                data-bs-parent="#accordionFAQ3"
+                            >
+                                <div class="accordion-body">
+                                    Notifications can be enabled under the
+                                    'Settings' section. You can choose to
+                                    receive real-time alerts via email or in-app
+                                    for important updates.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End:: Section-5 -->
+
+    <!-- Start:: Section-6 -->
+    <section class="section section-primary testimonials-section">
+        <div class="testimonials-background-container">
+            <Image src={BG2} alt="" />
+        </div>
+        <div class="container">
+            <div class="heading-section">
+                <div class="heading-subtitle">Testimonials</div>
+                <div class="heading-title">See What Our Customers Say</div>
+                <div class="heading-description">
+                    Read real testimonials from customers who’ve <br /> improved
+                    their business with our platform.
+                </div>
+            </div>
+            <div
+                class="swiper pagination-dynamic testimonialSwiperService testimonials-swiper-2"
+            >
+                <div class="swiper-wrapper">
+                    {
+                        CustomReviews.map((review) => (
+                            <div class="swiper-slide">
+                                <SpkTeststylecard
+                                    cardClass={review.color}
+                                    style={review}
+                                />
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End:: Section-6 -->
+
+    <!-- Start:: Setion-7 -->
+    <section class="section bg-light py-5">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-3 col-6">
+                    <div class="text-center stats-point one">
+                        <h4 class="fw-semibold mb-1">12,345</h4>
+                        <div class="text-muted fs-16">Customers</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="text-center stats-point two">
+                        <h4 class="fw-semibold mb-1">56,789</h4>
+                        <div class="text-muted fs-16">Products Sold</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="text-center stats-point three">
+                        <h4 class="fw-semibold mb-1">1,234</h4>
+                        <div class="text-muted fs-16">Projects</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="text-center stats-point four">
+                        <h4 class="fw-semibold mb-1">98%</h4>
+                        <div class="text-muted fs-16">
+                            Client Satisfaction Rate
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End:: Setion-7 -->
+
+    <!-- Start:: Section-8 -->
+    <section class="section">
+        <div class="container">
+            <div class="heading-section">
+                <div class="heading-subtitle">Workflow</div>
+                <div class="heading-title">
+                    Streamlined Workflow for Efficient Results
+                </div>
+                <div class="heading-description">
+                    Discover how our structured workflow drives productivity, <br
+                    /> ensuring seamless execution from start to finish.
+                </div>
+            </div>
+            <div class="row justify-content-between">
+                {
+                    WorkflowCards.map((card) => (
+                        <div class="col-lg-3">
+                            <div class="card custom-card border-0 shadow-none">
+                                <div class="card-body p-4 text-center">
+                                    {card.imgSrc && (
+                                        <div class="step-arrow-container d-lg-block d-none">
+                                            <Image
+                                                src={card.imgSrc}
+                                                alt={card.title}
+                                                class="img-fluid"
+                                                height={50}
+                                                width={167}
+                                            />
+                                        </div>
+                                    )}
+                                    <div class="lh-1 mb-3">
+                                        <span
+                                            class={`avatar avatar-lg ${card.iconClass} workflow-icon-container`}
+                                            set:html={card.icon}
+                                        />
+                                    </div>
+                                    <h5 class="fw-semibold">{card.title}</h5>
+                                    <span class="d-block text-muted">
+                                        {card.description}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+    <!-- End:: Section-8 -->
+
+    <!-- Start:: Section-9 -->
+    <section class="section">
+        <div class="container">
+            <div class="heading-section">
+                <div class="heading-subtitle">Our Team</div>
+                <div class="heading-title">Meet Our Expert Team</div>
+                <div class="heading-description">
+                    Get to know the talented individuals behind our success, <br
+                    /> working together to deliver exceptional results.
+                </div>
+            </div>
+            <div class="row">
+                {
+                    TeamMembersLanding.slice(0, 4).map((idx) => (
+                        <div class="col-lg-3 col-md-6">
+                            <SpkTeamcard member={idx} />
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+    <!-- End:: Section-9 -->
+
+    <!-- Start:: Section-10 -->
+    <section class="section" id="contactus">
+        <div class="container">
+            <div class="heading-section">
+                <div class="heading-subtitle">Contact Us</div>
+                <div class="heading-title">Get in Touch With Us</div>
+                <div class="heading-description">
+                    Have questions or need assistance? Our team is here to help. <br
+                    /> Reach out to us anytime for support or inquiries.
+                </div>
+            </div>
+            <div class="row gy-4 justify-content-between">
+                <div class="col-xl-6">
+                    <h6 class="fw-semibold mb-4">Get In Touch !</h6>
+                    <div class="row gy-3">
+                        <div class="col-xl-6">
+                            <label
+                                for="contact-address-firstname"
+                                class="form-label">First Name</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="contact-address-firstname"
+                                placeholder="Enter Name"
+                            />
+                        </div>
+                        <div class="col-xl-6">
+                            <label
+                                for="contact-address-lastname"
+                                class="form-label">Last Name</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="contact-address-lastname"
+                                placeholder="Enter Name"
+                            />
+                        </div>
+                        <div class="col-xl-12">
+                            <label
+                                for="contact-address-email"
+                                class="form-label">Email Id</label
+                            >
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="contact-address-email"
+                                placeholder="Enter Email Id"
+                            />
+                        </div>
+                        <div class="col-xl-12">
+                            <label
+                                for="contact-address-phone"
+                                class="form-label">Phone No</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="contact-address-phone"
+                                placeholder="Enter Phone No"
+                            />
+                        </div>
+                        <div class="col-xl-12">
+                            <label for="contact-mail-message" class="form-label"
+                                >Message</label
+                            >
+                            <textarea
+                                class="form-control"
+                                id="contact-mail-message"
+                                rows="4"
+                                placeholder="Enter Your Query ?"></textarea>
+                        </div>
+                    </div>
+                    <div class="d-grid mt-3">
+                        <button class="btn btn-primary"
+                            >Submit<i
+                                class="ti ti-arrow-narrow-right ms-1 align-middle"
+                            ></i></button
+                        >
+                    </div>
+                </div>
+                <div class="col-xl-5">
+                    <div class="row gy-5">
+                        <div class="col-xl-12">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <span
+                                        class="avatar avatar-lg bg-primary-transparent svg-primary"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            height="24px"
+                                            viewBox="0 0 24 24"
+                                            width="24px"
+                                            fill="#5f6368"
+                                            ><path d="M0 0h24v24H0z" fill="none"
+                                            ></path><path
+                                                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+                                            ></path></svg
+                                        >
+                                    </span>
+                                </div>
+                                <div>
+                                    <h5 class="fs-13 text-muted text-uppercase">
+                                        Address :
+                                    </h5>
+                                    <span class="d-block fs-12 text-muted mb-2"
+                                        >Visit us in person From Mon-Fri 9:00am
+                                        - 6:00pm</span
+                                    >
+                                    <div class="fw-semibold">
+                                        123 Health Street, Suite 456
+                                        <br />Wellness City, HC 78910<br />
+                                        Country Name
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <span
+                                        class="avatar avatar-lg bg-primary-transparent svg-primary"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            height="24px"
+                                            viewBox="0 0 24 24"
+                                            width="24px"
+                                            fill="#5f6368"
+                                            ><path d="M0 0h24v24H0z" fill="none"
+                                            ></path><path
+                                                d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"
+                                            ></path></svg
+                                        >
+                                    </span>
+                                </div>
+                                <div>
+                                    <h5 class="fs-13 text-muted text-uppercase">
+                                        Phone Number :
+                                    </h5>
+                                    <span class="d-block fs-12 text-muted mb-2"
+                                        >Call our team Mon-Fri 9:00am - 6:00pm</span
+                                    >
+                                    <div class="fw-semibold">
+                                        +1 (555) 123-4567
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <span
+                                        class="avatar avatar-lg bg-primary-transparent svg-primary"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            height="24px"
+                                            viewBox="0 0 24 24"
+                                            width="24px"
+                                            fill="#5f6368"
+                                            ><path d="M0 0h24v24H0z" fill="none"
+                                            ></path><path
+                                                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                                            ></path></svg
+                                        >
+                                    </span>
+                                </div>
+                                <div>
+                                    <h5 class="fs-13 text-muted text-uppercase">
+                                        Email ID :
+                                    </h5>
+                                    <div class="fw-semibold lh-1">
+                                        contact@healthclinic.com
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="d-flex align-items-start gap-3">
+                                <div>
+                                    <span
+                                        class="avatar avatar-lg bg-primary-transparent svg-primary"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            ><path
+                                                d="M12 2C6.486 2 2 5.589 2 10c0 2.908 1.897 5.516 5 6.934V22l5.34-4.004C17.697 17.852 22 14.32 22 10c0-4.411-4.486-8-10-8zm-2.5 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+                                            ></path></svg
+                                        >
+                                    </span>
+                                </div>
+                                <div>
+                                    <h5 class="fs-13 text-muted text-uppercase">
+                                        Chat With Us :
+                                    </h5>
+                                    <div
+                                        class="fw-semibold lh-1 chat-platforms"
+                                    >
+                                        <a
+                                            href="https://www.facebook.com"
+                                            target="_blank"
+                                            class="d-block"
+                                        >
+                                            Chat on Facebook
+                                        </a>
+                                        <a
+                                            href="https://www.twitter.com"
+                                            target="_blank"
+                                            class="d-block"
+                                        >
+                                            Message Us On Twitter
+                                        </a>
+                                        <a
+                                            href="javascript:void(0);"
+                                            target="_blank"
+                                        >
+                                            Start a Live Chat
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End:: Section-10 -->
+
+    <!-- Start:: Buy Now Section -->
+    <section
+        class="section section-md section-primary text-fixed-white py-5 buy-now-section"
+    >
+        <div class="testimonials-background-container">
+            <Image src={BG1} alt="" />
+        </div>
+        <div class="container">
+            <div
+                class="d-flex align-items-center gap-2 justify-content-between"
+            >
+                <div>
+                    <h4 class="fw-semibold text-fixed-white">
+                        Build and Manage with Ease
+                    </h4>
+                    <span class="d-block fs-16 op-8"
+                        >Create, manage, and optimize effortlessly with our
+                        admin template.</span
+                    >
+                </div>
+                <button
+                    class="btn btn-secondary btn-lg btn-w-md d-inline-flex align-items-center"
+                    >Buy Now<i class="ti ti-shopping-cart ms-2"></i></button
+                >
+            </div>
+        </div>
+    </section>
+    <!-- End:: Buy Now Section -->
+</LandingLayout>

@@ -1,0 +1,127 @@
+<app-breadcrumb title="Dashboards" sub_title="Ecommerce" active_item="Products"></app-breadcrumb>
+
+<!-- Start::row-1 -->
+<div class="row row-cols-xxl-5 row-cols-md-3 row-cols-1">
+  @for (card of cards; track $index) {
+  <spk-products-card [cardTitle]="card.cardTitle" [cardValue]="card.cardValue" [cardPercentage]="card.cardPercentage"
+    [cardPercentageColor]="card.cardPercentageColor" [cardIcon]="card.cardIcon" [cardIconColor]="card.cardIconColor"
+    [cardBgColor]="card.cardBgColor" [cardSubtitle]="card.cardSubtitle"></spk-products-card>
+  }
+</div>
+<!--End::row-1 -->
+
+<!-- Start::row-2 -->
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card custom-card">
+      <div class="card-header justify-content-between border-bottom-1">
+        <!-- Search Bar -->
+        <div class="products-search-input mb-sm-0 mb-1">
+
+          <input class="form-control" type="search" (input)="onTableWithSearchChange($event)" id="search-input" placeholder="Search Product"
+            aria-label="search-product">
+        </div>
+        <!-- Filters Section -->
+        <div class="row gy-2 w-sm-50 w-100">
+          <!-- Category Filter -->
+          <div class="col-12 col-sm">
+            <spk-ng-select [options]="category" [selectClass]="''" [clearable]="true" [multi]="true" [searchable]="true"
+              [placeholder]="'Category'" [additionalProperties]="{}">
+            </spk-ng-select>
+          </div>
+
+          <!-- Status Filter -->
+          <div class="col-12 col-sm">
+            <spk-ng-select [options]="Status" [selectClass]="''" [clearable]="true" [multi]="true" [searchable]="true"
+              [placeholder]="'Status'" [additionalProperties]="{}">
+            </spk-ng-select>
+          </div>
+
+          <!-- Stock Filter -->
+          <div class="col-12 col-sm">
+            <spk-ng-select [options]="Stock" [selectClass]="''" [clearable]="true" [multi]="true" [searchable]="true"
+              [placeholder]="'Stock'" [additionalProperties]="{}">
+            </spk-ng-select>
+          </div>
+
+          <!-- Sort By Filter -->
+          <div class="col-12 col-sm">
+            <spk-ng-select [options]="SortBy" [selectClass]="''" [clearable]="true" [multi]="true" [searchable]="true"
+              [placeholder]="'Sort By'" [additionalProperties]="{}">
+            </spk-ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Table inside the card-body -->
+      <div class="card-body p-0">
+        <div id="product-table" class="grid-card-table table-responsive">
+
+          <ng-template #selectAllTemplate2 let-changeEvent>
+            <label class="ngx-form-checkbox">
+              <input type="checkbox" [checked]="allSelected" (click)="changeEvent()" />
+              <i class="ngx-form-icon custom-checkbox-color" id="selectAllCheckbox2"></i>
+            </label>
+          </ng-template>
+          <ngx-table #table [configuration]="configuration" [data]="data" [columns]="columns"
+            [selectAllTemplate]="selectAllTemplate2" (event)="tableEventEmitted($event)">
+            <ng-template let-row>
+              <td>
+                <span>
+                  <label class="ngx-form-checkbox">
+                    <input type="checkbox" [(ngModel)]="row.selected" (ngModelChange)="rowSelected()" />
+                    <i class="ngx-form-icon custom-checkbox-color"></i>
+                  </label>
+                </span>
+
+              </td>
+              <td class="">
+                <span><a href="javascript:void(0);">{{ row.Id}}</a></span>
+              </td>
+              <td class="product-name-column">
+                <span>
+                  <a [routerLink]="['/dashboards/ecommerce/productdetails']">
+                    <div class="d-flex align-items-center gap-3 position-relative">
+                      <div class="lh-1">
+                        <span class="avatar avatar-lg bg-light">
+                          <img [src]="row.Image" alt="Product Image">
+                        </span>
+                      </div>
+                      <div>
+                        <span class="d-block fw-semibold">{{ row.productName }}</span>
+                        <span class="text-muted fs-13">{{ row.category }}</span>
+                      </div>
+                    </div>
+                  </a>
+                </span>
+              </td>
+              <td>
+                <span>
+                  {{ row.price }}
+                </span>
+              </td>
+              <td>
+                <span><span class="badge bg-{{row.StockBg}}-transparent">{{ row.Stock }}</span></span>
+              </td>
+              <td><span>{{ row.Quantity }}</span></td>
+              <td><span><span class="text-{{row.StatusBg}}">{{
+                    row.Status }}</span></span></td>
+              <td>{{ row.Date }}</td>
+              <td>
+                <span>
+                  <spk-dropdowns [Customclass]="'dropdown '" [Icon]="true" [IconClass]="'fe fe-more-vertical'"
+                    [class]="'btn btn-icon btn-sm btn-primary-light border no-caret'" [Menuclass]="'dropdown-menu '">
+                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-pencil-line me-2"></i>Edit</a>
+                    </li>
+                    <li><a class="dropdown-item btn-delete" href="javascript:void(0);"><i
+                          class="ri-delete-bin-line me-2"></i>Delete</a></li>
+                  </spk-dropdowns>
+                </span>
+              </td>
+            </ng-template>
+          </ngx-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End::row-2 -->

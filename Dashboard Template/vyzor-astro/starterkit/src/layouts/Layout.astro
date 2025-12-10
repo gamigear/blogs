@@ -1,0 +1,63 @@
+---
+import Header from "../components/Header.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Switcher from "../components/Switcher.astro";
+import Loader from "../components/Loader.astro";
+import Footer from "../components/Footer.astro";
+import ResponsiveSearch from "../components/ResponsiveSearch.astro";
+import CommonStyles from "../components/CommonStyles.astro";
+import CommonScripts from "../components/CommonScripts.astro";
+import favIcon from "../assets/images/brand-logos/favicon.ico";
+const { Seo } = Astro.props;
+---
+
+<!doctype html>
+<html
+	lang="en"
+	dir="ltr"
+	data-nav-layout="vertical"
+	data-theme-mode="light"
+	data-header-styles="transparent"
+	data-width="fullwidth"
+	data-menu-styles="transparent"
+	data-page-style="flat"
+	data-toggled="close"
+	data-vertical-style="doublemenu"
+	data-toggled="double-menu-open"
+>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href={favIcon} />
+		<meta name="generator" content={Astro.generator} />
+		<meta
+			name="keywords"
+			content="admin bootstrap template,admin dashboard bootstrap,admin dashboard design,admin panel template,astro admin template,astro dashboard,astro ui framework,bootstrap admin panel,bootstrap astro,bootstrap dashboard template,dashboard astro,dashboard for bootstrap,dashboard in javascript,dashboard ui template,template admin bootstrap"
+		/>
+		<title>Vyzor - {Seo}</title>
+
+		<slot name="styles" />
+		<CommonStyles />
+	</head>
+	<body>
+		<div class="progress-top-bar"></div>
+		<Switcher />
+		<Loader />
+		<div class="page">
+			<Header />
+			<Sidebar />
+			<div class="main-content app-content">
+				<div class="container-fluid page-container main-body-container">
+					<slot />
+				</div>
+			</div>
+			<Footer />
+			<ResponsiveSearch />
+		</div>
+		<slot name="scripts" />
+		<CommonScripts />
+		<script>
+			import "../scripts/js/custom-switcher.js";
+		</script>
+	</body>
+</html>

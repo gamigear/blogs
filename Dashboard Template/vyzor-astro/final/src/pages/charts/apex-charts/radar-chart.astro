@@ -1,0 +1,53 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Pageheader from "../../../components/Pageheader.astro";
+---
+
+<Layout Seo="Radar Charts">
+    <Pageheader
+        title="Charts"
+        subtitle="Apex Charts"
+        currentpage="Apex Radar Charts"
+        activepage="Apex Radar Charts"
+    />
+
+    <!-- Start::row-1 -->
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Basic Radar Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="radar-basic"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Radar Chart-Multiple Series</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="radar-multiple"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Radar Chart Polygon Fill</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="radar-polygon"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End::row-1 -->
+
+    <script>
+        import "../../../scripts/js/custom.js";
+        import "../../../scripts/js/apexcharts-radar.js";
+    </script>
+</Layout>

@@ -1,0 +1,62 @@
+<!-- Page Header -->
+<app-breadcrumb title="Apex Charts" [subtitle]="false" active_item="Apex Candlestick Charts"></app-breadcrumb><!-- breadcrumb -->
+
+<!-- Page Header Close -->
+ <!-- Start::row-1 -->
+ <div class="row">
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Basic Candlestick Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="candlestick-basic">
+                  <spk-apexcharts [chartOptions]="CandlestickChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Candlestick Synced With Brush Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="chart-candlestick">
+                  <spk-apexcharts #chartCandle [chartOptions]="SyncedBrushChartData"></spk-apexcharts>
+
+                  </div>
+                  <div id="chart-bar">
+                  <spk-apexcharts #chartBar [chartOptions]="SyncedBrushChartData1"></spk-apexcharts>
+                  </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Candlestick With Category X-axis</div>
+          </div>
+          <div class="card-body">
+              <div id="candlestick-categoryx">
+                  <spk-apexcharts  [chartOptions]="CandlestickXAxisChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Candlestick With Line Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="candlestick-line">
+                  <spk-apexcharts  [chartOptions]="lineChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!--End::row-1 -->

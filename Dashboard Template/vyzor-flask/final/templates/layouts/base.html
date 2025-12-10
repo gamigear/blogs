@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="transparent" data-width="fullwidth" data-menu-styles="transparent" data-page-style="flat" data-toggled="close" data-vertical-style="doublemenu" data-toggled="double-menu-open">
+    
+    <head>
+
+        <!-- Meta Data -->
+        <meta charset="UTF-8">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="Description" content="Flask Responsive Admin Web Dashboard Template">
+        <meta name="Author" content="Spruko Technologies Private Limited">
+        <meta name="keywords" content="admin dashboard flask, admin panel bootstrap template, admin panel in flask, admin panel template, bootstrap admin panel, bootstrap dashboard, bootstrap template dashboard, bootstrap template flask, dashboard admin template, dashboard template bootstrap, flask admin dashboard template, flask and bootstrap, flask bootstrap dashboard, flask ui, framework flask.">
+    
+        <!-- Title -->
+        <title> Vyzor - Flask Bootstrap 5 Premium Admin & Dashboard Template </title>
+
+        <!-- Favicon -->
+        <link rel="icon" href="{{ url_for('static', filename='assets/images/brand-logos/favicon.ico') }}" type="image/x-icon">
+
+        {% include 'components/styles.html' %}
+        
+        <!-- Main JS -->
+        <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+        {% block styles %}{% endblock %}
+
+	</head>
+
+    <body>
+
+        <div class="progress-top-bar"></div>
+
+        <!-- Start::main-switcher -->
+        {% include 'components/switcher.html' %}
+        <!-- End::main-switcher -->
+
+        <!-- Loader -->
+        <div id="loader" >
+            <img src="{{ url_for('static', filename='assets/images/media/loader.svg') }}" alt="">
+        </div>
+        <!-- Loader -->
+
+        <!-- Start::page -->
+        <div class="page">
+
+            <!-- Start::main-header -->
+            {% include 'components/main-header.html' %}
+            <!-- End::main-header -->
+
+            <!-- Start::main-sidebar -->
+            {% include 'components/main-sidebar.html' %}
+            <!-- End::main-sidebar -->
+
+            <!-- Start::app-content -->
+            <div class="main-content app-content">
+                <div class="container-fluid page-container main-body-container">
+
+                    {% block content %}{% endblock %}
+
+                </div>
+            </div>
+            <!-- End::app-content -->
+
+            <!-- Start::main-modal -->
+            {% include 'components/modal.html' %}
+            <!-- End::main-modal --> 
+             
+            <!-- Start::main-footer -->
+            {% include 'components/footer.html' %}
+            <!-- End::main-footer --> 
+
+        </div>
+        <!-- End::page -->
+
+        <!-- Start::main-scripts -->
+        {% include 'components/scripts.html' %}
+        {% block scripts %}{% endblock %}
+        <!-- End::main-scripts --> 
+
+        <!-- Sticky JS -->
+        <script src="{{ url_for('static', filename='assets/js/sticky.js') }}"></script>
+
+        <!-- Defaultmenu JS -->
+        <script src="{{ url_for('static', filename='assets/js/defaultmenu.min.js') }}"></script>
+        
+        <!-- Custom JS -->
+        <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+        
+        <!-- Custom-switcher JS -->
+        <script src="{{ url_for('static', filename='assets/js/custom-switcher.min.js') }}"></script>
+
+
+    </body>
+</html>

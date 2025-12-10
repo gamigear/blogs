@@ -1,0 +1,1035 @@
+@page "/dashboards/hrm"
+@using ApexCharts
+
+<!-- Start::page-header -->
+<div class="page-header-breadcrumb mb-3">
+    <div class="d-flex align-center justify-content-between flex-wrap">
+        <h1 class="page-title fw-medium fs-18 mb-0">HRM</h1>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboards</a></li>
+            <li class="breadcrumb-item active" aria-current="page">HRM</li>
+        </ol>
+    </div>
+</div>
+<!-- End::page-header -->
+
+<!-- Start:: row-1 -->
+<div class="row">
+    <div class="col-xxl-4 col-xl-6">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card overflow-hidden custom-hrm-list">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                           @foreach (var Data in DashboardCardsData)
+                           {
+                             <div class="col-xl-6 ">
+                                <div
+                                    class="card custom-card dashboard-main-card border-0 shadow-none mb-0 rounded-0 
+                                    @(Data.Id == 1? "border-lg-end border-bottom" :
+                                      Data.Id == 2? "border-bottom" :
+                                      Data.Id == 3? "border-lg-end" :
+                                      "")">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <span
+                                                class="avatar avatar-lg avatar-rounded bg-@Data.AvatarBgColor-transparent svg-@Data.AvatarBgColor">
+                                                @((MarkupString)(Data.IconSvg ?? ""))
+                                            </span>
+                                        </div>
+                                        <div class="text-muted mb-2">
+                                            @Data.Title
+                                        </div>
+                                        <div class="d-flex align-items-end gap-2 flex-wrap">
+                                            <h5 class="fw-semibold mb-0 lh-1">@Data.Value</h5>
+                                            <div>
+                                                <span class="badge bg-@Data.PercentBgColor-transparent rounded-pill">
+                                                    <i class="ti ti-arrow-@Data.PercentChangeDir me-1"></i>@Data.ChangePercentage
+                                                </span>
+                                                <span class="text-muted fs-12">@Data.Period</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <h6 class="fw-semibold mb-3">Employees Status</h6>
+                        <div class="progress-stacked progress-xl mb-3">
+                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100">25%</div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 35%"
+                                aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">35%</div>
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 25%"
+                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="15"
+                                aria-valuemin="0" aria-valuemax="100">15%</div>
+                        </div>
+                        <div class="row gy-2">
+                            <div class="col-xl-6">
+                                <div class="d-flex align-items-center gap-4 flex-wrap">
+                                    <div class="employee-status-marker remote">Remote :</div>
+                                    <div class="fw-semibold">4,075</div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="d-flex align-items-center gap-4 flex-wrap">
+                                    <div class="employee-status-marker probation">Probation :</div>
+                                    <div class="fw-semibold">5,775</div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="d-flex align-items-center gap-4 flex-wrap">
+                                    <div class="employee-status-marker contract">Contract :</div>
+                                    <div class="fw-semibold">3,976</div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="d-flex align-items-center gap-4 flex-wrap">
+                                    <div class="employee-status-marker work-home">Work From Home :</div>
+                                    <div class="fw-semibold">1,675</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-5 col-xl-6">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Candidate Statistics
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="row g-0 border-bottom border-block-end-dashed">
+                    <div class="col-xl-6 border-md-end">
+                        <div class="text-center p-3">
+                            <span class="d-block text-muted mb-1">Total Candidates Hired</span>
+                            <h5 class="fw-semibold mb-0">576</h5>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="text-center p-3">
+                            <span class="d-block text-muted mb-1">Total Responses</span>
+                            <h5 class="fw-semibold mb-0">1,854</h5>
+                        </div>
+                    </div>
+                </div>
+                <div id="candidate-statistics" class="p-3">
+                <ApexChart TItem="Category" Height=305 Options=CategoryChartOptions>
+                    <ApexPointSeries TItem="Category" Items="category" SeriesType="@SeriesType.Bar"
+                        Name="Candidates Hired" XValue="@(e => e.Month)" YAggregate="@(e => e.Sum(e => e.CandidatesHired))"/>
+                    <ApexPointSeries TItem="Category" Items="category" SeriesType="@SeriesType.Bar"
+                        Name="Received Responses" XValue="@(e => e.Month)" YAggregate="@(e => e.Sum(e => e.ReceivedResponses))"/>
+                </ApexChart>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Attendance Overview
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="attendance-overview">
+                    <ApexChart TItem="PieSimplechart" Options=PieSimplechartOptions Height="260">
+                        <ApexPointSeries TItem="PieSimplechart" Items="PieSimplecharts" Name="Attendance Overview" SeriesType="SeriesType.Donut" XValue="@(e => e.Status)" YAggregate="@(e => e.Sum(e => e.SimpleValue))" />
+                    </ApexChart>
+                </div>
+                <ul class="list-unstyled my-4 hrm-attendance-overview-list">
+                    <li>
+                        <div class="d-flex align-items-center justify-content-between gap-2">
+                            <div class="attendance-type present">Present</div>
+                            <div class="fw-semibold">1,754</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex align-items-center justify-content-between gap-2">
+                            <div class="attendance-type late">Late</div>
+                            <div class="fw-semibold">878</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex align-items-center justify-content-between gap-2">
+                            <div class="attendance-type permission">Permission</div>
+                            <div class="fw-semibold">634</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex align-items-center justify-content-between gap-2">
+                            <div class="attendance-type absent">Absent</div>
+                            <div class="fw-semibold">470</div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="d-grid">
+                    <button class="btn btn-light btn-lg">View Complete Statistics <i
+                            class="ti ti-arrow-narrow-right ms-1"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="row">
+    <div class="col-xxl-4">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Employees By Department
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="employee-department">
+                <ApexChart TItem="Customers" Height=367 Options=CustomersChartOptions>
+                            <ApexPointSeries TItem="Customers"
+                                Items="customers"
+                                SeriesType="@SeriesType.Bar"
+                                Name="Employees"
+                                XValue="@(e => e.categories)"
+                                YAggregate="@(e => e.Sum(e => e.Employees))"/>
+                </ApexChart>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-4">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Employees List
+                </div>
+                <a href="javascript:void(0);" class="text-muted fs-13">View All<i
+                        class="ti ti-arrow-narrow-right ms-1"></i></a>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled hrm-employee-list">
+                   @foreach (var Data in EmployeesListData)
+                   {
+                    <li>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded">
+                                    <img src="@Data.AvatarUrl" alt="">
+                                </span>
+                            </div>
+                            <div class="flex-fill">
+                                <span class="d-block fw-semibold">@Data.Name<span
+                                        class="badge bg-@Data.DepartmentBgColor-transparent ms-2">@Data.Department</span></span>
+                                <span class="text-muted fs-13">
+                                    @Data.Role 
+                                </span>
+                            </div>
+                            <div class="text-end">
+                                <span class="fw-medium">@Data.JoinDate</span>
+                                <span class="d-block fs-12 mt-1 text-muted">
+                                    Joined
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                   }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-4">
+        <div class="card custom-card overflow-hidden">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Today's Attendance
+                </div>
+                <div class="dropdown">
+                    <a href="javascript:void(0);" class="fs-12 text-muted" data-bs-toggle="dropdown"
+                        aria-expanded="false"> Sort By <i
+                            class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a class="dropdown-item" href="javascript:void(0);">This Week</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Last Week</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">This Month</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table text-nowrap table-hover custom-hrm">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Time In</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var Data in TodaysAttendanceData)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="avatar avatar-md bg-light p-1 avatar-rounded">
+                                                <img src="@Data.AvatarUrl" alt="">
+                                            </span>
+                                            <div>
+                                                <p class="fw-medium mb-0">@Data.Name</p>
+                                                <span class="text-muted fs-12">@Data.Role</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @Data.Time
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-@Data.StatusBgColor-transparent rounded-pill min-w-badge">@Data.Status</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-2 -->
+
+<!-- Start:: row-3 -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Applicant Details
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <div>
+                        <input class="form-control form-control-sm" type="text" placeholder="Search Here"
+                            aria-label=".form-control-sm example">
+                    </div>
+                    <div class="dropdown">
+                        <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-wave waves-effect waves-light"
+                            data-bs-toggle="dropdown" aria-expanded="false"> Sort By<i
+                                class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">New</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Popular</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Relevant</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="row"><input class="form-check-input" type="checkbox" id="checkboxNoLabel1"
+                                        value="" aria-label="..." @onchange="ToggleSelectAll" checked="@selectAll"></th>
+                                <th scope="col">Application ID</th>
+                                <th scope="col">Applicant Name</th>
+                                <th scope="col">Position Applied</th>
+                                <th scope="col">Date Of Application</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Work Experience</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var Data in ApplicantDetailsData)
+                            {
+                                <tr>
+                                    <th scope="row">
+                                    <input class="form-check-input" type="checkbox" id="checkboxNoLabel2"
+                                        value="" aria-label="..." @bind="Data.IsChecked">
+                                    </th>
+                                    <td>
+                                        @Data.ApplicationId
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="avatar avatar-sm me-2 avatar-rounded">
+                                                <img src="@Data.AvatarUrl" alt="img">
+                                            </span>@Data.Name
+                                        </div>
+                                    </td>
+                                    <td>@Data.Role</td>
+                                    <td>@Data.ApplicationDate</td>
+                                    <td>
+                                        @Data.Email
+                                    </td>
+                                    <td>@Data.Experience</td>
+                                    <td>
+                                        <span class="badge bg-@Data.StatusBgColor-transparent">@Data.Status</span>
+                                    </td>
+                                    <td>
+                                        <div class="hstack gap-2 fs-15">
+                                            <a aria-label="anchor" href="javascript:void(0);"
+                                                class="btn btn-icon waves-effect waves-light btn-sm btn-success-light rounded-circle"><i
+                                                    class="ri-phone-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);"
+                                                class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light rounded-circle"><i
+                                                    class="ri-edit-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);"
+                                                class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger-light rounded-circle" @onclick="() => DeleteItem(Data)"><i
+                                                    class="ri-delete-bin-line"></i></a>
+                                        </div>
+                                    </td>
+                               </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer border-top-0">
+                <div class="d-flex align-items-center">
+                    <div> Showing 5 Entries <i class="bi bi-arrow-right ms-2 fw-semibold"></i> </div>
+                    <div class="ms-auto">
+                        <nav aria-label="Page navigation" class="pagination-style-2">
+                            <ul class="pagination mb-0 flex-wrap">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="javascript:void(0);">
+                                        Prev
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">2</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0);">
+                                        <i class="bi bi-three-dots"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="javascript:void(0);">17</a></li>
+                                <li class="page-item">
+                                    <a class="page-link text-primary" href="javascript:void(0);">
+                                        next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-3 -->
+
+
+@code{
+    public class EmployeesList
+    {
+        public string? Name { get; set; }
+        public string? Department { get; set; }
+        public string? DepartmentBgColor { get; set; }
+        public string? Role { get; set; }
+        public string? JoinDate { get; set; }
+        public string? AvatarUrl { get; set; }
+    }
+    List<EmployeesList> EmployeesListData = new()
+    {
+        new EmployeesList
+        {
+            Name = "Sarah Miller",
+            Department = "Marketing",
+            DepartmentBgColor = "primary",
+            Role = "Marketing Manager",
+            JoinDate = "Apr 20,2024",
+            AvatarUrl = "assets/images/faces/1.jpg"
+        },
+        new EmployeesList
+        {
+            Name = "Mark Taylor",
+            Department = "IT & Development",
+            DepartmentBgColor = "warning",
+            Role = "Backend Developer",
+            JoinDate = "Nov 30,2022",
+            AvatarUrl = "assets/images/faces/12.jpg"
+        },
+        new EmployeesList
+        {
+            Name = "Jessica Lee",
+            Department = "Operations",
+            DepartmentBgColor = "secondary",
+            Role = "Project Manager",
+            JoinDate = "Jun 20,2021",
+            AvatarUrl = "assets/images/faces/5.jpg"
+        },
+        new EmployeesList
+        {
+            Name = "David Wilson",
+            Department = "IT & Development",
+            DepartmentBgColor = "info",
+            Role = "Data Scientist",
+            JoinDate = "Oct 10,2020",
+            AvatarUrl = "assets/images/faces/15.jpg"
+        },
+        new EmployeesList
+        {
+            Name = "Lisa Grant",
+            Department = "Finance",
+            DepartmentBgColor = "success",
+            Role = "Finance Analyst",
+            JoinDate = "Feb 02,2022",
+            AvatarUrl = "assets/images/faces/6.jpg"
+        },
+        new EmployeesList
+        {
+            Name = "John Peterson",
+            Department = "Sales",
+            DepartmentBgColor = "success",
+            Role = "Sales Executive",
+            JoinDate = "Jul 25,2022",
+            AvatarUrl = "assets/images/faces/6.jpg"
+        }
+    };
+
+    public class TodaysAttendance
+    {
+        public string? Name { get; set; } = string.Empty;
+        public string? Role { get; set; } = string.Empty;
+        public string? AvatarUrl { get; set; } = string.Empty;
+        public string? Time { get; set; } = string.Empty;  // e.g., "8:48AM"
+        public string? Status { get; set; } = string.Empty; // e.g., "Fullday", "LateArrived"
+        public string? StatusBgColor { get; set; } = string.Empty; // e.g., "primary", "danger"
+    }
+    List<TodaysAttendance> TodaysAttendanceData = new()
+    {
+        new TodaysAttendance
+        {
+            Name = "John Doe",
+            Role = "Manager",
+            AvatarUrl = "assets/images/faces/11.jpg",
+            Time = "8:48AM",
+            Status = "Fullday",
+            StatusBgColor = "primary"
+        },
+        new TodaysAttendance
+        {
+            Name = "Jane Smith",
+            Role = "Developer",
+            AvatarUrl = "assets/images/faces/8.jpg",
+            Time = "9:20AM",
+            Status = "LateArrived",
+            StatusBgColor = "danger"
+        },
+        new TodaysAttendance
+        {
+            Name = "Alex Johnson",
+            Role = "HR Specialist",
+            AvatarUrl = "assets/images/faces/12.jpg",
+            Time = "8:10AM",
+            Status = "Fullday",
+            StatusBgColor = "primary"
+        },
+        new TodaysAttendance
+        {
+            Name = "Sarah Brown",
+            Role = "Analyst",
+            AvatarUrl = "assets/images/faces/5.jpg",
+            Time = "7:20AM",
+            Status = "Early Depature",
+            StatusBgColor = "warning"
+        },
+        new TodaysAttendance
+        {
+            Name = "Robert White",
+            Role = "Designer",
+            AvatarUrl = "assets/images/faces/10.jpg",
+            Time = "10:30AM",
+            Status = "Fullday",
+            StatusBgColor = "primary"
+        },
+    };
+
+    //Applicant Details start
+    public class ApplicantDetails
+    {
+        public string? ApplicationId { get; set; } = string.Empty;        
+        public string? Name { get; set; } = string.Empty;        
+        public string? Role { get; set; } = string.Empty;       
+        public string? AvatarUrl { get; set; } = string.Empty;  
+        public string? ApplicationDate { get; set; } = string.Empty; 
+        public string? Email { get; set; } = string.Empty;     
+        public string? Experience { get; set; } = string.Empty;  
+        public string? Status { get; set; } = string.Empty;     
+        public string? StatusBgColor { get; set; } = string.Empty; 
+        public bool IsChecked { get; set; } = false;           
+    }
+    List<ApplicantDetails> ApplicantDetailsData = new()
+    {
+        new ApplicantDetails
+        {
+            ApplicationId = "#SPT-011",
+            Name = "Mayor Kelly",
+            Role = "System Administrator",
+            AvatarUrl = "../assets/images/faces/4.jpg",
+            ApplicationDate = "24,Nov 2023",
+            Email = "mayorkelly2341@gmail.com",
+            Experience = "2+ Years",
+            Status = "New",
+            StatusBgColor = "primary",
+            IsChecked = false
+        },
+        new ApplicantDetails
+        {
+            ApplicationId = "#SPT-012",
+            Name = "Andrew Garfield",
+            Role = "Data and Analytics",
+            AvatarUrl = "../assets/images/faces/15.jpg",
+            ApplicationDate = "13,Dec 2023",
+            Email = "andrewgarfield45@gmail.com",
+            Experience = "3+ Years",
+            Status = "Interviewed",
+            StatusBgColor = "success",
+            IsChecked = true
+        },
+        new ApplicantDetails
+        {
+            ApplicationId = "#SPT-013",
+            Name = "Simon Cowel",
+            Role = "UX/UI Design",
+            AvatarUrl = "../assets/images/faces/11.jpg",
+            ApplicationDate = "10,Nov 2023",
+            Email = "simoncowel234@gmail.com",
+            Experience = "Fresher",
+            Status = "Hired",
+            StatusBgColor = "info",
+            IsChecked = false
+        },
+        new ApplicantDetails
+        {
+            ApplicationId = "#SPT-014",
+            Name = "Mirinda Hers",
+            Role = "Database Management",
+            AvatarUrl = "../assets/images/faces/8.jpg",
+            ApplicationDate = "16,Dec 2023",
+            Email = "mirindahers@gmail.com",
+            Experience = "1 Year",
+            Status = "Under Review",
+            StatusBgColor = "secondary",
+            IsChecked = true
+        },
+        new ApplicantDetails
+        {
+            ApplicationId = "#SPT-015",
+            Name = "Jacob Smith",
+            Role = "AI and Machine Learning",
+            AvatarUrl = "../assets/images/faces/9.jpg",
+            ApplicationDate = "22,Dec 2023",
+            Email = "jacobsmith@gmail.com",
+            Experience = "5+ Years",
+            Status = "Rejected",
+            StatusBgColor = "danger",
+            IsChecked = false
+        }
+    };
+    private bool selectAll = false;
+    private void ToggleSelectAll(ChangeEventArgs e)
+    {
+        selectAll = e.Value as bool? ?? false;
+        foreach (var item in ApplicantDetailsData)
+        {
+            item.IsChecked = selectAll;
+        }
+    }
+    private void DeleteItem(ApplicantDetails Data)
+    {
+        ApplicantDetailsData.Remove(Data);
+    }
+    //Applicant Details end
+
+    public class DashboardCards
+    {
+        public string? Title { get; set; } = string.Empty;
+        public int Id { get; set; }            
+        public string? IconSvg { get; set; } = string.Empty;         
+        public string? AvatarBgColor { get; set; } = string.Empty;    
+        public string? Value { get; set; } = string.Empty;             
+        public string? ChangePercentage { get; set; } = string.Empty;  
+        public string? PercentBgColor { get; set; } = string.Empty;        
+        public string? PercentChangeDir { get; set; } = string.Empty;         
+        public string? Period { get; set; } = string.Empty;            
+    }
+    List<DashboardCards> DashboardCardsData = new()
+    {
+        new DashboardCards
+        {
+            Title = "Total Employees",
+            Id = 1,
+            AvatarBgColor = "primary",
+            IconSvg = 
+            "<svg xmlns='http://www.w3.org/2000/svg' enable-background='new 0 0 24 24' height='24px' viewBox='0 0 24 24' width='24px' fill='#5f6368'> " +
+            "<g><rect fill='none' height='24' width='24' /></g>" +
+            "<g><path d='M20,7h-5V4c0-1.1-0.9-2-2-2h-2C9.9,2,9,2.9,9,4v3H4C2.9,7,2,7.9,2,9v11c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V9 C22,7.9,21.1,7,20,7z M9,12c0.83,0,1.5,0.67,1.5,1.5S9.83,15,9,15s-1.5-0.67-1.5-1.5S8.17,12,9,12z M12,18H6v-0.75c0-1,2-1.5,3-1.5 s3,0.5,3,1.5V18z M13,9h-2V4h2V9z M18,16.5h-4V15h4V16.5z M18,13.5h-4V12h4V13.5z' /></g>" +
+            "</svg>",
+            Value = "12,235",
+            ChangePercentage = "3.21%",
+            PercentBgColor = "success",
+            PercentChangeDir = "up",
+            Period = "This Year"
+        },
+        new DashboardCards
+        {
+            Title = "New Employees",
+            Id = 2,
+            AvatarBgColor = "secondary",
+            IconSvg = 
+            "<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 24 24' width='24px' fill='#5f6368'>" +
+            "<path d='M0 0h24v24H0z' fill='none' />" +
+            "<path d='M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z' />" +
+            "</svg>",
+            Value = "10,784",
+            ChangePercentage = "1.86%",
+            PercentBgColor = "danger",
+            PercentChangeDir = "down",
+            Period = "This Year"
+        },
+        new DashboardCards
+        {
+            Title = "Total Job Applicants",
+            Id = 3,
+            AvatarBgColor = "success",
+            IconSvg = 
+            "<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 24 24' width='24px' fill='#5f6368'>" +
+            "<path d='M0 0h24v24H0zm10 5h4v2h-4zm0 0h4v2h-4z' fill='none' />" +
+            "<path d='M10 16v-1H3.01L3 19c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2v-4h-7v1h-4zm10-9h-4.01V5l-2-2h-4l-2 2v2H4c-1.1 0-2 .9-2 2v3c0 1.11.89 2 2 2h6v-2h4v2h6c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-6 0h-4V5h4v2z' />" +
+            "</svg>",
+            Value = "2,235",
+            ChangePercentage = "3.09%",
+            PercentBgColor = "success",
+            PercentChangeDir = "up",
+            Period = "This Year"
+        },
+        new DashboardCards
+        {
+            Title = "Resigned Employees",
+            Id = 4,
+            AvatarBgColor = "warning",
+            IconSvg = "<svg xmlns='http://www.w3.org/2000/svg' enable-background='new 0 0 24 24' height='24px' viewBox='0 0 24 24' width='24px' fill='#5f6368'>" +
+            "<g><rect fill='none' height='24' width='24' /></g>" +
+            "<g><path d='M14,8c0-2.21-1.79-4-4-4S6,5.79,6,8s1.79,4,4,4S14,10.21,14,8z M17,10v2h6v-2H17z M2,18v2h16v-2c0-2.66-5.33-4-8-4 S2,15.34,2,18z' /></g>" +
+            "</svg>",
+            Value = "1,986",
+            ChangePercentage = "0.97%",
+            PercentBgColor = "success",
+            PercentChangeDir = "up",
+            Period = "This Year"
+        }
+    };
+
+
+}
+
+
+@code{
+
+     // Attendance Overview Start //
+    private List<PieSimplechart> PieSimplecharts { get; set; } = DataPieSimplechart.PieSimplechart();
+    private ApexChartOptions<PieSimplechart> PieSimplechartOptions { get; set; } = new ApexChartOptions<PieSimplechart>
+    {
+        Chart = new () {
+            Height = 260,
+            Toolbar = new ApexCharts.Toolbar {
+                Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false,Pan = false, Reset = false,  Download = false},
+            }, 
+        },
+        DataLabels = new DataLabels {
+                Enabled = false,
+        },
+        Legend = new Legend {
+            Show = false,
+         }, 
+        Stroke = new Stroke { 
+                Show= true,
+                Curve = Curve.Smooth,
+                LineCap = ApexCharts.LineCap.Round,
+                Colors = new List<string> {"fff"},
+                Width = 4,
+                DashArray = 0,
+        },
+        PlotOptions = new PlotOptions {
+                Pie = new PlotOptionsPie {
+                    StartAngle = -90,
+                    EndAngle = 90,
+                    OffsetY = 10,
+                    ExpandOnClick = false,
+                    Donut = new PlotOptionsDonut
+                        {
+                            Size = "80%",
+                            Background = "transparent",
+                            Labels = new DonutLabels{
+                                Show = true,
+                                Name = new() {
+                                    Show = true,
+                                    FontSize = "20px",
+                                    Color = "#495057",
+                                    OffsetY = -30
+                                },
+                                Value = new() {
+                                    Show = true,
+                                    FontSize = "15px",
+                                    Color = "undefined",
+                                    OffsetY = -25,
+                                    Formatter = @"function (val) {
+                                        return val + '%'
+                                    }"
+                                },
+                                Total = new() {
+                                    Show = true,
+                                    ShowAlways = true,
+                                    Label = "Total",
+                                    FontSize = "22px",
+                                    FontWeight = 600,
+                                    Color = "#495057",
+                                }
+                            }
+                        }
+                }
+        },
+        Grid = new Grid {
+            Padding = new() {
+                Bottom = -100,
+            },
+        },
+        Colors = new List<string> {"var(--primary-color)", "rgba(50, 212, 132, 1)", "rgba(253, 175, 34, 1)", "rgba(255, 103, 87, 1)"}
+    };
+    public static class DataPieSimplechart
+    {
+        public static List<PieSimplechart> PieSimplechart()
+        {
+            return new List<PieSimplechart>
+            {
+                new PieSimplechart { Status = "Present", SimpleValue = 1754},
+                new PieSimplechart { Status = "Late", SimpleValue = 878},
+                new PieSimplechart { Status = "Permission", SimpleValue = 634},
+                new PieSimplechart { Status = "Absent", SimpleValue = 470},
+            };
+        }
+    }
+    public class PieSimplechart
+    {
+        public string? Status { get; set; }
+        public decimal SimpleValue { get; set; }
+    }
+    // Attendance Overview End //
+    
+
+
+     //Employees By Department start //
+    private List<Customers> customers { get; set; } = CustomersData.GetCustomers();
+    private ApexChartOptions<Customers> CustomersChartOptions { get; set; } = new();
+    public class Customers {
+        public string? categories { get; set; }
+        public decimal Employees { get; set; }
+    } ;
+    public static class CustomersData {
+        public static List<Customers> GetCustomers() {
+            
+            List<Customers> customers = new List<Customers>
+            {  
+                new Customers { categories = "IT & Development", Employees = 462},
+                new Customers { categories = "Marketing", Employees = 451},
+                new Customers { categories = "Operations", Employees = 350},
+                new Customers { categories = "Finance", Employees = 530},
+                new Customers { categories = "Sales", Employees = 470},
+                new Customers { categories = "Customer Service", Employees = 500},
+                new Customers { categories = "Human Resources", Employees = 485},
+            };
+            return customers;
+        }
+    }
+    //Employees By Department end //
+
+     // ApplicantDetails Statistics Start //
+    private List<Category> category { get; set; } = CategoryData.GetCategory();
+    private ApexChartOptions<Category> CategoryChartOptions { get; set; } = new();
+    public class Category {
+        public string? Month { get; set; }
+        public decimal CandidatesHired { get; set; }
+        public decimal ReceivedResponses { get; set; }
+    } ;
+    public static class CategoryData {
+        public static List<Category> GetCategory() {
+            
+            List<Category> category = new List<Category>
+            {  
+                new Category { Month = "Jan", CandidatesHired = 13, ReceivedResponses = 20},
+                new Category { Month = "Feb", CandidatesHired = 23, ReceivedResponses = 30},
+                new Category { Month = "Mar", CandidatesHired = 20, ReceivedResponses = 25},
+                new Category { Month = "Apr", CandidatesHired = 25, ReceivedResponses = 50},
+                new Category { Month = "May", CandidatesHired = 10, ReceivedResponses = 25},
+                new Category { Month = "Jun", CandidatesHired = 13, ReceivedResponses = 30},
+                new Category { Month = "Jul", CandidatesHired = 13, ReceivedResponses = 20},
+                new Category { Month = "Aug", CandidatesHired = 15, ReceivedResponses = 35},
+                new Category { Month = "Sep", CandidatesHired = 13, ReceivedResponses = 20},
+                new Category { Month = "Oct", CandidatesHired = 23, ReceivedResponses = 30},
+                new Category { Month = "Nov", CandidatesHired = 20, ReceivedResponses = 25},
+                new Category { Month = "Dec", CandidatesHired = 25, ReceivedResponses = 50},
+            };
+            return category;
+        }
+    }
+    // ApplicantDetails Statistics End //
+
+     protected override void OnInitialized()
+     {
+        
+        CustomersChartOptions = new ApexChartOptions<Customers> {
+            Chart = new () {
+                Height = 367,
+                Toolbar = new ApexCharts.Toolbar {
+                    Tools = new Tools { Zoom = false, Zoomin = false, Zoomout = false,Pan = false, Reset = false,  Download = false},
+                }, 
+            },
+            PlotOptions = new PlotOptions {
+                Bar = new PlotOptionsBar {
+                  BarHeight = "50%",
+                  BorderRadius = 2,
+                  Horizontal = true,
+                  Distributed = true,
+                }
+            },
+            Legend = new Legend {
+                Show = false,
+            },
+            DataLabels = new(){
+                Enabled = false
+            },
+            Grid = new Grid {
+                BorderColor = "#ffffff",
+                Xaxis = new(){
+                    Lines = new(){
+                        Show = false
+                    }
+                },
+                Yaxis = new(){
+                    Lines = new(){
+                        Show = false
+                    }
+                }
+            },
+            Stroke = new Stroke { 
+                Width = 1,
+                Show= true,
+            }, 
+            Colors = new List<string> {"var(--primary-color)"},
+             Xaxis =  new XAxis {
+                AxisBorder = new () {
+                    Show = true,
+                    Color = "#c7cacd",
+                    OffsetX = 0,
+                    OffsetY = 0,
+                },
+                AxisTicks = new () {
+                    Show = true,
+                    BorderType = ApexCharts.BorderType.Solid,
+                    Color = "#c7cacd",
+                    OffsetX = 0,
+                    OffsetY = 0,
+                },
+                Labels = new XAxisLabels {
+                    Rotate = -90,
+                },
+            },
+            Tooltip = new ApexCharts.Tooltip { 
+                Theme= ApexCharts.Mode.Dark,
+            },
+          
+        };
+
+        CategoryChartOptions = new ApexChartOptions<Category> {
+            Chart = new () {
+                Height = 320,
+                Toolbar = new ApexCharts.Toolbar {
+                    Show = false,
+                    Tools = new Tools { Zoom = true, Zoomin = false, Zoomout = false,Pan = false, Reset = false,  Download = true},
+                },
+                Stacked = true,
+            },
+            Grid = new Grid {
+                Show = true,
+                BorderColor = "rgba(119, 119, 142, 0.1)",
+                StrokeDashArray = 4,
+            },
+            PlotOptions = new PlotOptions {
+                Bar = new PlotOptionsBar {
+                    Horizontal = false,
+                    ColumnWidth = "40%",
+                    BorderRadius = 3,
+                }
+            },
+             DataLabels = new DataLabels {
+                Enabled = false,
+            },
+            Xaxis =  new XAxis {
+                Categories=new[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"},
+            },
+            Legend = new Legend {
+                Show = true,
+                Position = LegendPosition.Bottom,
+                OffsetX = 0,
+                OffsetY = 10,
+                Markers = new() {
+                    Width= 10,
+                    Height= 10,
+                    StrokeWidth = 0,
+                    StrokeColor = "#fff",
+                    FillColors = null,
+                    Radius = 12,
+                    OffsetX = 0,
+                    OffsetY = 0
+                },
+            },
+            Yaxis = new List<YAxis>() {
+                new YAxis {
+                   Labels = new(){
+                    Show = true,
+                    Style = new(){
+                       Colors= "#8c9097",
+                       FontSize = "11px",
+                       FontWeight = 600,
+                       CssClass =  "apexcharts-xaxis-label",
+                    },
+                   }
+                },
+            },
+            Colors = new Color(new List<string> {"var(--primary-color)", "var(--primary02)", "var(--primary05)", "rgba(var(--success-rgb), 1)"}),
+            
+            Markers = new Markers {
+                Size= 4,
+                Colors= "rgba(var(--secondary-rgb), 1)", 
+                StrokeColors= "#ffffff",
+                StrokeWidth= 1,
+                Hover = new() {
+                    Size = 5
+                }
+            },
+            Stroke = new Stroke { 
+                Width = [0, 0, 0, 2.5],
+                Curve= Curve.Smooth,
+            },
+           
+            
+            Tooltip = new ApexCharts.Tooltip { 
+                Enabled= true,
+            },
+        };
+    }
+
+}

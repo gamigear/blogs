@@ -1,0 +1,170 @@
+<app-breadcrumb title="Pages" [subtitle]="false" active_item="Testimonials"></app-breadcrumb>
+
+<!-- Start::row-1 -->
+<div class="row gy-5">
+  <div class="col-xl-12">
+    <div class="testimonials-heading-section text-center mb-5">
+      <span class="badge bg-primary-transparent rounded-pill">
+        Testimonials Style 1
+      </span>
+      <h2 class="fw-semibold mt-2 mb-1">What Our Clients Say</h2>
+      <span class="d-block text-muted fs-16 mb-3">Real feedback from customers who trust our services.</span>
+    </div>
+    <swiper-container #swiperContainer class="swiper testimonialSwiperService1 testimonial-style1" space-between="10"
+      slides-per-view="3" loop="true" slides-per-group="1" autoplay-delay="2000"
+      autoplay-disable-on-interaction="false">
+      @for(test of testimonialSwiper1;track $index){
+      <div class="swiper-slide">
+        <div class="card  custom-card mb-0 testimonial1">
+          <div class="card-body p-5 pb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
+              <h5 class="fw-semibold mb-0">{{test.title}}</h5>
+              <div class="text-warning fs-14 my-auto" [innerHTML]="sanitizeHtml(test.stars)">
+              </div>
+            </div>
+            <p class="mb-3 text-muted testimonial1-text">
+              {{test.description}}
+            </p>
+            <div class="d-flex align-items-start justify-content-end gap-2">
+              <div class="lh-1">
+                <span class="avatar avatar-md avatar-rounded">
+                  <img [src]="test.imgSrc" alt="">
+                </span>
+              </div>
+              <div>
+                <span class="d-block fw-semibold">{{test.name}}</span>
+                <span class="text-muted fs-13">{{test.role}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </swiper-container>
+  </div>
+  <div class="col-xl-12">
+    <div class="testimonials-heading-section text-center mb-5">
+      <span class="badge bg-primary-transparent rounded-pill">
+        Testimonials Style 2
+      </span>
+      <h2 class="fw-semibold mt-2 mb-1">Customer Testimonials</h2>
+      <span class="d-block text-muted fs-16 mb-3">Hear how we've made a difference in our clients’ lives.</span>
+    <swiper-container #swiperContainer1 style=" --swiper-pagination-color: rgb(152, 95, 253);" class="swiper pagination-dynamic testimonialSwiperService testimonials-swiper-2 swiper-initialized swiper-horizontal swiper-backface-hidden custom-Testimonials" space-between="30"
+      slides-per-view="3" loop="true" slides-per-group="1" autoplay-delay="2000" [pagination]="{clickable: true}"  [pagination-dynamic-bullets]="true"
+      autoplay-disable-on-interaction="false">
+      @for(style of CustomReviews;track $index){
+        <div class="swiper-slide">
+          <div class="card custom-card testimonial-style-2-card {{style.cardClass}} ">
+            <div class="card-body p-5">
+              <h5 class="fw-semibold mb-3">{{style.title}}</h5>
+              <div class="mb-3 text-muted">{{style.description}}</div>
+              <div class="d-flex align-items-end justify-content-between flex-wrap gap-2">
+                <div class="lh-1">
+                  <span class="avatar rounded-circle me-2">
+                    <img [src]="style.imgSrc" alt="" class="img-fluid rounded-circle">
+                  </span>
+                </div>
+                <div class="flex-fill">
+                  <span class="d-block fw-semibold">{{style.name}}</span>
+                  <span>{{style.role}}</span>
+                </div>
+                <div class="text-warning d-block ms-1">
+                  <i class="ri-star-fill me-1"></i>
+                  <i class="ri-star-fill me-1"></i>
+                  <i class="ri-star-fill me-1"></i>
+                  <i class="ri-star-fill me-1"></i>
+                  <i class="ri-star-half-line"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+    </swiper-container>
+  </div>
+  <div class="col-xl-12">
+    <div class="testimonials-heading-section text-center mb-5">
+      <span class="badge bg-primary-transparent rounded-pill">
+        Testimonials Style 3
+      </span>
+      <h2 class="fw-semibold mt-2 mb-1">Client Feedback</h2>
+      <span class="d-block text-muted fs-16 mb-3">Discover why our clients choose us time and again.</span>
+    </div>
+    <swiper-container #swiperContainer2 class="swiper testimonialSwiper3" space-between="30"
+    slides-per-view="4" loop="true" slides-per-group="1" autoplay-delay="2000"
+    autoplay-disable-on-interaction="false">
+    @for(testimonial of Testimonials3;track $index){
+      <div class="swiper-slide">
+        <div class="card custom-card">
+          <div class="card-body text-center p-5">
+            <div class="testimonaial-3-quote"><i class="bx bxs-quote-alt-left"></i></div>
+            <div class="lh-1 mb-4">
+              <span class="avatar avatar-xl avatar-rounded">
+                <img [src]="testimonial.image" alt="img">
+              </span>
+            </div>
+            <div class="mb-2 text-warning fs-15">
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-half-line"></i>
+            </div>
+            <p>{{testimonial.text}}</p>
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="flex-grow-1">
+                <h6 class="mb-1">{{testimonial.name}}</h6>
+                <span class="fs-14 fw-normal text-muted">{{testimonial.role}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+    </swiper-container>
+  </div>
+  <div class="col-xl-12">
+    <div class="testimonials-heading-section text-center mb-5">
+      <span class="badge bg-primary-transparent rounded-pill">
+        Testimonials Style 4
+      </span>
+      <h2 class="fw-semibold mt-2 mb-1">Real Stories from Real Clients</h2>
+      <span class="d-block text-muted fs-16 mb-3">Authentic testimonials from customers sharing their success.</span>
+    </div>
+    <swiper-container #swiperContainer3 class="swiper testimonialSwiper1 testimonial-style4" space-between="30"
+    slides-per-view="3" loop="true" slides-per-group="1" autoplay-delay="2000"
+    autoplay-disable-on-interaction="false">
+    @for(testimonial of Testimonialsdata;track $index){
+      <div class="swiper-slide">
+        <div class="card custom-card {{testimonial.cardClass}}">
+          <div class="card-body p-5">
+            <div class="lh-1">
+              <span class="avatar avatar-xxl avatar-rounded">
+                <img [src]="testimonial.image" alt="">
+              </span>
+            </div>
+            <div>
+              <div class="main-content">
+                <div class="mb-2 text-warning fs-15">
+                  <i class="ri-star-fill me-1"></i>
+                  <i class="ri-star-fill me-1"></i>
+                  <i class="ri-star-fill me-1"></i>
+                  <i class="ri-star-fill me-1"></i>
+                  <i class="ri-star-half-line"></i>
+                </div>
+                <p class="text-muted mb-3 testimonial4-text">{{testimonial.text}}</p>
+                <div>
+                  <span class="d-block fw-semibold">{{testimonial.name}}</span>
+                  <span class="fs-13 text-muted">{{testimonial.role}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+    </swiper-container>
+  </div>
+</div>
+<!--End::row-1 -->

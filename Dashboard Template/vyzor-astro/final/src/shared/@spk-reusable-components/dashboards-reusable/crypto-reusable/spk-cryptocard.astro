@@ -1,0 +1,28 @@
+---
+import { Image } from "astro:assets";
+const { crypto } = Astro.props;
+---
+
+<div class="card custom-card">
+    <div class="card-body">
+        <div class="d-flex align-items-start gap-3 flex-wrap">
+            <div>
+                <span class="avatar avatar-md">
+                    <Image src={crypto.imgSrc} alt="" />
+                </span>
+            </div>
+            <div class="flex-fill">
+                <h5 class="fw-semibold">{crypto.value}</h5>
+                <div
+                    class="d-flex align-items-end justify-content-between gap-3 flex-wrap"
+                >
+                    <div class={`text-${crypto.iconColor} fw-medium fs-12`}>
+                        <i class={crypto.icon}></i>
+                        {crypto.percent}
+                    </div>
+                    <div id={crypto.id}></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

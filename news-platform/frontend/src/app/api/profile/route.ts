@@ -8,6 +8,8 @@ import { authOptions } from '@/lib/auth';
 import { queryOne, execute } from '@/lib/db';
 import { sanitizeInput } from '@/lib/security';
 
+export const dynamic = 'force-dynamic';
+
 interface UserProfile {
   id: number;
   username: string;

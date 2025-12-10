@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="transparent" data-width="fullwidth" data-menu-styles="transparent" data-page-style="flat" data-toggled="close" data-vertical-style="doublemenu" data-toggled="double-menu-open">
+
+    <head>
+
+        <!-- Meta Data -->
+        <meta charset="UTF-8">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="Description" content="Symfony Bootstrap Responsive Admin Web Dashboard Template">
+        <meta name="Author" content="Spruko Technologies Private Limited">
+        <meta name="keywords" content="admin dashboard bootstrap, admin panel bootstrap template, admin panel symfony, bootstrap template admin panel, bootstrap template dashboard, bootstrap template for admin, dashboard admin template, dashboard template bootstrap, dashboard ui design, symfony bootstrap template,  symfony dashboard, symfony template, symfony ui, template bootstrap symfony, template symfony.">
+    
+		<!-- Title -->
+        <title> {% block title %}Vyzor - Symfony Bootstrap 5 Premium Admin & Dashboard Template {% endblock %}</title>
+
+        <!-- Favicon -->
+        <link rel="icon" href="{{absolute_url(asset('build/images/brand-logos/favicon.ico'))}}" type="image/x-icon">
+
+        {% block stylesheets %}
+        {{ include('layouts/styles.html.twig') }}
+        {% endblock %}
+
+    </head>
+
+    <body class="">
+
+        <div class="progress-top-bar"></div>
+
+        <!-- Loader -->
+        <div id="loader" >
+            <img src="{{absolute_url(asset('build/images/media/loader.svg'))}}" alt="">
+        </div>
+        <!-- Loader -->
+
+        <!-- Start::main-switcher -->
+        {{ include('layouts/switcher.html.twig') }}
+        <!-- End::main-switcher -->
+
+        <!-- Start::Page -->
+        <div class="page">
+
+            <!-- Start::main-header -->
+            {{ include('layouts/main-header.html.twig') }}
+            <!-- End::main-header -->
+
+            <!-- Start::main-sidebar -->
+            {{ include('layouts/main-sidebar.html.twig') }}
+            <!-- End::main-sidebar -->
+
+            <!-- Start::app-content -->
+            <div class="main-content app-content">
+                <div class="container-fluid page-container main-body-container">
+
+                    {% block body %}{% endblock %}
+                    
+                </div>
+            </div>
+            <!-- End::app-content -->
+           
+            <!-- Start::main-footer -->
+            {{ include('layouts/footer.html.twig') }}
+            <!-- End::main-footer -->
+
+            <!-- Start::main-modal -->
+            {{ include('layouts/modal.html.twig') }}
+            <!-- End::main-modal -->
+
+            {% block modal %}{% endblock %}
+
+        </div>
+        <!-- End::Page -->
+
+        {% block javascripts %}    
+        {{ include('layouts/scripts.html.twig') }}
+        {% endblock %} 
+        
+    </body>
+    
+</html>

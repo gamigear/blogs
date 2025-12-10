@@ -1,0 +1,58 @@
+<!-- Page Header -->
+<app-breadcrumb title="Apex Charts" [subtitle]="false" active_item="Apex Heatmap Charts"></app-breadcrumb><!-- breadcrumb -->
+
+<!-- Page Header Close -->
+
+<!-- Start::row-1 -->
+<div class="row">
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Basic Heatmap Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="heatmap-basic">
+                  <spk-apexcharts  [chartOptions]="HeatmapChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Multi Series Heatmap Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="heatmap-multiseries">
+                  <spk-apexcharts  [chartOptions]="MultiSeriesChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Color Range Heatmap Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="heatmap-colorrange">
+                  <spk-apexcharts  [chartOptions]="ColorRangeHeatmapChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Heatmap Range Without Shades</div>
+          </div>
+          <div class="card-body">
+              <div id="heatmap-range">
+                  <spk-apexcharts  [chartOptions]="HeatmapShadesChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!--End::row-1 -->

@@ -1,0 +1,251 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../../../layouts/Layout.astro";
+import Pageheader from "../../../components/Pageheader.astro";
+import {
+    AvatarImages,
+    projectData,
+} from "../../../shared/data/dashboards/projects/projectlistdata";
+
+const statusBadgeClass = {
+    "In Progress": "bg-info-transparent",
+    Completed: "bg-success-transparent",
+    Delayed: "bg-warning-transparent",
+    "Not Started": "bg-light text-default",
+};
+
+const priorityColorClass = {
+    High: "text-danger",
+    Medium: "text-info",
+    Low: "text-primary",
+};
+
+const basePath = import.meta.env.BASE_URL;
+---
+
+<Layout Seo="Projects-Projects List">
+    <Pageheader
+        title="Dashboards"
+        subtitle="Projects"
+        currentpage="Projects List"
+        activepage="Projects List"
+    />
+    <!-- Start::row-1 -->
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-body p-3">
+                    <div
+                        class="d-flex align-items-center justify-content-between flex-wrap gap-3"
+                    >
+                        <div class="d-flex flex-wrap gap-1 project-list-main">
+                            <a
+                                href={`${basePath}dashboards/projects/create-project`}
+                                class="btn btn-primary me-2"
+                                ><i
+                                    class="ri-add-line me-1 fw-medium align-middle"
+                                ></i>New Project</a
+                            >
+                            <select
+                                class="form-control"
+                                data-trigger
+                                name="choices-single-default"
+                                id="choices-single-default"
+                            >
+                                <option value="">Sort By</option>
+                                <option value="Newest">Newest</option>
+                                <option value="Date Added">Date Added</option>
+                                <option value="Type">Type</option>
+                                <option value="A - Z">A - Z</option>
+                            </select>
+                        </div>
+                        <div class="avatar-list-stacked">
+                            {
+                                AvatarImages.map((src, index) => (
+                                    <span class="avatar avatar-sm avatar-rounded">
+                                        <Image
+                                            src={src}
+                                            alt={`avatar-${index + 1}`}
+                                        />
+                                    </span>
+                                ))
+                            }
+                            <a
+                                class="avatar avatar-sm bg-primary avatar-rounded text-fixed-white"
+                                href="javascript:void(0);"
+                            >
+                                +8
+                            </a>
+                        </div>
+                        <div class="d-flex" role="search">
+                            <input
+                                class="form-control me-2"
+                                type="search"
+                                placeholder="Search Project"
+                                aria-label="Search"
+                            />
+                            <button class="btn btn-light" type="submit"
+                                >Search</button
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End::row-1 -->
+
+    <!-- Start::row-2 -->
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card custom-card overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th>Client Name</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Status</th>
+                                    <th>Budget (USD)</th>
+                                    <th>Assigned Team</th>
+                                    <th>Priority</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    projectData.map((project) => (
+                                        <tr>
+                                            <td>{project.name}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-1">
+                                                    <div class="lh-1">
+                                                        <span class="avatar avatar-sm avatar-rounded">
+                                                            <Image
+                                                                src={
+                                                                    project.companyLogo
+                                                                }
+                                                                alt="logo"
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        {project.companyName}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{project.startDate}</td>
+                                            <td>{project.endDate}</td>
+                                            <td>
+                                                <span
+                                                    class={`badge ${statusBadgeClass[project.status]}`}
+                                                >
+                                                    {project.status}
+                                                </span>
+                                            </td>
+                                            <td>{project.budget}</td>
+                                            <td>
+                                                <div class="avatar-list-stacked">
+                                                    {project.team.map(
+                                                        (avatar, idx) => (
+                                                            <span class="avatar avatar-sm avatar-rounded">
+                                                                <Image
+                                                                    src={avatar}
+                                                                    alt="img"
+                                                                />
+                                                            </span>
+                                                        ),
+                                                    )}
+                                                    {project.extraTeam > 0 && (
+                                                        <a
+                                                            class="avatar avatar-sm bg-primary avatar-rounded text-fixed-white"
+                                                            href="javascript:void(0);"
+                                                        >
+                                                            +{project.extraTeam}
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class={`${priorityColorClass[project.priority]} d-flex align-items-center`}
+                                                >
+                                                    <i class="ri-circle-fill me-1 fs-10 lh-1" />
+                                                    {project.priority}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <a
+                                                        aria-label="anchor"
+                                                        href="javascript:void(0);"
+                                                        class="btn btn-icon btn-sm btn-light"
+                                                        data-bs-toggle="dropdown"
+                                                        aria-expanded="false"
+                                                    >
+                                                        <i class="fe fe-more-vertical" />
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a
+                                                                class="dropdown-item d-inline-flex align-items-center"
+                                                                href="javascript:void(0);"
+                                                            >
+                                                                <i class="ti ti-eye me-1 align-middle" />
+                                                                View
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a
+                                                                class="dropdown-item d-inline-flex align-items-center"
+                                                                href="javascript:void(0);"
+                                                            >
+                                                                <i class="ti ti-edit me-1 align-middle" />
+                                                                Edit
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a
+                                                                class="dropdown-item d-inline-flex align-items-center"
+                                                                href="javascript:void(0);"
+                                                            >
+                                                                <i class="ti ti-trash me-1 align-middle" />
+                                                                Delete
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End::row-2 -->
+    <ul class="pagination justify-content-end">
+        <li class="page-item disabled">
+            <a class="page-link">Previous</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="javascript:void(0);">1</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="javascript:void(0);">2</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="javascript:void(0);">Next</a>
+        </li>
+    </ul>
+    <script>
+        import "../../../scripts/js/custom.js";
+    </script>
+</Layout>

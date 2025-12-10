@@ -1,0 +1,47 @@
+<app-breadcrumb title="Advanced UI" [subtitle]="false" active_item="Draggable Cards"></app-breadcrumb><!-- breadcrumb -->
+  
+
+<!-- Start::row-1 -->
+<div class="row">
+    <div class="col-xl-6" id="draggable-right" [sortablejs]="normalList2" [sortablejsOptions]="normalOptions">
+        <spk-blockquote-card [cardBg]="'card-bg-primary'"
+            [quote]="'The best and most beautiful things in the world cannot be seen or even touched — they must be felt with the heart..'"
+            [author]="'Someone famous as'" [textColor]="'text-fixed-white'" [textColor1]="'text-fixed-white op-7 mt-3 '"
+            [sourceTitle]="'-Helen Keller'">
+        </spk-blockquote-card>
+        <spk-collapse-card [title]="'Card With Close Button'" [subtitle]="'Closed Card'"
+            [content]="'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words.'"
+            [isCollapsible]="false" [isClosable]="true" [isFullscreenable]="false">
+        </spk-collapse-card>
+        <spk-link-card [imageUrl]="'./assets/images/faces/8.jpg'" [name]="'Jessica sams.'"
+            [department]="'Department Of Commerce'" [age]="24" [gender]="'Female'" [cardBorder]="true"
+            [textInfoClass]="'text-info'"></spk-link-card>
+        <spk-overlay-card [imageUrl]="'./assets/images/media/media-35.jpg'" [title]="'Image Overlays Are Awesome!'" [content]="'Last updated 3 mins ago'"
+            [bodyTitle]="'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even.'"
+            [footerText]="''" [contentPosition]="''">
+        </spk-overlay-card>
+        <spk-link-card [imageUrl]="'./assets/images/faces/15.jpg'" [name]="'Atharva Ayyan'"
+            [title]="'Correspondent Professor'" [cardBorder]="false" [textInfoClass]="''"></spk-link-card>
+    </div>
+    <div class="col-xl-6" id="draggable-left" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions">
+        <spk-overlay-card [imageUrl]="'./assets/images/media/media-36.jpg'" [bodyTitle]="'Image Overlays Are Awesome!'"
+            [content]="'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even.'"
+            [footerText]="'Last updated 3 mins ago'" [contentPosition]="''">
+        </spk-overlay-card>
+        <spk-bgcolor-card [BgColor]="'card-bg-info'" [image]="'./assets/images/faces/5.jpg'"
+            [name]="'Sonia Agarwal'" [status]="'In leave for 1 month'">
+        </spk-bgcolor-card>
+        <spk-collapse-card [title]="'Card With Collapse Button'" [defaultBorder]="'border-bottom-0'" [cardBodycontent]="'border-top'" [collapseClass]="''" [subtitle]="'Collapsible Card'"
+            [content]="'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words.'"
+            [isCollapsible]="true" [isClosable]="false" [isFullscreenable]="false">
+        </spk-collapse-card>
+        <spk-collapse-card [title]="'Card With Fullscreen Button'"  [subtitle]="'FullScreen Card'"
+            [content]="'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words.'"
+             [isFullscreenable]="true">
+        </spk-collapse-card>
+
+
+    </div>
+
+</div>
+<!--End::row-1 -->

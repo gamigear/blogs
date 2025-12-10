@@ -5,21 +5,31 @@
 
 import Redis from 'ioredis';
 
-const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', {
-  maxRetriesPerRequest: 3,
-  retryStrategy(times) {
-    const delay = Math.min(times * 50, 2000);
-    return delay;
-  },
-});
+// Check if we're in build time or Redis is disabled
+const isRedisDisabled = process.env.REDIS_DISABLED === 'true' || process.env.NODE_ENV === 'production' && !process.env.REDIS_URL;
+const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
 
-redis.on('error', (err) => {
-  console.error('Redis connection error:', err);
-});
+let redis: Redis | null = null;
 
-redis.on('connect', () => {
-  console.log('Redis connected');
-});
+if (!isRedisDisabled && !isBuildTime && process.env.REDIS_URL) {
+  redis = new Redis(process.env.REDIS_URL, {
+    maxRetriesPerRequest: 3,
+    retryStrategy(times) {
+      if (times > 3) return null; // Stop retrying after 3 attempts
+      const delay = Math.min(times * 50, 2000);
+      return delay;
+    },
+    lazyConnect: true,
+  });
+
+  redis.on('error', (err) => {
+    console.error('Redis connection error:', err);
+  });
+
+  redis.on('connect', () => {
+    console.log('Redis connected');
+  });
+}
 
 // Cache TTL constants
 export const CACHE_TTL = {
@@ -35,6 +45,7 @@ const DEFAULT_TTL = CACHE_TTL.MEDIUM;
  * Get cached value
  */
 export async function getCached<T>(key: string): Promise<T | null> {
+  if (!redis) return null;
   try {
     const cached = await redis.get(key);
     return cached ? JSON.parse(cached) : null;
@@ -48,6 +59,7 @@ export async function getCached<T>(key: string): Promise<T | null> {
  * Set cache value with TTL
  */
 export async function setCache<T>(key: string, data: T, ttl: number = DEFAULT_TTL): Promise<void> {
+  if (!redis) return;
   try {
     await redis.setex(key, ttl, JSON.stringify(data));
   } catch (error) {
@@ -59,6 +71,7 @@ export async function setCache<T>(key: string, data: T, ttl: number = DEFAULT_TT
  * Delete cache by key
  */
 export async function deleteCache(key: string): Promise<void> {
+  if (!redis) return;
   try {
     await redis.del(key);
   } catch (error) {
@@ -71,6 +84,7 @@ export async function deleteCache(key: string): Promise<void> {
  * Requirements: 9.2 - Cache invalidation
  */
 export async function invalidateCache(pattern: string): Promise<number> {
+  if (!redis) return 0;
   try {
     const keys = await redis.keys(pattern);
     if (keys.length > 0) {
@@ -92,6 +106,10 @@ export async function getOrSet<T>(
   fetcher: () => Promise<T>,
   ttl: number = DEFAULT_TTL
 ): Promise<T> {
+  if (!redis) {
+    return fetcher();
+  }
+  
   const cached = await getCached<T>(key);
   if (cached !== null) {
     return cached;
@@ -153,7 +171,7 @@ export async function invalidateCommunityPostCaches(): Promise<void> {
  * Check if Redis is connected
  */
 export function isRedisConnected(): boolean {
-  return redis.status === 'ready';
+  return redis?.status === 'ready' || false;
 }
 
 export default redis;

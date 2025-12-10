@@ -1,0 +1,74 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import Pageheader from "../../../../components/Pageheader.astro";
+import "../../../../scripts/libs/prismjs/themes/prism-coy.min.css"
+import "../../../../scripts/libs/@simonwep/pickr/themes/classic.min.css"
+import "../../../../scripts/libs/@simonwep/pickr/themes/monolith.min.css"
+import "../../../../scripts/libs/@simonwep/pickr/themes/nano.min.css"
+---
+
+<Layout Seo="Color Pickers">
+    <Pageheader
+        title="Forms"
+        subtitle="Form Elements"
+        currentpage="Color Pickers"
+        activepage="Color Pickers"
+    />
+
+    <!-- Start::row-1 -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card custom-card">
+                            <div class="card-header justify-content-between">
+                                <div class="card-title">
+                                    Bootstrap Color Picker
+                                </div>
+                                <div class="prism-toggle">
+                                    <button class="btn btn-sm btn-primary-light">Show Code<i class="ri-code-line ms-2 d-inline-block align-middle"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <input type="color" class="form-control form-control-color border-0"
+                                        id="exampleColorInput" value="#136ad0" title="Choose your color">
+                            </div>
+                            <div class="card-footer d-none border-top-0">
+<!-- Prism Code -->
+<pre class="language-html"><code class="language-html">&lt;input type="color" class="form-control form-control-color border-0"
+    id="exampleColorInput" value="#136ad0" title="Choose your color"&gt;</code></pre>
+<!-- Prism Code -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    Classic
+                                </div>
+                            </div>
+                            <div class="card-body d-flex justify-content-between">
+                                <div>
+                                    <div class="theme-container"></div>
+                                    <div class="pickr-container example-picker"></div>
+                                </div>
+                                <div>
+                                    <div class="theme-container1"></div>
+                                    <div class="pickr-container1 example-picker"></div>
+                                </div>
+                                <div>
+                                    <div class="theme-container2"></div>
+                                    <div class="pickr-container2 example-picker"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End::row-1 -->
+
+    <script>
+        import "../../../../scripts/libs/prismjs/prism.js";
+        import "../../../../scripts/js/custom.js";
+        import "../../../../scripts/js/color-picker.js";
+        import "../../../../scripts/js/prism-custom.js";
+    </script>
+</Layout>

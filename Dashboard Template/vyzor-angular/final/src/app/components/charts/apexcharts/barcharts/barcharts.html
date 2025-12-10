@@ -1,0 +1,137 @@
+<!-- Page Header -->
+<app-breadcrumb title="Apex Charts" [subtitle]="false" active_item="Apex Bar Charts"></app-breadcrumb><!-- breadcrumb -->
+
+<!-- Page Header Close -->
+<!-- Start::row-1 -->
+<div class="row">
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Basic Bar Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="bar-basic">
+                  <spk-apexcharts [chartOptions]="BarChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Grouped Bar Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="bar-group">
+                  <spk-apexcharts [chartOptions]="GroupedBarChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Stacked Bar Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="bar-stacked">
+                  <spk-apexcharts [chartOptions]="StackedBarChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">100% Stacked Bar Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="bar-full">
+                  <spk-apexcharts [chartOptions]="StackedBarData100"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Bar Chart With Negative Values</div>
+          </div>
+          <div class="card-body">
+              <div id="bar-negative">
+                  <spk-apexcharts [chartOptions]="barChartNegativeValueData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Bar Chart With Markers</div>
+          </div>
+          <div class="card-body">
+              <div id="bar-markers">
+                  <spk-apexcharts [chartOptions]="BarChartMarkerData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Reversed Bar Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="bar-reversed">
+                  <spk-apexcharts [chartOptions]="ReversedBarChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Bar With Category DataLabels</div>
+          </div>
+          <div class="card-body">
+              <div id="bar-categories">
+                  <spk-apexcharts [chartOptions]="DataLableChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Patterned Bar Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="bar-pattern">
+                  <spk-apexcharts [chartOptions]="PatternedBarChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Bar With Image Fill</div>
+          </div>
+          <div class="card-body">
+              <div id="bar-image">
+                  <spk-apexcharts [chartOptions]="ImageFillData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!--End::row-1 -->

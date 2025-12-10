@@ -9,6 +9,8 @@ import { authOptions } from '@/lib/auth';
 import { query, queryOne } from '@/lib/db';
 import { hashPassword, validatePassword, logAuditAction } from '@/lib/security';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/admin/users - List users with pagination and filters
  */

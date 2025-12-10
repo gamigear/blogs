@@ -4,6 +4,8 @@ import { authOptions } from '@/lib/auth';
 import { query, execute } from '@/lib/db';
 import { logAuditAction } from '@/lib/security';
 
+export const dynamic = 'force-dynamic';
+
 export interface HomepageSection {
   id: number;
   name: string;

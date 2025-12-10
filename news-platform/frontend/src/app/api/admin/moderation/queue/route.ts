@@ -4,6 +4,8 @@ import { authOptions, isModerator } from '@/lib/auth';
 import { getModerationQueue, getQueueStats } from '@/lib/moderation';
 import { addSecurityHeaders } from '@/lib/security';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/admin/moderation/queue - Get moderation queue
  * Requirements: 7.1, 7.2

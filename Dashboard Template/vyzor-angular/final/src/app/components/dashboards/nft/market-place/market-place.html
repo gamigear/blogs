@@ -1,0 +1,181 @@
+<app-breadcrumb title="Dashboards" sub_title="NFT" active_item="Market Place"></app-breadcrumb>
+
+<!-- Start::row-1 -->
+<div class="row">
+  <div class="col-xl-12 ">
+    <div class="card custom-card">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <div>
+            <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-tabs nav-tabs-header mb-0 " role="tablist">
+              <li [ngbNavItem]="1" class="nav-item" role="presentation">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#nft-all"
+                  aria-selected="true">All</a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    @for (card of MartketPlaceItems; track $index) {
+                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <spk-nft-card [nft]="card"></spk-nft-card>
+                    </div>
+                    }
+                    <nav aria-label="Page navigation">
+                      <ul class="pagination justify-content-end mb-4 custom-nft-pagination">
+                        <li class="page-item disabled">
+                          <a class="page-link">Previous</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+                        <li class="page-item">
+                          <a class="page-link" href="javascript:void(0);">Next</a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="2" class="nav-item" role="presentation">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#nft-art"
+                  aria-selected="false" tabindex="-1">Art</a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    @for (card of MartketPlaceItems1; track $index) {
+                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <spk-nft-card [nft]="card"></spk-nft-card>
+                    </div>
+                    }
+                  </div>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="3" class="nav-item" role="presentation">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#nft-gaming"
+                  aria-selected="false" tabindex="-1">Gaming</a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    @for (card of Market; track $index) {
+                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <spk-nft-card [nft]="card"></spk-nft-card>
+                    </div>
+                    }
+                  </div>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="4" class="nav-item" role="presentation">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#nft-domain"
+                  aria-selected="false" tabindex="-1">Domain</a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    @for (card of MarketDomain; track $index) {
+                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <spk-nft-card [nft]="card"></spk-nft-card>
+                    </div>
+                    }
+                  </div>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="5" class="nav-item" role="presentation">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#nft-music"
+                  aria-selected="false" tabindex="-1">Music</a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    @for (card of MarketMusic; track $index) {
+                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <spk-nft-card [nft]="card"></spk-nft-card>
+                    </div>
+                    }
+                  </div>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="6" class="nav-item" role="presentation">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page"
+                  href="#nft-realestate" aria-selected="false" tabindex="-1">Real Estate</a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    @for (card of MarketReal; track $index) {
+                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <spk-nft-card [nft]="card"></spk-nft-card>
+                    </div>
+                    }
+                  </div>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="7" class="nav-item" role="presentation">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#nft-sports"
+                  aria-selected="false" tabindex="-1">Sports</a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    @for (card of MarketSports; track $index) {
+                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <spk-nft-card [nft]="card"></spk-nft-card>
+                    </div>
+                    }
+                  </div>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="8" class="nav-item" role="presentation">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#nft-fashion"
+                  aria-selected="false" tabindex="-1">Fashion</a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    @for (card of MarketFashion; track $index) {
+                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <spk-nft-card [nft]="card"></spk-nft-card>
+                    </div>
+                    }
+                  </div>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="9" class="nav-item" role="presentation">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#nft-avatars"
+                  aria-selected="false" tabindex="-1">Avatars</a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    @for (card of MarketAvatars; track $index) {
+                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <spk-nft-card [nft]="card"></spk-nft-card>
+                    </div>
+                    }
+                  </div>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="10" class="nav-item" role="presentation">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#nft-memes"
+                  aria-selected="false" tabindex="-1">Memes</a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    @for (card of MarketMemes; track $index) {
+                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <spk-nft-card [nft]="card"></spk-nft-card>
+                    </div>
+                    }
+                  </div>
+                </ng-template>
+              </li>
+            </ul>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-sm btn-secondary btn-wave">Filters</button>
+            <spk-dropdowns [title]="'Sort By'" [Customclass]="'dropdown'" [Icon]="true"
+              [IconClass]="'ri-arrow-down-s-line align-middle ms-1 d-inline-block'"
+              [class]="'btn btn-sm btn-wave btn-primary waves-effect waves-light no-caret'"
+              [Menuclass]="'dropdown-menu '">
+              <li><a class="dropdown-item" href="javascript:void(0);">New Collection</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0);">High - Low</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0);">Low - High</a></li>
+            </spk-dropdowns>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--End::row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="row">
+  <div class="col-xl-12 faq-tabs">
+    <div class="tab-content" [ngbNavOutlet]="nav"></div>
+  </div>
+</div>
+<!-- End:: row-2 -->

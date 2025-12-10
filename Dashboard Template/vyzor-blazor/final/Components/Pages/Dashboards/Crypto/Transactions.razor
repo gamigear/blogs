@@ -1,0 +1,296 @@
+@page "/crypto/transactions"
+
+<!-- Start::page-header -->
+<div class="page-header-breadcrumb mb-3">
+    <div class="d-flex align-center justify-content-between flex-wrap">
+        <h1 class="page-title fw-medium fs-18 mb-0">Transactions</h1>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboards</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Crypto</li>
+            <li class="breadcrumb-item active" aria-current="page">Transactions</li>
+        </ol>
+    </div>
+</div>
+<!-- End::page-header -->
+
+<!-- Start::row-1 -->
+<div class="row">
+   @foreach (var card in _Transactions)
+    {
+        <div class="col-xxl-3 col-lg-6">
+            <div class="card custom-card dashboard-main-card @card.cardclass @card.SvgClass.Replace("-transparent svg", "")">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="flex-fill">
+                            <h6 class="mb-2 fs-12">@card.Title</h6>
+                            <div>
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <h4 class="fw-medium mb-0"><span class="count-up" data-count="@card.Count">@card.Count</span>@(card.Title == "Inprogress"? "k" : "")</h4>
+                                    <span class="badge @card.BadgeClass">@card.BadgeValue</span>
+                                </div>
+                                <p class="text-muted fs-11 mb-0 lh-1">
+                                    <span class="@card.ChangeClass me-1 fw-medium">
+                                        <i class="@card.IconClass me-1 align-middle"></i>@card.PercentChange
+                                    </span>
+                                    <span>this month</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lh-1">
+                            <span class="avatar avatar-lg @card.SvgClass">
+                                @card.SvgIcon
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<!--End::row-1 -->
+
+<!-- Start:: row-2 -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Transaction History
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <div>
+                        <input class="form-control" type="search" placeholder="Search Here"
+                            aria-label=".form-control-sm example">
+                    </div>
+                    <div class="dropdown">
+                        <a href="javascript:void(0);" class="btn btn-primary btn-wave waves-effect waves-light"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Sort By<i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">This Week</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">This Month</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">This Year</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary btn-wave">View All</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th scope="col">Sender</th>
+                                <th scope="col">Transaction Hash</th>
+                                <th scope="col">Coin</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Receiver</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var Data in TransactionHistoryData)
+                            {
+                                string arrowClass = Data.IsIncome ? "ti-arrow-narrow-up text-success" : "ti-arrow-narrow-down text-danger";
+                                <tr>
+                                    <td>
+                                        <span class="avatar avatar-sm avatar-rounded @(Data.IsIncome ? "bg-success-transparent" : "bg-danger-transparent")">
+                                            <i class="ti @(arrowClass) fw-medium fs-16"></i>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="@Data.UserAvatar" alt="@Data.UserName" />
+                                            </span>
+                                            <div class="fw-medium">@Data.UserName</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span>@Data.TransactionId</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="avatar avatar-xs avatar-rounded">
+                                                <img src="@Data.CryptoIcon" alt="@Data.CryptoName" />
+                                            </span>
+                                            <div class="fw-medium">@Data.CryptoName</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span>@Data.DateTime</span>
+                                    </td>
+                                    <td>
+                                        <span>@Data.Amount</span>
+                                    </td>
+                                    <td>
+                                        <span>@Data.Receiver</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge 
+                                            bg-@(Data.Status == "Completed"?"success" :
+                                            Data.Status == "Pending"?"warning" : 
+                                            Data.Status == "In Progress"?"info" : 
+                                            Data.Status == "Cancelled"?"danger" : 
+                                            "secondary")-transparent"
+                                            >
+                                            @Data.Status
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary-light btn-icon btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="download">
+                                            <i class="ri-download-2-line"></i>
+                                        </button>
+                                        <button class="btn btn-danger-light btn-icon ms-1 btn-sm task-delete-btn"
+                                        @onclick="() => DeleteItem(Data!)"
+                                        >
+                                            <i class="ri-delete-bin-5-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer border-top-0">
+                <nav aria-label="Page navigation" class="pagination-style-2">
+                    <ul class="pagination mb-0 flex-wrap justify-content-end">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="javascript:void(0);">
+                                Prev
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                        <li class="page-item active"><a class="page-link" href="javascript:void(0);">2</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);">
+                                <i class="bi bi-three-dots"></i>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">17</a></li>
+                        <li class="page-item">
+                            <a class="page-link text-primary" href="javascript:void(0);">
+                                next
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End:: row-2 -->
+
+@code{
+
+    //Transaction History start
+    public class TransactionHistory
+    {
+        public bool IsIncome { get; set; }
+        public string? UserAvatar { get; set; }
+        public string? UserName { get; set; }
+        public string? TransactionId { get; set; }
+        public string? CryptoIcon { get; set; }
+        public string? CryptoName { get; set; }
+        public string? DateTime { get; set; }
+        public string? Amount { get; set; }
+        public string? Receiver { get; set; }
+        public string? Status { get; set; } 
+    }
+    List<TransactionHistory> TransactionHistoryData = new()
+    {
+        new() { IsIncome = true, UserAvatar = "../assets/images/faces/10.jpg", UserName = "John Doe", TransactionId = "#1234567890", CryptoIcon = "../assets/images/crypto-currencies/crypto-icons/bitcoin-btc-logo.svg", CryptoName = "Bitcoin", DateTime = "Mar 22, 2025 - 10:45 AM", Amount = "0.5 BTC", Receiver = "Alice Smith", Status = "Completed" },
+        new() { IsIncome = false, UserAvatar = "../assets/images/faces/5.jpg", UserName = "Jane Smith", TransactionId = "#1234567891", CryptoIcon = "../assets/images/crypto-currencies/crypto-icons/ethereum-eth-logo.svg", CryptoName = "Ethereum", DateTime = "Mar 22, 2025 - 11:20 AM", Amount = "2 ETH", Receiver = "Bob Johnson", Status = "Pending" },
+        new() { IsIncome = true, UserAvatar = "../assets/images/faces/12.jpg", UserName = "Mark Lee", TransactionId = "#1234567892", CryptoIcon = "../assets/images/crypto-currencies/crypto-icons/solana-sol-logo.svg", CryptoName = "Solana", DateTime = "Aug 14, 2024 - 10:25 AM", Amount = "100 Sol", Receiver = "Sarah Adams", Status = "In Progress" },
+        new() { IsIncome = true, UserAvatar = "../assets/images/faces/15.jpg", UserName = "Alex Green", TransactionId = "#1234567893", CryptoIcon = "../assets/images/crypto-currencies/crypto-icons/bitcoin-btc-logo.svg", CryptoName = "Bitcoin", DateTime = "Mar 22, 2025 - 02:15 PM", Amount = "0.3 BTC", Receiver = "Michael Clark", Status = "Completed" },
+        new() { IsIncome = true, UserAvatar = "../assets/images/faces/4.jpg", UserName = "Emma White", TransactionId = "#1234567894", CryptoIcon = "../assets/images/crypto-currencies/crypto-icons/dogecoin-doge-logo.svg", CryptoName = "Dogecoin", DateTime = "Mar 22, 2025 - 03:30 PM", Amount = "500 DOGE", Receiver = "Chris Martinez", Status = "Cancelled" },
+        new() { IsIncome = false, UserAvatar = "../assets/images/faces/7.jpg", UserName = "Luke Brown", TransactionId = "#1234567895", CryptoIcon = "../assets/images/crypto-currencies/crypto-icons/bitcoin-btc-logo.svg", CryptoName = "Bitcoin", DateTime = "Mar 22, 2025 - 04:00 PM", Amount = "1 BTC", Receiver = "Nancy Williams", Status = "Completed" },
+        new() { IsIncome = true, UserAvatar = "../assets/images/faces/6.jpg", UserName = "Sophia Black", TransactionId = "#1234567896", CryptoIcon = "../assets/images/crypto-currencies/crypto-icons/ethereum-eth-logo.svg", CryptoName = "Ethereum", DateTime = "Mar 22, 2025 - 05:00 PM", Amount = "1.5 ETH", Receiver = "Tom Hanks", Status = "Pending" },
+        new() { IsIncome = true, UserAvatar = "../assets/images/faces/7.jpg", UserName = "Rachel Green", TransactionId = "#1234567897", CryptoIcon = "../assets/images/crypto-currencies/crypto-icons/tether-usdt-logo.svg", CryptoName = "Tether", DateTime = "Mar 22, 2025 - 06:10 PM", Amount = "150 USDT", Receiver = "Jack White", Status = "Completed" },
+        new() { IsIncome = false, UserAvatar = "../assets/images/faces/15.jpg", UserName = "David Kim", TransactionId = "#1234567898", CryptoIcon = "../assets/images/crypto-currencies/crypto-icons/bitcoin-btc-logo.svg", CryptoName = "Bitcoin", DateTime = "Mar 22, 2025 - 07:20 PM", Amount = "0.8 BTC", Receiver = "Olivia Turner", Status = "In Progress" },
+        new() { IsIncome = true, UserAvatar = "../assets/images/faces/16.jpg", UserName = "Oliver Stone", TransactionId = "#1234567899", CryptoIcon = "../assets/images/crypto-currencies/crypto-icons/ethereum-eth-logo.svg", CryptoName = "Ethereum", DateTime = "Mar 22, 2025 - 08:30 PM", Amount = "3 ETH", Receiver = "Mia Roberts", Status = "Cancelled" }
+    };
+    private void DeleteItem(TransactionHistory item)
+    {
+        TransactionHistoryData.Remove(item);
+    }
+    //Transaction History end
+
+    //Transactions Cards
+    public class TransactionCard
+    {
+        public string Title { get; set; } = string.Empty;
+        public string cardclass { get; set; } = string.Empty;
+        public int Count { get; set; }
+        public string BadgeValue { get; set; } = string.Empty;
+        public string BadgeClass { get; set; } = string.Empty;
+        public string PercentChange { get; set; } = string.Empty;
+        public string ChangeClass { get; set; } = string.Empty;
+        public string IconClass { get; set; } = string.Empty;
+        public string SvgClass { get; set; } = string.Empty;
+        public MarkupString SvgIcon { get; set; } // to hold raw SVG
+    }
+    private List<TransactionCard> _Transactions = new()
+    {
+        new TransactionCard
+        {
+            Title = "New",
+            cardclass = "primary",
+            Count = 42,
+            BadgeValue = "12,345",
+            BadgeClass = "bg-primary",
+            PercentChange = "3.25%",
+            ChangeClass = "text-success",
+            IconClass = "ri-arrow-up-s-line",
+            SvgClass = "bg-primary-transparent svg-primary",
+            SvgIcon = new MarkupString(@"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><rect width='256' height='256' fill='none'/><path d='M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM152,160H136v16a8,8,0,0,1-16,0V160H104a8,8,0,0,1,0-16h16V128a8,8,0,0,1,16,0v16h16a8,8,0,0,1,0,16Zm0-72V43.31L196.69,88Z'/></svg>")
+        },
+        new TransactionCard
+        {
+            Title = "Completed",
+             cardclass = "secondary",
+            Count = 320,
+            BadgeValue = "4,176",
+            BadgeClass = "bg-secondary",
+            PercentChange = "1.16%",
+            ChangeClass = "text-danger",
+            IconClass = "ri-arrow-down-s-line",
+            SvgClass = "bg-secondary-transparent svg-secondary",
+            SvgIcon = new MarkupString(@"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><rect width='256' height='256' fill='none'/><path d='M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z'/></svg>")
+        },
+        new TransactionCard
+        {
+            Title = "Pending",
+             cardclass = "success",
+            Count = 81,
+            BadgeValue = "7,064",
+            BadgeClass = "bg-success",
+            PercentChange = "0.25%",
+            ChangeClass = "text-success",
+            IconClass = "ri-arrow-up-s-line",
+            SvgClass = "bg-success-transparent svg-success",
+            SvgIcon = new MarkupString(@"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><rect width='256' height='256' fill='none'/><path d='M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm56,112H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48a8,8,0,0,1,0,16Z'/></svg>")
+        },
+        new TransactionCard
+        {
+            Title = "Inprogress",
+            cardclass = "warning",
+            Count = 33,
+            BadgeValue = "1,105",
+            BadgeClass = "bg-warning border",
+            PercentChange = "0.46%",
+            ChangeClass = "text-success",
+            IconClass = "ri-arrow-up-s-line",
+            SvgClass = "bg-warning-transparent svg-warning",
+            SvgIcon = new MarkupString(@"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><rect width='256' height='256' fill='none'/><path d='M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm33.94,58.75,17-17a8,8,0,0,1,11.32,11.32l-17,17a8,8,0,0,1-11.31-11.31ZM48,136a8,8,0,0,1,0-16H72a8,8,0,0,1,0,16Zm46.06,37.25-17,17a8,8,0,0,1-11.32-11.32l17-17a8,8,0,0,1,11.31,11.31Zm0-79.19a8,8,0,0,1-11.31,0l-17-17A8,8,0,0,1,77.09,65.77l17,17A8,8,0,0,1,94.06,94.06ZM136,208a8,8,0,0,1-16,0V184a8,8,0,0,1,16,0Zm0-136a8,8,0,0,1-16,0V48a8,8,0,0,1,16,0Zm54.23,118.23a8,8,0,0,1-11.32,0l-17-17a8,8,0,0,1,11.31-11.31l17,17A8,8,0,0,1,190.23,190.23ZM208,136H184a8,8,0,0,1,0-16h24a8,8,0,0,1,0,16Z'/></svg>")
+        }
+    };
+
+}

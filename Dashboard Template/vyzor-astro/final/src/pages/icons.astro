@@ -1,0 +1,224 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Pageheader from "../components/Pageheader.astro";
+import {
+    Bootstrapicons,
+    Boxicons,
+    Feathericons,
+    LineAwesomeicons,
+    Remixicons,
+    Tablericons,
+} from "../shared/data/icons/iconsdata";
+---
+
+<Layout Seo="Icons">
+    <Pageheader title="Icons" currentpage="Icons" activepage="Icons" />
+
+    <!-- Start::row-1 -->
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Bootstrap Icons</div>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1">
+                        Simply beautiful open source icons. For more info <a
+                            href="https://icons.getbootstrap.com/"
+                            target="_blank"
+                            class="text-primary">click here</a
+                        >.
+                    </p>
+                    <p class="mb-4">
+                        <code>&lt;i class="bi bi-ICON_NAME"&gt;&lt;/i&gt;</code>
+                    </p>
+                    <ul class="icons-list list-unstyled">
+                        {
+                            Bootstrapicons.map((idx) => (
+                                <li
+                                    class="icons-list-item"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-title={idx.text}
+                                >
+                                    <i class={`${idx.text}`} />
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Remix Icons</div>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1">
+                        Simply beautiful open source icons. For more info <a
+                            href="https://remixicon.com/"
+                            target="_blank"
+                            class="text-primary">click here</a
+                        >.
+                    </p>
+                    <p class="mb-4">
+                        <code>&lt;i class="ri-ICON_NAME"&gt;&lt;/i&gt;</code>
+                    </p>
+                    <ul class="icons-list list-unstyled">
+                        {
+                            Remixicons.map((idx) => (
+                                <li
+                                    class="icons-list-item"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-title={idx.text}
+                                >
+                                    <i class={idx.text} />
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Feather Icons</div>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1">
+                        Simply beautiful open source icons. For more info <a
+                            href="https://feathericons.com/"
+                            target="_blank"
+                            class="text-primary">click here</a
+                        >.
+                    </p>
+                    <p class="mb-4">
+                        <code>&lt;i class="fe fe-ICON_NAME"&gt;&lt;/i&gt;</code>
+                    </p>
+                    <ul class="icons-list list-unstyled">
+                        {
+                            Feathericons.map((idx) => (
+                                <li
+                                    class="icons-list-item"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-title={idx.text}
+                                >
+                                    <i class={`${idx.text}`} />
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Tabler Icons</div>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1">
+                        Simply beautiful open source icons. For more info <a
+                            href="https://tabler-icons.io/"
+                            target="_blank"
+                            class="text-primary">click here</a
+                        >.
+                    </p>
+                    <p class="mb-4">
+                        <code>&lt;i class="ti ti-ICON_NAME"&gt;&lt;/i&gt;</code>
+                    </p>
+                    <ul class="icons-list list-unstyled">
+                        {
+                            Tablericons.map((idx) => (
+                                <li
+                                    class="icons-list-item"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-title={idx.text}
+                                >
+                                    <i class={idx.text} />
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Line Awesome Icons</div>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1">
+                        Simply beautiful open source icons. For more info <a
+                            href="https://icons8.com/line-awesome"
+                            target="_blank"
+                            class="text-primary">click here</a
+                        >.
+                    </p>
+                    <p class="mb-4">
+                        <code>&lt;i class="las la-ICON_NAME"&gt;&lt;/i&gt;</code
+                        >
+                    </p>
+                    <ul class="icons-list list-unstyled">
+                        {
+                            LineAwesomeicons.map((idx) => (
+                                <li
+                                    class="icons-list-item"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-title={idx.text}
+                                >
+                                    <i class={idx.text} />
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Boxicons</div>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1">
+                        Simply beautiful open source icons. For more info <a
+                            href="https://boxicons.com/"
+                            target="_blank"
+                            class="text-primary">click here</a
+                        >.
+                    </p>
+                    <p class="mb-4">
+                        <code>&lt;i class="bx bx-ICON_NAME"&gt;&lt;/i&gt;</code>
+                    </p>
+                    <ul class="icons-list list-unstyled">
+                        {
+                            Boxicons.map((idx) => (
+                                <li
+                                    class="icons-list-item"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-title={idx.text}
+                                >
+                                    <i class={idx.text} />
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End::row-1 -->
+
+    <script>
+        import "../scripts/js/custom.js";
+    </script>
+</Layout>

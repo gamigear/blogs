@@ -1,0 +1,63 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Pageheader from "../../../components/Pageheader.astro";
+---
+
+<Layout Seo="Heatmap Charts">
+    <Pageheader
+        title="Charts"
+        subtitle="Apex Charts"
+        currentpage="Apex Heatmap Charts"
+        activepage="Apex Heatmap Charts"
+    />
+
+    <!-- Start::row-1 -->
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Basic Heatmap Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="heatmap-basic"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Multi Series Heatmap Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="heatmap-multiseries"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Color Range Heatmap Chart</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="heatmap-colorrange"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Heatmap Range Without Shades</div>
+                            </div>
+                            <div class="card-body">
+                                <div id="heatmap-range"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End::row-1 -->
+
+    <script>
+        import "../../../scripts/js/custom.js";
+        import "../../../scripts/js/apexcharts-heatmap.js";
+    </script>
+</Layout>

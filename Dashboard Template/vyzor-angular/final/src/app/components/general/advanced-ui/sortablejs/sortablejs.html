@@ -1,0 +1,339 @@
+<app-breadcrumb title="Advanced UI" [subtitle]="false" active_item="Sortable Js"></app-breadcrumb><!-- breadcrumb -->
+
+       <!-- Start::row-1 -->
+       <div class="row">
+        <div class="col-xl-4">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        Simple List
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ol class="list-group sortable-list  list-group-numbered" id="simple-list" [sortablejs]="normalList2" [sortablejsOptions]="normalOptions">
+                        <li class="list-group-item">Design logo for fictional company</li>
+                        <li class="list-group-item">Draft 300-word blog post</li>
+                        <li class="list-group-item">Create project plan with milestones</li>
+                        <li class="list-group-item">Develop sample interview questions</li>
+                        <li class="list-group-item">Generate customer feedback for product.</li>
+                        <li class="list-group-item">Write email template for newsletter.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Shared Lists</div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <ol class="list-group sortable-list list-group-numbered" id="shared-left" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions">
+                                <li class="list-group-item">Sketch a website homepage</li>
+                                <li class="list-group-item">Plan team-building activity.</li>
+                                <li class="list-group-item">Summarize meeting minutes.</li>
+                                <li class="list-group-item">Code a simple webpage.</li>
+                                <li class="list-group-item">Create survey questions.</li>
+                                <li class="list-group-item">Schedule team meeting.</li>
+                            </ol>
+                        </div>
+                        <div class="col-xl-6">
+                            <ol class="list-group sortable-list list-group-numbered" id="shared-right" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions">
+                                <li class="list-group-item">Edit product description.</li>
+                                <li class="list-group-item">Brainstorm marketing ideas.</li>
+                                <li class="list-group-item">Write slogan for brand.</li>
+                                <li class="list-group-item">Update contact information.</li>
+                                <li class="list-group-item">Proofread blog post.</li>
+                                <li class="list-group-item">Analyze sales data.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End::row-1 -->
+
+    <!-- Start:: row-2 -->
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        Disabling Sorting
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row" cdkDropListGroup>
+                        <div class="col-xl-6">
+                          <ol
+                            cdkDropList
+                            #todoList="cdkDropList"
+                            [cdkDropListData]="list3"
+                            [cdkDropListConnectedTo]="[doneList]"
+                            (cdkDropListDropped)="onDrop1($event)"
+                            class="list-group sortable-list dragable-sortable-list list-group-numbered"
+                            id="shared-left"
+                          >
+                            @for (item of list3; track item) {
+                            <li class="list-group-item" cdkDrag>{{ item }}</li>
+                            }
+                          </ol>
+                        </div>
+                        <div class="col-xl-6">
+                          <ol
+                            cdkDropList
+                            #doneList="cdkDropList"
+                            [cdkDropListData]="list4"
+                            [cdkDropListConnectedTo]="[todoList]"
+                            (cdkDropListDropped)="onDrop1($event)"
+                            class="list-group sortable-list list-group-numbered"
+                            id="shared-right"
+                          >
+                            @for (item of list4; track item) {
+                            <li class="list-group-item" disableHandle>{{ item }}</li>
+                            }
+                          </ol>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        Cloning
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <ul class="list-group sortable-list" id="cloning-left" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions">
+                                <li class="list-group-item">Update social media profiles.</li>
+                                <li class="list-group-item">Draft project budget.</li>
+                                <li class="list-group-item">Brainstorm domain names.</li>
+                                <li class="list-group-item">Revise resume content.</li>
+                                <li class="list-group-item">Test website functionality.</li>
+                                <li class="list-group-item">Edit meeting agenda.</li>
+                            </ul>
+                        </div>
+                        <div class="col-xl-6">
+                            <ul class="list-group sortable-list" id="cloning-right" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions">
+                                <li class="list-group-item">Create mood board.</li>
+                                <li class="list-group-item">Design event flyer.</li>
+                                <li class="list-group-item">Research industry trends.</li>
+                                <li class="list-group-item">Format spreadsheet cells.</li>
+                                <li class="list-group-item">Outline marketing strategy.</li>
+                                <li class="list-group-item">Compile data report.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End:: row-2 -->
+
+    <!-- Start:: row-3 -->
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        Sorting With Filter
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group sortable-list" id="sorting-with-filter" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions">
+                        <li class="list-group-item">Analyze market trends.</li>
+                        <li class="list-group-item">Edit video content.</li>
+                        <li class="list-group-item">Plan social media calendar.</li>
+                        <li class="list-group-item filtered">Update company policies.</li>
+                        <li class="list-group-item">Compile sales reports.</li>
+                        <li class="list-group-item">Schedule client calls.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        Sorting With Handle
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ol class="list-group sortable-list list-item-numbered" id="sorting-with-handle" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions">
+                        <li class="list-group-item"><i class="ri-drag-move-2-fill me-2 text-dark fs-16 handle lh-1"></i>Analyze market trends.</li>
+                        <li class="list-group-item"><i class="ri-drag-move-2-fill me-2 text-dark fs-16 handle lh-1"></i>Edit video content.</li>
+                        <li class="list-group-item"><i class="ri-drag-move-2-fill me-2 text-dark fs-16 handle lh-1"></i>Plan social media calendar.</li>
+                        <li class="list-group-item"><i class="ri-drag-move-2-fill me-2 text-dark fs-16 handle lh-1"></i>Update company policies.</li>
+                        <li class="list-group-item"><i class="ri-drag-move-2-fill me-2 text-dark fs-16 handle lh-1"></i>Compile sales reports.</li>
+                        <li class="list-group-item"><i class="ri-drag-move-2-fill me-2 text-dark fs-16 handle lh-1"></i>Schedule client calls.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End:: row-3 -->
+
+    <!-- Start:: row-4 -->
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                Multiple Drag
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group sortable-list" id="multiple-drag" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions">
+                                <li class="list-group-item">Update website images.</li>
+                                <li class="list-group-item">Create marketing banners.</li>
+                                <li class="list-group-item">Revise product descriptions.</li>
+                                <li class="list-group-item">Set up client meetings.</li>
+                                <li class="list-group-item">Check email for urgent messages.</li>
+                                <li class="list-group-item">Proofread customer communications.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                Swap
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group sortable-list" id="sortable-swap" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions">
+                                <li class="list-group-item">Test software functionality.</li>
+                                <li class="list-group-item">Brainstorm team-building activities.</li>
+                                <li class="list-group-item">Format spreadsheet cells.</li>
+                                <li class="list-group-item">Plan virtual team event.</li>
+                                <li class="list-group-item">Edit meeting agenda.</li>
+                                <li class="list-group-item">Compile weekly progress report.</li>
+                                <li class="list-group-item">Monthly report based on sales.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        Nested Sortable
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="nestedSortables" class="list-group col nested-sortable" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions">
+                        <div class="list-group-item nested-1">Item 1.1
+                            <div class="list-group nested-sortable">
+                                <div class="list-group-item nested-2">Item 2.1</div>
+                                <div class="list-group-item nested-2">Item 2.2
+                                    <div class="list-group nested-sortable">
+                                        <div class="list-group-item nested-3" draggable="false">Item 3.3</div><div class="list-group-item nested-3">Item 3.1</div>
+                                        <div class="list-group-item nested-3">Item 3.2</div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item nested-2">Item 2.3</div>
+                                <div class="list-group-item nested-2">Item 2.4</div>
+                            </div>
+                        </div>
+                        <div class="list-group-item nested-1">Item 1.2</div>
+                        <div class="list-group-item nested-1">Item 1.3</div>
+                        <div class="list-group-item nested-1">Item 1.4
+                            <div class="list-group nested-sortable">
+                                <div class="list-group-item nested-2" draggable="false">Item 2.4</div><div class="list-group-item nested-2">Item 2.1</div>
+                                <div class="list-group-item nested-2">Item 2.2</div>
+                            </div>
+                        </div>
+                        <div class="list-group-item nested-1">Item 1.5</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End:: row-4 -->
+
+    <!-- Start:: row-5 -->
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        Sortable Grid
+                    </div>
+                </div>
+                <div class="card-body" id="sortable-grid" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions">
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-1</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-2</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-3</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-4</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-5</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-6</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-7</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-8</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-9</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-10</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-11</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-12</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-13</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-14</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-15</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-16</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-17</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-18</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-19</span>
+                    </div>
+                    <div class="grid-square">
+                        <span class="fw-medium">Item-20</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End:: row-5 -->

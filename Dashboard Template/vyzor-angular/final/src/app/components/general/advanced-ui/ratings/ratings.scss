@@ -1,0 +1,68 @@
+
+
+::ng-deep {
+    .fa.fa-heart,
+    .fa.fa-star {
+        letter-spacing: 5px;
+    }
+
+    .ng-rating:focus,
+    .rating-size:focus {
+        outline: 0;
+    }
+    .full {
+      color:#ff9b21;
+  }
+    .star {
+        position: relative;
+        display : inline-block;
+        font-size: 2rem;
+        color: #f0f0f2;
+    }
+
+    .half {
+        position: absolute;
+        display  : inline-block;
+        overflow: hidden;
+        color:#ff9b21;
+    }
+    .heartHalf {
+        position: absolute;
+        display  : inline-block;
+        overflow: hidden;
+        color: #f16d75;
+    }
+    .filled {
+        color:#ff9b21;
+    }
+    .bad {
+        color: #deb0b0;
+    }
+    .filled.bad {
+        color: #f16d75;
+    }
+
+    @media (max-width:768px) {
+        .star{
+            font-size: 1.7rem;
+        }
+    }
+    .heart {
+        display: inline-block;
+        color: #f44336; /* Red heart color */
+        font-size: 24px;
+      }
+
+      .heart.full {
+        color: #ffeb3b; /* Highlighted color */
+      }
+
+      .heartHalf {
+        position: absolute;
+        overflow: hidden;
+      }
+}
+
+
+
+

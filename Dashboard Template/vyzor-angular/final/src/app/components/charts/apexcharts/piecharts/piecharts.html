@@ -1,0 +1,93 @@
+<!-- Page Header -->
+<app-breadcrumb title="Apex Charts" [subtitle]="false" active_item="Apex pie Charts"></app-breadcrumb><!-- breadcrumb -->
+
+<!-- Page Header Close -->
+<!-- Start::row-1 -->
+<div class="row">
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Basic Pie Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="pie-basic">
+                  <spk-apexcharts  [chartOptions]="pieChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Simple Donut Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="donut-simple">
+                  <spk-apexcharts  [chartOptions]="DonutChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Updating Donut Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="donut-update">
+                  <spk-apexcharts #chart  [chartOptions]="UpdatingDonutChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Monochrome Pie Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="pie-monochrome">
+                  <spk-apexcharts  [chartOptions]="MonochromePieChart"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Gradient Donut Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="donut-gradient">
+                  <spk-apexcharts [chartOptions]="GradientDonutChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Donut Chart With Patterns</div>
+          </div>
+          <div class="card-body mx-auto mx-sm-0">
+              <div id="donut-pattern">
+                  <spk-apexcharts  [chartOptions]="DonutPatternChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Image Filled Pie Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="pie-image">
+                  <spk-apexcharts  [chartOptions]="ImageFillPieChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!--End::row-1 -->

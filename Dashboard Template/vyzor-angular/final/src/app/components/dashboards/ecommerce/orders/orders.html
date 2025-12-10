@@ -1,0 +1,140 @@
+<app-breadcrumb title="Dashboards" sub_title="Ecommerce" active_item="Orders"></app-breadcrumb>
+<!-- Start::row-1 -->
+<div class="row row-cols-xxl-5">
+  @for (list of OrdersCard; track $index) {
+  <div class="col">
+    <spk-list-card [list]="list" [listCard]="true">
+    </spk-list-card>
+  </div>
+  }
+</div>
+<!--End::row-1 -->
+
+<!-- Start::row-2 -->
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card custom-card">
+      <div class="card-header justify-content-between border-bottom-1 gap-2">
+        <!-- Search Bar -->
+        <div class="">
+          <input class="form-control" (input)="onTableWithSearchChange($event)" type="search" id="search-input" placeholder="Search Product"
+            aria-label="search-product">
+        </div>
+
+        <!-- Filters Section -->
+        <div class="d-flex gap-4 flex-wrap w-sm-50 justify-content-end">
+          <!-- Category Filter -->
+          <div>
+            <spk-dropdowns [Customclass]="'dropdown d-grid'" [iconPosition]="'before'" [Icon]="true"
+              [Toggletext]="'Export'" [IconClass]="'ri-upload-2-line me-1'"
+              [class]="'btn btn-primary-light dropdown-toggle '" [Menuclass]="'dropdown-menu '">
+              <li><a class="dropdown-item" href="javascript:void(0);"><i
+                    class="bi bi-file-earmark-excel me-2"></i>Excel</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0);"><i
+                    class="bi bi-file-earmark-excel me-2"></i>Csv</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0);"><i class="bi bi-filetype-pdf me-2"></i>PDF</a>
+              </li>
+              <li><a class="dropdown-item" href="javascript:void(0);"><i class="bi bi-file-zip me-2"></i>Zip</a></li>
+            </spk-dropdowns>
+          </div>
+
+          <!-- Status Filter -->
+          <div class="orders-selectDropdown">
+            <spk-ng-select [options]="PaymenntStatus" [selectClass]="'creative-nft-select'" [id]="'payment-status-filter'"
+              [clearable]="true" [searchable]="true" [hideSelected]="true" [placeholder]="'Payment Status'"
+              [additionalProperties]="{}">
+            </spk-ng-select>
+          </div>
+
+          <!-- Stock Filter -->
+          <div class="orders-selectDropdown">
+            <spk-ng-select [options]="DeliveryStatus" [id]="'delivery-status-filter'" [selectClass]="'creative-nft-select'"
+              [clearable]="true" [searchable]="true" [hideSelected]="true" [placeholder]="'Delivery Status'"
+              [additionalProperties]="{}">
+            </spk-ng-select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table inside the card-body -->
+      <div class="card-body p-0">
+        <div id="orders-table" class="grid-card-table table-responsive">
+          <ng-template #selectAllTemplate2 let-changeEvent>
+            <label class="ngx-form-checkbox">
+              <input type="checkbox" [checked]="allSelected" (click)="changeEvent()" />
+              <i class="ngx-form-icon custom-checkbox-color" id="selectAllCheckbox2"></i>
+            </label>
+          </ng-template>
+          <ngx-table #table class="gridjs-table" [configuration]="configuration" [data]="data" [columns]="columns"
+            [selectAllTemplate]="selectAllTemplate2" (event)="tableEventEmitted($event)">
+            <ng-template let-row>
+              <td>
+                <label class="ngx-form-checkbox">
+                  <input type="checkbox" [(ngModel)]="row.selected" (ngModelChange)="rowSelected()" />
+                  <i class="ngx-form-icon custom-checkbox-color"></i>
+                </label>
+              </td>
+              <td>
+                <span><a href="javascript:void(0);" class="text-primary text-decoration-underline">{{ row.orderID}}</a></span>
+              </td>
+
+              <td>
+                <span><a [routerLink]="['/dashboards/ecommerce/order-details']">
+                    <div class="d-flex align-items-center gap-3 position-relative">
+                      <div class="lh-1">
+                        <span class="avatar avatar-md avatar-rounded">
+                          <img [src]="row.imgUrl" loading="lazy" alt="User Image">
+                        </span>
+                      </div>
+                      <div>
+                        <span class="d-block fw-semibold">{{ row.customerName }}</span>
+                        <span class="text-muted fs-13">{{ row.email }}</span>
+                      </div>
+                    </div>
+                  </a></span>
+              </td>
+              <td>
+                {{ row.price }}
+              </td>
+              <td>
+                <span><span class="badge" [ngClass]="{
+                  'bg-warning-transparent': row.delivery === 'Pending',
+                  'bg-success-transparent': row.delivery === 'Delivered',
+                  'bg-info-transparent': row.delivery === 'Shipped',
+                  'bg-danger-transparent': row.delivery === 'Cancelled'
+                }">{{row.delivery}}</span></span>
+              </td>
+              <td>
+                <span>{{row.payment}}</span>
+              </td>
+              <td>
+                <span><span class="" [ngClass]="{
+                  'text-info': row.status === 'Pending',
+                  'text-success': row.status === 'Completed',
+                  'text-warning': row.status === 'Refunded',
+                  'text-orange': row.status === 'Failed',
+                  'text-danger': row.status === 'Cancelled'
+                }"><i class="ri-circle-fill me-1 fs-10"></i>{{ row.status }}</span></span>
+              </td>
+              <td>
+                <span>{{row.ordereddate}}</span>
+              </td>
+              <td>
+                <span>
+                  <spk-dropdowns [Customclass]="'dropdown '" [Icon]="true" [IconClass]="'fe fe-more-vertical'"
+                    [class]="'btn btn-icon btn-sm btn-primary-light border no-caret'" [Menuclass]="'dropdown-menu '">
+                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-pencil-line me-2"></i>Edit</a>
+                    </li>
+                    <li><a class="dropdown-item btn-delete" href="javascript:void(0);"><i
+                          class="ri-delete-bin-line me-2"></i>Delete</a></li>
+                  </spk-dropdowns>
+                </span>
+              </td>
+            </ng-template>
+          </ngx-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End::row-2 -->

@@ -1,0 +1,66 @@
+---
+const { cardClass, media } = Astro.props;
+---
+
+<div class={`card custom-card ${cardClass}`}>
+    <div class="card-body">
+        <div class="d-flex align-items-start gap-2 flex-wrap">
+            <div class="lh-1">
+                <span
+                    class={`avatar avatar-md avatar-rounded bg-${media.svgColor}-transparent svg-${media.svgColor}`}
+                    set:html={media.svgIcon}
+                />
+            </div>
+            <div class="flex-fill">
+                <div class="d-flex align-items-end justify-content-between">
+                    <span class="d-block mb-1">{media.title}</span>
+                    <div class="dropdown">
+                        <a
+                            aria-label="anchor"
+                            href="javascript:void(0);"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            class="btn btn-icon btn-sm rounded-circle btn-light"
+                        >
+                            <i class="ti ti-dots text-muted fs-5"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" role="menu">
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);">Today</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);">This Week</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);">This Month</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);">This Year</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end justify-content-between">
+                    <h4 class="fw-semibold mb-0">{media.value}</h4>
+                    <div class={`text-${media.percentColor} fs-13`}>
+                        <i
+                            class={`ti ti-arrow-${media.percentColor === "success" ? "up" : "down"}`}
+                        ></i>{media.percent}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

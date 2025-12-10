@@ -7,6 +7,8 @@ import { sanitizeInput, sanitizeHtml, checkRateLimit, addSecurityHeaders } from 
 import { createAuditLog } from '@/lib/moderation';
 import { queryOne } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/community/posts - List approved community posts
  * Requirements: 3.1

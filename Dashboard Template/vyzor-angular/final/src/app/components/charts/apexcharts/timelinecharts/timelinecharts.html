@@ -1,0 +1,73 @@
+<!-- Page Header -->
+<app-breadcrumb title="Apex Charts" [subtitle]="false" active_item="Apex TimeLine Charts"></app-breadcrumb><!-- breadcrumb -->
+
+<!-- Page Header Close -->
+
+<!-- Start::row-1 -->
+<div class="row">
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Basic TImeline Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="timeline-basic">
+                  <spk-apexcharts  [chartOptions]="BasicTimeLineChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Multiple Colored Timeline Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="timeline-colors">
+                  <spk-apexcharts  [chartOptions]="multipleColoredTImelineChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Multi Series Timeline Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="timeline-multi">
+                  <spk-apexcharts  [chartOptions]="multipleSeriesTImelineChartData"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Advanced Timeline Chart</div>
+          </div>
+          <div class="card-body">
+              <div id="timeline-advanced">
+                  <spk-apexcharts  [chartOptions]="AdvancedChartDAta"></spk-apexcharts>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xl-6">
+      <div class="card custom-card">
+          <div class="card-header">
+              <div class="card-title">Timeline-Grouped Rows</div>
+          </div>
+          <div class="card-body">
+              <div id="timeline-grouped">
+                  <spk-apexcharts  [chartOptions]="GroupRowChartData"></spk-apexcharts>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!--End::row-1 -->
+

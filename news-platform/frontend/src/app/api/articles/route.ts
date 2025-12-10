@@ -6,6 +6,8 @@ import { createArticle, ArticleInput } from '@/lib/articles';
 import { sanitizeInput, sanitizeHtml, withRateLimit, addSecurityHeaders } from '@/lib/security';
 import { createAuditLog } from '@/lib/moderation';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/articles - List published articles
  * Requirements: 2.1

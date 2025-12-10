@@ -1,0 +1,65 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Pageheader from "../../../components/Pageheader.astro";
+---
+
+<Layout Seo="Treemap Charts">
+    <Pageheader
+        title="Charts"
+        subtitle="Apex Charts"
+        currentpage="Apex Treemap Charts"
+        activepage="Apex Treemap Charts"
+    />
+
+    <!-- Start::row-1 -->
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Basic Treemap Chart</div>
+                </div>
+                <div class="card-body">
+                    <div id="treemap-basic"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        Multi Dimensional Treemap Chart
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="treemap-multi"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Distributed Treemap Chart</div>
+                </div>
+                <div class="card-body">
+                    <div id="treemap-distributed"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="card-title">Treemap with color ranges</div>
+                </div>
+                <div class="card-body">
+                    <div id="treemap-colorranges"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End::row-1 -->
+
+    <script>
+        import "../../../scripts/js/custom.js";
+        import "../../../scripts/js/apexcharts-treemap.js";
+    </script>
+</Layout>
