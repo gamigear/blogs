@@ -8,10 +8,24 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: '*.vercel.app',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
       },
     ],
     formats: ['image/avif', 'image/webp'],
+    // Allow unoptimized images from any source
+    unoptimized: process.env.NODE_ENV === 'development',
   },
   
   // Experimental features
