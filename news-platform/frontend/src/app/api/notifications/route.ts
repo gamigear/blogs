@@ -9,7 +9,7 @@ import { getUserNotifications, getUnreadCount, markAllAsRead } from '@/lib/notif
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '20');
 
     const [notifications, unreadCount] = await Promise.all([
-      getUserNotifications(session.user.id, limit, unreadOnly),
-      getUnreadCount(session.user.id),
+      getUserNotifications(session.userId, limit, unreadOnly),
+      getUnreadCount(session.userId),
     ]);
 
     return NextResponse.json({
@@ -41,14 +41,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
     
     if (body.action === 'mark_all_read') {
-      const count = await markAllAsRead(session.user.id);
+      const count = await markAllAsRead(session.userId);
       return NextResponse.json({ success: true, markedCount: count });
     }
 

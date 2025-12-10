@@ -53,6 +53,7 @@ CREATE TABLE users (
     discourse_id INTEGER,
     username VARCHAR(100) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255),  -- For credentials-based authentication
     display_name VARCHAR(200),
     avatar VARCHAR(500),
     role VARCHAR(50) DEFAULT 'reader' CHECK (role IN ('reader', 'contributor', 'moderator', 'editor', 'admin', 'superadmin')),
@@ -380,3 +381,108 @@ CREATE TABLE IF NOT EXISTS notifications (
 CREATE INDEX idx_notifications_user ON notifications(user_id);
 CREATE INDEX idx_notifications_unread ON notifications(user_id, is_read) WHERE is_read = FALSE;
 CREATE INDEX idx_notifications_created ON notifications(created_at DESC);
+
+
+-- ============================================
+-- SITE_SETTINGS TABLE
+-- ============================================
+CREATE TABLE IF NOT EXISTS site_settings (
+    id SERIAL PRIMARY KEY,
+    key VARCHAR(100) UNIQUE NOT NULL,
+    value JSONB NOT NULL DEFAULT '{}',
+    description TEXT,
+    updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create trigger for updated_at
+CREATE TRIGGER update_site_settings_updated_at
+    BEFORE UPDATE ON site_settings
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Index for fast lookup
+CREATE INDEX idx_site_settings_key ON site_settings(key);
+
+-- Insert default settings
+INSERT INTO site_settings (key, value, description) VALUES
+('general', '{"site_name": "Bangiaiphap", "site_description": "Tin tức công nghệ và cộng đồng", "logo_url": "/logo.png", "favicon_url": "/favicon.ico", "contact_email": "contact@bangiaiphap.com", "contact_phone": "1900-xxxx"}', 'Cài đặt chung của website'),
+('header', '{"show_search": true, "show_notifications": true, "menu_items": [{"name": "Trang chủ", "href": "/", "icon": "🏠"}, {"name": "Thời sự", "href": "/category/thoi-su", "icon": "📰"}, {"name": "Công nghệ", "href": "/category/cong-nghe", "icon": "💻"}, {"name": "Thể thao", "href": "/category/the-thao", "icon": "⚽"}, {"name": "Giải trí", "href": "/category/giai-tri", "icon": "🎬"}]}', 'Cài đặt header'),
+('footer', '{"company_name": "Bangiaiphap Media Co., Ltd.", "ceo_name": "Admin", "address": "Việt Nam", "business_registration": "0123456789", "license_info": "Giấy phép hoạt động báo chí điện tử số 123/GP-BTTTT", "links": [{"name": "About Us", "href": "/about"}, {"name": "Terms of Service", "href": "/terms"}, {"name": "Privacy Policy", "href": "/privacy"}, {"name": "Contact", "href": "/contact"}], "social_links": {"facebook": "", "twitter": "", "youtube": ""}}', 'Cài đặt footer'),
+('homepage', '{"featured_section": true, "featured_count": 5, "latest_section": true, "latest_count": 10, "category_sections": [], "show_sidebar": true, "sidebar_widgets": ["popular", "tags"]}', 'Cài đặt trang chủ'),
+('seo', '{"default_meta_title": "Bangiaiphap - Tin tức công nghệ", "default_meta_description": "Cập nhật tin tức công nghệ mới nhất", "google_analytics_id": "", "google_tag_manager_id": "", "facebook_pixel_id": ""}', 'Cài đặt SEO')
+ON CONFLICT (key) DO NOTHING;
+
+-- ============================================
+-- PAGES TABLE (for static pages)
+-- ============================================
+CREATE TABLE IF NOT EXISTS pages (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    slug VARCHAR(200) UNIQUE NOT NULL,
+    content TEXT,
+    excerpt TEXT,
+    featured_image VARCHAR(500),
+    status VARCHAR(20) DEFAULT 'draft' CHECK (status IN ('draft', 'published')),
+    seo JSONB DEFAULT '{"meta_title": null, "meta_description": null}',
+    template VARCHAR(50) DEFAULT 'default',
+    sort_order INTEGER DEFAULT 0,
+    show_in_menu BOOLEAN DEFAULT FALSE,
+    created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    published_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create trigger for updated_at
+CREATE TRIGGER update_pages_updated_at
+    BEFORE UPDATE ON pages
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Indexes
+CREATE INDEX idx_pages_slug ON pages(slug);
+CREATE INDEX idx_pages_status ON pages(status);
+
+-- Insert default pages
+INSERT INTO pages (title, slug, content, status, template) VALUES
+('Giới thiệu', 'about', '# Giới thiệu\n\nChào mừng bạn đến với Bangiaiphap.', 'published', 'default'),
+('Điều khoản sử dụng', 'terms', '# Điều khoản sử dụng\n\nVui lòng đọc kỹ các điều khoản.', 'published', 'default'),
+('Chính sách bảo mật', 'privacy', '# Chính sách bảo mật\n\nChúng tôi cam kết bảo vệ thông tin của bạn.', 'published', 'default'),
+('Liên hệ', 'contact', '# Liên hệ\n\nEmail: contact@bangiaiphap.com', 'published', 'contact')
+ON CONFLICT (slug) DO NOTHING;
+
+-- ============================================
+-- MEDIA_FILES TABLE
+-- ============================================
+CREATE TABLE IF NOT EXISTS media_files (
+    id SERIAL PRIMARY KEY,
+    filename VARCHAR(255) NOT NULL,
+    original_filename VARCHAR(255) NOT NULL,
+    mime_type VARCHAR(100) NOT NULL,
+    size INTEGER NOT NULL,
+    width INTEGER,
+    height INTEGER,
+    url VARCHAR(500) NOT NULL,
+    thumbnail_url VARCHAR(500),
+    alt_text VARCHAR(255),
+    caption TEXT,
+    folder VARCHAR(100) DEFAULT 'media',
+    uploaded_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create trigger for updated_at
+CREATE TRIGGER update_media_files_updated_at
+    BEFORE UPDATE ON media_files
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Indexes
+CREATE INDEX idx_media_files_folder ON media_files(folder);
+CREATE INDEX idx_media_files_mime_type ON media_files(mime_type);
+CREATE INDEX idx_media_files_uploaded_by ON media_files(uploaded_by);
+CREATE INDEX idx_media_files_created_at ON media_files(created_at DESC);

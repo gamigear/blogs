@@ -1,8 +1,9 @@
 import './globals.css';
 import { Metadata } from 'next';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 import { AuthProvider } from '@/components/AuthProvider';
+import { MainLayout } from '@/components/MainLayout';
+import { CustomScriptsHead, CustomScriptsFooter } from '@/components/CustomScriptsSSR';
+import { SettingsProvider } from '@/contexts/SettingsContext';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://news.example.com';
 
@@ -28,12 +29,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi">
-      <body className="min-h-screen flex flex-col bg-gray-50">
+      <head>
+        <CustomScriptsHead />
+      </head>
+      <body className="min-h-screen flex flex-col">
         <AuthProvider>
-          <Header />
-          <main className="flex-1 container mx-auto px-4 py-8">{children}</main>
-          <Footer />
+          <SettingsProvider>
+            <MainLayout>{children}</MainLayout>
+          </SettingsProvider>
         </AuthProvider>
+        <CustomScriptsFooter />
       </body>
     </html>
   );

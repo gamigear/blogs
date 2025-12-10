@@ -272,29 +272,45 @@ export function addSecurityHeaders(response: NextResponse): NextResponse {
 }
 
 // ============================================
-// PASSWORD VALIDATION
+// PASSWORD HASHING & VALIDATION
 // ============================================
 
-export function validatePassword(password: string): { valid: boolean; errors: string[] } {
-  const errors: string[] = [];
+import bcrypt from 'bcryptjs';
 
+const SALT_ROUNDS = 12;
+
+/**
+ * Hash a password using bcrypt
+ */
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, SALT_ROUNDS);
+}
+
+/**
+ * Verify a password against a hash
+ */
+export async function verifyPassword(password: string, hash: string): Promise<boolean> {
+  return bcrypt.compare(password, hash);
+}
+
+/**
+ * Validate password strength
+ */
+export function validatePassword(password: string): { valid: boolean; message?: string } {
   if (password.length < 8) {
-    errors.push('Password must be at least 8 characters');
+    return { valid: false, message: 'Mật khẩu phải có ít nhất 8 ký tự' };
   }
   if (!/[A-Z]/.test(password)) {
-    errors.push('Password must contain at least one uppercase letter');
+    return { valid: false, message: 'Mật khẩu phải chứa ít nhất một chữ hoa' };
   }
   if (!/[a-z]/.test(password)) {
-    errors.push('Password must contain at least one lowercase letter');
+    return { valid: false, message: 'Mật khẩu phải chứa ít nhất một chữ thường' };
   }
   if (!/[0-9]/.test(password)) {
-    errors.push('Password must contain at least one number');
-  }
-  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-    errors.push('Password must contain at least one special character');
+    return { valid: false, message: 'Mật khẩu phải chứa ít nhất một số' };
   }
 
-  return { valid: errors.length === 0, errors };
+  return { valid: true };
 }
 
 

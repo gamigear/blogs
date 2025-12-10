@@ -33,6 +33,7 @@ interface CategoryRow {
   name: string;
   slug: string;
   description: string | null;
+  image: string | null;
   is_default: boolean;
 }
 
@@ -43,6 +44,7 @@ interface CommunityPostRow {
   excerpt: string | null;
   user_id: number;
   author_name: string | null;
+  author_username: string | null;
   status: string;
   discourse_topic_id: number | null;
   created_at: string;
@@ -185,13 +187,14 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
-  const row = await queryOne<CategoryRow>('SELECT id, name, slug, description, is_default FROM categories WHERE slug = $1', [slug]);
+  const row = await queryOne<CategoryRow>('SELECT id, name, slug, description, image, is_default FROM categories WHERE slug = $1', [slug]);
   if (!row) return null;
   return {
     id: row.id,
     name: row.name,
     slug: row.slug,
     description: row.description || undefined,
+    image: row.image || undefined,
     is_default: row.is_default,
   };
 }
@@ -205,10 +208,10 @@ export async function getAllCategorySlugs(): Promise<string[]> {
 // COMMUNITY POST QUERIES
 // ============================================
 
-export async function getCommunityPosts(status = 'approved', page = 1, pageSize = 10): Promise<CommunityPost[]> {
+export async function getCommunityPosts(status = 'approved', page = 1, pageSize = 10): Promise<(CommunityPost & { author: CommunityPost['author'] & { username?: string } })[]> {
   const offset = (page - 1) * pageSize;
   const rows = await query<CommunityPostRow>(
-    `SELECT cp.*, u.display_name as author_name
+    `SELECT cp.*, u.display_name as author_name, u.username as author_username
      FROM community_posts cp
      LEFT JOIN users u ON cp.user_id = u.id
      WHERE cp.status = $1
@@ -220,7 +223,11 @@ export async function getCommunityPosts(status = 'approved', page = 1, pageSize 
     id: row.id,
     title: row.title,
     content: row.content,
-    author: { id: row.user_id, name: row.author_name || 'Anonymous' },
+    author: { 
+      id: row.user_id, 
+      name: row.author_name || 'Anonymous',
+      username: row.author_username || undefined,
+    },
     status: row.status as 'pending' | 'approved' | 'rejected',
     discourseTopicId: row.discourse_topic_id || undefined,
     createdAt: row.created_at,

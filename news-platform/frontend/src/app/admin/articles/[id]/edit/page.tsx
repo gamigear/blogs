@@ -1,19 +1,12 @@
 import { notFound } from 'next/navigation';
 import { query } from '@/lib/db';
 import { ArticleEditor } from '@/components/admin/ArticleEditor';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
-interface Props {
-  params: { id: string };
-}
-
-interface Category {
-  id: number;
-  name: string;
-  slug: string;
-}
-
+interface Props { params: Promise<{ id: string }>; }
+interface Category { id: number; name: string; slug: string; }
 interface Article {
   id: number;
   title: string;
@@ -23,55 +16,50 @@ interface Article {
   category_id: number;
   status: string;
   featured_image: string;
-  seo: {
-    meta_title: string;
-    meta_description: string;
-  };
+  seo: { meta_title: string; meta_description: string; };
 }
 
 async function getArticle(id: number): Promise<Article | null> {
   try {
-    const articles = await query<Article>(`
-      SELECT id, title, slug, excerpt, content, category_id, status, featured_image, seo
-      FROM articles WHERE id = $1
-    `, [id]);
+    const articles = await query<Article>(`SELECT id, title, slug, excerpt, content, category_id, status, featured_image, seo FROM articles WHERE id = $1`, [id]);
     return articles[0] || null;
-  } catch (error) {
-    console.error('Error fetching article:', error);
-    return null;
-  }
+  } catch { return null; }
 }
 
 async function getCategories(): Promise<Category[]> {
+  try { return await query<Category>(`SELECT id, name, slug FROM categories ORDER BY name`); }
+  catch { return []; }
+}
+
+async function getArticleTags(articleId: number): Promise<number[]> {
   try {
-    return await query<Category>(`SELECT id, name, slug FROM categories ORDER BY name`);
-  } catch (error) {
-    console.error('Error fetching categories:', error);
-    return [];
-  }
+    const tags = await query<{ id: number }>(`SELECT t.id FROM tags t INNER JOIN article_tags at ON t.id = at.tag_id WHERE at.article_id = $1`, [articleId]);
+    return tags.map(t => t.id);
+  } catch { return []; }
 }
 
 export default async function EditArticlePage({ params }: Props) {
-  const articleId = parseInt(params.id);
+  const { id } = await params;
+  const articleId = parseInt(id);
   if (isNaN(articleId)) notFound();
 
-  const [article, categories] = await Promise.all([
-    getArticle(articleId),
-    getCategories(),
-  ]);
-
+  const [article, categories, tagIds] = await Promise.all([getArticle(articleId), getCategories(), getArticleTags(articleId)]);
   if (!article) notFound();
 
   return (
-    <div>
-      <div className="flex items-center gap-4 mb-6">
-        <a href="/admin/articles" className="text-blue-600 hover:underline">
-          ← Quay lại
-        </a>
-        <h1 className="text-2xl font-bold">Chỉnh sửa bài viết</h1>
+    <div className="space-y-6">
+      <div className="flex items-center gap-4">
+        <Link href="/admin/articles" className="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </Link>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Chỉnh sửa bài viết</h1>
+          <p className="text-gray-500">ID: {article.id}</p>
+        </div>
       </div>
-
-      <ArticleEditor categories={categories} article={article} />
+      <ArticleEditor categories={categories} article={article} initialTags={tagIds} />
     </div>
   );
 }

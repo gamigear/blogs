@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { title, slug, excerpt, content, category_id, status, featured_image, seo } = body;
+    const { title, slug, excerpt, content, category_id, status, featured_image, seo, tag_ids } = body;
 
     // Validate required fields
     if (!title || !content || !category_id) {
@@ -58,6 +58,13 @@ export async function POST(request: NextRequest) {
     ]);
 
     const articleId = result[0]?.id;
+
+    // Save tags
+    if (tag_ids && Array.isArray(tag_ids) && tag_ids.length > 0) {
+      for (const tagId of tag_ids) {
+        await execute(`INSERT INTO article_tags (article_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`, [articleId, tagId]);
+      }
+    }
 
     // Log audit
     await logAuditAction(

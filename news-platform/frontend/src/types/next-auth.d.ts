@@ -7,12 +7,24 @@ declare module 'next-auth' {
     roles?: string[];
     userId?: number;
     trustLevel?: number;
+    username?: string;
     user?: {
       id?: string;
       name?: string | null;
       email?: string | null;
       image?: string | null;
+      role?: string;
+      username?: string;
     };
+  }
+
+  interface User {
+    id: string;
+    email?: string | null;
+    name?: string | null;
+    role?: string;
+    trustLevel?: number;
+    username?: string;
   }
 }
 
@@ -26,5 +38,6 @@ declare module 'next-auth/jwt' {
     roles?: string[];
     userId?: number;
     trustLevel?: number;
+    username?: string;
   }
 }

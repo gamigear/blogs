@@ -1,5 +1,6 @@
 import { query } from '@/lib/db';
 import { ArticleEditor } from '@/components/admin/ArticleEditor';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,24 +13,25 @@ interface Category {
 async function getCategories(): Promise<Category[]> {
   try {
     return await query<Category>(`SELECT id, name, slug FROM categories ORDER BY name`);
-  } catch (error) {
-    console.error('Error fetching categories:', error);
-    return [];
-  }
+  } catch { return []; }
 }
 
 export default async function NewArticlePage() {
   const categories = await getCategories();
 
   return (
-    <div>
-      <div className="flex items-center gap-4 mb-6">
-        <a href="/admin/articles" className="text-blue-600 hover:underline">
-          ← Quay lại
-        </a>
-        <h1 className="text-2xl font-bold">Tạo bài viết mới</h1>
+    <div className="space-y-6">
+      <div className="flex items-center gap-4">
+        <Link href="/admin/articles" className="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </Link>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Tạo bài viết mới</h1>
+          <p className="text-gray-500">Điền thông tin để tạo bài viết</p>
+        </div>
       </div>
-
       <ArticleEditor categories={categories} />
     </div>
   );

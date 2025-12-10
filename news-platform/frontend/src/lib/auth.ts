@@ -4,13 +4,75 @@
  */
 
 import { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import { query, queryOne } from './db';
+import { verifyPassword } from './security';
 
 // User role type
 export type UserRole = 'reader' | 'contributor' | 'moderator' | 'editor' | 'admin' | 'superadmin';
 
 export const authOptions: NextAuthOptions = {
   providers: [
+    // Credentials Provider for email/password login
+    CredentialsProvider({
+      id: 'credentials',
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        try {
+          const user = await queryOne<{
+            id: number;
+            email: string;
+            username: string;
+            display_name: string;
+            password_hash: string;
+            role: string;
+            trust_level: number;
+            banned_until: string | null;
+          }>(
+            'SELECT id, email, username, display_name, password_hash, role, trust_level, banned_until FROM users WHERE email = $1',
+            [credentials.email.toLowerCase()]
+          );
+
+          if (!user || !user.password_hash) {
+            return null;
+          }
+
+          // Check if user is banned
+          if (user.banned_until && new Date(user.banned_until) > new Date()) {
+            throw new Error('Tài khoản đã bị khóa');
+          }
+
+          // Verify password
+          const isValid = await verifyPassword(credentials.password, user.password_hash);
+          if (!isValid) {
+            return null;
+          }
+
+          // Update last login
+          await query('UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = $1', [user.id]);
+
+          return {
+            id: String(user.id),
+            email: user.email,
+            name: user.display_name,
+            role: user.role,
+            trustLevel: user.trust_level,
+            username: user.username,
+          };
+        } catch (error) {
+          console.error('Credentials auth error:', error);
+          return null;
+        }
+      },
+    }),
     // Keycloak via OpenID Connect
     // Requirements: 1.1 - SSO via Keycloak
     {
@@ -33,6 +95,25 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, account, profile, user }) {
+      // Handle credentials login
+      if (user && !account?.provider) {
+        token.userId = parseInt(user.id);
+        token.roles = [(user as any).role];
+        token.trustLevel = (user as any).trustLevel;
+        token.username = (user as any).username;
+        return token;
+      }
+
+      // Handle credentials provider
+      if (account?.provider === 'credentials' && user) {
+        token.userId = parseInt(user.id);
+        token.roles = [(user as any).role];
+        token.trustLevel = (user as any).trustLevel;
+        token.username = (user as any).username;
+        return token;
+      }
+
+      // Handle Keycloak login
       if (account && profile) {
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
@@ -57,6 +138,7 @@ export const authOptions: NextAuthOptions = {
             token.userId = dbUser.id;
             token.roles = [dbUser.role];
             token.trustLevel = dbUser.trust_level;
+            token.username = dbUser.username;
           } else {
             token.roles = keycloakRoles;
           }
@@ -72,6 +154,11 @@ export const authOptions: NextAuthOptions = {
       session.roles = token.roles as string[];
       session.userId = token.userId as number;
       session.trustLevel = token.trustLevel as number;
+      session.username = token.username as string;
+      if (session.user) {
+        (session.user as any).role = token.roles?.[0];
+        (session.user as any).username = token.username;
+      }
       return session;
     },
   },
@@ -107,13 +194,14 @@ interface DbUser {
   id: number;
   role: UserRole;
   trust_level: number;
+  username: string;
 }
 
 async function syncUserToDatabase(input: SyncUserInput): Promise<DbUser | null> {
   try {
     // Check if user exists
     let user = await queryOne<DbUser>(
-      'SELECT id, role, trust_level FROM users WHERE keycloak_id = $1',
+      'SELECT id, role, trust_level, username FROM users WHERE keycloak_id = $1',
       [input.keycloakId]
     );
 
@@ -143,7 +231,7 @@ async function syncUserToDatabase(input: SyncUserInput): Promise<DbUser | null> 
     const result = await query<DbUser>(
       `INSERT INTO users (keycloak_id, email, username, display_name, role, trust_level, last_login_at)
        VALUES ($1, $2, $3, $4, $5, 0, CURRENT_TIMESTAMP)
-       RETURNING id, role, trust_level`,
+       RETURNING id, role, trust_level, username`,
       [input.keycloakId, input.email, input.username, input.displayName || input.username, role]
     );
 
