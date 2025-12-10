@@ -3,29 +3,9 @@ const nextConfig = {
   // Enable standalone output for Docker/Vercel
   output: 'standalone',
   
-  // Image optimization
+  // Image optimization - allow all external images
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '*.vercel.app',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.amazonaws.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-      },
-    ],
-    formats: ['image/avif', 'image/webp'],
-    // Allow unoptimized images from any source
-    unoptimized: process.env.NODE_ENV === 'development',
+    unoptimized: true,
   },
   
   // Experimental features
