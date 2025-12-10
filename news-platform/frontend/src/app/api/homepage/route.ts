@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 interface HomepageSection {
   id: number;
   name: string;
@@ -147,6 +149,7 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error fetching homepage data:', error);
-    return NextResponse.json({ error: 'Failed to fetch homepage data' }, { status: 500 });
+    // Return empty data if tables don't exist
+    return NextResponse.json({ mainSections: [], sidebarSections: [] });
   }
 }
