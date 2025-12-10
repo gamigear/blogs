@@ -98,11 +98,9 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    '/',
-    '/article/:path*',
-    '/category/:path*',
-    '/community/:path*',
     '/admin/:path*',
-    '/api/:path*',
+    '/community/new',
+    '/community/my-posts',
+    '/profile/:path*',
   ],
 };
