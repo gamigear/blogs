@@ -7,6 +7,7 @@ export const dynamic = 'force-dynamic';
 
 interface Props { params: Promise<{ id: string }>; }
 interface Category { id: number; name: string; slug: string; }
+interface Author { id: number; name: string; }
 interface Article {
   id: number;
   title: string;
@@ -14,6 +15,7 @@ interface Article {
   excerpt: string;
   content: string;
   category_id: number;
+  author_id?: number;
   status: string;
   featured_image: string;
   seo: { meta_title: string; meta_description: string; };
@@ -21,13 +23,18 @@ interface Article {
 
 async function getArticle(id: number): Promise<Article | null> {
   try {
-    const articles = await query<Article>(`SELECT id, title, slug, excerpt, content, category_id, status, featured_image, seo FROM articles WHERE id = $1`, [id]);
+    const articles = await query<Article>(`SELECT id, title, slug, excerpt, content, category_id, author_id, status, featured_image, seo FROM articles WHERE id = $1`, [id]);
     return articles[0] || null;
   } catch { return null; }
 }
 
 async function getCategories(): Promise<Category[]> {
   try { return await query<Category>(`SELECT id, name, slug FROM categories ORDER BY name`); }
+  catch { return []; }
+}
+
+async function getAuthors(): Promise<Author[]> {
+  try { return await query<Author>(`SELECT id, name FROM authors ORDER BY name`); }
   catch { return []; }
 }
 
@@ -43,7 +50,7 @@ export default async function EditArticlePage({ params }: Props) {
   const articleId = parseInt(id);
   if (isNaN(articleId)) notFound();
 
-  const [article, categories, tagIds] = await Promise.all([getArticle(articleId), getCategories(), getArticleTags(articleId)]);
+  const [article, categories, authors, tagIds] = await Promise.all([getArticle(articleId), getCategories(), getAuthors(), getArticleTags(articleId)]);
   if (!article) notFound();
 
   return (
@@ -59,7 +66,7 @@ export default async function EditArticlePage({ params }: Props) {
           <p className="text-gray-500">ID: {article.id}</p>
         </div>
       </div>
-      <ArticleEditor categories={categories} article={article} initialTags={tagIds} />
+      <ArticleEditor categories={categories} authors={authors} article={article} initialTags={tagIds} />
     </div>
   );
 }

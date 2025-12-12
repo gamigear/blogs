@@ -10,14 +10,25 @@ interface Category {
   slug: string;
 }
 
+interface Author {
+  id: number;
+  name: string;
+}
+
 async function getCategories(): Promise<Category[]> {
   try {
     return await query<Category>(`SELECT id, name, slug FROM categories ORDER BY name`);
   } catch { return []; }
 }
 
+async function getAuthors(): Promise<Author[]> {
+  try {
+    return await query<Author>(`SELECT id, name FROM authors ORDER BY name`);
+  } catch { return []; }
+}
+
 export default async function NewArticlePage() {
-  const categories = await getCategories();
+  const [categories, authors] = await Promise.all([getCategories(), getAuthors()]);
 
   return (
     <div className="space-y-6">
@@ -32,7 +43,7 @@ export default async function NewArticlePage() {
           <p className="text-gray-500">Điền thông tin để tạo bài viết</p>
         </div>
       </div>
-      <ArticleEditor categories={categories} />
+      <ArticleEditor categories={categories} authors={authors} />
     </div>
   );
 }

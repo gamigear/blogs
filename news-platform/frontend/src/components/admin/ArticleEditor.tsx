@@ -19,6 +19,7 @@ const RichTextEditor = dynamic(() => import('./RichTextEditor'), {
 
 interface Category { id: number; name: string; slug: string; }
 interface Tag { id: number; name: string; slug: string; }
+interface Author { id: number; name: string; }
 interface Article {
   id?: number;
   title: string;
@@ -26,14 +27,15 @@ interface Article {
   excerpt: string;
   content: string;
   category_id: number;
+  author_id?: number;
   status: string;
   featured_image: string;
   seo: { meta_title: string; meta_description: string; };
   tag_ids?: number[];
 }
-interface Props { categories: Category[]; article?: Article; initialTags?: number[]; }
+interface Props { categories: Category[]; authors?: Author[]; article?: Article; initialTags?: number[]; }
 
-export function ArticleEditor({ categories, article, initialTags = [] }: Props) {
+export function ArticleEditor({ categories, authors = [], article, initialTags = [] }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState<Tag[]>([]);
@@ -47,6 +49,7 @@ export function ArticleEditor({ categories, article, initialTags = [] }: Props) 
     excerpt: article?.excerpt || '',
     content: article?.content || '',
     category_id: article?.category_id || (categories[0]?.id || 0),
+    author_id: article?.author_id || (authors[0]?.id || undefined),
     status: article?.status || 'draft',
     featured_image: article?.featured_image || '',
     seo: { meta_title: article?.seo?.meta_title || '', meta_description: article?.seo?.meta_description || '' },
@@ -68,11 +71,12 @@ export function ArticleEditor({ categories, article, initialTags = [] }: Props) 
     setLoading(true);
     try {
       const url = article?.id ? `/api/admin/articles/${article.id}` : '/api/admin/articles';
-      const res = await fetch(url, { method: article?.id ? 'PATCH' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...formData, tag_ids: selectedTags }) });
-      if (!res.ok) { const error = await res.json(); throw new Error(error.message || 'Failed to save article'); }
+      const payload = { ...formData, tag_ids: selectedTags };
+      const res = await fetch(url, { method: article?.id ? 'PATCH' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      if (!res.ok) { const error = await res.json(); throw new Error(error.error || error.message || 'Failed to save article'); }
       alert(article?.id ? 'Cập nhật thành công!' : 'Tạo bài viết thành công!');
       router.push('/admin/articles');
-    } catch (error) { console.error('Error saving article:', error); alert('Có lỗi xảy ra. Vui lòng thử lại.'); }
+    } catch (error: any) { console.error('Error saving article:', error); alert(error.message || 'Có lỗi xảy ra. Vui lòng thử lại.'); }
     finally { setLoading(false); }
   };
 
@@ -169,6 +173,16 @@ export function ArticleEditor({ categories, article, initialTags = [] }: Props) 
                   {categories.map((cat) => (<option key={cat.id} value={cat.id}>{cat.name}</option>))}
                 </select>
               </div>
+              {authors.length > 0 && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Tác giả</label>
+                  <select value={formData.author_id || ''} onChange={(e) => setFormData({ ...formData, author_id: e.target.value ? parseInt(e.target.value) : undefined })} disabled={loading}
+                    className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">-- Chọn tác giả --</option>
+                    {authors.map((author) => (<option key={author.id} value={author.id}>{author.name}</option>))}
+                  </select>
+                </div>
+              )}
               <div className="flex gap-3 pt-4">
                 <button type="submit" disabled={loading} className="flex-1 px-4 py-3 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-semibold disabled:opacity-50">
                   {loading ? 'Đang lưu...' : 'Lưu nháp'}

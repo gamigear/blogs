@@ -11,14 +11,13 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
-    const userId = (session?.user as any)?.id;
-    const authorId = (session?.user as any)?.authorId;
+    const userId = (session as any)?.userId;
     if (!session?.user || !['admin', 'editor'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { title, slug, excerpt, content, category_id, status, featured_image, seo, tag_ids } = body;
+    const { title, slug, excerpt, content, category_id, author_id, status, featured_image, seo, tag_ids } = body;
 
     // Validate required fields
     if (!title || !content || !category_id) {
@@ -50,7 +49,7 @@ export async function POST(request: NextRequest) {
       excerpt || null,
       content,
       category_id,
-      authorId || null,
+      author_id || null,
       status || 'draft',
       featured_image || null,
       readingTime,
