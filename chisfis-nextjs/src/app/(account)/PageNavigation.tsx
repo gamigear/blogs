@@ -5,19 +5,31 @@ import { usePathname } from 'next/navigation'
 
 const navigation = [
   {
-    title: 'Account',
+    title: 'Tài khoản',
     href: '/account',
   },
   {
-    title: 'Saved listings',
+    title: 'Đặt chỗ',
+    href: '/account-bookings',
+  },
+  {
+    title: 'Đánh giá',
+    href: '/account-reviews',
+  },
+  {
+    title: 'Danh sách đã lưu',
     href: '/account-savelists',
   },
   {
-    title: 'Password',
+    title: 'Xác minh',
+    href: '/account-verification',
+  },
+  {
+    title: 'Mật khẩu',
     href: '/account-password',
   },
   {
-    title: 'Payments & payouts',
+    title: 'Thanh toán',
     href: '/account-billing',
   },
 ]

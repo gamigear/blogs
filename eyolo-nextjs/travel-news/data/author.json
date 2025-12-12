@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "nguyen-van-a",
+    "frontmatter": {
+      "title": "Nguyễn Văn A",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200",
+      "bio": "Nhà báo du lịch với hơn 10 năm kinh nghiệm khám phá Việt Nam"
+    },
+    "content": "Nguyễn Văn A là một nhà báo du lịch đam mê khám phá những vùng đất mới. Anh đã đặt chân đến hơn 50 tỉnh thành của Việt Nam và chia sẻ những trải nghiệm quý báu qua các bài viết."
+  },
+  {
+    "slug": "tran-thi-b",
+    "frontmatter": {
+      "title": "Trần Thị B",
+      "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200",
+      "bio": "Food blogger và travel writer chuyên về ẩm thực Việt Nam"
+    },
+    "content": "Trần Thị B là một food blogger nổi tiếng với niềm đam mê khám phá ẩm thực đường phố Việt Nam. Cô đã viết hơn 200 bài về các món ăn đặc sản từ Bắc vào Nam."
+  }
+]

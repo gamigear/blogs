@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Trang chủ",
+    "link": "/"
+  },
+  {
+    "name": "Giới thiệu",
+    "link": "/about"
+  },
+  {
+    "name": "Bài viết",
+    "link": "/blog"
+  },
+  {
+    "name": "Danh mục",
+    "submenu": [
+      {
+        "name": "Điểm đến",
+        "link": "/category/diem-den"
+      },
+      {
+        "name": "Ẩm thực",
+        "link": "/category/am-thuc"
+      },
+      {
+        "name": "Văn hóa",
+        "link": "/category/van-hoa"
+      },
+      {
+        "name": "Trải nghiệm",
+        "link": "/category/trai-nghiem"
+      }
+    ]
+  },
+  {
+    "name": "Liên hệ",
+    "link": "/contact"
+  }
+]

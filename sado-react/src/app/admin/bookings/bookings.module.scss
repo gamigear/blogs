@@ -1,0 +1,162 @@
+@import '../users/users.module.scss';
+
+.headerActions {
+  display: flex;
+  gap: 12px;
+}
+
+.exportBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--admin-card-bg);
+  color: var(--admin-text);
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--admin-bg);
+  }
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+
+  i {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  span {
+    font-size: 13px;
+    color: var(--admin-text-muted);
+  }
+
+  strong {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--admin-text);
+    margin-top: 4px;
+  }
+
+  &.total i {
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--admin-primary);
+  }
+
+  &.confirmed i {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--admin-success);
+  }
+
+  &.pending i {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--admin-warning);
+  }
+
+  &.cancelled i {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--admin-danger);
+  }
+}
+
+.amount {
+  font-weight: 600;
+  color: var(--admin-primary);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &.confirmed {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--admin-success);
+  }
+
+  &.pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--admin-warning);
+  }
+
+  &.cancelled {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--admin-danger);
+  }
+}
+
+.payment {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  &.paid {
+    color: var(--admin-success);
+    &::before { background: var(--admin-success); }
+  }
+
+  &.unpaid {
+    color: var(--admin-warning);
+    &::before { background: var(--admin-warning); }
+  }
+
+  &.refunded {
+    color: var(--admin-info);
+    &::before { background: var(--admin-info); }
+  }
+}
+
+.modalContent {
+  max-width: 650px;
+}
+
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--admin-text-muted);
+}

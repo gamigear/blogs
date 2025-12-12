@@ -1,0 +1,53 @@
+{
+  "slug": "_index-3",
+  "frontmatter": {
+    "headerCategories": {
+      "enable": true
+    },
+    "banner": {
+      "enable": true,
+      "heading": "Khám Phá Vẻ Đẹp Việt Nam"
+    },
+    "popularArticles": {
+      "enable": true,
+      "title": "Bài viết phổ biến"
+    },
+    "sidebar": {
+      "adBanner": {
+        "enable": true,
+        "title": "Khám phá những điểm đến tuyệt vời nhất Việt Nam",
+        "image": "https://images.unsplash.com/photo-1528127269322-539801943592?w=800",
+        "button": {
+          "label": "Tìm hiểu thêm",
+          "link": "/blog"
+        }
+      },
+      "instagram": {
+        "enable": true,
+        "title": "Hình ảnh Instagram"
+      },
+      "subscriptionForm": {
+        "enable": true,
+        "title": "Đăng ký nhận tin",
+        "buttonLabel": "Đăng ký"
+      }
+    },
+    "exploreTopics": {
+      "enable": true,
+      "title": "Khám phá chủ đề",
+      "button": {
+        "label": "Tất cả danh mục",
+        "link": "/category"
+      }
+    },
+    "latestArticles": {
+      "enable": true,
+      "title": "Bài viết mới nhất",
+      "button": {
+        "label": "Tất cả bài viết",
+        "link": "/blog"
+      }
+    }
+  },
+  "content": ""
+}

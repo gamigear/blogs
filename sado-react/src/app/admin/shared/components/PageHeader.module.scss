@@ -1,0 +1,49 @@
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--admin-text);
+  margin: 0;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+
+  a {
+    color: var(--admin-text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--admin-primary);
+    }
+  }
+}
+
+.separator {
+  color: var(--admin-text-muted);
+}
+
+.current {
+  color: var(--admin-text);
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}

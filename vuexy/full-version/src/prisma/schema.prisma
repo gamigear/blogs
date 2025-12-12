@@ -1,0 +1,173 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "debian-openssl-3.0.x", "linux-arm64-openssl-1.1.x", "rhel-openssl-3.0.x"]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ==================== App Models ====================
+
+model AppUser {
+  id          Int      @id @default(autoincrement())
+  fullName    String
+  company     String?
+  role        String
+  username    String   @unique
+  country     String?
+  contact     String?
+  email       String   @unique
+  currentPlan String?
+  status      String
+  avatar      String?
+  avatarColor String?
+  billing     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Product {
+  id           Int       @id @default(autoincrement())
+  productName  String
+  category     String
+  stock        Boolean   @default(true)
+  sku          Int       @unique
+  price        String
+  qty          Int
+  status       String
+  image        String?
+  productBrand String?
+  reviews      Review[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Review {
+  id           Int      @id @default(autoincrement())
+  productId    Int
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  reviewer     String
+  email        String
+  avatar       String?
+  date         String
+  status       String
+  review       Int
+  head         String?
+  para         String?
+  createdAt    DateTime @default(now())
+}
+
+model Invoice {
+  id            String   @id
+  issuedDate    String
+  address       String?
+  company       String?
+  companyEmail  String?
+  country       String?
+  contact       String?
+  name          String
+  service       String?
+  total         Float
+  avatar        String?
+  avatarColor   String?
+  invoiceStatus String
+  balance       String?
+  dueDate       String?
+  createdAt     DateTime @default(now())
+}
+
+model Permission {
+  id          Int      @id @default(autoincrement())
+  name        String
+  assignedTo  String[]
+  createdDate String
+  createdAt   DateTime @default(now())
+}
+
+model CalendarEvent {
+  id        String   @id
+  url       String?
+  title     String
+  start     DateTime
+  endDate   DateTime?
+  allDay    Boolean  @default(false)
+  calendar  String?
+  createdAt DateTime @default(now())
+}
+
+model ChatContact {
+  id          Int      @id @default(autoincrement())
+  fullName    String
+  role        String?
+  about       String?
+  avatar      String?
+  avatarColor String?
+  status      String
+  createdAt   DateTime @default(now())
+}
+
+model ChatMessage {
+  id        Int      @id @default(autoincrement())
+  chatId    Int
+  senderId  Int
+  message   String
+  time      DateTime
+  isSent    Boolean  @default(true)
+  isDelivered Boolean @default(false)
+  isSeen    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Chat {
+  id         Int      @id @default(autoincrement())
+  usersId    Int
+  unseenMsgs Int      @default(0)
+  createdAt  DateTime @default(now())
+}

@@ -1,0 +1,30 @@
+{
+  "slug": "_index",
+  "frontmatter": {
+    "title": "Trang chủ",
+    "latestArticles": {
+      "enable": true,
+      "title": "Bài viết mới",
+      "heading": "Khám phá Việt Nam",
+      "description": "Cập nhật những tin tức du lịch mới nhất",
+      "button": {
+        "label": "Xem tất cả",
+        "link": "/blog"
+      }
+    },
+    "popularTopics": {
+      "enable": true,
+      "title": "Chủ đề phổ biến"
+    },
+    "trendingArticles": {
+      "enable": true,
+      "title": "Xu hướng",
+      "heading": "Xu hướng du lịch",
+      "description": "Những điểm đến được yêu thích nhất",
+      "button": {
+        "label": "Xem thêm",
+        "link": "/blog"
+      }
+    }
+  }
+}

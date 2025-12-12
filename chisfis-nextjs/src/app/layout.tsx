@@ -4,6 +4,9 @@ import { Poppins } from 'next/font/google'
 import 'rc-slider/assets/index.css'
 import CustomizeControl from './customize-control'
 import ThemeProvider from './theme-provider'
+import { SiteSettingsProvider } from '@/contexts/SiteSettingsContext'
+import { AuthProvider } from '@/contexts/AuthContext'
+import DynamicFavicon from '@/components/DynamicFavicon'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -25,12 +28,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={poppins.className}>
       <body className="bg-white text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100">
         <ThemeProvider>
-          <div>
-            {children}
+          <AuthProvider>
+            <SiteSettingsProvider>
+              <DynamicFavicon />
+              <div>
+                {children}
 
-            {/* For Chisfis's demo  -- you can remove it  */}
-            <CustomizeControl />
-          </div>
+                {/* For Chisfis's demo  -- you can remove it  */}
+                <CustomizeControl />
+              </div>
+            </SiteSettingsProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

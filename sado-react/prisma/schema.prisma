@@ -1,0 +1,248 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Users
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  name      String?
+  phone     String?
+  password  String
+  role      Role       @default(USER)
+  status    UserStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  bookings  Booking[]
+  posts     Post[]
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  USER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+// Pages
+model Page {
+  id        Int        @id @default(autoincrement())
+  title     String
+  slug      String     @unique
+  content   String?    @db.Text
+  template  String     @default("default")
+  status    PageStatus @default(DRAFT)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+enum PageStatus {
+  DRAFT
+  PUBLISHED
+}
+
+// Post Categories
+model PostCategory {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  description String?
+  thumbnail   String?
+  parentId    Int?
+  parent      PostCategory?  @relation("CategoryChildren", fields: [parentId], references: [id])
+  children    PostCategory[] @relation("CategoryChildren")
+  order       Int      @default(0)
+  posts       Post[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Post Tags
+model PostTag {
+  id        Int      @id @default(autoincrement())
+  name      String
+  slug      String   @unique
+  posts     Post[]   @relation("PostTags")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Posts
+model Post {
+  id         Int           @id @default(autoincrement())
+  title      String
+  slug       String        @unique
+  excerpt    String?
+  content    String?       @db.Text
+  thumbnail  String?
+  categoryId Int?
+  category   PostCategory? @relation(fields: [categoryId], references: [id])
+  tags       PostTag[]     @relation("PostTags")
+  status     PageStatus    @default(DRAFT)
+  isFeatured Boolean       @default(false)
+  views      Int           @default(0)
+  authorId   Int?
+  author     User?         @relation(fields: [authorId], references: [id])
+  publishedAt DateTime?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+// Products (Tours)
+model Product {
+  id          Int           @id @default(autoincrement())
+  name        String
+  slug        String        @unique
+  description String?       @db.Text
+  price       Decimal       @db.Decimal(12, 0)
+  salePrice   Decimal?      @db.Decimal(12, 0)
+  category    String?
+  thumbnail   String?
+  images      String[]      @default([])
+  stock       Int           @default(0)
+  status      ProductStatus @default(ACTIVE)
+  duration    String?
+  location    String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  bookings    Booking[]
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+  OUT_OF_STOCK
+}
+
+// Bookings
+model Booking {
+  id            Int           @id @default(autoincrement())
+  bookingCode   String        @unique @default(cuid())
+  customerId    Int?
+  customer      User?         @relation(fields: [customerId], references: [id])
+  customerName  String
+  customerPhone String
+  customerEmail String?
+  productId     Int?
+  product       Product?      @relation(fields: [productId], references: [id])
+  destination   String
+  travelDate    DateTime
+  guests        Int           @default(1)
+  totalAmount   Decimal       @db.Decimal(12, 0)
+  status        BookingStatus @default(PENDING)
+  paymentStatus PaymentStatus @default(UNPAID)
+  notes         String?       @db.Text
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  REFUNDED
+}
+
+// Media
+model Media {
+  id           Int      @id @default(autoincrement())
+  name         String
+  originalName String
+  url          String
+  key          String   @unique // R2 object key
+  type         String
+  mimeType     String
+  size         Int
+  width        Int?
+  height       Int?
+  isConverted  Boolean  @default(false) // true if converted to webp
+  folder       String   @default("uploads")
+  createdAt    DateTime @default(now())
+}
+
+// Settings
+model Setting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String   @db.Text
+  group     String   @default("general")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Homepage Sections
+model HomepageSection {
+  id        Int      @id @default(autoincrement())
+  section   String   @unique
+  title     String?
+  content   Json?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+// Destinations (Điểm đến)
+model Destination {
+  id          Int               @id @default(autoincrement())
+  name        String
+  slug        String            @unique
+  description String?           @db.Text
+  thumbnail   String?
+  images      String[]          @default([])
+  region      String?           // Miền Bắc, Miền Trung, Miền Nam
+  country     String            @default("Việt Nam")
+  isFeatured  Boolean           @default(false)
+  isPopular   Boolean           @default(false)
+  order       Int               @default(0)
+  status      DestinationStatus @default(ACTIVE)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+enum DestinationStatus {
+  ACTIVE
+  INACTIVE
+}
+
+// Menu
+model Menu {
+  id        Int        @id @default(autoincrement())
+  name      String
+  location  String     @default("main") // main, footer, mobile
+  items     MenuItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model MenuItem {
+  id        Int        @id @default(autoincrement())
+  menuId    Int
+  menu      Menu       @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  parentId  Int?
+  parent    MenuItem?  @relation("MenuItemChildren", fields: [parentId], references: [id])
+  children  MenuItem[] @relation("MenuItemChildren")
+  title     String
+  url       String
+  target    String     @default("_self")
+  icon      String?
+  order     Int        @default(0)
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}

@@ -1,0 +1,33 @@
+// Form autofill reset
+.autofill-black:-webkit-autofill,
+.autofill-black:-webkit-autofill:hover, 
+.autofill-black:-webkit-autofill:focus {
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+}
+.autofill-light:-webkit-autofill,
+.autofill-light:-webkit-autofill:hover, 
+.autofill-light:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000;
+  -webkit-box-shadow: 0 0 0px 1000px #E7E5D4 inset;
+}
+
+// prose/typography
+.content {
+  @apply text-[#6e6c56];
+
+  ul li::marker {
+    @apply text-primary;
+  }
+
+  @apply prose-hr:my-10 prose-hr:border-dark/10;
+
+  @apply prose-blockquote:font-primary prose-blockquote:text-[22px] sm:prose-blockquote:text-2xl prose-blockquote:leading-relaxed prose-blockquote:border prose-blockquote:border-[#c9c5aa] prose-blockquote:bg-light prose-blockquote:rounded-lg prose-blockquote:rounded-es-none prose-blockquote:not-italic prose-blockquote:pr-8 prose-blockquote:md:pl-[76px] prose-blockquote:pt-[60px] prose-blockquote:md:pt-0;
+
+  a:not(.no-underline) {
+    @apply bg-gradient-to-l from-dark/75 to-dark/75 has-transition
+      bg-no-repeat [background-position:0_97%] [background-size:0%_1px]
+      hover:[background-size:100%_1px] hover:text-dark underline underline-offset-2 
+      decoration-[#b4b6b9] hover:decoration-transparent;
+  }
+}

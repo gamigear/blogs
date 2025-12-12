@@ -1,0 +1,85 @@
+// Type Imports
+import type { BlogType } from '@/types/apps/blogTypes'
+
+export const db: BlogType[] = [
+  {
+    id: 1,
+    title: 'Tổng hợp code Liên Quân mới nhất tháng 12/2025',
+    excerpt: 'Cập nhật danh sách code Liên Quân mới nhất, hướng dẫn nhập code nhận quà miễn phí.',
+    content: '',
+    image: '/images/blogs/blog-1.jpg',
+    tag: 'Liên Quân',
+    tagClass: 'primary',
+    author: 'Admin',
+    authorAvatar: '/images/avatars/1.png',
+    status: 'published',
+    featured: true,
+    views: 1250,
+    publishedAt: '2025-12-11',
+    createdAt: '2025-12-11'
+  },
+  {
+    id: 2,
+    title: 'Hướng dẫn nhận skin súng miễn phí trong Free Fire',
+    excerpt: 'Tổng hợp các cách nhận skin súng miễn phí trong Free Fire mà không cần nạp kim cương.',
+    content: '',
+    image: '/images/blogs/blog-2.jpg',
+    tag: 'Free Fire',
+    tagClass: 'secondary',
+    author: 'GameHub',
+    authorAvatar: '/images/avatars/2.png',
+    status: 'published',
+    featured: true,
+    views: 980,
+    publishedAt: '2025-12-10',
+    createdAt: '2025-12-10'
+  },
+  {
+    id: 3,
+    title: 'Cách farm Primogem hiệu quả cho người chơi mới',
+    excerpt: 'Hướng dẫn chi tiết cách farm Primogem trong Genshin Impact dành cho người mới bắt đầu.',
+    content: '',
+    image: '/images/blogs/blog-3.jpg',
+    tag: 'Genshin',
+    tagClass: 'error',
+    author: 'Admin',
+    authorAvatar: '/images/avatars/1.png',
+    status: 'published',
+    featured: false,
+    views: 756,
+    publishedAt: '2025-12-09',
+    createdAt: '2025-12-09'
+  },
+  {
+    id: 4,
+    title: 'Top 10 mẹo leo rank hiệu quả trong PUBG Mobile',
+    excerpt: 'Chia sẻ 10 mẹo giúp bạn leo rank nhanh chóng và hiệu quả trong PUBG Mobile.',
+    content: '',
+    image: '/images/blogs/blog-4.jpg',
+    tag: 'PUBG Mobile',
+    tagClass: 'warning',
+    author: 'GameHub',
+    authorAvatar: '/images/avatars/2.png',
+    status: 'draft',
+    featured: false,
+    views: 0,
+    publishedAt: null,
+    createdAt: '2025-12-08'
+  },
+  {
+    id: 5,
+    title: 'Cập nhật meta mới nhất Mobile Legends tháng 12',
+    excerpt: 'Phân tích meta game Mobile Legends tháng 12/2025, tướng nào đang hot nhất?',
+    content: '',
+    image: '/images/blogs/blog-5.jpg',
+    tag: 'Mobile Legends',
+    tagClass: 'info',
+    author: 'Admin',
+    authorAvatar: '/images/avatars/1.png',
+    status: 'published',
+    featured: true,
+    views: 1100,
+    publishedAt: '2025-12-07',
+    createdAt: '2025-12-07'
+  }
+]

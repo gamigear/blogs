@@ -1,0 +1,53 @@
+@import '../users/users.module.scss';
+
+.slug {
+  background: var(--admin-bg);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--admin-text-muted);
+}
+
+.template {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--admin-info);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+
+  &::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  &.published {
+    color: var(--admin-success);
+    &::before { background: var(--admin-success); }
+  }
+
+  &.draft {
+    color: var(--admin-warning);
+    &::before { background: var(--admin-warning); }
+  }
+}
+
+.modalContent {
+  max-width: 700px;
+}
+
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--admin-text-muted);
+}

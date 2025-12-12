@@ -1,0 +1,39 @@
+{
+  "name": "sado",
+  "version": "1.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.948.0",
+    "@prisma/client": "^5.22.0",
+    "@reduxjs/toolkit": "^2.11.1",
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "aos": "^2.3.4",
+    "dotenv": "^17.2.3",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.0.4",
+    "fslightbox-react": "^1.7.6",
+    "next": "^14.0.4",
+    "prisma": "^5.22.0",
+    "react": "18.2.0",
+    "react-accessible-accordion": "^5.0.0",
+    "react-dom": "18.2.0",
+    "react-redux": "^9.2.0",
+    "sass": "^1.96.0",
+    "sharp": "^0.33.1",
+    "swiper": "^11.0.5",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/aos": "^3.0.7",
+    "@types/fslightbox-react": "^1.7.7",
+    "tsx": "^4.21.0"
+  }
+}

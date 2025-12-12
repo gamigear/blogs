@@ -1,0 +1,118 @@
+// Admin Panel Styles
+:root {
+  --admin-primary: #4f46e5;
+  --admin-primary-hover: #4338ca;
+  --admin-secondary: #64748b;
+  --admin-success: #22c55e;
+  --admin-danger: #ef4444;
+  --admin-warning: #f59e0b;
+  --admin-info: #3b82f6;
+  --admin-bg: #f8fafc;
+  --admin-sidebar-bg: #1e293b;
+  --admin-sidebar-text: #94a3b8;
+  --admin-sidebar-active: #4f46e5;
+  --admin-card-bg: #ffffff;
+  --admin-border: #e2e8f0;
+  --admin-text: #1e293b;
+  --admin-text-muted: #64748b;
+  --sidebar-width: 260px;
+  --header-height: 64px;
+}
+
+[data-theme="dark"] {
+  --admin-bg: #0f172a;
+  --admin-sidebar-bg: #1e293b;
+  --admin-card-bg: #1e293b;
+  --admin-border: #334155;
+  --admin-text: #f1f5f9;
+  --admin-text-muted: #94a3b8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--admin-bg);
+  color: var(--admin-text);
+}
+
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-main {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  transition: margin-left 0.3s ease;
+  
+  &.sidebar-collapsed {
+    margin-left: 70px;
+  }
+}
+
+.admin-content {
+  padding: 24px;
+  min-height: calc(100vh - var(--header-height));
+}
+
+
+// Card margin utility
+.mt-4 {
+  margin-top: 24px;
+}
+
+// Responsive adjustments
+@media (max-width: 992px) {
+  .admin-main {
+    margin-left: 0;
+    
+    &.sidebar-collapsed {
+      margin-left: 0;
+    }
+  }
+}
+
+// Scrollbar styling
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--admin-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--admin-border);
+  border-radius: 3px;
+  
+  &:hover {
+    background: var(--admin-text-muted);
+  }
+}
+
+// Form elements
+input, select, textarea {
+  font-family: inherit;
+}
+
+// Link reset
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+// Button reset
+button {
+  font-family: inherit;
+}
+
+// Code styling
+code {
+  font-family: 'Monaco', 'Menlo', monospace;
+}

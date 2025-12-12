@@ -1,0 +1,32 @@
+{
+  "metaData": {
+    "title": "Du Lịch Việt Nam - Khám Phá Vẻ Đẹp Địa Phương",
+    "description": "Trang tin tức du lịch Việt Nam, giới thiệu các địa điểm du lịch, văn hóa, ẩm thực và trải nghiệm độc đáo tại các vùng miền.",
+    "author": "Travel Vietnam",
+    "keyword": "du lịch việt nam, địa điểm du lịch, văn hóa việt nam, ẩm thực việt nam",
+    "ogImage": "/images/ogimage.jpg"
+  },
+  "baseURL": "",
+  "siteURL": "https://dulichvietnam.com",
+  "logo": "/images/logo.svg",
+  "logoWhite": "/images/logo-white.svg",
+  "logoText": "Du Lịch Việt",
+  "favicon": "/images/favicon.png",
+
+  "subscriptionFormspreeID": "",
+
+  "footerWidgets": {
+    "email": "contact@dulichvietnam.com",
+    "phone": "+84 (28) 1234-5678"
+  },
+
+  "footerLinks": [
+    { "title": "Giới thiệu", "url": "/about" },
+    { "title": "Điểm đến", "url": "/category/diem-den" },
+    { "title": "Ẩm thực", "url": "/category/am-thuc" },
+    { "title": "Liên hệ", "url": "/contact" },
+    { "title": "Chính sách", "url": "/privacy" }
+  ],
+
+  "copyright": "© 2024 Du Lịch Việt Nam. Bản quyền thuộc về chúng tôi."
+}

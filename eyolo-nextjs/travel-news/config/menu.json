@@ -1,0 +1,11 @@
+{
+  "mainMenu": [
+    { "title": "Trang chủ", "url": "/" },
+    { "title": "Điểm đến", "url": "/category/diem-den" },
+    { "title": "Ẩm thực", "url": "/category/am-thuc" },
+    { "title": "Văn hóa", "url": "/category/van-hoa" },
+    { "title": "Trải nghiệm", "url": "/category/trai-nghiem" },
+    { "title": "Giới thiệu", "url": "/about" },
+    { "title": "Liên hệ", "url": "/contact" }
+  ]
+}
