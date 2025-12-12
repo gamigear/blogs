@@ -10,7 +10,12 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const post = await getFeedPostById(parseInt(params.id));
+  const id = parseInt(params.id);
+  if (isNaN(id)) {
+    return { title: 'Không tìm thấy bài viết' };
+  }
+  
+  const post = await getFeedPostById(id);
   
   if (!post) {
     return { title: 'Không tìm thấy bài viết' };
@@ -23,10 +28,15 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function FeedPostPage({ params }: Props) {
+  const id = parseInt(params.id);
+  if (isNaN(id)) {
+    notFound();
+  }
+  
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id ? parseInt(session.user.id as string) : undefined;
   
-  const post = await getFeedPostById(parseInt(params.id), userId);
+  const post = await getFeedPostById(id, userId);
 
   if (!post) {
     notFound();
