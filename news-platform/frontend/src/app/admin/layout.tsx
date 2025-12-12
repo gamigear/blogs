@@ -12,6 +12,7 @@ const menuItems = [
     icon: 'article',
     children: [
       { title: 'Tất cả bài viết', href: '/admin/articles' },
+      { title: 'Chờ duyệt', href: '/admin/articles?status=pending_review', badge: 'pending' },
       { title: 'Tạo mới', href: '/admin/articles/new' },
     ]
   },
@@ -161,17 +162,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   </button>
                   {sidebarOpen && openMenus.includes(item.title) && (
                     <div className={`rounded-md mt-1 ${darkMode ? 'bg-gray-900/50' : 'bg-gray-50'}`}>
-                      {item.children.map((child) => (
+                      {item.children.map((child: any) => (
                         <Link
                           key={child.href}
                           href={child.href}
-                          className={`block px-3 py-2.5 pl-11 text-sm transition-colors ${
+                          className={`flex items-center justify-between px-3 py-2.5 pl-11 text-sm transition-colors ${
                             darkMode
                               ? (isActive(child.href) ? 'bg-gray-700 text-white rounded-md' : 'text-gray-400 hover:bg-gray-700 hover:text-white')
                               : (isActive(child.href) ? 'bg-blue-100 text-blue-700 rounded-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900')
                           }`}
                         >
-                          {child.title}
+                          <span>{child.title}</span>
+                          {child.badge === 'pending' && pendingCount > 0 && (
+                            <span className="min-w-[20px] h-5 flex items-center justify-center px-1.5 text-[10px] font-bold text-white bg-orange-500 rounded-full">
+                              {pendingCount > 99 ? '99+' : pendingCount}
+                            </span>
+                          )}
                         </Link>
                       ))}
                     </div>
