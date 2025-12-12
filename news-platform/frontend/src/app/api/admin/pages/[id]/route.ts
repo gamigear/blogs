@@ -5,7 +5,7 @@ import { query, execute, generateUniqueSlug } from '@/lib/db';
 import { logAuditAction } from '@/lib/security';
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 /**
@@ -13,13 +13,14 @@ interface Props {
  */
 export async function GET(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     if (!session?.user || !['admin', 'editor'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const pageId = parseInt(params.id);
+    const pageId = parseInt(id);
     const pages = await query('SELECT * FROM pages WHERE id = $1', [pageId]);
 
     if (pages.length === 0) {
@@ -38,6 +39,7 @@ export async function GET(request: NextRequest, { params }: Props) {
  */
 export async function PATCH(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     const userId = (session?.user as any)?.id;
@@ -45,7 +47,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const pageId = parseInt(params.id);
+    const pageId = parseInt(id);
     const body = await request.json();
     const { title, slug, content, excerpt, featured_image, status, seo, template, show_in_menu, sort_order } = body;
 
@@ -96,6 +98,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
  */
 export async function DELETE(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     const userId = (session?.user as any)?.id;
@@ -103,7 +106,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const pageId = parseInt(params.id);
+    const pageId = parseInt(id);
     await execute('DELETE FROM pages WHERE id = $1', [pageId]);
     await logAuditAction(userId, 'delete_page', 'page', pageId, {});
 

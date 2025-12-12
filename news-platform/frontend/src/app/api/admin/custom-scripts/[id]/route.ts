@@ -16,15 +16,16 @@ interface CustomScript {
 // GET - Lấy chi tiết một custom script
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session || !['admin', 'superadmin'].includes(session.user?.role || '')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const result = await query<CustomScript>('SELECT * FROM custom_scripts WHERE id = $1', [params.id]);
+    const result = await query<CustomScript>('SELECT * FROM custom_scripts WHERE id = $1', [id]);
     
     if (result.length === 0) {
       return NextResponse.json({ error: 'Script not found' }, { status: 404 });
@@ -40,9 +41,10 @@ export async function GET(
 // PUT - Cập nhật custom script
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session || !['admin', 'superadmin'].includes(session.user?.role || '')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -69,7 +71,7 @@ export async function PUT(
            updated_by = $7
        WHERE id = $8
        RETURNING *`,
-      [name, position, code, is_active, sort_order, description, session.user?.id, params.id]
+      [name, position, code, is_active, sort_order, description, session.user?.id, id]
     );
 
     if (result.length === 0) {
@@ -86,15 +88,16 @@ export async function PUT(
 // DELETE - Xóa custom script
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session || !['admin', 'superadmin'].includes(session.user?.role || '')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const result = await query<{ id: number }>('DELETE FROM custom_scripts WHERE id = $1 RETURNING id', [params.id]);
+    const result = await query<{ id: number }>('DELETE FROM custom_scripts WHERE id = $1 RETURNING id', [id]);
 
     if (result.length === 0) {
       return NextResponse.json({ error: 'Script not found' }, { status: 404 });

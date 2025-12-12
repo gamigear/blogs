@@ -6,11 +6,12 @@ import { FeedPostDetail } from './FeedPostDetail';
 import Link from 'next/link';
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({ params }: Props) {
-  const id = parseInt(params.id);
+  const { id: idParam } = await params;
+  const id = parseInt(idParam);
   if (isNaN(id)) {
     return { title: 'Không tìm thấy bài viết' };
   }
@@ -28,7 +29,8 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function FeedPostPage({ params }: Props) {
-  const id = parseInt(params.id);
+  const { id: idParam } = await params;
+  const id = parseInt(idParam);
   if (isNaN(id)) {
     notFound();
   }

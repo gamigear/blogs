@@ -6,8 +6,8 @@ import { ArticleListItem } from '@/components/ArticleListItem';
 import { NewsSidebar, SidebarWithImage } from '@/components/NewsSidebar';
 
 interface Props {
-  params: { slug: string };
-  searchParams: { page?: string };
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://news.example.com';
@@ -16,7 +16,8 @@ const PAGE_SIZE = 12;
 // Removed generateStaticParams - using force-dynamic instead
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const category = await getCategoryBySlug(params.slug);
+  const { slug } = await params;
+  const category = await getCategoryBySlug(slug);
   if (!category) return {};
   
   const title = `${category.name} - Tin tức mới nhất`;
@@ -26,12 +27,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     alternates: {
-      canonical: `${SITE_URL}/category/${params.slug}`,
+      canonical: `${SITE_URL}/category/${slug}`,
     },
     openGraph: {
       title,
       description,
-      url: `${SITE_URL}/category/${params.slug}`,
+      url: `${SITE_URL}/category/${slug}`,
       siteName: 'News Platform',
       type: 'website',
     },
@@ -41,11 +42,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export const dynamic = 'force-dynamic';
 
 export default async function CategoryPage({ params, searchParams }: Props) {
-  const page = parseInt(searchParams.page || '1');
+  const { slug } = await params;
+  const { page: pageParam } = await searchParams;
+  const page = parseInt(pageParam || '1');
   
   const [articles, category, categories, latestArticles] = await Promise.all([
-    getArticlesByCategory(params.slug, page, PAGE_SIZE),
-    getCategoryBySlug(params.slug),
+    getArticlesByCategory(slug, page, PAGE_SIZE),
+    getCategoryBySlug(slug),
     getCategories(),
     getArticles(1, 10),
   ]);
@@ -57,7 +60,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     '@type': 'CollectionPage',
     name: category.name,
     description: category.description || `Tin tức về ${category.name}`,
-    url: `${SITE_URL}/category/${params.slug}`,
+    url: `${SITE_URL}/category/${slug}`,
     mainEntity: {
       '@type': 'ItemList',
       itemListElement: articles.map((article, index) => ({
@@ -142,7 +145,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
                   <div className="flex justify-center items-center gap-2 mt-8">
                     {hasPrev && (
                       <Link
-                        href={`/category/${params.slug}?page=${page - 1}`}
+                        href={`/category/${slug}?page=${page - 1}`}
                         className="px-4 py-2 bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-lg transition-colors"
                       >
                         ← Trước
@@ -155,7 +158,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
                       return (
                         <Link
                           key={pageNum}
-                          href={`/category/${params.slug}?page=${pageNum}`}
+                          href={`/category/${slug}?page=${pageNum}`}
                           className={`w-10 h-10 flex items-center justify-center rounded-lg transition-colors ${
                             pageNum === page 
                               ? 'bg-primary text-white' 
@@ -169,7 +172,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
                     
                     {hasMore && (
                       <Link
-                        href={`/category/${params.slug}?page=${page + 1}`}
+                        href={`/category/${slug}?page=${page + 1}`}
                         className="px-4 py-2 bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-lg transition-colors"
                       >
                         Sau →
@@ -189,7 +192,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
               <aside className="bg-white rounded-lg p-4 border border-gray-100">
                 <h3 className="sidebar-title">Chuyên mục khác</h3>
                 <div className="flex flex-wrap gap-2">
-                  {categories.filter(c => c.slug !== params.slug).map((cat) => (
+                  {categories.filter(c => c.slug !== slug).map((cat) => (
                     <Link
                       key={cat.id}
                       href={`/category/${cat.slug}`}

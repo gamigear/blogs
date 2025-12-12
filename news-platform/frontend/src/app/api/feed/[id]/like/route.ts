@@ -5,9 +5,10 @@ import { toggleLike } from '@/lib/feed';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.id) {
@@ -18,7 +19,7 @@ export async function POST(
     }
 
     const userId = parseInt(session.user.id as string);
-    const postId = parseInt(params.id);
+    const postId = parseInt(id);
 
     if (isNaN(postId)) {
       return NextResponse.json(

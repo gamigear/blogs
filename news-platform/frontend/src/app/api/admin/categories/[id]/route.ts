@@ -5,7 +5,7 @@ import { query, execute, generateUniqueSlug } from '@/lib/db';
 import { logAuditAction } from '@/lib/security';
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 /**
@@ -13,13 +13,14 @@ interface Props {
  */
 export async function GET(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     if (!session?.user || !['admin', 'editor'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const categoryId = parseInt(params.id);
+    const categoryId = parseInt(id);
     const categories = await query(`
       SELECT c.*, p.name as parent_name
       FROM categories c
@@ -43,6 +44,7 @@ export async function GET(request: NextRequest, { params }: Props) {
  */
 export async function PATCH(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     const userId = (session?.user as any)?.id;
@@ -50,7 +52,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const categoryId = parseInt(params.id);
+    const categoryId = parseInt(id);
     const body = await request.json();
     const { name, slug, description, parent_id, image } = body;
 
@@ -105,6 +107,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
  */
 export async function DELETE(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     const userId = (session?.user as any)?.id;
@@ -112,7 +115,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const categoryId = parseInt(params.id);
+    const categoryId = parseInt(id);
 
     // Check if category has articles
     const articles = await query<{ count: string }>(`SELECT COUNT(*) as count FROM articles WHERE category_id = $1`, [categoryId]);

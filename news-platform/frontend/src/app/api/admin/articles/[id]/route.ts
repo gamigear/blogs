@@ -5,7 +5,7 @@ import { query, execute, generateUniqueSlug } from '@/lib/db';
 import { logAuditAction } from '@/lib/security';
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 /**
@@ -13,13 +13,14 @@ interface Props {
  */
 export async function GET(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     if (!session?.user || !['admin', 'editor'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const articleId = parseInt(params.id);
+    const articleId = parseInt(id);
     const articles = await query(`SELECT * FROM articles WHERE id = $1`, [articleId]);
 
     if (articles.length === 0) {
@@ -47,13 +48,14 @@ export async function GET(request: NextRequest, { params }: Props) {
  */
 export async function PATCH(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     if (!session?.user || !['admin', 'editor'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const articleId = parseInt(params.id);
+    const articleId = parseInt(id);
     const body = await request.json();
     const { title, slug, excerpt, content, category_id, status, featured_image, seo, tag_ids } = body;
 
@@ -116,13 +118,14 @@ export async function PATCH(request: NextRequest, { params }: Props) {
  */
 export async function DELETE(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     if (!session?.user || !['admin', 'editor'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const articleId = parseInt(params.id);
+    const articleId = parseInt(id);
     
     // Remove tags first
     await execute('DELETE FROM article_tags WHERE article_id = $1', [articleId]);

@@ -23,17 +23,18 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const article = await getArticleBySlug(params.slug);
+    const { slug } = await params;
+    const article = await getArticleBySlug(slug);
 
     if (!article) {
       return NextResponse.json({ error: 'Article not found' }, { status: 404 });
     }
 
     // Increment view count asynchronously
-    query('UPDATE articles SET view_count = view_count + 1 WHERE slug = $1', [params.slug])
+    query('UPDATE articles SET view_count = view_count + 1 WHERE slug = $1', [slug])
       .catch(err => console.error('Failed to increment view count:', err));
 
     const response = NextResponse.json({ data: article });
@@ -54,9 +55,11 @@ export async function GET(
  */
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const { slug } = await params;
+    
     // Check authentication
     const session = await getServerSession(authOptions);
     if (!session) {
@@ -72,7 +75,7 @@ export async function PATCH(
     // Find article by slug
     const existingArticle = await queryOne<{ id: number; status: string }>(
       'SELECT id, status FROM articles WHERE slug = $1',
-      [params.slug]
+      [slug]
     );
 
     if (!existingArticle) {
@@ -201,9 +204,11 @@ export async function PATCH(
  */
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const { slug } = await params;
+    
     // Check authentication
     const session = await getServerSession(authOptions);
     if (!session) {
@@ -219,7 +224,7 @@ export async function DELETE(
     // Find article by slug
     const existingArticle = await queryOne<{ id: number; title: string }>(
       'SELECT id, title FROM articles WHERE slug = $1',
-      [params.slug]
+      [slug]
     );
 
     if (!existingArticle) {

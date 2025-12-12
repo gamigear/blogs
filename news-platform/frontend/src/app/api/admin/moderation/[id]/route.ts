@@ -17,9 +17,10 @@ import { addSecurityHeaders } from '@/lib/security';
  */
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -38,7 +39,7 @@ export async function GET(
        LEFT JOIN users u_reporter ON mq.reported_by = u_reporter.id
        LEFT JOIN users u_assigned ON mq.assigned_to = u_assigned.id
        WHERE mq.id = $1`,
-      [parseInt(params.id)]
+      [parseInt(id)]
     );
 
     if (!queueItem) {
@@ -59,9 +60,10 @@ export async function GET(
  */
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -74,7 +76,7 @@ export async function POST(
 
     const body = await req.json();
     const action = body.action;
-    const queueItemId = parseInt(params.id);
+    const queueItemId = parseInt(id);
     
     // Get moderator user ID
     const moderator = await queryOne<{ id: number }>(

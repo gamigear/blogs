@@ -4,7 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { query } from '@/lib/db';
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 /**
@@ -12,12 +12,13 @@ interface Props {
  */
 export async function GET(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session?.user || !['admin', 'moderator'].includes(session.user.role || '')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const userId = parseInt(params.id);
+    const userId = parseInt(id);
     if (isNaN(userId)) {
       return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 });
     }

@@ -5,7 +5,7 @@ import { execute } from '@/lib/db';
 import { logAuditAction } from '@/lib/security';
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 /**
@@ -13,6 +13,7 @@ interface Props {
  */
 export async function POST(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     const currentUserId = (session?.user as any)?.id;
@@ -20,7 +21,7 @@ export async function POST(request: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const userId = parseInt(params.id);
+    const userId = parseInt(id);
     if (isNaN(userId)) {
       return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 });
     }
@@ -58,6 +59,7 @@ export async function POST(request: NextRequest, { params }: Props) {
  */
 export async function DELETE(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     const currentUserId = (session?.user as any)?.id;
@@ -65,7 +67,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const userId = parseInt(params.id);
+    const userId = parseInt(id);
     if (isNaN(userId)) {
       return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 });
     }

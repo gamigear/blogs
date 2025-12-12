@@ -7,7 +7,7 @@ import { ArticleContent } from '@/components/ArticleContent';
 import { DiscourseComments } from '@/components/DiscourseComments';
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://news.example.com';
@@ -15,13 +15,14 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://news.example.com';
 // Removed generateStaticParams - using force-dynamic instead
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const article = await getArticleBySlug(params.slug);
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
   if (!article) return {};
 
   const title = article.seo?.metaTitle || article.title;
   const description = article.seo?.metaDescription || article.excerpt;
   const imageUrl = article.featuredImage?.url;
-  const canonicalUrl = article.seo?.canonical || `${SITE_URL}/article/${params.slug}`;
+  const canonicalUrl = article.seo?.canonical || `${SITE_URL}/article/${slug}`;
 
   return {
     title,
@@ -48,7 +49,8 @@ export const dynamic = 'force-dynamic';
 const trendingTags = ['#ces25', '#ai', '#iphone 16', '#goclamviec', '#trên tay'];
 
 export default async function ArticlePage({ params }: Props) {
-  const article = await getArticleBySlug(params.slug);
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
   // Fetch related content
@@ -58,7 +60,7 @@ export default async function ArticlePage({ params }: Props) {
   ]);
 
   // Filter out current article from related
-  const filteredRelated = relatedArticles.filter(a => a.slug !== params.slug).slice(0, 5);
+  const filteredRelated = relatedArticles.filter(a => a.slug !== slug).slice(0, 5);
 
   return (
     <div className="min-h-screen">
@@ -71,7 +73,7 @@ export default async function ArticlePage({ params }: Props) {
             {/* Comments */}
             {article.discourseTopicId && (
               <div className="mt-8">
-                <DiscourseComments articleSlug={params.slug} />
+                <DiscourseComments articleSlug={slug} />
               </div>
             )}
 

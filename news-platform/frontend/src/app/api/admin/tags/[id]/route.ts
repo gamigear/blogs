@@ -5,7 +5,7 @@ import { query, execute, generateUniqueSlug } from '@/lib/db';
 import { logAuditAction } from '@/lib/security';
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 /**
@@ -13,13 +13,14 @@ interface Props {
  */
 export async function GET(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     if (!session?.user || !['admin', 'editor'].includes(userRole)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const tagId = parseInt(params.id);
+    const tagId = parseInt(id);
     const tags = await query(`SELECT * FROM tags WHERE id = $1`, [tagId]);
 
     if (tags.length === 0) {
@@ -38,6 +39,7 @@ export async function GET(request: NextRequest, { params }: Props) {
  */
 export async function PATCH(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     const userId = (session?.user as any)?.id;
@@ -45,7 +47,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const tagId = parseInt(params.id);
+    const tagId = parseInt(id);
     const body = await request.json();
     const { name, slug } = body;
 
@@ -84,6 +86,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
  */
 export async function DELETE(request: NextRequest, { params }: Props) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     const userId = (session?.user as any)?.id;
@@ -91,7 +94,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const tagId = parseInt(params.id);
+    const tagId = parseInt(id);
 
     // Remove tag associations first
     await execute(`DELETE FROM article_tags WHERE tag_id = $1`, [tagId]);
