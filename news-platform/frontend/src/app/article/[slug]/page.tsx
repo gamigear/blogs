@@ -12,15 +12,7 @@ interface Props {
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://news.example.com';
 
-export async function generateStaticParams() {
-  try {
-    const slugs = await getAllArticleSlugs();
-    return slugs.map((slug) => ({ slug }));
-  } catch (error) {
-    console.log('Skipping static params generation - database not available during build');
-    return [];
-  }
-}
+// Removed generateStaticParams - using force-dynamic instead
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticleBySlug(params.slug);
