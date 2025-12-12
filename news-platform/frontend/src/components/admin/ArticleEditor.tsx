@@ -33,9 +33,9 @@ interface Article {
   seo: { meta_title: string; meta_description: string; };
   tag_ids?: number[];
 }
-interface Props { categories: Category[]; authors?: Author[]; article?: Article; initialTags?: number[]; }
+interface Props { categories: Category[]; authors?: Author[]; article?: Article; initialTags?: number[]; isAdmin?: boolean; }
 
-export function ArticleEditor({ categories, authors = [], article, initialTags = [] }: Props) {
+export function ArticleEditor({ categories, authors = [], article, initialTags = [], isAdmin = false }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState<Tag[]>([]);
@@ -59,6 +59,9 @@ export function ArticleEditor({ categories, authors = [], article, initialTags =
     fetch('/api/admin/tags').then(res => res.json()).then(data => setTags(data.tags || [])).catch(() => {});
   }, []);
 
+  // For regular users, show info that article will be reviewed
+  const showPendingInfo = !isAdmin && !article?.id;
+
   const handleTitleChange = (title: string) => setFormData({ ...formData, title, slug: formData.slug || slugify(title) });
 
   const toggleTag = (tagId: number) => {
@@ -73,8 +76,9 @@ export function ArticleEditor({ categories, authors = [], article, initialTags =
       const url = article?.id ? `/api/admin/articles/${article.id}` : '/api/admin/articles';
       const payload = { ...formData, tag_ids: selectedTags };
       const res = await fetch(url, { method: article?.id ? 'PATCH' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      if (!res.ok) { const error = await res.json(); throw new Error(error.error || error.message || 'Failed to save article'); }
-      alert(article?.id ? 'Cập nhật thành công!' : 'Tạo bài viết thành công!');
+      const data = await res.json();
+      if (!res.ok) { throw new Error(data.error || data.message || 'Failed to save article'); }
+      alert(data.message || (article?.id ? 'Cập nhật thành công!' : 'Tạo bài viết thành công!'));
       router.push('/admin/articles');
     } catch (error: any) { console.error('Error saving article:', error); alert(error.message || 'Có lỗi xảy ra. Vui lòng thử lại.'); }
     finally { setLoading(false); }
@@ -156,16 +160,28 @@ export function ArticleEditor({ categories, authors = [], article, initialTags =
           <div className="rounded-md bg-white dark:bg-[#1A1D1F] p-6">
             <h3 className="font-bold text-gray-900 dark:text-white mb-4">Xuất bản</h3>
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Trạng thái</label>
-                <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })} disabled={loading}
-                  className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                  <option value="draft">Bản nháp</option>
-                  <option value="pending_review">Chờ duyệt</option>
-                  <option value="published">Đã xuất bản</option>
-                  <option value="archived">Lưu trữ</option>
-                </select>
-              </div>
+              {/* Show pending info for regular users */}
+              {showPendingInfo && (
+                <div className="p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-md">
+                  <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                    📝 Bài viết của bạn sẽ được gửi đến admin để xét duyệt trước khi xuất bản.
+                  </p>
+                </div>
+              )}
+              
+              {/* Status selector - only for admin */}
+              {isAdmin && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Trạng thái</label>
+                  <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })} disabled={loading}
+                    className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="draft">Bản nháp</option>
+                    <option value="pending_review">Chờ duyệt</option>
+                    <option value="published">Đã xuất bản</option>
+                    <option value="archived">Lưu trữ</option>
+                  </select>
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Danh mục *</label>
                 <select value={formData.category_id} onChange={(e) => setFormData({ ...formData, category_id: parseInt(e.target.value) })} disabled={loading} required
@@ -173,24 +189,33 @@ export function ArticleEditor({ categories, authors = [], article, initialTags =
                   {categories.map((cat) => (<option key={cat.id} value={cat.id}>{cat.name}</option>))}
                 </select>
               </div>
-              {authors.length > 0 && (
+              {/* Author selector - only for admin */}
+              {isAdmin && authors.length > 0 && (
                 <div>
                   <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Tác giả</label>
                   <select value={formData.author_id || ''} onChange={(e) => setFormData({ ...formData, author_id: e.target.value ? parseInt(e.target.value) : undefined })} disabled={loading}
                     className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <option value="">-- Chọn tác giả --</option>
+                    <option value="">-- Tự động (bạn) --</option>
                     {authors.map((author) => (<option key={author.id} value={author.id}>{author.name}</option>))}
                   </select>
                 </div>
               )}
               <div className="flex gap-3 pt-4">
-                <button type="submit" disabled={loading} className="flex-1 px-4 py-3 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-semibold disabled:opacity-50">
-                  {loading ? 'Đang lưu...' : 'Lưu nháp'}
-                </button>
-                <button type="button" disabled={loading} onClick={() => { setFormData({ ...formData, status: 'published' }); setTimeout(() => document.querySelector('form')?.requestSubmit(), 0); }}
-                  className="flex-1 px-4 py-3 rounded-md bg-[#2A85FF] text-white hover:bg-[#2A85FF]/90 transition-colors font-semibold disabled:opacity-50">
-                  Xuất bản
-                </button>
+                {isAdmin ? (
+                  <>
+                    <button type="submit" disabled={loading} className="flex-1 px-4 py-3 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-semibold disabled:opacity-50">
+                      {loading ? 'Đang lưu...' : 'Lưu nháp'}
+                    </button>
+                    <button type="button" disabled={loading} onClick={() => { setFormData({ ...formData, status: 'published' }); setTimeout(() => document.querySelector('form')?.requestSubmit(), 0); }}
+                      className="flex-1 px-4 py-3 rounded-md bg-[#2A85FF] text-white hover:bg-[#2A85FF]/90 transition-colors font-semibold disabled:opacity-50">
+                      Xuất bản
+                    </button>
+                  </>
+                ) : (
+                  <button type="submit" disabled={loading} className="w-full px-4 py-3 rounded-md bg-[#2A85FF] text-white hover:bg-[#2A85FF]/90 transition-colors font-semibold disabled:opacity-50">
+                    {loading ? 'Đang gửi...' : 'Gửi bài viết'}
+                  </button>
+                )}
               </div>
             </div>
           </div>

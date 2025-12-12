@@ -1,20 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { query, execute, generateUniqueSlug, generateSlug } from '@/lib/db';
+import { query, execute, queryOne, generateUniqueSlug, generateSlug } from '@/lib/db';
 import { logAuditAction } from '@/lib/security';
 
 /**
  * POST /api/admin/articles - Create new article
+ * - Admin/Editor: Can publish directly, choose author
+ * - Regular users: Article goes to pending_review, author is themselves
  */
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || '';
     const userId = (session as any)?.userId;
-    if (!session?.user || !['admin', 'editor'].includes(userRole)) {
+    const userDisplayName = session?.user?.name || 'Unknown';
+    
+    // All logged-in users can create articles
+    if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    const isAdminOrEditor = ['admin', 'editor', 'superadmin'].includes(userRole);
 
     const body = await request.json();
     const { title, slug, excerpt, content, category_id, author_id, status, featured_image, seo, tag_ids } = body;
@@ -31,6 +38,56 @@ export async function POST(request: NextRequest) {
     // Calculate reading time (approx 200 words per minute)
     const wordCount = content.split(/\s+/).length;
     const readingTime = Math.ceil(wordCount / 200);
+
+    // Determine final status and author
+    let finalStatus: string;
+    let finalAuthorId: number | null = null;
+
+    if (isAdminOrEditor) {
+      // Admin/Editor can choose status and author
+      finalStatus = status || 'draft';
+      
+      if (author_id) {
+        finalAuthorId = author_id;
+      } else {
+        // Get or create author for admin/editor
+        const existingAuthor = await queryOne<{ id: number }>(
+          'SELECT id FROM authors WHERE email = $1',
+          [session.user.email]
+        );
+        
+        if (existingAuthor) {
+          finalAuthorId = existingAuthor.id;
+        } else {
+          // Create author for admin/editor
+          const newAuthor = await query<{ id: number }>(
+            'INSERT INTO authors (name, email, slug) VALUES ($1, $2, $3) RETURNING id',
+            [userDisplayName, session.user.email, generateSlug(userDisplayName)]
+          );
+          finalAuthorId = newAuthor[0]?.id || null;
+        }
+      }
+    } else {
+      // Regular users: always pending_review
+      finalStatus = 'pending_review';
+      
+      // Get or create author for regular user
+      const existingAuthor = await queryOne<{ id: number }>(
+        'SELECT id FROM authors WHERE email = $1',
+        [session.user.email]
+      );
+      
+      if (existingAuthor) {
+        finalAuthorId = existingAuthor.id;
+      } else {
+        // Create author for user
+        const newAuthor = await query<{ id: number }>(
+          'INSERT INTO authors (name, email, slug) VALUES ($1, $2, $3) RETURNING id',
+          [userDisplayName, session.user.email, generateSlug(userDisplayName)]
+        );
+        finalAuthorId = newAuthor[0]?.id || null;
+      }
+    }
 
     // Insert article
     const result = await query<{ id: number }>(`
@@ -49,8 +106,8 @@ export async function POST(request: NextRequest) {
       excerpt || null,
       content,
       category_id,
-      author_id || null,
-      status || 'draft',
+      finalAuthorId,
+      finalStatus,
       featured_image || null,
       readingTime,
       JSON.stringify(seo || {}),
@@ -71,13 +128,17 @@ export async function POST(request: NextRequest) {
       'create_article',
       'article',
       articleId,
-      { title, status }
+      { title, status: finalStatus, isAdminOrEditor }
     );
 
     return NextResponse.json({ 
       success: true, 
       id: articleId,
-      slug: uniqueSlug 
+      slug: uniqueSlug,
+      status: finalStatus,
+      message: isAdminOrEditor 
+        ? (finalStatus === 'published' ? 'Bài viết đã được xuất bản!' : 'Bài viết đã được lưu!')
+        : 'Bài viết đã được gửi và đang chờ duyệt!'
     });
   } catch (error) {
     console.error('Error creating article:', error);

@@ -1,6 +1,8 @@
 import { query } from '@/lib/db';
 import { ArticleEditor } from '@/components/admin/ArticleEditor';
 import Link from 'next/link';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,6 +30,10 @@ async function getAuthors(): Promise<Author[]> {
 }
 
 export default async function NewArticlePage() {
+  const session = await getServerSession(authOptions);
+  const userRole = (session?.user as any)?.role || '';
+  const isAdmin = ['admin', 'editor', 'superadmin'].includes(userRole);
+  
   const [categories, authors] = await Promise.all([getCategories(), getAuthors()]);
 
   return (
@@ -43,7 +49,7 @@ export default async function NewArticlePage() {
           <p className="text-gray-500">Điền thông tin để tạo bài viết</p>
         </div>
       </div>
-      <ArticleEditor categories={categories} authors={authors} />
+      <ArticleEditor categories={categories} authors={authors} isAdmin={isAdmin} />
     </div>
   );
 }

@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { query } from '@/lib/db';
 import { ArticleEditor } from '@/components/admin/ArticleEditor';
 import Link from 'next/link';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -50,6 +52,10 @@ export default async function EditArticlePage({ params }: Props) {
   const articleId = parseInt(id);
   if (isNaN(articleId)) notFound();
 
+  const session = await getServerSession(authOptions);
+  const userRole = (session?.user as any)?.role || '';
+  const isAdmin = ['admin', 'editor', 'superadmin'].includes(userRole);
+
   const [article, categories, authors, tagIds] = await Promise.all([getArticle(articleId), getCategories(), getAuthors(), getArticleTags(articleId)]);
   if (!article) notFound();
 
@@ -66,7 +72,7 @@ export default async function EditArticlePage({ params }: Props) {
           <p className="text-gray-500">ID: {article.id}</p>
         </div>
       </div>
-      <ArticleEditor categories={categories} authors={authors} article={article} initialTags={tagIds} />
+      <ArticleEditor categories={categories} authors={authors} article={article} initialTags={tagIds} isAdmin={isAdmin} />
     </div>
   );
 }
