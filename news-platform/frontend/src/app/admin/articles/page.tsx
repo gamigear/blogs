@@ -13,18 +13,23 @@ interface Article {
   author_name: string;
   category_name: string;
   view_count: number;
+  reviewed_at: string | null;
+  reviewer_name: string | null;
+  rejection_reason: string | null;
 }
 
 async function getArticles(): Promise<Article[]> {
   try {
     return await query<Article>(`
       SELECT a.id, a.title, a.slug, a.status, a.published_at, a.created_at,
-        au.name as author_name, c.name as category_name, COALESCE(a.view_count, 0) as view_count
+        au.name as author_name, c.name as category_name, COALESCE(a.view_count, 0) as view_count,
+        a.reviewed_at, u.display_name as reviewer_name, a.rejection_reason
       FROM articles a
       LEFT JOIN authors au ON a.author_id = au.id
       LEFT JOIN categories c ON a.category_id = c.id
+      LEFT JOIN users u ON a.reviewed_by = u.id
       ORDER BY 
-        CASE WHEN a.status = 'pending_review' THEN 0 ELSE 1 END,
+        CASE WHEN a.status = 'pending_review' THEN 0 WHEN a.status = 'rejected' THEN 1 ELSE 2 END,
         a.created_at DESC 
       LIMIT 100
     `);
@@ -65,6 +70,7 @@ export default async function ArticlesPage() {
             <option value="">Tất cả trạng thái</option>
             <option value="published">Đã xuất bản</option>
             <option value="pending_review">Chờ duyệt</option>
+            <option value="rejected">Đã từ chối</option>
             <option value="draft">Bản nháp</option>
             <option value="archived">Lưu trữ</option>
           </select>
@@ -112,17 +118,35 @@ export default async function ArticlesPage() {
                     <span className="px-3 py-1 text-xs font-medium rounded-md bg-gray-100 dark:bg-gray-800 text-gray-500">{article.category_name || 'Chưa phân loại'}</span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1 text-xs font-semibold rounded-md ${
-                      article.status === 'published' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400' : 
-                      article.status === 'pending_review' ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400' :
-                      article.status === 'draft' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400' : 
-                      'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
-                    }`}>
-                      {article.status === 'published' ? 'Đã xuất bản' : 
-                       article.status === 'pending_review' ? '⏳ Chờ duyệt' :
-                       article.status === 'draft' ? 'Nháp' : 
-                       article.status === 'archived' ? 'Lưu trữ' : article.status}
-                    </span>
+                    <div>
+                      <span className={`px-3 py-1 text-xs font-semibold rounded-md ${
+                        article.status === 'published' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400' : 
+                        article.status === 'pending_review' ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400' :
+                        article.status === 'rejected' ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400' :
+                        article.status === 'draft' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400' : 
+                        'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+                      }`}>
+                        {article.status === 'published' ? '✓ Đã xuất bản' : 
+                         article.status === 'pending_review' ? '⏳ Chờ duyệt' :
+                         article.status === 'rejected' ? '✗ Từ chối' :
+                         article.status === 'draft' ? 'Nháp' : 
+                         article.status === 'archived' ? 'Lưu trữ' : article.status}
+                      </span>
+                      {/* Show reviewer info */}
+                      {article.reviewer_name && article.reviewed_at && (
+                        <div className="mt-1 text-[10px] text-gray-500">
+                          {article.status === 'published' ? 'Duyệt bởi' : 'Từ chối bởi'}: {article.reviewer_name}
+                          <br />
+                          {new Date(article.reviewed_at).toLocaleString('vi-VN')}
+                        </div>
+                      )}
+                      {/* Show rejection reason */}
+                      {article.status === 'rejected' && article.rejection_reason && (
+                        <div className="mt-1 text-[10px] text-red-600 dark:text-red-400 max-w-[200px] truncate" title={article.rejection_reason}>
+                          Lý do: {article.rejection_reason}
+                        </div>
+                      )}
+                    </div>
                   </td>
                   <td className="px-6 py-4">
                     <span className="text-sm text-gray-900 dark:text-white">{article.view_count.toLocaleString()}</span>

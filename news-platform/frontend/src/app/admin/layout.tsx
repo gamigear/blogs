@@ -13,6 +13,7 @@ const menuItems = [
     children: [
       { title: 'Tất cả bài viết', href: '/admin/articles' },
       { title: 'Chờ duyệt', href: '/admin/articles?status=pending_review', badge: 'pending' },
+      { title: 'Đã từ chối', href: '/admin/articles?status=rejected' },
       { title: 'Tạo mới', href: '/admin/articles/new' },
     ]
   },
