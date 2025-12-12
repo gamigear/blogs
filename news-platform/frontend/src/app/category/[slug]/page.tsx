@@ -47,6 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export const revalidate = 300;
+export const dynamicParams = true;
 
 export default async function CategoryPage({ params, searchParams }: Props) {
   const page = parseInt(searchParams.page || '1');

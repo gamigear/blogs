@@ -51,6 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export const revalidate = 300;
+export const dynamicParams = true;
 
 // Trending tags
 const trendingTags = ['#ces25', '#ai', '#iphone 16', '#goclamviec', '#trên tay'];
