@@ -63,6 +63,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [openMenus, setOpenMenus] = useState<string[]>(['Bài viết']);
   const [darkMode, setDarkMode] = useState(false); // Default: light mode
   const [mounted, setMounted] = useState(false);
+  const [pendingCount, setPendingCount] = useState(0);
+  const [showNotification, setShowNotification] = useState(false);
+
+  // Fetch pending articles count
+  useEffect(() => {
+    const fetchPendingCount = async () => {
+      try {
+        const res = await fetch('/api/admin/articles/pending-count');
+        if (res.ok) {
+          const data = await res.json();
+          setPendingCount(data.count || 0);
+        }
+      } catch (err) {
+        console.error('Failed to fetch pending count:', err);
+      }
+    };
+    
+    fetchPendingCount();
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchPendingCount, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Load saved preference from localStorage on mount
   useEffect(() => {
@@ -227,12 +249,73 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
             </Link>
-            <button className={`p-2.5 rounded-md transition-colors relative ${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-600'}`}>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-              <span className={`absolute top-1.5 right-1.5 w-2 h-2 rounded-full ${darkMode ? 'bg-blue-500' : 'bg-red-500'}`}></span>
-            </button>
+            {/* Pending Articles Notification */}
+            <div className="relative">
+              <button 
+                onClick={() => setShowNotification(!showNotification)}
+                className={`p-2.5 rounded-md transition-colors relative ${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-600'}`}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                {pendingCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full">
+                    {pendingCount > 99 ? '99+' : pendingCount}
+                  </span>
+                )}
+              </button>
+              
+              {/* Notification Dropdown */}
+              {showNotification && (
+                <div className={`absolute right-0 mt-2 w-80 rounded-lg shadow-lg border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+                  <div className={`px-4 py-3 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+                    <h3 className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Thông báo</h3>
+                  </div>
+                  <div className="max-h-80 overflow-y-auto">
+                    {pendingCount > 0 ? (
+                      <Link 
+                        href="/admin/articles?status=pending_review" 
+                        onClick={() => setShowNotification(false)}
+                        className={`flex items-start gap-3 px-4 py-3 transition-colors ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
+                      >
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
+                          <svg className="w-5 h-5 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className={`text-sm font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                            {pendingCount} bài viết chờ duyệt
+                          </p>
+                          <p className={`text-xs mt-0.5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                            Có bài viết mới từ người dùng cần được xét duyệt
+                          </p>
+                        </div>
+                        <span className="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-orange-500"></span>
+                      </Link>
+                    ) : (
+                      <div className={`px-4 py-8 text-center ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                        <svg className="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                        </svg>
+                        <p className="text-sm">Không có thông báo mới</p>
+                      </div>
+                    )}
+                  </div>
+                  {pendingCount > 0 && (
+                    <div className={`px-4 py-2 border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+                      <Link 
+                        href="/admin/articles?status=pending_review" 
+                        onClick={() => setShowNotification(false)}
+                        className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                      >
+                        Xem tất cả bài chờ duyệt →
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
             <button onClick={() => signOut({ callbackUrl: '/' })} className={`p-2.5 rounded-md transition-colors ${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-600'}`} title="Đăng xuất">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
