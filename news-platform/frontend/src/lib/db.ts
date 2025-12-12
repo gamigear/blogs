@@ -6,10 +6,10 @@ import { Pool, PoolClient } from 'pg';
 const poolConfig = process.env.DATABASE_URL
   ? {
       connectionString: process.env.DATABASE_URL,
-      max: 20,
+      max: 10,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 5000,
-      ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
+      ssl: { rejectUnauthorized: false },
     }
   : {
       host: process.env.DATABASE_HOST || 'localhost',
@@ -17,12 +17,19 @@ const poolConfig = process.env.DATABASE_URL
       database: process.env.DATABASE_NAME || 'newsplatform',
       user: process.env.DATABASE_USER || 'newsplatform',
       password: process.env.DATABASE_PASSWORD || 'secretpassword',
-      max: 20,
+      max: 10,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 5000,
     };
 
-const pool = new Pool(poolConfig);
+// Singleton pattern to prevent multiple pool instances during hot reload
+const globalForDb = globalThis as unknown as { pool: Pool | undefined };
+
+const pool = globalForDb.pool ?? new Pool(poolConfig);
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForDb.pool = pool;
+}
 
 // Log pool errors
 pool.on('error', (err) => {

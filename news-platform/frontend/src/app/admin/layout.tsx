@@ -108,10 +108,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Logo */}
         <div className={`h-16 flex items-center justify-between px-4 ${darkMode ? 'bg-gray-900' : 'border-b border-gray-200'}`}>
           <Link href="/admin" className="flex items-center gap-3">
-            <div className={`w-8 h-8 rounded-md flex items-center justify-center ${darkMode ? 'bg-white' : 'bg-blue-600'}`}>
-              <span className={`font-bold text-sm ${darkMode ? 'text-gray-900' : 'text-white'}`}>N</span>
-            </div>
-            {sidebarOpen && <span className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>News Admin</span>}
+            <img src="/logo.png" alt="Tinhte" className="h-8 w-auto" />
+            {sidebarOpen && <span className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Tinhte Admin</span>}
           </Link>
         </div>
 

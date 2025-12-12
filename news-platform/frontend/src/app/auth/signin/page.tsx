@@ -174,8 +174,8 @@ export default function SignInPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Link href="/" className="text-3xl font-bold text-indigo-600">
-            📰 Bobatea
+          <Link href="/" className="flex justify-center">
+            <img src="/logo.png" alt="Tinhte" className="h-12 w-auto" />
           </Link>
           <p className="text-gray-600 mt-2">Đăng nhập để tiếp tục</p>
         </div>

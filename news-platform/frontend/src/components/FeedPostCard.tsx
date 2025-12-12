@@ -42,9 +42,10 @@ export function FeedPostCard({ post, onLike, onBookmark }: Props) {
   const [showAllImages, setShowAllImages] = useState(false);
 
   const badge = getTrustLevelBadge(post.author.trust_level);
-  const hasImages = post.images && post.images.length > 0;
-  const displayImages = showAllImages ? post.images : post.images.slice(0, 4);
-  const remainingImages = post.images.length - 4;
+  const images = Array.isArray(post.images) ? post.images : [];
+  const hasImages = images.length > 0;
+  const displayImages = showAllImages ? images : images.slice(0, 4);
+  const remainingImages = images.length - 4;
 
   const handleLike = async () => {
     if (isLiking || !onLike) return;
