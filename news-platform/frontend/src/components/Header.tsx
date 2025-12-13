@@ -114,6 +114,16 @@ export function Header() {
               <div className="w-9 h-9 bg-gray-100 rounded-full animate-pulse" />
             ) : session ? (
               <>
+                {/* Write article button */}
+                <Link 
+                  href="/write" 
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-2 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary/90 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                  Viết bài
+                </Link>
                 <NotificationBell />
                 {isAdmin && (
                   <Link href="/admin" className="hidden sm:block text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded">
@@ -240,6 +250,19 @@ export function Header() {
           {session && (
             <>
               <div className="border-t my-2" />
+              
+              {/* Write article - Mobile */}
+              <Link
+                href="/write"
+                onClick={() => setShowSidebar(false)}
+                className="flex items-center gap-3 px-4 py-3 mx-4 my-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+                <span className="font-medium">Viết bài mới</span>
+              </Link>
+              
               <div className="px-4 py-3">
                 <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">Tài khoản</p>
                 <Link

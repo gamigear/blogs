@@ -1,13 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { searchArticles as algoliaSearch, isAlgoliaConfigured } from '@/lib/algolia';
-import { searchArticles as dbSearch } from '@/lib/strapi';
+import { searchArticles as dbSearch, advancedSearchArticles } from '@/lib/strapi';
 import { addSecurityHeaders, checkRateLimit } from '@/lib/security';
 
 export const dynamic = 'force-dynamic';
 
 /**
- * GET /api/search - Search articles
+ * GET /api/search - Search articles with advanced filters
  * Requirements: 5.1, 5.2
+ * 
+ * Query params:
+ * - q: keyword search
+ * - category: category slug filter
+ * - from: date from (YYYY-MM-DD)
+ * - to: date to (YYYY-MM-DD)
+ * - sort: newest | oldest | popular | views
+ * - page: page number (1-based)
+ * - limit: results per page (max 50)
  */
 export async function GET(req: NextRequest) {
   try {
@@ -24,66 +33,90 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const query = searchParams.get('q') || '';
-    const page = parseInt(searchParams.get('page') || '0');
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
     const limit = Math.min(parseInt(searchParams.get('limit') || '10'), 50);
     const category = searchParams.get('category') || undefined;
+    const dateFrom = searchParams.get('from') || undefined;
+    const dateTo = searchParams.get('to') || undefined;
+    const sortBy = (searchParams.get('sort') as 'newest' | 'oldest' | 'popular' | 'views') || 'newest';
 
-    if (!query || query.length < 2) {
+    // Check if advanced filters are used
+    const hasAdvancedFilters = category || dateFrom || dateTo || sortBy !== 'newest';
+
+    // If no query and no filters, return empty
+    if (!query && !hasAdvancedFilters) {
       return NextResponse.json({
         data: [],
-        meta: { query, total: 0, page: 0, totalPages: 0 },
+        meta: { query, total: 0, page: 1, totalPages: 0 },
       });
     }
 
-    // Use Algolia if configured, otherwise fallback to database search
-    if (isAlgoliaConfigured()) {
-      const filters = category ? `category:"${category}"` : undefined;
-      const result = await algoliaSearch(query, { page, hitsPerPage: limit, filters });
+    // Use advanced search if filters are present or Algolia is not configured
+    if (hasAdvancedFilters || !isAlgoliaConfigured()) {
+      const result = await advancedSearchArticles({
+        keyword: query,
+        categorySlug: category,
+        dateFrom,
+        dateTo,
+        sortBy,
+        page,
+        pageSize: limit,
+      });
 
       const response = NextResponse.json({
-        data: result.hits.map((hit) => ({
-          id: hit.objectID,
-          title: hit.title,
-          excerpt: hit.excerpt,
-          slug: hit.slug,
-          category: hit.category,
-          author: hit.author,
-          publishedAt: hit.publishedAt,
-          featuredImage: hit.featuredImage,
-          highlight: hit._highlightResult,
+        data: result.articles.map((article) => ({
+          id: article.id,
+          title: article.title,
+          excerpt: article.excerpt,
+          slug: article.slug,
+          category: article.category?.name,
+          categorySlug: article.category?.slug,
+          author: article.author?.name,
+          publishedAt: article.publishedAt,
+          featuredImage: article.featuredImage?.url,
+          viewCount: article.viewCount,
         })),
         meta: {
-          query: result.query,
-          total: result.nbHits,
+          query,
+          total: result.total,
           page: result.page,
-          totalPages: result.nbPages,
-          source: 'algolia',
+          totalPages: result.totalPages,
+          pageSize: result.pageSize,
+          source: 'database',
+          filters: {
+            category,
+            dateFrom,
+            dateTo,
+            sortBy,
+          },
         },
       });
 
       return addSecurityHeaders(response);
     }
 
-    // Fallback to PostgreSQL full-text search
-    const articles = await dbSearch(query, limit);
+    // Use Algolia for simple keyword search
+    const filters = category ? `category:"${category}"` : undefined;
+    const result = await algoliaSearch(query, { page: page - 1, hitsPerPage: limit, filters });
 
     const response = NextResponse.json({
-      data: articles.map((article) => ({
-        id: article.id,
-        title: article.title,
-        excerpt: article.excerpt,
-        slug: article.slug,
-        category: article.category?.name,
-        author: article.author?.name,
-        publishedAt: article.publishedAt,
-        featuredImage: article.featuredImage?.url,
+      data: result.hits.map((hit) => ({
+        id: hit.objectID,
+        title: hit.title,
+        excerpt: hit.excerpt,
+        slug: hit.slug,
+        category: hit.category,
+        author: hit.author,
+        publishedAt: hit.publishedAt,
+        featuredImage: hit.featuredImage,
+        highlight: hit._highlightResult,
       })),
       meta: {
-        query,
-        total: articles.length,
-        page: 0,
-        totalPages: 1,
-        source: 'database',
+        query: result.query,
+        total: result.nbHits,
+        page: result.page + 1,
+        totalPages: result.nbPages,
+        source: 'algolia',
       },
     });
 

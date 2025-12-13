@@ -1,5 +1,5 @@
-import { notFound } from 'next/navigation';
-import { query } from '@/lib/db';
+import { notFound, redirect } from 'next/navigation';
+import { query, queryOne } from '@/lib/db';
 import { ArticleEditor } from '@/components/admin/ArticleEditor';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
@@ -47,22 +47,47 @@ async function getArticleTags(articleId: number): Promise<number[]> {
   } catch { return []; }
 }
 
+async function getAuthorIdByUserId(userId: number): Promise<number | null> {
+  try {
+    // Query from users table since it has author_id reference
+    const user = await queryOne<{ author_id: number | null }>(`SELECT author_id FROM users WHERE id = $1`, [userId]);
+    return user?.author_id || null;
+  } catch { return null; }
+}
+
 export default async function EditArticlePage({ params }: Props) {
   const { id } = await params;
   const articleId = parseInt(id);
   if (isNaN(articleId)) notFound();
 
   const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    redirect('/auth/signin?callbackUrl=/admin/articles/' + articleId + '/edit');
+  }
+
   const userRole = (session?.user as any)?.role || '';
+  const userId = (session as any)?.userId; // userId is stored at session level
   const isAdmin = ['admin', 'editor', 'superadmin'].includes(userRole);
 
   const [article, categories, authors, tagIds] = await Promise.all([getArticle(articleId), getCategories(), getAuthors(), getArticleTags(articleId)]);
   if (!article) notFound();
 
+  // Check if user is author of this article
+  const userAuthorId = userId ? await getAuthorIdByUserId(userId) : null;
+  const isAuthor = userAuthorId && article.author_id === userAuthorId;
+
+  // Only allow admin or author to edit
+  if (!isAdmin && !isAuthor) {
+    redirect('/');
+  }
+
+  // Determine back URL based on user role
+  const backUrl = isAdmin ? '/admin/articles' : `/article/${article.slug}`;
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Link href="/admin/articles" className="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+        <Link href={backUrl} className="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
@@ -72,7 +97,7 @@ export default async function EditArticlePage({ params }: Props) {
           <p className="text-gray-500">ID: {article.id}</p>
         </div>
       </div>
-      <ArticleEditor categories={categories} authors={authors} article={article} initialTags={tagIds} isAdmin={isAdmin} />
+      <ArticleEditor categories={categories} authors={isAdmin ? authors : []} article={article} initialTags={tagIds} isAdmin={isAdmin} />
     </div>
   );
 }

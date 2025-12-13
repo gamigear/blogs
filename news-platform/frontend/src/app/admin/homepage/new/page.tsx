@@ -24,6 +24,7 @@ const SECTION_TYPES = [
   { value: 'tag_articles', label: 'Bài theo tag', description: 'Bài viết theo tag' },
   { value: 'manual_articles', label: 'Chọn thủ công', description: 'Tự chọn từng bài viết' },
   { value: 'sidebar_widget', label: 'Widget sidebar', description: 'Widget cho sidebar' },
+  { value: 'search_widget', label: 'Tìm kiếm nâng cao', description: 'Widget tìm kiếm với bộ lọc' },
 ];
 
 const SELECTION_TYPES = [

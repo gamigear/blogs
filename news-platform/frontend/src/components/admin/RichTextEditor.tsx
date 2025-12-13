@@ -47,7 +47,7 @@ export default function RichTextEditor({
     'bold', 'italic', 'underline', 'strike',
     'color', 'background',
     'script',
-    'list', 'bullet', 'indent',
+    'list', 'indent',
     'direction', 'align',
     'blockquote', 'code-block',
     'link', 'image', 'video'

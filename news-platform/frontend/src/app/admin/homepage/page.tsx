@@ -25,6 +25,7 @@ const SECTION_TYPES: Record<string, string> = {
   tag_articles: 'Bài theo tag',
   manual_articles: 'Chọn thủ công',
   sidebar_widget: 'Widget sidebar',
+  search_widget: 'Tìm kiếm nâng cao',
   banner: 'Banner quảng cáo',
   custom_html: 'HTML tùy chỉnh',
 };

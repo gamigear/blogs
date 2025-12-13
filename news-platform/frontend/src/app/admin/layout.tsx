@@ -12,20 +12,11 @@ const menuItems = [
     icon: 'article',
     children: [
       { title: 'Tất cả bài viết', href: '/admin/articles' },
-      { title: 'Chờ duyệt', href: '/admin/articles?status=pending_review', badge: 'pending' },
-      { title: 'Đã từ chối', href: '/admin/articles?status=rejected' },
-      { title: 'Tạo mới', href: '/admin/articles/new' },
-    ]
-  },
-  { title: 'Media', href: '/admin/media', icon: 'media' },
-  { 
-    title: 'Phân loại', 
-    icon: 'category',
-    children: [
       { title: 'Danh mục', href: '/admin/categories' },
       { title: 'Tags', href: '/admin/tags' },
     ]
   },
+  { title: 'Media', href: '/admin/media', icon: 'media' },
   { 
     title: 'Trang', 
     icon: 'page',
@@ -392,6 +383,11 @@ function MenuIcon({ name }: { name: string }) {
     code: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+      </svg>
+    ),
+    tag: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
       </svg>
     ),
   };

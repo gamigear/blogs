@@ -159,28 +159,54 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
+    const search = searchParams.get('search');
+    const categoryId = searchParams.get('category_id');
     const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '20');
+    const limit = parseInt(searchParams.get('limit') || '100');
     const offset = (page - 1) * limit;
 
-    let whereClause = '';
-    const params: any[] = [limit, offset];
+    const conditions: string[] = [];
+    const params: any[] = [];
+    let paramIndex = 1;
 
     if (status) {
-      whereClause = 'WHERE a.status = $3';
+      conditions.push(`a.status = $${paramIndex}`);
       params.push(status);
+      paramIndex++;
     }
+
+    if (categoryId) {
+      conditions.push(`a.category_id = $${paramIndex}`);
+      params.push(parseInt(categoryId));
+      paramIndex++;
+    }
+
+    if (search) {
+      conditions.push(`(a.title ILIKE $${paramIndex} OR au.name ILIKE $${paramIndex})`);
+      params.push(`%${search}%`);
+      paramIndex++;
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+    
+    params.push(limit);
+    params.push(offset);
 
     const articles = await query(`
       SELECT 
         a.id, a.title, a.slug, a.status, a.published_at, a.created_at,
-        a.view_count, u.display_name as author_name, c.name as category_name
+        COALESCE(a.view_count, 0) as view_count, 
+        au.name as author_name, c.name as category_name, a.category_id,
+        a.reviewed_at, rv.display_name as reviewer_name, a.rejection_reason
       FROM articles a
-      LEFT JOIN users u ON a.author_id = u.id
+      LEFT JOIN authors au ON a.author_id = au.id
       LEFT JOIN categories c ON a.category_id = c.id
+      LEFT JOIN users rv ON a.reviewed_by = rv.id
       ${whereClause}
-      ORDER BY a.created_at DESC
-      LIMIT $1 OFFSET $2
+      ORDER BY 
+        CASE WHEN a.status = 'pending_review' THEN 0 WHEN a.status = 'rejected' THEN 1 ELSE 2 END,
+        a.created_at DESC
+      LIMIT $${paramIndex} OFFSET $${paramIndex + 1}
     `, params);
 
     return NextResponse.json({ articles });

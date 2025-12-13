@@ -27,6 +27,9 @@ interface Comment {
  */
 export async function GET(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+    const userId = (session as any)?.userId || null;
+    
     const { searchParams } = new URL(req.url);
     const article_id = searchParams.get('article_id');
     const page = parseInt(searchParams.get('page') || '1');
@@ -41,12 +44,13 @@ export async function GET(req: NextRequest) {
     const orderBy = sort === 'oldest' ? 'ASC' : sort === 'popular' ? 'DESC' : 'DESC';
     const orderColumn = sort === 'popular' ? 'likes_count' : 'created_at';
 
-    // Chỉ lấy comments đã được duyệt
+    // Chỉ lấy comments đã được duyệt, kèm theo is_liked nếu user đăng nhập
     const [comments, countResult] = await Promise.all([
-      query<Comment>(
+      query<Comment & { is_liked: boolean }>(
         `SELECT c.id, c.article_id, c.user_id, c.parent_id, c.content, c.status,
           c.likes_count, c.replies_count, c.is_pinned, c.created_at,
-          u.display_name as user_name, u.avatar as user_avatar
+          u.display_name as user_name, u.avatar as user_avatar,
+          ${userId ? `EXISTS(SELECT 1 FROM comment_likes cl WHERE cl.comment_id = c.id AND cl.user_id = ${userId})` : 'false'} as is_liked
         FROM comments c
         LEFT JOIN users u ON c.user_id = u.id
         WHERE c.article_id = $1 AND c.status = 'approved' AND c.parent_id IS NULL
@@ -65,10 +69,11 @@ export async function GET(req: NextRequest) {
     const commentsWithReplies = await Promise.all(
       comments.map(async (comment) => {
         if (comment.replies_count > 0) {
-          const replies = await query<Comment>(
+          const replies = await query<Comment & { is_liked: boolean }>(
             `SELECT c.id, c.article_id, c.user_id, c.parent_id, c.content, c.status,
               c.likes_count, c.replies_count, c.is_pinned, c.created_at,
-              u.display_name as user_name, u.avatar as user_avatar
+              u.display_name as user_name, u.avatar as user_avatar,
+              ${userId ? `EXISTS(SELECT 1 FROM comment_likes cl WHERE cl.comment_id = c.id AND cl.user_id = ${userId})` : 'false'} as is_liked
             FROM comments c
             LEFT JOIN users u ON c.user_id = u.id
             WHERE c.parent_id = $1 AND c.status = 'approved'
@@ -149,22 +154,47 @@ export async function POST(req: NextRequest) {
 
     // Xác định trạng thái comment
     let status = 'approved';
+    const sessionUserId = (session as any)?.userId || null;
     
-    if (settings.general.require_approval) {
-      status = 'pending';
-    } else if (filterResult.needsReview) {
-      status = 'pending';
-    } else if (settings.moderation.new_user_moderation && session?.user?.id) {
-      // Kiểm tra người dùng mới
-      const user = await queryOne<{ created_at: string }>(
-        'SELECT created_at FROM users WHERE id = $1',
-        [parseInt(session.user.id)]
+    // Lấy thông tin user để kiểm tra trust level
+    let userTrustLevel = 0;
+    let userCreatedAt: Date | null = null;
+    
+    if (sessionUserId) {
+      const user = await queryOne<{ trust_level: number; created_at: string }>(
+        'SELECT trust_level, created_at FROM users WHERE id = $1',
+        [sessionUserId]
       );
       if (user) {
-        const daysSinceCreation = Math.floor(
-          (Date.now() - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24)
-        );
-        if (daysSinceCreation < settings.moderation.new_user_threshold_days) {
+        userTrustLevel = user.trust_level || 0;
+        userCreatedAt = new Date(user.created_at);
+      }
+    }
+    
+    // Logic xét duyệt comment
+    if (filterResult.needsReview) {
+      // Nội dung cần review luôn pending
+      status = 'pending';
+    } else if (settings.general.require_approval) {
+      // Yêu cầu duyệt tất cả comment
+      if (settings.general.auto_approve_trusted_users && 
+          userTrustLevel >= (settings.general.trusted_user_min_trust_level || 3)) {
+        // Tự động duyệt cho user có trust level đủ cao
+        status = 'approved';
+      } else {
+        status = 'pending';
+      }
+    } else if (settings.moderation.new_user_moderation && userCreatedAt) {
+      // Kiểm tra người dùng mới
+      const daysSinceCreation = Math.floor(
+        (Date.now() - userCreatedAt.getTime()) / (1000 * 60 * 60 * 24)
+      );
+      if (daysSinceCreation < settings.moderation.new_user_threshold_days) {
+        // User mới nhưng có trust level cao vẫn được auto-approve
+        if (settings.general.auto_approve_trusted_users && 
+            userTrustLevel >= (settings.general.trusted_user_min_trust_level || 3)) {
+          status = 'approved';
+        } else {
           status = 'pending';
         }
       }
@@ -188,7 +218,7 @@ export async function POST(req: NextRequest) {
       RETURNING *`,
       [
         article_id,
-        session?.user?.id ? parseInt(session.user.id) : null,
+        sessionUserId,
         parent_id || null,
         finalContent,
         status,

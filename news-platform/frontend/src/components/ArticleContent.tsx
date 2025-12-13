@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Article } from '@/types';
 import { renderMarkdown, extractTableOfContents } from '@/lib/markdown';
+import { EditArticleButton } from './EditArticleButton';
 
 interface Props {
   article: Article;
@@ -83,7 +84,7 @@ export function ArticleContent({ article, showToc = true }: Props) {
               </button>
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-500 mt-0.5" suppressHydrationWarning>
-              <time dateTime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+              <time suppressHydrationWarning>{formatDate(article.publishedAt)}</time>
               <span>•</span>
               <span>Phản hồi: {article.viewCount || 0}</span>
             </div>
@@ -92,11 +93,7 @@ export function ArticleContent({ article, showToc = true }: Props) {
 
         {/* Action buttons */}
         <div className="flex items-center gap-1">
-          <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors" title="Chỉnh sửa">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
-          </button>
+          <EditArticleButton articleId={article.id} authorUserId={article.author?.userId} />
           <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors" title="Chia sẻ">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
@@ -142,13 +139,13 @@ export function ArticleContent({ article, showToc = true }: Props) {
 
       {/* Article Content */}
       <div
-        className="prose prose-lg max-w-none"
+        className="prose max-w-none prose-sm"
         dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
 
       {/* Tags */}
       <div className="mt-8 pt-6 border-t">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 justify-center">
           {article.category && (
             <Link 
               href={`/category/${article.category.slug}`}
@@ -160,8 +157,8 @@ export function ArticleContent({ article, showToc = true }: Props) {
         </div>
       </div>
 
-      {/* Author bio */}
-      {article.author?.bio && (
+      {/* Author bio - Hidden */}
+      {/* {article.author?.bio && (
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
@@ -185,7 +182,7 @@ export function ArticleContent({ article, showToc = true }: Props) {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

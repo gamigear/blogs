@@ -40,10 +40,13 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    const userRole = (session?.user as any)?.role || '';
-    const userId = (session?.user as any)?.id;
-    if (!session?.user || !['admin'].includes(userRole)) {
-      return NextResponse.json({ error: 'Unauthorized - Admin only' }, { status: 401 });
+    const userRole = (session?.user as any)?.role || (session as any)?.roles?.[0] || '';
+    const userId = (session as any)?.userId || null;
+    
+    console.log('PATCH settings - session:', { userRole, userId, roles: (session as any)?.roles });
+    
+    if (!session?.user || !['admin', 'superadmin'].includes(userRole)) {
+      return NextResponse.json({ error: `Unauthorized - Admin only. Your role: ${userRole}` }, { status: 401 });
     }
 
     const body = await request.json();
@@ -65,7 +68,12 @@ export async function PATCH(request: NextRequest) {
       [key, jsonValue, userId]
     );
 
-    await logAuditAction(userId, 'update_setting', 'site_settings', null, { key });
+    // Log audit action (ignore errors)
+    try {
+      await logAuditAction(userId, 'update_setting', 'site_settings', null, { key });
+    } catch (auditError) {
+      console.warn('Audit log failed:', auditError);
+    }
 
     return NextResponse.json({ success: true, message: 'Setting saved successfully' });
   } catch (error: any) {

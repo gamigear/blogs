@@ -1,20 +1,72 @@
 import Link from 'next/link';
-import { searchArticles } from '@/lib/algolia';
+import { advancedSearchArticles, getCategories, getArticles } from '@/lib/strapi';
 import { ArticleListItem } from '@/components/ArticleListItem';
 import { NewsSidebar } from '@/components/NewsSidebar';
-import { getArticles, getCategories } from '@/lib/strapi';
+import { ArticleFilter } from '@/components/ArticleFilter';
 
 interface Props {
-  searchParams: { q?: string };
+  searchParams: Promise<{ 
+    q?: string;
+    category?: string;
+    from?: string;
+    to?: string;
+    sort?: string;
+    page?: string;
+  }>;
 }
 
 export default async function SearchPage({ searchParams }: Props) {
-  const query = searchParams.q || '';
-  const [results, latestArticles, categories] = await Promise.all([
-    query ? searchArticles(query) : Promise.resolve({ hits: [] }),
+  const params = await searchParams;
+  const keyword = params.q || '';
+  const categorySlug = params.category || '';
+  const dateFrom = params.from || '';
+  const dateTo = params.to || '';
+  const sortBy = (params.sort as 'newest' | 'oldest' | 'popular' | 'views') || 'newest';
+  const page = parseInt(params.page || '1');
+
+  const hasFilters = keyword || categorySlug || dateFrom || dateTo;
+
+  // Always search - if no keyword, show all articles with filters
+  const [searchResult, latestArticles, categories] = await Promise.all([
+    advancedSearchArticles({
+      keyword: keyword || undefined,
+      categorySlug: categorySlug || undefined,
+      dateFrom: dateFrom || undefined,
+      dateTo: dateTo || undefined,
+      sortBy,
+      page,
+      pageSize: 10,
+    }),
     getArticles(1, 10),
     getCategories(),
   ]);
+
+  // Build pagination URL
+  const buildPageUrl = (pageNum: number) => {
+    const params = new URLSearchParams();
+    if (keyword) params.set('q', keyword);
+    if (categorySlug) params.set('category', categorySlug);
+    if (dateFrom) params.set('from', dateFrom);
+    if (dateTo) params.set('to', dateTo);
+    if (sortBy !== 'newest') params.set('sort', sortBy);
+    params.set('page', pageNum.toString());
+    return `/search?${params.toString()}`;
+  };
+
+  // Get active filter labels
+  const getActiveFilters = () => {
+    const filters: { label: string; value: string }[] = [];
+    if (keyword) filters.push({ label: 'Từ khóa', value: keyword });
+    if (categorySlug) {
+      const cat = categories.find(c => c.slug === categorySlug);
+      filters.push({ label: 'Danh mục', value: cat?.name || categorySlug });
+    }
+    if (dateFrom) filters.push({ label: 'Từ ngày', value: dateFrom });
+    if (dateTo) filters.push({ label: 'Đến ngày', value: dateTo });
+    return filters;
+  };
+
+  const activeFilters = getActiveFilters();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -30,75 +82,123 @@ export default async function SearchPage({ searchParams }: Props) {
           {/* Main content */}
           <div className="lg:col-span-2">
             <div className="section-header">
-              <h1 className="section-title">Tìm kiếm</h1>
+              <h1 className="section-title">Tìm kiếm bài viết</h1>
             </div>
 
-            {/* Search form */}
-            <form action="/search" method="GET" className="mb-6">
-              <div className="relative">
-                <input
-                  type="text"
-                  name="q"
-                  defaultValue={query}
-                  placeholder="Nhập từ khóa tìm kiếm..."
-                  className="w-full px-4 py-3 pr-12 text-base border border-gray-200 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-                />
-                <button 
-                  type="submit" 
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </button>
-              </div>
-            </form>
+            {/* Advanced Filter Component */}
+            <ArticleFilter 
+              categories={categories}
+              initialFilters={{
+                keyword,
+                category: categorySlug,
+                dateFrom,
+                dateTo,
+                sortBy,
+              }}
+            />
 
-            {query && (
-              <div>
-                <p className="text-gray-600 mb-4">
-                  Tìm thấy <span className="font-semibold text-primary">{results.hits.length}</span> kết quả cho "<span className="font-medium">{query}</span>"
-                </p>
-                
-                {results.hits.length === 0 ? (
-                  <div className="bg-white rounded-lg border border-gray-100 p-8 text-center">
-                    <div className="text-4xl mb-4">🔍</div>
-                    <p className="text-gray-500 mb-4">Không tìm thấy kết quả nào.</p>
-                    <p className="text-sm text-gray-400">Thử từ khóa khác hoặc kiểm tra lại chính tả.</p>
-                  </div>
+            {/* Active filters display */}
+            {activeFilters.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <span className="text-sm text-gray-500">Đang lọc:</span>
+                {activeFilters.map((filter, idx) => (
+                  <span 
+                    key={idx}
+                    className="inline-flex items-center px-3 py-1 bg-primary/10 text-primary text-sm rounded-full"
+                  >
+                    {filter.label}: {filter.value}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* Search Results */}
+            <div>
+              <p className="text-gray-600 mb-4">
+                {hasFilters ? (
+                  <>
+                    Tìm thấy <span className="font-semibold text-primary">{searchResult.total}</span> kết quả
+                    {keyword && <> cho "<span className="font-medium">{keyword}</span>"</>}
+                  </>
                 ) : (
-                  <div className="bg-white rounded-lg border border-gray-100">
-                    {results.hits.map((hit: any) => (
-                      <ArticleListItem
-                        key={hit.objectID}
-                        article={{
-                          id: hit.objectID,
-                          slug: hit.slug,
-                          title: hit.title,
-                          excerpt: hit.excerpt,
-                          content: '',
-                          publishedAt: hit.publishedAt,
-                          featuredImage: hit.featuredImage ? { url: hit.featuredImage, alt: hit.title } : undefined,
-                          category: { id: 0, name: hit.category, slug: hit.categorySlug || '' },
-                          author: { id: 0, name: hit.author },
-                          createdAt: '',
-                          updatedAt: '',
-                        }}
-                        imageSize="medium"
-                      />
-                    ))}
-                  </div>
+                  <>
+                    Hiển thị <span className="font-semibold text-primary">{searchResult.total}</span> bài viết
+                  </>
                 )}
-              </div>
-            )}
+              </p>
+              
+              {searchResult.articles.length === 0 ? (
+                <div className="bg-white rounded-lg border border-gray-100 p-8 text-center">
+                  <div className="text-4xl mb-4">🔍</div>
+                  <p className="text-gray-500 mb-4">Không tìm thấy kết quả nào.</p>
+                  <p className="text-sm text-gray-400">Thử từ khóa khác hoặc điều chỉnh bộ lọc.</p>
+                </div>
+              ) : (
+                  <>
+                    <div className="bg-white rounded-lg border border-gray-100">
+                      {searchResult.articles.map((article) => (
+                        <ArticleListItem
+                          key={article.id}
+                          article={article}
+                          imageSize="medium"
+                        />
+                      ))}
+                    </div>
 
-            {!query && (
-              <div className="bg-white rounded-lg border border-gray-100 p-8 text-center">
-                <div className="text-4xl mb-4">🔍</div>
-                <p className="text-gray-600 mb-2">Nhập từ khóa để tìm kiếm bài viết</p>
-                <p className="text-sm text-gray-400">Ví dụ: công nghệ, kinh tế, thể thao...</p>
-              </div>
-            )}
+                    {/* Pagination */}
+                    {searchResult.totalPages > 1 && (
+                      <div className="flex items-center justify-center gap-2 mt-6">
+                        {page > 1 && (
+                          <Link
+                            href={buildPageUrl(page - 1)}
+                            className="px-4 py-2 text-sm bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                          >
+                            ← Trước
+                          </Link>
+                        )}
+                        
+                        <div className="flex items-center gap-1">
+                          {Array.from({ length: Math.min(5, searchResult.totalPages) }, (_, i) => {
+                            let pageNum: number;
+                            if (searchResult.totalPages <= 5) {
+                              pageNum = i + 1;
+                            } else if (page <= 3) {
+                              pageNum = i + 1;
+                            } else if (page >= searchResult.totalPages - 2) {
+                              pageNum = searchResult.totalPages - 4 + i;
+                            } else {
+                              pageNum = page - 2 + i;
+                            }
+                            
+                            return (
+                              <Link
+                                key={pageNum}
+                                href={buildPageUrl(pageNum)}
+                                className={`px-3 py-2 text-sm rounded-lg transition-colors ${
+                                  pageNum === page
+                                    ? 'bg-primary text-white'
+                                    : 'bg-white border border-gray-200 hover:bg-gray-50'
+                                }`}
+                              >
+                                {pageNum}
+                              </Link>
+                            );
+                          })}
+                        </div>
+
+                        {page < searchResult.totalPages && (
+                          <Link
+                            href={buildPageUrl(page + 1)}
+                            className="px-4 py-2 text-sm bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                          >
+                            Sau →
+                          </Link>
+                        )}
+                      </div>
+                    )}
+                  </>
+                )}
+            </div>
           </div>
 
           {/* Sidebar */}
@@ -112,13 +212,28 @@ export default async function SearchPage({ searchParams }: Props) {
                 {categories.map((cat) => (
                   <Link
                     key={cat.id}
-                    href={`/category/${cat.slug}`}
-                    className="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-primary hover:text-white transition-colors"
+                    href={`/search?category=${cat.slug}`}
+                    className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
+                      categorySlug === cat.slug
+                        ? 'bg-primary text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-primary hover:text-white'
+                    }`}
                   >
                     {cat.name}
                   </Link>
                 ))}
               </div>
+            </aside>
+
+            {/* Search tips */}
+            <aside className="bg-blue-50 rounded-lg p-4 border border-blue-100">
+              <h3 className="font-semibold text-blue-900 mb-2">💡 Mẹo tìm kiếm</h3>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Sử dụng từ khóa ngắn gọn, chính xác</li>
+                <li>• Lọc theo danh mục để thu hẹp kết quả</li>
+                <li>• Chọn khoảng thời gian cụ thể</li>
+                <li>• Sắp xếp theo độ phổ biến để xem bài hot</li>
+              </ul>
             </aside>
           </div>
         </div>

@@ -45,17 +45,39 @@ export async function GET(request: NextRequest, { params }: Props) {
 
 /**
  * PATCH /api/admin/articles/[id] - Update article
+ * Allows admin/editor or the article's author to update
  */
 export async function PATCH(request: NextRequest, { params }: Props) {
   try {
     const { id } = await params;
     const session = await getServerSession(authOptions);
-    const userRole = (session?.user as any)?.role || '';
-    if (!session?.user || !['admin', 'editor'].includes(userRole)) {
+    if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const userRole = (session?.user as any)?.role || '';
+    const userId = (session as any)?.userId; // userId is stored at session level
+    const isAdmin = ['admin', 'editor', 'superadmin'].includes(userRole);
+
     const articleId = parseInt(id);
+
+    // Check if user is author of this article
+    let isAuthor = false;
+    if (!isAdmin && userId) {
+      const authorCheck = await query(
+        `SELECT a.id FROM articles a 
+         INNER JOIN users u ON u.author_id = a.author_id 
+         WHERE a.id = $1 AND u.id = $2`,
+        [articleId, userId]
+      );
+      isAuthor = authorCheck.length > 0;
+    }
+
+    // Only allow admin or author to update
+    if (!isAdmin && !isAuthor) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { title, slug, excerpt, content, category_id, status, featured_image, seo, tag_ids } = body;
 
@@ -79,12 +101,18 @@ export async function PATCH(request: NextRequest, { params }: Props) {
       values.push(readingTime);
     }
     if (category_id) { updates.push('category_id = $' + paramIndex++); values.push(category_id); }
-    if (status) {
+    
+    // Handle status - if author (not admin) edits, set to pending_review
+    if (isAdmin && status) {
       updates.push('status = $' + paramIndex++);
       values.push(status);
       if (status === 'published') {
         updates.push('published_at = COALESCE(published_at, NOW())');
       }
+    } else if (isAuthor && !isAdmin) {
+      // Author editing their article - set to pending_review for re-approval
+      updates.push('status = $' + paramIndex++);
+      values.push('pending_review');
     }
     if (featured_image !== undefined) { updates.push('featured_image = $' + paramIndex++); values.push(featured_image); }
     if (seo) { updates.push('seo = $' + paramIndex++); values.push(JSON.stringify(seo)); }

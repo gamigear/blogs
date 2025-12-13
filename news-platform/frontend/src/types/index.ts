@@ -31,6 +31,7 @@ export interface Author {
   name: string;
   avatar?: string;
   bio?: string;
+  userId?: number;
 }
 
 export interface CommunityPost {

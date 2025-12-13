@@ -8,6 +8,7 @@ import { NewsSidebar, SidebarWithImage } from '@/components/NewsSidebar';
 import { CategorySection } from '@/components/CategorySection';
 import { ArticleListItem } from '@/components/ArticleListItem';
 import { FeedPreview } from '@/components/FeedPreview';
+import { SearchWidget } from '@/components/SearchWidget';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -51,6 +52,10 @@ export default async function HomePage() {
   const topFeaturedSection = getSection(mainSections, 'top_featured');
   const latestSidebarSection = getSection(sidebarSections, 'latest_sidebar');
   const popularSidebarSection = getSection(sidebarSections, 'popular_sidebar');
+  
+  // Check if search widget is enabled in sidebar sections
+  const searchWidgetSection = sidebarSections.find(s => s.section_type === 'search_widget' && s.is_visible);
+  const showSearchWidget = searchWidgetSection !== undefined;
 
   // Use section data if available, otherwise fallback to default
   const sliderArticles = heroSection?.articles?.length 
@@ -167,6 +172,11 @@ export default async function HomePage() {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Search Widget - controlled by admin */}
+            {showSearchWidget && (
+              <SearchWidget categories={categories} />
+            )}
+
             {/* Latest news */}
             <div className="bg-white rounded-lg p-4">
               <NewsSidebar articles={latestArticles} title="Xem nhanh" />

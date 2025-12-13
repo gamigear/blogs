@@ -16,6 +16,7 @@ interface ArticleRow {
   author_name: string;
   author_bio: string | null;
   author_avatar: string | null;
+  author_user_id: number | null;
   status: string;
   source_type: string;
   discourse_topic_id: number | null;
@@ -77,6 +78,7 @@ function mapArticle(row: ArticleRow): Article {
       name: row.author_name,
       bio: row.author_bio || undefined,
       avatar: row.author_avatar || undefined,
+      userId: row.author_user_id || undefined,
     },
     publishedAt: row.published_at,
     createdAt: row.created_at,
@@ -98,10 +100,12 @@ export async function getArticles(page = 1, pageSize = 10): Promise<Article[]> {
   const rows = await query<ArticleRow>(
     `SELECT a.*, 
             c.name as category_name, c.slug as category_slug,
-            au.name as author_name, au.bio as author_bio, au.avatar as author_avatar
+            au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
+            u.id as author_user_id
      FROM articles a
      LEFT JOIN categories c ON a.category_id = c.id
      LEFT JOIN authors au ON a.author_id = au.id
+     LEFT JOIN users u ON u.author_id = au.id
      WHERE a.status = 'published'
      ORDER BY a.published_at DESC NULLS LAST
      LIMIT $1 OFFSET $2`,
@@ -114,10 +118,12 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const row = await queryOne<ArticleRow>(
     `SELECT a.*, 
             c.name as category_name, c.slug as category_slug,
-            au.name as author_name, au.bio as author_bio, au.avatar as author_avatar
+            au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
+            u.id as author_user_id
      FROM articles a
      LEFT JOIN categories c ON a.category_id = c.id
      LEFT JOIN authors au ON a.author_id = au.id
+     LEFT JOIN users u ON u.author_id = au.id
      WHERE a.slug = $1 AND a.status = 'published'`,
     [slug]
   );
@@ -129,10 +135,12 @@ export async function getArticlesByCategory(categorySlug: string, page = 1, page
   const rows = await query<ArticleRow>(
     `SELECT a.*, 
             c.name as category_name, c.slug as category_slug,
-            au.name as author_name, au.bio as author_bio, au.avatar as author_avatar
+            au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
+            u.id as author_user_id
      FROM articles a
      LEFT JOIN categories c ON a.category_id = c.id
      LEFT JOIN authors au ON a.author_id = au.id
+     LEFT JOIN users u ON u.author_id = au.id
      WHERE c.slug = $1 AND a.status = 'published'
      ORDER BY a.published_at DESC NULLS LAST
      LIMIT $2 OFFSET $3`,
@@ -145,10 +153,12 @@ export async function getFeaturedArticles(limit = 5): Promise<Article[]> {
   const rows = await query<ArticleRow>(
     `SELECT a.*, 
             c.name as category_name, c.slug as category_slug,
-            au.name as author_name, au.bio as author_bio, au.avatar as author_avatar
+            au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
+            u.id as author_user_id
      FROM articles a
      LEFT JOIN categories c ON a.category_id = c.id
      LEFT JOIN authors au ON a.author_id = au.id
+     LEFT JOIN users u ON u.author_id = au.id
      WHERE a.status = 'published' AND a.is_featured = TRUE
      ORDER BY a.published_at DESC NULLS LAST
      LIMIT $1`,
@@ -287,10 +297,12 @@ export async function searchArticles(searchQuery: string, limit = 20): Promise<A
   const rows = await query<ArticleRow>(
     `SELECT a.*, 
             c.name as category_name, c.slug as category_slug,
-            au.name as author_name, au.bio as author_bio, au.avatar as author_avatar
+            au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
+            u.id as author_user_id
      FROM articles a
      LEFT JOIN categories c ON a.category_id = c.id
      LEFT JOIN authors au ON a.author_id = au.id
+     LEFT JOIN users u ON u.author_id = au.id
      WHERE a.status = 'published'
        AND (
          a.title ILIKE $1 
@@ -302,4 +314,121 @@ export async function searchArticles(searchQuery: string, limit = 20): Promise<A
     [`%${searchQuery}%`, limit]
   );
   return rows.map(mapArticle);
+}
+
+// ============================================
+// ADVANCED SEARCH WITH FILTERS
+// ============================================
+
+export interface SearchFilters {
+  keyword?: string;
+  categorySlug?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  sortBy?: 'newest' | 'oldest' | 'popular' | 'views';
+  page?: number;
+  pageSize?: number;
+}
+
+export interface SearchResult {
+  articles: Article[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+export async function advancedSearchArticles(filters: SearchFilters): Promise<SearchResult> {
+  const {
+    keyword = '',
+    categorySlug,
+    dateFrom,
+    dateTo,
+    sortBy = 'newest',
+    page = 1,
+    pageSize = 10,
+  } = filters;
+
+  const conditions: string[] = ["a.status = 'published'"];
+  const params: any[] = [];
+  let paramIndex = 1;
+
+  // Keyword filter
+  if (keyword.trim()) {
+    conditions.push(`(a.title ILIKE $${paramIndex} OR a.excerpt ILIKE $${paramIndex} OR a.content ILIKE $${paramIndex})`);
+    params.push(`%${keyword.trim()}%`);
+    paramIndex++;
+  }
+
+  // Category filter
+  if (categorySlug) {
+    conditions.push(`c.slug = $${paramIndex}`);
+    params.push(categorySlug);
+    paramIndex++;
+  }
+
+  // Date from filter
+  if (dateFrom) {
+    conditions.push(`a.published_at >= $${paramIndex}`);
+    params.push(dateFrom);
+    paramIndex++;
+  }
+
+  // Date to filter
+  if (dateTo) {
+    conditions.push(`a.published_at <= $${paramIndex}`);
+    params.push(dateTo + ' 23:59:59');
+    paramIndex++;
+  }
+
+  const whereClause = conditions.join(' AND ');
+
+  // Sort order
+  let orderBy = 'a.published_at DESC NULLS LAST';
+  switch (sortBy) {
+    case 'oldest':
+      orderBy = 'a.published_at ASC NULLS LAST';
+      break;
+    case 'popular':
+      orderBy = 'a.view_count DESC, a.published_at DESC NULLS LAST';
+      break;
+    case 'views':
+      orderBy = 'a.view_count DESC';
+      break;
+  }
+
+  // Get total count
+  const countResult = await queryOne<{ count: string }>(
+    `SELECT COUNT(*) as count
+     FROM articles a
+     LEFT JOIN categories c ON a.category_id = c.id
+     WHERE ${whereClause}`,
+    params
+  );
+  const total = parseInt(countResult?.count || '0');
+
+  // Get paginated results
+  const offset = (page - 1) * pageSize;
+  const rows = await query<ArticleRow>(
+    `SELECT a.*, 
+            c.name as category_name, c.slug as category_slug,
+            au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
+            u.id as author_user_id
+     FROM articles a
+     LEFT JOIN categories c ON a.category_id = c.id
+     LEFT JOIN authors au ON a.author_id = au.id
+     LEFT JOIN users u ON u.author_id = au.id
+     WHERE ${whereClause}
+     ORDER BY ${orderBy}
+     LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`,
+    [...params, pageSize, offset]
+  );
+
+  return {
+    articles: rows.map(mapArticle),
+    total,
+    page,
+    pageSize,
+    totalPages: Math.ceil(total / pageSize),
+  };
 }
