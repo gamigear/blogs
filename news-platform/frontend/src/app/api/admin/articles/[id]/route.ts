@@ -130,8 +130,8 @@ export async function PATCH(request: NextRequest, { params }: Props) {
       }
     }
 
-    const userId = (session?.user as any)?.id;
-    await logAuditAction(userId, 'update_article', 'article', articleId, { changes: Object.keys(body) });
+    const auditUserId = (session?.user as any)?.id;
+    await logAuditAction(auditUserId, 'update_article', 'article', articleId, { changes: Object.keys(body) });
 
     return NextResponse.json({ success: true });
   } catch (error) {
