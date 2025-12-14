@@ -175,7 +175,7 @@ export default function SignInPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="flex justify-center">
-            <img src="/logo.png" alt="Tinhte" className="h-12 w-auto" />
+            <img src="https://pub-b581b7bec14c432a8cc28d969fc3fb1a.r2.dev/static/logo.webp" alt="Tinhte" className="h-12 w-auto" />
           </Link>
           <p className="text-gray-600 mt-2">Đăng nhập để tiếp tục</p>
         </div>

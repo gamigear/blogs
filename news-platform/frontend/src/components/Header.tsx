@@ -78,7 +78,7 @@ export function Header() {
             ) : (
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
-                src="/logo.png"
+                src="https://pub-b581b7bec14c432a8cc28d969fc3fb1a.r2.dev/static/logo.webp"
                 alt={settings.general.site_name || 'Logo'}
                 className="h-10 w-auto"
                 onError={(e) => {
