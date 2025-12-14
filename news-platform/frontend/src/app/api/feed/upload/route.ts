@@ -4,8 +4,9 @@ import { authOptions } from '@/lib/auth';
 import { queryOne } from '@/lib/db';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import sharp from 'sharp';
+import crypto from 'crypto';
 
-const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
 // R2 Configuration
@@ -25,40 +26,31 @@ const s3Client = new S3Client({
 });
 
 /**
- * POST /api/users/[username]/upload - Upload avatar or cover image to R2
+ * POST /api/feed/upload - Upload image for feed post to R2
+ * Each user has their own folder: feed/{username}/
  */
-export async function POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ username: string }> }
-) {
+export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { username } = await params;
-
-    // Verify user owns this profile
-    const targetUser = await queryOne<{ id: number }>(
-      'SELECT id FROM users WHERE username = $1',
-      [username]
+    // Get username for folder structure
+    const user = await queryOne<{ username: string }>(
+      'SELECT username FROM users WHERE id = $1',
+      [session.userId]
     );
 
-    if (!targetUser || targetUser.id !== session.userId) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     const formData = await req.formData();
     const file = formData.get('file') as File | null;
-    const type = formData.get('type') as string; // 'avatar' or 'cover'
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
-    }
-
-    if (!type || !['avatar', 'cover'].includes(type)) {
-      return NextResponse.json({ error: 'Invalid type. Must be avatar or cover' }, { status: 400 });
     }
 
     // Check file type
@@ -71,32 +63,26 @@ export async function POST(
     // Check file size
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json({ 
-        error: 'Ảnh quá lớn. Vui lòng chọn ảnh dưới 2MB' 
+        error: 'Ảnh quá lớn. Vui lòng chọn ảnh dưới 5MB' 
       }, { status: 400 });
     }
 
-    // Generate filename with user folder structure
+    // Generate unique filename
     const timestamp = Date.now();
-    const filename = `${type}-${timestamp}.webp`;
-    // Store in users/{username}/ folder on R2
-    const key = `users/${username}/${filename}`;
+    const randomString = crypto.randomBytes(4).toString('hex');
+    const filename = `${timestamp}-${randomString}.webp`;
+    
+    // Store in feed/{username}/ folder on R2
+    const key = `feed/${user.username}/${filename}`;
 
-    // Convert to webp and resize
+    // Convert to webp and optimize
     const buffer = Buffer.from(await file.arrayBuffer());
     
-    let sharpInstance = sharp(buffer);
-    
-    if (type === 'avatar') {
-      // Avatar: 400x400, square crop
-      sharpInstance = sharpInstance
-        .resize(400, 400, { fit: 'cover', position: 'center' });
-    } else {
-      // Cover: 1200x400, crop to banner ratio
-      sharpInstance = sharpInstance
-        .resize(1200, 400, { fit: 'cover', position: 'center' });
-    }
-
-    const webpBuffer = await sharpInstance
+    const webpBuffer = await sharp(buffer)
+      .resize(1200, 1200, { 
+        fit: 'inside', 
+        withoutEnlargement: true 
+      })
       .webp({ quality: 85 })
       .toBuffer();
 
@@ -116,10 +102,9 @@ export async function POST(
     return NextResponse.json({ 
       success: true,
       url,
-      type,
     });
   } catch (error: any) {
-    console.error('Error uploading user image:', error);
+    console.error('Error uploading feed image:', error);
     return NextResponse.json({ 
       error: error.message || 'Upload failed' 
     }, { status: 500 });

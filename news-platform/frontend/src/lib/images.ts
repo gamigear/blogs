@@ -6,19 +6,19 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import crypto from 'crypto';
 
-// S3-compatible storage configuration
+// Cloudflare R2 configuration (S3-compatible)
+const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || '';
 const s3Client = new S3Client({
-  region: process.env.S3_REGION || 'us-east-1',
-  endpoint: process.env.S3_ENDPOINT,
+  region: 'auto',
+  endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
   credentials: {
-    accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+    accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
   },
-  forcePathStyle: true, // Required for MinIO and other S3-compatible services
 });
 
-const BUCKET_NAME = process.env.S3_BUCKET_NAME || 'news-platform';
-const CDN_URL = process.env.CDN_URL || process.env.S3_ENDPOINT || '';
+const BUCKET_NAME = process.env.R2_BUCKET_NAME || 'euro';
+const CDN_URL = process.env.R2_PUBLIC_URL || '';
 
 // ============================================
 // IMAGE VALIDATION
@@ -108,20 +108,40 @@ export async function uploadImage(
   folder = 'uploads'
 ): Promise<UploadResult> {
   try {
-    const filename = generateUniqueFilename(originalName);
+    // Convert to webp for better performance
+    let finalBuffer = buffer;
+    let finalMimeType = mimeType;
+    let extension = originalName.split('.').pop()?.toLowerCase() || 'jpg';
+    
+    if (['image/jpeg', 'image/png'].includes(mimeType)) {
+      try {
+        const sharp = (await import('sharp')).default;
+        finalBuffer = await sharp(buffer)
+          .resize(1920, 1920, { fit: 'inside', withoutEnlargement: true })
+          .webp({ quality: 85 })
+          .toBuffer();
+        finalMimeType = 'image/webp';
+        extension = 'webp';
+      } catch (e) {
+        console.error('WebP conversion failed, using original:', e);
+      }
+    }
+    
+    const filename = generateUniqueFilename(originalName).replace(/\.[^.]+$/, `.${extension}`);
     const key = `${folder}/${filename}`;
 
     await s3Client.send(
       new PutObjectCommand({
         Bucket: BUCKET_NAME,
         Key: key,
-        Body: buffer,
-        ContentType: mimeType,
+        Body: finalBuffer,
+        ContentType: finalMimeType,
         CacheControl: 'public, max-age=31536000', // 1 year cache
       })
     );
 
-    const url = `${CDN_URL}/${BUCKET_NAME}/${key}`;
+    // R2 public URL format (without bucket name)
+    const url = `${CDN_URL}/${key}`;
 
     return {
       success: true,

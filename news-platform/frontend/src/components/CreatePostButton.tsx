@@ -49,7 +49,8 @@ export function CreatePostButton({ onPostCreated }: Props) {
       formData.append('file', file);
 
       try {
-        const res = await fetch('/api/upload', {
+        // Use feed upload API which stores in user's folder on R2
+        const res = await fetch('/api/feed/upload', {
           method: 'POST',
           body: formData,
         });
@@ -57,9 +58,13 @@ export function CreatePostButton({ onPostCreated }: Props) {
         if (res.ok) {
           const data = await res.json();
           setImages(prev => [...prev, data.url]);
+        } else {
+          const data = await res.json();
+          setError(data.error || 'Upload thất bại');
         }
       } catch (err) {
         console.error('Upload failed:', err);
+        setError('Upload thất bại');
       }
     }
   };
