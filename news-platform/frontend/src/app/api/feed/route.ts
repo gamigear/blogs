@@ -49,17 +49,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!images || images.length === 0) {
+    if (!images || !Array.isArray(images) || images.length === 0) {
+      console.log('Feed POST - images validation failed:', { images, type: typeof images });
       return NextResponse.json(
         { error: 'Vui lòng thêm ít nhất 1 hình ảnh' },
         { status: 400 }
       );
     }
 
+    // Ensure images is a valid array of strings
+    const validImages = images.filter((img: any) => typeof img === 'string' && img.trim());
+    if (validImages.length === 0) {
+      return NextResponse.json(
+        { error: 'Không có hình ảnh hợp lệ' },
+        { status: 400 }
+      );
+    }
+
+    console.log('Feed POST - creating post with images:', validImages);
+
     const post = await createFeedPost(userId, {
       title,
       content: content.trim(),
-      images: images || [],
+      images: validImages,
     });
 
     return NextResponse.json(post, { status: 201 });
