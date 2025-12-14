@@ -2,163 +2,872 @@ const { PrismaClient } = require('@prisma/client')
 
 const prisma = new PrismaClient()
 
-// Mock Data
-const users = [
-  { id: 1, fullName: 'Galen Slixby', company: 'Yotz PVT LTD', role: 'editor', username: 'gslixby0', country: 'El Salvador', contact: '(479) 232-9151', email: 'gslixby0@abc.net.au', currentPlan: 'enterprise', status: 'inactive', avatar: '', avatarColor: 'primary', billing: 'Auto Debit' },
-  { id: 2, fullName: 'Halsey Redmore', company: 'Skinder PVT LTD', role: 'author', username: 'hredmore1', country: 'Albania', contact: '(472) 607-9137', email: 'hredmore1@imgur.com', currentPlan: 'team', status: 'pending', avatar: '/images/avatars/3.png', billing: 'Auto Debit' },
-  { id: 3, fullName: 'Marjory Sicely', company: 'Oozz PVT LTD', role: 'maintainer', username: 'msicely2', country: 'Russia', contact: '(321) 264-4599', email: 'msicely2@who.int', currentPlan: 'enterprise', status: 'active', avatar: '/images/avatars/1.png', billing: 'Auto Debit' },
-  { id: 4, fullName: 'Cyrill Risby', company: 'Oozz PVT LTD', role: 'maintainer', username: 'crisby3', country: 'China', contact: '(923) 690-6806', email: 'crisby3@wordpress.com', currentPlan: 'team', status: 'inactive', avatar: '/images/avatars/3.png', billing: 'Manual Paypal' },
-  { id: 5, fullName: 'Maggy Hurran', company: 'Aimbo PVT LTD', role: 'subscriber', username: 'mhurran4', country: 'Pakistan', contact: '(669) 914-1078', email: 'mhurran4@yahoo.co.jp', currentPlan: 'enterprise', status: 'pending', avatar: '/images/avatars/1.png', billing: 'Manual Cash' },
-  { id: 6, fullName: 'Silvain Halstead', company: 'Jaxbean PVT LTD', role: 'author', username: 'shalstead5', country: 'China', contact: '(958) 973-3093', email: 'shalstead5@shinystat.com', currentPlan: 'company', status: 'active', avatar: '', avatarColor: 'error', billing: 'Manual Cash' },
-  { id: 7, fullName: 'Breena Gallemore', company: 'Jazzy PVT LTD', role: 'subscriber', username: 'bgallemore6', country: 'Canada', contact: '(825) 977-8152', email: 'bgallemore6@boston.com', currentPlan: 'company', status: 'pending', avatar: '', avatarColor: 'warning', billing: 'Auto Debit' },
-  { id: 8, fullName: 'Kathryne Liger', company: 'Pixoboo PVT LTD', role: 'author', username: 'kliger7', country: 'France', contact: '(187) 440-0934', email: 'kliger7@vinaora.com', currentPlan: 'enterprise', status: 'pending', avatar: '/images/avatars/4.png', billing: 'Manual Paypal' },
-  { id: 9, fullName: 'Franz Scotfurth', company: 'Tekfly PVT LTD', role: 'subscriber', username: 'fscotfurth8', country: 'China', contact: '(978) 146-5443', email: 'fscotfurth8@dailymotion.com', currentPlan: 'team', status: 'pending', avatar: '/images/avatars/2.png', billing: 'Auto Debit' },
-  { id: 10, fullName: 'Jillene Bellany', company: 'Gigashots PVT LTD', role: 'maintainer', username: 'jbellany9', country: 'Jamaica', contact: '(589) 284-6732', email: 'jbellany9@kickstarter.com', currentPlan: 'company', status: 'inactive', avatar: '/images/avatars/5.png', billing: 'Manual Cash' },
-  { id: 11, fullName: 'Jonah Wharlton', company: 'Eare PVT LTD', role: 'subscriber', username: 'jwharltona', country: 'United States', contact: '(176) 532-6824', email: 'jwharltona@oakley.com', currentPlan: 'team', status: 'inactive', avatar: '/images/avatars/4.png', billing: 'Auto Debit' },
-  { id: 12, fullName: 'Seth Hallam', company: 'Yakitri PVT LTD', role: 'subscriber', username: 'shallamb', country: 'Peru', contact: '(234) 464-0600', email: 'shallamb@hugedomains.com', currentPlan: 'team', status: 'pending', avatar: '/images/avatars/5.png', billing: 'Manual Paypal' },
-  { id: 13, fullName: 'Yoko Pottie', company: 'Leenti PVT LTD', role: 'subscriber', username: 'ypottiec', country: 'Philippines', contact: '(907) 284-5083', email: 'ypottiec@privacy.gov.au', currentPlan: 'basic', status: 'inactive', avatar: '/images/avatars/7.png', billing: 'Manual Paypal' },
-  { id: 14, fullName: 'Maximilianus Krause', company: 'Digitube PVT LTD', role: 'author', username: 'mkraused', country: 'Democratic Republic of the Congo', contact: '(167) 135-7392', email: 'mkraused@stanford.edu', currentPlan: 'team', status: 'active', avatar: '/images/avatars/6.png', billing: 'Auto Debit' },
-  { id: 15, fullName: 'Zsazsa McCleverty', company: 'Kaymbo PVT LTD', role: 'maintainer', username: 'zmcclevertye', country: 'France', contact: '(317) 409-6565', email: 'zmcclevertye@soundcloud.com', currentPlan: 'enterprise', status: 'active', avatar: '/images/avatars/2.png', billing: 'Auto Debit' },
-  { id: 16, fullName: 'Bentlee Emblin', company: 'Yambee PVT LTD', role: 'author', username: 'bemblinf', country: 'Spain', contact: '(590) 606-1056', email: 'bemblinf@wired.com', currentPlan: 'company', status: 'active', avatar: '/images/avatars/6.png', billing: 'Manual Cash' },
-  { id: 17, fullName: 'Brockie Myles', company: 'Wikivu PVT LTD', role: 'maintainer', username: 'bmylesg', country: 'Poland', contact: '(553) 225-9905', email: 'bmylesg@amazon.com', currentPlan: 'basic', status: 'active', avatar: '', avatarColor: 'success', billing: 'Auto Debit' },
-  { id: 18, fullName: 'Bertha Biner', company: 'Twinte PVT LTD', role: 'editor', username: 'bbinerh', country: 'Yemen', contact: '(901) 916-9287', email: 'bbinerh@mozilla.com', currentPlan: 'team', status: 'active', avatar: '/images/avatars/7.png', billing: 'Manual Cash' },
-  { id: 19, fullName: 'Travus Bruntjen', company: 'Cogidoo PVT LTD', role: 'admin', username: 'tbruntjeni', country: 'France', contact: '(524) 586-6057', email: 'tbruntjeni@sitemeter.com', currentPlan: 'enterprise', status: 'active', avatar: '', avatarColor: 'primary', billing: 'Manual Cash' },
-  { id: 20, fullName: 'Wesley Burland', company: 'Bubblemix PVT LTD', role: 'editor', username: 'wburlandj', country: 'Honduras', contact: '(569) 683-1292', email: 'wburlandj@uiuc.edu', currentPlan: 'team', status: 'inactive', avatar: '/images/avatars/6.png', billing: 'Manual paypal' },
-]
+// Simple password hashing for seed (same algorithm as libs/password.js)
+async function hashPassword(password) {
+  const encoder = new TextEncoder()
+  const salt = crypto.getRandomValues(new Uint8Array(16))
 
-const products = [
-  { id: 1, productName: 'iPhone 14 Pro', category: 'Electronics', stock: true, sku: 19472, price: '$999', qty: 665, status: 'Inactive', image: '/images/apps/ecommerce/product-1.png', productBrand: 'Super Retina XDR display footnote Pro Motion technology' },
-  { id: 2, productName: 'Echo Dot (4th Gen)', category: 'Electronics', stock: false, sku: 72836, price: '$25.50', qty: 827, status: 'Published', image: '/images/apps/ecommerce/product-2.png', productBrand: 'Echo Dot Smart speaker with Alexa' },
-  { id: 3, productName: 'Dohioue Wall Clock', category: 'Accessories', stock: false, sku: 29540, price: '$16.34', qty: 804, status: 'Published', image: '/images/apps/ecommerce/product-3.png', productBrand: 'Modern 10 Inch Battery Operated Wall Clocks' },
-  { id: 4, productName: 'INZCOU Running Shoes', category: 'Shoes', stock: false, sku: 49402, price: '$36.98', qty: 528, status: 'Scheduled', image: '/images/apps/ecommerce/product-4.png', productBrand: 'Lightweight Tennis Shoes Non Slip Gym Workout Shoes' },
-  { id: 5, productName: 'Apple Watch Series 7', category: 'Office', stock: false, sku: 46658, price: '$799', qty: 851, status: 'Scheduled', image: '/images/apps/ecommerce/product-5.png', productBrand: 'Starlight Aluminum Case with Starlight Sport Band.' },
-  { id: 6, productName: 'Meta Quest 2', category: 'Office', stock: true, sku: 57640, price: '$299', qty: 962, status: 'Scheduled', image: '/images/apps/ecommerce/product-6.png', productBrand: 'Advanced All-In-One Virtual Reality Headset' },
-  { id: 7, productName: 'MacBook Pro 16', category: 'Electronics', stock: true, sku: 92885, price: '$2648.95', qty: 965, status: 'Published', image: '/images/apps/ecommerce/product-7.png', productBrand: 'Laptop M2 Pro chip with 12‑core CPU and 19‑core GPU' },
-  { id: 8, productName: 'SAMSUNG Galaxy S22 Ultra', category: 'Electronics', stock: true, sku: 75257, price: '$899', qty: 447, status: 'Published', image: '/images/apps/ecommerce/product-8.png', productBrand: 'Android Smartphone, 256GB, 8K Camera' },
-  { id: 9, productName: 'Air Jordan', category: 'Shoes', stock: false, sku: 31063, price: '$125', qty: 942, status: 'Inactive', image: '/images/apps/ecommerce/product-9.png', productBrand: 'Air Jordan is a line of basketball shoes produced by Nike' },
-  { id: 10, productName: 'VISKABACKA', category: 'Home Decor', stock: false, sku: 91848, price: '$190.45', qty: 133, status: 'Scheduled', image: '/images/apps/ecommerce/product-10.png', productBrand: 'Armchair, Skartofta black/light grey' },
-  { id: 11, productName: 'Nintendo Switch', category: 'Games', stock: true, sku: 52575, price: '$296.99', qty: 870, status: 'Inactive', image: '/images/apps/ecommerce/product-11.png', productBrand: 'TV Mode, Tabletop Mode, Handheld Mode' },
-  { id: 12, productName: 'PlayStation 5', category: 'Games', stock: true, sku: 59551, price: '$499', qty: 145, status: 'Scheduled', image: '/images/apps/ecommerce/product-12.png', productBrand: 'Marvel at incredible graphics and experience' },
-  { id: 13, productName: 'Amazon Fire TV', category: 'Electronics', stock: false, sku: 5829, price: '$263.49', qty: 587, status: 'Scheduled', image: '/images/apps/ecommerce/product-13.png', productBrand: '4K UHD smart TV, stream live TV without cable' },
-  { id: 14, productName: 'Smiletag Ceramic Vase', category: 'Home Decor', stock: false, sku: 24456, price: '$34.99', qty: 310, status: 'Scheduled', image: '/images/apps/ecommerce/product-14.png', productBrand: 'Modern Farmhouse Decor Vase Set of 3' },
-  { id: 15, productName: 'Apple iPad', category: 'Electronics', stock: true, sku: 35946, price: '$248.39', qty: 468, status: 'Published', image: '/images/apps/ecommerce/product-15.png', productBrand: '10.2-inch Retina Display, 64GB' },
-]
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(password),
+    'PBKDF2',
+    false,
+    ['deriveBits']
+  )
 
-const invoices = [
-  { id: '4987', issuedDate: '13 Dec 2025', address: '7777 Mendez Plains', company: 'Hall-Robbins PLC', companyEmail: 'don85@johnson.com', country: 'USA', contact: '(616) 865-4180', name: 'Jordan Stevenson', service: 'Software Development', total: 3428, avatar: '', avatarColor: 'primary', invoiceStatus: 'Paid', balance: '$724', dueDate: '23 Dec 2025' },
-  { id: '4988', issuedDate: '17 Dec 2025', address: '04033 Wesley Wall Apt. 961', company: 'Mccann LLC and Sons', companyEmail: 'brenda49@taylor.info', country: 'Haiti', contact: '(226) 204-8287', name: 'Stephanie Burns', service: 'UI/UX Design & Development', total: 5219, avatar: '/images/avatars/1.png', invoiceStatus: 'Downloaded', balance: '0', dueDate: '15 Dec 2025' },
-  { id: '4989', issuedDate: '19 Dec 2025', address: '5345 Robert Squares', company: 'Leonard-Garcia and Sons', companyEmail: 'smithtiffany@powers.com', country: 'Denmark', contact: '(955) 676-1076', name: 'Tony Herrera', service: 'Unlimited Extended License', total: 3719, avatar: '/images/avatars/2.png', invoiceStatus: 'Paid', balance: '0', dueDate: '03 Dec 2025' },
-  { id: '4990', issuedDate: '06 Dec 2025', address: '19022 Clark Parks Suite 149', company: 'Smith, Miller and Henry LLC', companyEmail: 'mejiageorge@lee-perez.com', country: 'Cambodia', contact: '(832) 323-6914', name: 'Kevin Patton', service: 'Software Development', total: 4749, avatar: '/images/avatars/3.png', invoiceStatus: 'Sent', balance: '0', dueDate: '11 Dec 2025' },
-  { id: '4991', issuedDate: '08 Dec 2025', address: '8534 Saunders Hill Apt. 583', company: 'Garcia-Cameron and Sons', companyEmail: 'brandon07@pierce.com', country: 'Martinique', contact: '(970) 982-3353', name: 'Mrs. Julie Donovan MD', service: 'UI/UX Design & Development', total: 4056, avatar: '/images/avatars/4.png', invoiceStatus: 'Draft', balance: '$815', dueDate: '30 Dec 2025' },
-  { id: '4992', issuedDate: '26 Dec 2025', address: '661 Perez Run Apt. 778', company: 'Burnett-Young PLC', companyEmail: 'guerrerobrandy@beasley-harper.com', country: 'Botswana', contact: '(511) 938-9617', name: 'Amanda Phillips', service: 'UI/UX Design & Development', total: 2771, avatar: '', avatarColor: 'secondary', invoiceStatus: 'Paid', balance: '0', dueDate: '24 Dec 2025' },
-  { id: '4993', issuedDate: '17 Dec 2025', address: '074 Long Union', company: 'Wilson-Lee LLC', companyEmail: 'williamshenry@moon-smith.com', country: 'Montserrat', contact: '(504) 859-2893', name: 'Christina Collier', service: 'UI/UX Design & Development', total: 2713, avatar: '', avatarColor: 'success', invoiceStatus: 'Draft', balance: '$407', dueDate: '22 Dec 2025' },
-  { id: '4994', issuedDate: '11 Dec 2025', address: '5225 Ford Cape Apt. 840', company: 'Schwartz, Henry and Rhodes Group', companyEmail: 'margaretharvey@russell-murray.com', country: 'Oman', contact: '(758) 403-7718', name: 'David Flores', service: 'Template Customization', total: 4309, avatar: '/images/avatars/5.png', invoiceStatus: 'Paid', balance: '-$205', dueDate: '10 Dec 2025' },
-  { id: '4995', issuedDate: '26 Dec 2025', address: '23717 James Club Suite 277', company: 'Henderson-Holder PLC', companyEmail: 'dianarodriguez@villegas.com', country: 'Cambodia', contact: '(292) 873-8254', name: 'Valerie Perez', service: 'Software Development', total: 3367, avatar: '/images/avatars/6.png', invoiceStatus: 'Downloaded', balance: '0', dueDate: '24 Dec 2025' },
-  { id: '4996', issuedDate: '15 Dec 2025', address: '4528 Myers Gateway', company: 'Page-Wise PLC', companyEmail: 'bwilson@norris-brock.com', country: 'Guam', contact: '(956) 803-2008', name: 'Susan Dickerson', service: 'Software Development', total: 4776, avatar: '/images/avatars/7.png', invoiceStatus: 'Downloaded', balance: '$305', dueDate: '02 Dec 2025' },
-]
+  const derivedBits = await crypto.subtle.deriveBits(
+    {
+      name: 'PBKDF2',
+      salt: salt,
+      iterations: 100000,
+      hash: 'SHA-512'
+    },
+    keyMaterial,
+    64 * 8
+  )
 
-const permissions = [
-  { id: 1, name: 'Management', assignedTo: ['administrator'], createdDate: '14 Apr 2021, 8:43 PM' },
-  { id: 2, name: 'Manage Billing & Roles', assignedTo: ['administrator'], createdDate: '16 Sep 2021, 5:20 PM' },
-  { id: 3, name: 'Add & Remove Users', assignedTo: ['administrator', 'manager'], createdDate: '14 Oct 2021, 10:20 AM' },
-  { id: 4, name: 'Project Planning', assignedTo: ['administrator', 'users', 'support'], createdDate: '14 Oct 2021, 10:20 AM' },
-  { id: 5, name: 'Manage Email Sequences', assignedTo: ['administrator', 'users', 'support'], createdDate: '23 Aug 2021, 2:00 PM' },
-  { id: 6, name: 'Client Communication', assignedTo: ['administrator', 'manager'], createdDate: '15 Apr 2021, 11:30 AM' },
-  { id: 7, name: 'Only View', assignedTo: ['administrator', 'restricted-user'], createdDate: '04 Dec 2021, 8:15 PM' },
-  { id: 8, name: 'Financial Management', assignedTo: ['administrator', 'manager'], createdDate: '25 Feb 2021, 10:30 AM' },
-  { id: 9, name: "Manage Others' Tasks", assignedTo: ['administrator', 'support'], createdDate: '04 Nov 2021, 11:45 AM' },
-]
+  const hashArray = new Uint8Array(derivedBits)
+  const saltHex = Array.from(salt).map(b => b.toString(16).padStart(2, '0')).join('')
+  const hashHex = Array.from(hashArray).map(b => b.toString(16).padStart(2, '0')).join('')
 
-const calendarEvents = [
-  { id: '1', url: '', title: 'Design Review', start: new Date(), endDate: new Date(Date.now() + 86400000), allDay: false, calendar: 'Business' },
-  { id: '2', url: '', title: 'Meeting With Client', start: new Date(2025, 0, 15), endDate: new Date(2025, 0, 16), allDay: true, calendar: 'Business' },
-  { id: '3', url: '', title: 'Family Trip', start: new Date(2025, 0, 20), endDate: new Date(2025, 0, 23), allDay: true, calendar: 'Holiday' },
-  { id: '4', url: '', title: "Doctor's Appointment", start: new Date(2025, 0, 10), endDate: new Date(2025, 0, 10), allDay: true, calendar: 'Personal' },
-  { id: '5', url: '', title: 'Dart Game?', start: new Date(2025, 0, 8), endDate: new Date(2025, 0, 8), allDay: true, calendar: 'ETC' },
-  { id: '6', url: '', title: 'Meditation', start: new Date(2025, 0, 5), endDate: new Date(2025, 0, 5), allDay: true, calendar: 'Personal' },
-  { id: '7', url: '', title: 'Dinner', start: new Date(2025, 0, 12), endDate: new Date(2025, 0, 12), allDay: true, calendar: 'Family' },
-  { id: '8', url: '', title: 'Product Review', start: new Date(2025, 0, 18), endDate: new Date(2025, 0, 18), allDay: true, calendar: 'Business' },
-  { id: '9', url: '', title: 'Monthly Meeting', start: new Date(2025, 1, 1), endDate: new Date(2025, 1, 1), allDay: true, calendar: 'Business' },
-  { id: '10', url: '', title: 'Monthly Checkup', start: new Date(2024, 11, 15), endDate: new Date(2024, 11, 15), allDay: true, calendar: 'Personal' },
-]
-
-const chatContacts = [
-  { id: 1, fullName: 'John Doe', role: 'Admin', about: 'Dessert chocolate cake lemon drops jujubes.', avatar: '/images/avatars/1.png', status: 'online' },
-  { id: 2, fullName: 'Felecia Rower', role: 'Frontend Developer', about: 'Cake pie jelly jelly beans.', avatar: '/images/avatars/2.png', status: 'offline' },
-  { id: 3, fullName: 'Adalberto Granzin', role: 'UI/UX Designer', about: 'Toffee caramels jelly-o tart gummi bears cake.', avatarColor: 'primary', status: 'busy' },
-  { id: 4, fullName: 'Joaquina Weisenborn', role: 'Town planner', about: 'Soufflé soufflé caramels sweet roll.', avatar: '/images/avatars/8.png', status: 'busy' },
-  { id: 5, fullName: 'Margot Henschke', role: 'Dietitian', about: 'Cake pie jelly jelly beans.', avatarColor: 'success', status: 'busy' },
-  { id: 6, fullName: 'Bridgett Omohundro', role: 'Designer, television/film set', about: 'Gummies gummi bears I love candy icing apple pie.', avatarColor: 'warning', status: 'offline' },
-  { id: 7, fullName: 'Sal Piggee', role: 'Marketing executive', about: 'Toffee caramels jelly-o tart gummi bears cake.', avatarColor: 'info', status: 'online' },
-  { id: 8, fullName: 'Miguel Guelff', role: 'Special educational needs teacher', about: 'Biscuit powder oat cake donut brownie ice cream.', avatar: '/images/avatars/7.png', status: 'online' },
-]
-
-const reviews = [
-  { productId: 1, reviewer: 'Zane Scraggs', email: 'zscraggs0@flavors.me', avatar: '/images/avatars/1.png', date: '5/28/2020', status: 'Published', review: 2, head: 'lorem ipsum dolor', para: 'Nulla ut erat id mauris vulputate elementum.' },
-  { productId: 2, reviewer: 'Stacey Hallgalley', email: 'shallgalley1@google.nl', avatar: '/images/avatars/2.png', date: '3/21/2021', status: 'Published', review: 5, head: 'libero ut', para: 'Aliquam quis turpis eget elit sodales scelerisque.' },
-  { productId: 3, reviewer: 'Francyne Coulthurst', email: 'fcoulthurst2@upenn.edu', avatar: '/images/avatars/3.png', date: '8/10/2020', status: 'Published', review: 2, head: 'neque libero convallis', para: 'Phasellus in felis. Donec semper sapien a libero.' },
-  { productId: 4, reviewer: 'Nate De Mitris', email: 'nde3@intel.com', avatar: '/images/avatars/4.png', date: '12/18/2021', status: 'Pending', review: 3, head: 'accumsan tellus nisi eu', para: 'Praesent id massa id nisl venenatis lacinia.' },
-  { productId: 5, reviewer: 'Ethel Zanardii', email: 'ezanardii4@mapy.cz', avatar: '/images/avatars/5.png', date: '6/12/2020', status: 'Pending', review: 1, head: 'etiam faucibus cursus', para: 'Cras non velit nec nisi vulputate nonummy.' },
-]
+  return `${saltHex}:${hashHex}`
+}
 
 async function main() {
   console.log('🌱 Starting seed...')
 
-  // Clear existing data
-  await prisma.chatMessage.deleteMany()
-  await prisma.chat.deleteMany()
-  await prisma.chatContact.deleteMany()
-  await prisma.calendarEvent.deleteMany()
-  await prisma.permission.deleteMany()
-  await prisma.review.deleteMany()
+  // Clean existing data
+  await prisma.activityLog.deleteMany()
+  await prisma.passwordReset.deleteMany()
+  await prisma.session.deleteMany()
+  await prisma.account.deleteMany()
+  await prisma.wishlistItem.deleteMany()
+  await prisma.wishlist.deleteMany()
+  await prisma.cartItem.deleteMany()
+  await prisma.cart.deleteMany()
+  await prisma.orderItem.deleteMany()
+  await prisma.order.deleteMany()
+  await prisma.customerAddress.deleteMany()
+  await prisma.customer.deleteMany()
+  await prisma.productReview.deleteMany()
+  await prisma.productImage.deleteMany()
   await prisma.product.deleteMany()
-  await prisma.invoice.deleteMany()
-  await prisma.appUser.deleteMany()
+  await prisma.productCategory.deleteMany()
+  await prisma.blogComment.deleteMany()
+  await prisma.blogPostTag.deleteMany()
+  await prisma.blogPost.deleteMany()
+  await prisma.blogTag.deleteMany()
+  await prisma.blogCategory.deleteMany()
+  await prisma.user.deleteMany()
 
-  console.log('✅ Cleared existing data')
+  // ==================== Admin Users ====================
+  console.log('Creating admin users...')
 
-  // Seed AppUsers
-  for (const user of users) {
-    await prisma.appUser.create({ data: user })
-  }
-  console.log(`✅ Created ${users.length} users`)
+  const adminPassword = await hashPassword('Admin@123')
+  const userPassword = await hashPassword('User@123')
 
-  // Seed Products
-  for (const product of products) {
-    await prisma.product.create({ data: product })
-  }
-  console.log(`✅ Created ${products.length} products`)
+  await Promise.all([
+    prisma.user.create({
+      data: {
+        name: 'Super Admin',
+        email: 'admin@example.com',
+        password: adminPassword,
+        role: 'SUPER_ADMIN',
+        status: 'ACTIVE',
+        emailVerified: new Date()
+      }
+    }),
+    prisma.user.create({
+      data: {
+        name: 'Admin User',
+        email: 'manager@example.com',
+        password: adminPassword,
+        role: 'ADMIN',
+        status: 'ACTIVE',
+        emailVerified: new Date()
+      }
+    }),
+    prisma.user.create({
+      data: {
+        name: 'Editor User',
+        email: 'editor@example.com',
+        password: userPassword,
+        role: 'EDITOR',
+        status: 'ACTIVE',
+        emailVerified: new Date()
+      }
+    }),
+    prisma.user.create({
+      data: {
+        name: 'Normal User',
+        email: 'user@example.com',
+        password: userPassword,
+        role: 'USER',
+        status: 'ACTIVE',
+        emailVerified: new Date()
+      }
+    })
+  ])
 
-  // Seed Reviews
-  for (const review of reviews) {
-    await prisma.review.create({ data: review })
-  }
-  console.log(`✅ Created ${reviews.length} reviews`)
+  console.log('✅ Admin users created')
+  console.log('   - admin@example.com / Admin@123 (SUPER_ADMIN)')
+  console.log('   - manager@example.com / Admin@123 (ADMIN)')
+  console.log('   - editor@example.com / User@123 (EDITOR)')
+  console.log('   - user@example.com / User@123 (USER)')
 
-  // Seed Invoices
-  for (const invoice of invoices) {
-    await prisma.invoice.create({ data: invoice })
-  }
-  console.log(`✅ Created ${invoices.length} invoices`)
+  // ==================== Blog Categories ====================
+  const blogCategories = await Promise.all([
+    prisma.blogCategory.create({
+      data: {
+        name: 'Điểm đến',
+        slug: 'diem-den',
+        description: 'Khám phá các điểm đến du lịch hấp dẫn',
+        image: '/images/blog/destinations.jpg'
+      }
+    }),
+    prisma.blogCategory.create({
+      data: {
+        name: 'Ẩm thực',
+        slug: 'am-thuc',
+        description: 'Trải nghiệm ẩm thực địa phương',
+        image: '/images/blog/food.jpg'
+      }
+    }),
+    prisma.blogCategory.create({
+      data: {
+        name: 'Mẹo du lịch',
+        slug: 'meo-du-lich',
+        description: 'Kinh nghiệm và mẹo hay khi đi du lịch',
+        image: '/images/blog/tips.jpg'
+      }
+    }),
+    prisma.blogCategory.create({
+      data: {
+        name: 'Văn hóa',
+        slug: 'van-hoa',
+        description: 'Tìm hiểu văn hóa các vùng miền',
+        image: '/images/blog/culture.jpg'
+      }
+    })
+  ])
 
-  // Seed Permissions
-  for (const permission of permissions) {
-    await prisma.permission.create({ data: permission })
-  }
-  console.log(`✅ Created ${permissions.length} permissions`)
+  console.log('✅ Blog categories created')
 
-  // Seed Calendar Events
-  for (const event of calendarEvents) {
-    await prisma.calendarEvent.create({ data: event })
-  }
-  console.log(`✅ Created ${calendarEvents.length} calendar events`)
+  // ==================== Blog Tags ====================
+  const blogTags = await Promise.all([
+    prisma.blogTag.create({ data: { name: 'Việt Nam', slug: 'viet-nam' } }),
+    prisma.blogTag.create({ data: { name: 'Biển đảo', slug: 'bien-dao' } }),
+    prisma.blogTag.create({ data: { name: 'Núi rừng', slug: 'nui-rung' } }),
+    prisma.blogTag.create({ data: { name: 'Phượt', slug: 'phuot' } }),
+    prisma.blogTag.create({ data: { name: 'Gia đình', slug: 'gia-dinh' } }),
+    prisma.blogTag.create({ data: { name: 'Budget', slug: 'budget' } }),
+    prisma.blogTag.create({ data: { name: 'Luxury', slug: 'luxury' } }),
+    prisma.blogTag.create({ data: { name: 'Đông Nam Á', slug: 'dong-nam-a' } })
+  ])
 
-  // Seed Chat Contacts
-  for (const contact of chatContacts) {
-    await prisma.chatContact.create({ data: contact })
-  }
-  console.log(`✅ Created ${chatContacts.length} chat contacts`)
+  console.log('✅ Blog tags created')
 
+  // ==================== Blog Posts ====================
+  const blogPosts = await Promise.all([
+    prisma.blogPost.create({
+      data: {
+        title: 'Top 10 bãi biển đẹp nhất Việt Nam năm 2024',
+        slug: 'top-10-bai-bien-dep-nhat-viet-nam-2024',
+        excerpt: 'Khám phá những bãi biển tuyệt đẹp từ Bắc vào Nam, nơi bạn có thể tận hưởng kỳ nghỉ hoàn hảo.',
+        content: `<h2>1. Bãi biển Mỹ Khê - Đà Nẵng</h2>
+<p>Được tạp chí Forbes bình chọn là một trong những bãi biển quyến rũ nhất hành tinh, Mỹ Khê sở hữu bờ cát trắng mịn trải dài và làn nước trong xanh.</p>
+
+<h2>2. Bãi Dài - Phú Quốc</h2>
+<p>Với chiều dài gần 20km, Bãi Dài là thiên đường cho những ai yêu thích sự yên bình và hoang sơ.</p>
+
+<h2>3. Bãi biển Nha Trang</h2>
+<p>Nha Trang nổi tiếng với vịnh biển đẹp, nước biển trong xanh và hệ thống resort cao cấp.</p>
+
+<h2>4. Bãi Sao - Phú Quốc</h2>
+<p>Bãi Sao được mệnh danh là bãi biển đẹp nhất Phú Quốc với cát trắng như tuyết.</p>
+
+<h2>5. Bãi biển An Bàng - Hội An</h2>
+<p>Nằm cách phố cổ Hội An khoảng 4km, An Bàng mang vẻ đẹp bình yên và thơ mộng.</p>`,
+        featuredImage: '/images/blog/beach-vietnam.jpg',
+        categoryId: blogCategories[0].id,
+        authorName: 'Nguyễn Văn Travel',
+        authorAvatar: '/images/avatars/1.png',
+        status: 'published',
+        viewCount: 1520,
+        publishedAt: new Date('2024-01-15'),
+        tags: {
+          create: [
+            { tagId: blogTags[0].id },
+            { tagId: blogTags[1].id }
+          ]
+        }
+      }
+    }),
+    prisma.blogPost.create({
+      data: {
+        title: 'Hành trình khám phá Sapa - Thiên đường mây trắng',
+        slug: 'hanh-trinh-kham-pha-sapa-thien-duong-may-trang',
+        excerpt: 'Sapa với những thửa ruộng bậc thang tuyệt đẹp và văn hóa đặc sắc của đồng bào dân tộc.',
+        content: `<h2>Giới thiệu về Sapa</h2>
+<p>Sapa là một thị trấn vùng cao thuộc tỉnh Lào Cai, nổi tiếng với cảnh quan thiên nhiên hùng vĩ và văn hóa đa dạng của các dân tộc thiểu số.</p>
+
+<h2>Thời điểm đẹp nhất để đến Sapa</h2>
+<p>Mùa lúa chín (tháng 9-10) là thời điểm đẹp nhất để chiêm ngưỡng ruộng bậc thang vàng óng.</p>
+
+<h2>Các điểm tham quan không thể bỏ qua</h2>
+<ul>
+<li>Đỉnh Fansipan - Nóc nhà Đông Dương</li>
+<li>Bản Cát Cát</li>
+<li>Thung lũng Mường Hoa</li>
+<li>Núi Hàm Rồng</li>
+</ul>`,
+        featuredImage: '/images/blog/sapa.jpg',
+        categoryId: blogCategories[0].id,
+        authorName: 'Trần Thị Hương',
+        authorAvatar: '/images/avatars/2.png',
+        status: 'published',
+        viewCount: 2340,
+        publishedAt: new Date('2024-02-20'),
+        tags: {
+          create: [
+            { tagId: blogTags[0].id },
+            { tagId: blogTags[2].id },
+            { tagId: blogTags[3].id }
+          ]
+        }
+      }
+    }),
+    prisma.blogPost.create({
+      data: {
+        title: 'Ẩm thực đường phố Hà Nội - 20 món ngon phải thử',
+        slug: 'am-thuc-duong-pho-ha-noi-20-mon-ngon-phai-thu',
+        excerpt: 'Khám phá nền ẩm thực đường phố phong phú của thủ đô ngàn năm văn hiến.',
+        content: `<h2>Phở Hà Nội</h2>
+<p>Không gì có thể thay thế được bát phở nóng hổi vào buổi sáng sớm tại Hà Nội.</p>
+
+<h2>Bún chả</h2>
+<p>Món ăn từng được Tổng thống Obama thưởng thức khi đến Việt Nam.</p>
+
+<h2>Bánh mì</h2>
+<p>Bánh mì Việt Nam đã được CNN bình chọn là một trong những món sandwich ngon nhất thế giới.</p>`,
+        featuredImage: '/images/blog/hanoi-food.jpg',
+        categoryId: blogCategories[1].id,
+        authorName: 'Lê Minh Chef',
+        authorAvatar: '/images/avatars/3.png',
+        status: 'published',
+        viewCount: 3100,
+        publishedAt: new Date('2024-03-10'),
+        tags: {
+          create: [
+            { tagId: blogTags[0].id },
+            { tagId: blogTags[5].id }
+          ]
+        }
+      }
+    }),
+    prisma.blogPost.create({
+      data: {
+        title: '15 mẹo tiết kiệm chi phí khi du lịch bụi',
+        slug: '15-meo-tiet-kiem-chi-phi-khi-du-lich-bui',
+        excerpt: 'Bí quyết để có chuyến đi tiết kiệm mà vẫn trọn vẹn trải nghiệm.',
+        content: `<h2>1. Đặt vé máy bay sớm</h2>
+<p>Đặt trước 2-3 tháng để có giá tốt nhất.</p>
+
+<h2>2. Sử dụng hostel hoặc homestay</h2>
+<p>Tiết kiệm đáng kể so với khách sạn và có cơ hội giao lưu với du khách khác.</p>
+
+<h2>3. Ăn như người địa phương</h2>
+<p>Tránh các nhà hàng du lịch, tìm đến quán ăn của người dân.</p>`,
+        featuredImage: '/images/blog/budget-travel.jpg',
+        categoryId: blogCategories[2].id,
+        authorName: 'Phạm Văn Phượt',
+        authorAvatar: '/images/avatars/4.png',
+        status: 'published',
+        viewCount: 4500,
+        publishedAt: new Date('2024-03-25'),
+        tags: {
+          create: [
+            { tagId: blogTags[3].id },
+            { tagId: blogTags[5].id }
+          ]
+        }
+      }
+    }),
+    prisma.blogPost.create({
+      data: {
+        title: 'Lễ hội truyền thống Việt Nam - Nét đẹp văn hóa ngàn năm',
+        slug: 'le-hoi-truyen-thong-viet-nam-net-dep-van-hoa-ngan-nam',
+        excerpt: 'Tìm hiểu về các lễ hội đặc sắc diễn ra quanh năm trên khắp Việt Nam.',
+        content: `<h2>Tết Nguyên Đán</h2>
+<p>Lễ hội lớn nhất trong năm của người Việt, thời điểm sum họp gia đình.</p>
+
+<h2>Lễ hội Chùa Hương</h2>
+<p>Diễn ra từ tháng Giêng đến tháng 3 âm lịch tại Hà Nội.</p>
+
+<h2>Lễ hội Đền Hùng</h2>
+<p>Giỗ Tổ Hùng Vương - ngày lễ quan trọng tưởng nhớ các vua Hùng.</p>`,
+        featuredImage: '/images/blog/festival.jpg',
+        categoryId: blogCategories[3].id,
+        authorName: 'Hoàng Văn Hóa',
+        authorAvatar: '/images/avatars/5.png',
+        status: 'published',
+        viewCount: 1890,
+        publishedAt: new Date('2024-04-05'),
+        tags: {
+          create: [
+            { tagId: blogTags[0].id },
+            { tagId: blogTags[4].id }
+          ]
+        }
+      }
+    })
+  ])
+
+  console.log('✅ Blog posts created')
+
+  // ==================== Product Categories ====================
+  const productCategories = await Promise.all([
+    prisma.productCategory.create({
+      data: {
+        name: 'Vali & Túi xách',
+        slug: 'vali-tui-xach',
+        description: 'Vali kéo, balo du lịch, túi xách tiện dụng',
+        image: '/images/products/category-luggage.jpg'
+      }
+    }),
+    prisma.productCategory.create({
+      data: {
+        name: 'Phụ kiện du lịch',
+        slug: 'phu-kien-du-lich',
+        description: 'Gối cổ, bịt mắt, adapter, túi đựng mỹ phẩm',
+        image: '/images/products/category-accessories.jpg'
+      }
+    }),
+    prisma.productCategory.create({
+      data: {
+        name: 'Đồ dùng cắm trại',
+        slug: 'do-dung-cam-trai',
+        description: 'Lều, túi ngủ, đèn pin, bếp dã ngoại',
+        image: '/images/products/category-camping.jpg'
+      }
+    }),
+    prisma.productCategory.create({
+      data: {
+        name: 'Quần áo outdoor',
+        slug: 'quan-ao-outdoor',
+        description: 'Áo khoác, quần trekking, giày leo núi',
+        image: '/images/products/category-clothing.jpg'
+      }
+    }),
+    prisma.productCategory.create({
+      data: {
+        name: 'Thiết bị điện tử',
+        slug: 'thiet-bi-dien-tu',
+        description: 'Action cam, sạc dự phòng, tai nghe',
+        image: '/images/products/category-electronics.jpg'
+      }
+    })
+  ])
+
+  console.log('✅ Product categories created')
+
+
+  // ==================== Products ====================
+  const products = await Promise.all([
+    // Vali & Túi xách
+    prisma.product.create({
+      data: {
+        name: 'Vali kéo du lịch 24 inch',
+        slug: 'vali-keo-du-lich-24-inch',
+        sku: 'VAL-001',
+        description: 'Vali kéo cao cấp với chất liệu PC chống va đập, khóa TSA, bánh xe 360 độ êm ái. Dung tích 60L phù hợp cho chuyến đi 5-7 ngày.',
+        shortDesc: 'Vali 24 inch chất liệu PC cao cấp',
+        price: 1890000,
+        salePrice: 1590000,
+        stock: 50,
+        categoryId: productCategories[0].id,
+        brand: 'TravelPro',
+        status: 'published',
+        featured: true,
+        images: {
+          create: [
+            { url: '/images/products/vali-1.jpg', isPrimary: true, sortOrder: 0 },
+            { url: '/images/products/vali-1-2.jpg', sortOrder: 1 }
+          ]
+        }
+      }
+    }),
+    prisma.product.create({
+      data: {
+        name: 'Balo du lịch chống nước 40L',
+        slug: 'balo-du-lich-chong-nuoc-40l',
+        sku: 'BAL-001',
+        description: 'Balo du lịch dung tích lớn 40L, chất liệu nylon chống nước, nhiều ngăn tiện dụng, đệm lưng thoáng khí.',
+        shortDesc: 'Balo 40L chống nước đa năng',
+        price: 890000,
+        salePrice: 750000,
+        stock: 80,
+        categoryId: productCategories[0].id,
+        brand: 'Osprey',
+        status: 'published',
+        featured: true,
+        images: {
+          create: [
+            { url: '/images/products/balo-1.jpg', isPrimary: true, sortOrder: 0 }
+          ]
+        }
+      }
+    }),
+    // Phụ kiện du lịch
+    prisma.product.create({
+      data: {
+        name: 'Gối cổ memory foam cao cấp',
+        slug: 'goi-co-memory-foam-cao-cap',
+        sku: 'PHU-001',
+        description: 'Gối cổ chất liệu memory foam, có túi đựng tiện lợi, hỗ trợ cổ tối ưu khi di chuyển đường dài.',
+        shortDesc: 'Gối cổ memory foam êm ái',
+        price: 350000,
+        salePrice: 290000,
+        stock: 150,
+        categoryId: productCategories[1].id,
+        brand: 'Cabeau',
+        status: 'published',
+        featured: false,
+        images: {
+          create: [
+            { url: '/images/products/goi-co-1.jpg', isPrimary: true, sortOrder: 0 }
+          ]
+        }
+      }
+    }),
+    prisma.product.create({
+      data: {
+        name: 'Adapter du lịch đa năng',
+        slug: 'adapter-du-lich-da-nang',
+        sku: 'PHU-002',
+        description: 'Adapter chuyển đổi ổ cắm quốc tế, tương thích 150+ quốc gia, có 2 cổng USB và 1 cổng Type-C.',
+        shortDesc: 'Adapter quốc tế 150+ quốc gia',
+        price: 450000,
+        stock: 200,
+        categoryId: productCategories[1].id,
+        brand: 'Anker',
+        status: 'published',
+        featured: true,
+        images: {
+          create: [
+            { url: '/images/products/adapter-1.jpg', isPrimary: true, sortOrder: 0 }
+          ]
+        }
+      }
+    }),
+    prisma.product.create({
+      data: {
+        name: 'Bộ túi đựng đồ du lịch 6 món',
+        slug: 'bo-tui-dung-do-du-lich-6-mon',
+        sku: 'PHU-003',
+        description: 'Bộ 6 túi đựng quần áo, giày dép, mỹ phẩm giúp sắp xếp vali gọn gàng. Chất liệu nylon chống thấm.',
+        shortDesc: 'Bộ 6 túi organizer cho vali',
+        price: 250000,
+        salePrice: 199000,
+        stock: 300,
+        categoryId: productCategories[1].id,
+        brand: 'TravelMate',
+        status: 'published',
+        images: {
+          create: [
+            { url: '/images/products/tui-dung-1.jpg', isPrimary: true, sortOrder: 0 }
+          ]
+        }
+      }
+    }),
+    // Đồ dùng cắm trại
+    prisma.product.create({
+      data: {
+        name: 'Lều cắm trại 2 người chống mưa',
+        slug: 'leu-cam-trai-2-nguoi-chong-mua',
+        sku: 'CAM-001',
+        description: 'Lều 2 lớp chống mưa 3000mm, khung nhôm nhẹ, dễ dàng lắp đặt trong 5 phút. Trọng lượng chỉ 2.5kg.',
+        shortDesc: 'Lều 2 người siêu nhẹ 2.5kg',
+        price: 1500000,
+        salePrice: 1290000,
+        stock: 40,
+        categoryId: productCategories[2].id,
+        brand: 'NatureHike',
+        status: 'published',
+        featured: true,
+        images: {
+          create: [
+            { url: '/images/products/leu-1.jpg', isPrimary: true, sortOrder: 0 }
+          ]
+        }
+      }
+    }),
+    prisma.product.create({
+      data: {
+        name: 'Túi ngủ mùa đông -5°C',
+        slug: 'tui-ngu-mua-dong-am-5-do',
+        sku: 'CAM-002',
+        description: 'Túi ngủ lông vũ giữ ấm đến -5°C, trọng lượng 1.2kg, có thể nén nhỏ gọn.',
+        shortDesc: 'Túi ngủ giữ ấm -5°C',
+        price: 1200000,
+        stock: 60,
+        categoryId: productCategories[2].id,
+        brand: 'Aegismax',
+        status: 'published',
+        images: {
+          create: [
+            { url: '/images/products/tui-ngu-1.jpg', isPrimary: true, sortOrder: 0 }
+          ]
+        }
+      }
+    }),
+    prisma.product.create({
+      data: {
+        name: 'Đèn pin LED cắm trại 1000 lumen',
+        slug: 'den-pin-led-cam-trai-1000-lumen',
+        sku: 'CAM-003',
+        description: 'Đèn pin LED siêu sáng 1000 lumen, pin sạc USB, chống nước IPX6, có thể dùng làm sạc dự phòng.',
+        shortDesc: 'Đèn pin 1000 lumen chống nước',
+        price: 550000,
+        salePrice: 450000,
+        stock: 100,
+        categoryId: productCategories[2].id,
+        brand: 'Fenix',
+        status: 'published',
+        images: {
+          create: [
+            { url: '/images/products/den-pin-1.jpg', isPrimary: true, sortOrder: 0 }
+          ]
+        }
+      }
+    }),
+    // Quần áo outdoor
+    prisma.product.create({
+      data: {
+        name: 'Áo khoác gió chống nước 3 lớp',
+        slug: 'ao-khoac-gio-chong-nuoc-3-lop',
+        sku: 'OUT-001',
+        description: 'Áo khoác 3 lớp với công nghệ chống nước 10000mm, thoáng khí, có mũ trùm có thể tháo rời.',
+        shortDesc: 'Áo khoác 3 lớp chống nước',
+        price: 1890000,
+        salePrice: 1590000,
+        stock: 70,
+        categoryId: productCategories[3].id,
+        brand: 'The North Face',
+        status: 'published',
+        featured: true,
+        images: {
+          create: [
+            { url: '/images/products/ao-khoac-1.jpg', isPrimary: true, sortOrder: 0 }
+          ]
+        }
+      }
+    }),
+    prisma.product.create({
+      data: {
+        name: 'Giày leo núi chống trượt',
+        slug: 'giay-leo-nui-chong-truot',
+        sku: 'OUT-002',
+        description: 'Giày trekking đế Vibram chống trượt, chống nước, bảo vệ mắt cá chân, phù hợp địa hình khó.',
+        shortDesc: 'Giày trekking đế Vibram',
+        price: 2500000,
+        salePrice: 2190000,
+        stock: 45,
+        categoryId: productCategories[3].id,
+        brand: 'Salomon',
+        status: 'published',
+        featured: true,
+        images: {
+          create: [
+            { url: '/images/products/giay-1.jpg', isPrimary: true, sortOrder: 0 }
+          ]
+        }
+      }
+    }),
+    // Thiết bị điện tử
+    prisma.product.create({
+      data: {
+        name: 'Action Camera 4K chống nước',
+        slug: 'action-camera-4k-chong-nuoc',
+        sku: 'ELE-001',
+        description: 'Camera hành động quay 4K/60fps, chống nước 10m, chống rung EIS, màn hình cảm ứng.',
+        shortDesc: 'Camera 4K chống nước 10m',
+        price: 3500000,
+        salePrice: 2990000,
+        stock: 30,
+        categoryId: productCategories[4].id,
+        brand: 'GoPro',
+        status: 'published',
+        featured: true,
+        images: {
+          create: [
+            { url: '/images/products/camera-1.jpg', isPrimary: true, sortOrder: 0 }
+          ]
+        }
+      }
+    }),
+    prisma.product.create({
+      data: {
+        name: 'Sạc dự phòng 20000mAh',
+        slug: 'sac-du-phong-20000mah',
+        sku: 'ELE-002',
+        description: 'Pin sạc dự phòng 20000mAh, hỗ trợ sạc nhanh PD 65W, có thể sạc laptop, 2 cổng USB-C.',
+        shortDesc: 'Pin 20000mAh sạc nhanh 65W',
+        price: 890000,
+        salePrice: 750000,
+        stock: 120,
+        categoryId: productCategories[4].id,
+        brand: 'Anker',
+        status: 'published',
+        images: {
+          create: [
+            { url: '/images/products/sac-1.jpg', isPrimary: true, sortOrder: 0 }
+          ]
+        }
+      }
+    })
+  ])
+
+  console.log('✅ Products created')
+
+  // ==================== Customers ====================
+  const customers = await Promise.all([
+    prisma.customer.create({
+      data: {
+        email: 'nguyenvana@email.com',
+        firstName: 'Văn A',
+        lastName: 'Nguyễn',
+        phone: '0901234567',
+        avatar: '/images/avatars/1.png',
+        addresses: {
+          create: {
+            type: 'shipping',
+            firstName: 'Văn A',
+            lastName: 'Nguyễn',
+            address1: '123 Nguyễn Huệ',
+            city: 'Hồ Chí Minh',
+            state: 'Quận 1',
+            postalCode: '700000',
+            country: 'Việt Nam',
+            phone: '0901234567',
+            isDefault: true
+          }
+        }
+      }
+    }),
+    prisma.customer.create({
+      data: {
+        email: 'tranthib@email.com',
+        firstName: 'Thị B',
+        lastName: 'Trần',
+        phone: '0912345678',
+        avatar: '/images/avatars/2.png',
+        addresses: {
+          create: {
+            type: 'shipping',
+            firstName: 'Thị B',
+            lastName: 'Trần',
+            address1: '456 Lê Lợi',
+            city: 'Hà Nội',
+            state: 'Hoàn Kiếm',
+            postalCode: '100000',
+            country: 'Việt Nam',
+            phone: '0912345678',
+            isDefault: true
+          }
+        }
+      }
+    }),
+    prisma.customer.create({
+      data: {
+        email: 'levanc@email.com',
+        firstName: 'Văn C',
+        lastName: 'Lê',
+        phone: '0923456789',
+        avatar: '/images/avatars/3.png'
+      }
+    })
+  ])
+
+  console.log('✅ Customers created')
+
+  // ==================== Orders ====================
+  const orders = await Promise.all([
+    prisma.order.create({
+      data: {
+        orderNumber: 'ORD-2024-0001',
+        customerId: customers[0].id,
+        status: 'delivered',
+        paymentStatus: 'paid',
+        paymentMethod: 'credit_card',
+        subtotal: 2340000,
+        discount: 200000,
+        shipping: 30000,
+        tax: 0,
+        total: 2170000,
+        shippingAddress: '123 Nguyễn Huệ, Quận 1, Hồ Chí Minh',
+        items: {
+          create: [
+            {
+              productId: products[0].id,
+              name: 'Vali kéo du lịch 24 inch',
+              sku: 'VAL-001',
+              price: 1590000,
+              quantity: 1,
+              total: 1590000
+            },
+            {
+              productId: products[2].id,
+              name: 'Gối cổ memory foam cao cấp',
+              sku: 'PHU-001',
+              price: 290000,
+              quantity: 1,
+              total: 290000
+            }
+          ]
+        }
+      }
+    }),
+    prisma.order.create({
+      data: {
+        orderNumber: 'ORD-2024-0002',
+        customerId: customers[1].id,
+        status: 'processing',
+        paymentStatus: 'paid',
+        paymentMethod: 'bank_transfer',
+        subtotal: 3780000,
+        shipping: 0,
+        tax: 0,
+        total: 3780000,
+        shippingAddress: '456 Lê Lợi, Hoàn Kiếm, Hà Nội',
+        items: {
+          create: [
+            {
+              productId: products[5].id,
+              name: 'Lều cắm trại 2 người chống mưa',
+              sku: 'CAM-001',
+              price: 1290000,
+              quantity: 1,
+              total: 1290000
+            },
+            {
+              productId: products[9].id,
+              name: 'Giày leo núi chống trượt',
+              sku: 'OUT-002',
+              price: 2190000,
+              quantity: 1,
+              total: 2190000
+            }
+          ]
+        }
+      }
+    }),
+    prisma.order.create({
+      data: {
+        orderNumber: 'ORD-2024-0003',
+        customerId: customers[0].id,
+        status: 'pending',
+        paymentStatus: 'pending',
+        subtotal: 2990000,
+        shipping: 30000,
+        tax: 0,
+        total: 3020000,
+        shippingAddress: '123 Nguyễn Huệ, Quận 1, Hồ Chí Minh',
+        items: {
+          create: [
+            {
+              productId: products[10].id,
+              name: 'Action Camera 4K chống nước',
+              sku: 'ELE-001',
+              price: 2990000,
+              quantity: 1,
+              total: 2990000
+            }
+          ]
+        }
+      }
+    })
+  ])
+
+  console.log('✅ Orders created')
+
+  // ==================== Product Reviews ====================
+  await Promise.all([
+    prisma.productReview.create({
+      data: {
+        productId: products[0].id,
+        name: 'Nguyễn Văn A',
+        email: 'nguyenvana@email.com',
+        avatar: '/images/avatars/1.png',
+        rating: 5,
+        title: 'Vali rất chắc chắn',
+        content: 'Mình đã dùng vali này đi 3 chuyến rồi, rất bền và đẹp. Bánh xe êm, kéo nhẹ.',
+        status: 'approved'
+      }
+    }),
+    prisma.productReview.create({
+      data: {
+        productId: products[0].id,
+        name: 'Trần Thị B',
+        email: 'tranthib@email.com',
+        avatar: '/images/avatars/2.png',
+        rating: 4,
+        title: 'Đáng tiền',
+        content: 'Chất lượng tốt so với giá tiền. Giao hàng nhanh.',
+        status: 'approved'
+      }
+    }),
+    prisma.productReview.create({
+      data: {
+        productId: products[5].id,
+        name: 'Lê Văn C',
+        email: 'levanc@email.com',
+        avatar: '/images/avatars/3.png',
+        rating: 5,
+        title: 'Lều chất lượng cao',
+        content: 'Đã dùng lều này cắm trại ở Đà Lạt, chống mưa rất tốt, dựng lều nhanh.',
+        status: 'approved'
+      }
+    }),
+    prisma.productReview.create({
+      data: {
+        productId: products[9].id,
+        name: 'Phạm Văn D',
+        email: 'phamvand@email.com',
+        avatar: '/images/avatars/4.png',
+        rating: 5,
+        title: 'Giày leo núi tuyệt vời',
+        content: 'Đã leo Fansipan với đôi giày này, bám đường rất tốt, không bị trượt.',
+        status: 'approved'
+      }
+    })
+  ])
+
+  console.log('✅ Product reviews created')
+
+  // ==================== Blog Comments ====================
+  await Promise.all([
+    prisma.blogComment.create({
+      data: {
+        postId: blogPosts[0].id,
+        name: 'Minh Anh',
+        email: 'minhanh@email.com',
+        content: 'Bài viết rất hay! Mình đã đi Mỹ Khê rồi, đúng là rất đẹp.',
+        status: 'approved'
+      }
+    }),
+    prisma.blogComment.create({
+      data: {
+        postId: blogPosts[1].id,
+        name: 'Hoàng Long',
+        email: 'hoanglong@email.com',
+        content: 'Cảm ơn bạn đã chia sẻ. Mình đang plan đi Sapa tháng 10 này.',
+        status: 'approved'
+      }
+    })
+  ])
+
+  console.log('✅ Blog comments created')
   console.log('🎉 Seed completed successfully!')
 }
 

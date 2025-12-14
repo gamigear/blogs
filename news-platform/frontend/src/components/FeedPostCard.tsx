@@ -143,22 +143,22 @@ export function FeedPostCard({ post, onLike, onBookmark }: Props) {
         </p>
       </div>
 
-      {/* Images */}
+      {/* Images - optimized for mobile */}
       {hasImages && (
         <div className="px-4 pb-3">
           <div className={`grid gap-1 rounded-xl overflow-hidden ${
-            post.images.length === 1 ? 'grid-cols-1' :
-            post.images.length === 2 ? 'grid-cols-2' :
-            post.images.length === 3 ? 'grid-cols-2' :
+            images.length === 1 ? 'grid-cols-1' :
+            images.length === 2 ? 'grid-cols-2' :
+            images.length === 3 ? 'grid-cols-2' :
             'grid-cols-2'
           }`}>
             {displayImages.map((img, idx) => (
               <div 
                 key={idx} 
                 className={`relative ${
-                  post.images.length === 3 && idx === 0 ? 'row-span-2' : ''
+                  images.length === 3 && idx === 0 ? 'row-span-2' : ''
                 } ${
-                  post.images.length === 1 ? 'aspect-video' : 'aspect-square'
+                  images.length === 1 ? 'aspect-video' : 'aspect-square'
                 }`}
               >
                 <Image
@@ -167,7 +167,8 @@ export function FeedPostCard({ post, onLike, onBookmark }: Props) {
                   fill
                   className="object-cover"
                   loading="lazy"
-                  sizes={post.images.length === 1 ? '(max-width: 768px) 100vw, 600px' : '300px'}
+                  quality={70}
+                  sizes={images.length === 1 ? '(max-width: 768px) 100vw, 600px' : '(max-width: 768px) 50vw, 300px'}
                 />
                 {/* Show remaining count on last image */}
                 {idx === 3 && remainingImages > 0 && !showAllImages && (

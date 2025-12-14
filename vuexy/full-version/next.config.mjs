@@ -5,7 +5,7 @@ const nextConfig = {
         return [
             {
                 source: '/',
-                destination: '/en/dashboards/crm',
+                destination: '/front-pages/landing-page',
                 permanent: true,
                 locale: false
             },

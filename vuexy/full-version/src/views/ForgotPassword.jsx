@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 // Next Imports
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -9,9 +11,14 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import Alert from '@mui/material/Alert'
+import CircularProgress from '@mui/material/CircularProgress'
 
 // Third-party Imports
 import classnames from 'classnames'
+import { useForm, Controller } from 'react-hook-form'
+import { valibotResolver } from '@hookform/resolvers/valibot'
+import { object, string, email, pipe, minLength } from 'valibot'
 
 // Component Imports
 import DirectionalIcon from '@components/DirectionalIcon'
@@ -49,7 +56,14 @@ const MaskImg = styled('img')({
   zIndex: -1
 })
 
+const schema = object({
+  email: pipe(string(), minLength(1, 'Vui lòng nhập email'), email('Email không hợp lệ'))
+})
+
 const ForgotPassword = ({ mode }) => {
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState({ type: '', text: '' })
+
   // Vars
   const darkImg = '/images/pages/auth-mask-dark.png'
   const lightImg = '/images/pages/auth-mask-light.png'
@@ -63,6 +77,41 @@ const ForgotPassword = ({ mode }) => {
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const authBackground = useImageVariant(mode, lightImg, darkImg)
   const characterIllustration = useImageVariant(mode, lightIllustration, darkIllustration)
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    resolver: valibotResolver(schema),
+    defaultValues: { email: '' }
+  })
+
+  const onSubmit = async data => {
+    setLoading(true)
+    setMessage({ type: '', text: '' })
+
+    try {
+      const res = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+
+      const result = await res.json()
+
+      if (!res.ok) {
+        setMessage({ type: 'error', text: result.message?.[0] || 'Đã xảy ra lỗi' })
+        return
+      }
+
+      setMessage({ type: 'success', text: result.message })
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Đã xảy ra lỗi, vui lòng thử lại' })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className='flex bs-full justify-center'>
@@ -86,13 +135,39 @@ const ForgotPassword = ({ mode }) => {
         </Link>
         <div className='flex flex-col gap-6 is-full sm:is-auto md:is-full sm:max-is-[400px] md:max-is-[unset] mbs-8 sm:mbs-11 md:mbs-0'>
           <div className='flex flex-col gap-1'>
-            <Typography variant='h4'>Forgot Password 🔒</Typography>
-            <Typography>Enter your email and we&#39;ll send you instructions to reset your password</Typography>
+            <Typography variant='h4'>Quên mật khẩu 🔒</Typography>
+            <Typography>Nhập email của bạn để nhận link đặt lại mật khẩu</Typography>
           </div>
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()} className='flex flex-col gap-6'>
-            <CustomTextField autoFocus fullWidth label='Email' placeholder='Enter your email' />
-            <Button fullWidth variant='contained' type='submit'>
-              Send Reset Link
+
+          {message.text && (
+            <Alert severity={message.type}>{message.text}</Alert>
+          )}
+
+          <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
+            <Controller
+              name='email'
+              control={control}
+              render={({ field }) => (
+                <CustomTextField
+                  {...field}
+                  autoFocus
+                  fullWidth
+                  type='email'
+                  label='Email'
+                  placeholder='Nhập email của bạn'
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                />
+              )}
+            />
+            <Button
+              fullWidth
+              variant='contained'
+              type='submit'
+              disabled={loading}
+              startIcon={loading && <CircularProgress size={20} color='inherit' />}
+            >
+              {loading ? 'Đang gửi...' : 'Gửi link đặt lại'}
             </Button>
             <Typography className='flex justify-center items-center' color='primary.main'>
               <Link href={getLocalizedUrl('/login', locale)} className='flex items-center gap-1.5'>
@@ -101,7 +176,7 @@ const ForgotPassword = ({ mode }) => {
                   rtlIconClass='tabler-chevron-right'
                   className='text-xl'
                 />
-                <span>Back to login</span>
+                <span>Quay lại đăng nhập</span>
               </Link>
             </Typography>
           </form>

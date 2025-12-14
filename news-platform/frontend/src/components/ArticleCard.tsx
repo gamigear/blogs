@@ -6,9 +6,10 @@ import { Article } from '@/types';
 
 interface Props {
   article: Article;
+  priority?: boolean;
 }
 
-export function ArticleCard({ article }: Props) {
+export function ArticleCard({ article, priority = false }: Props) {
   return (
     <article className="card hover:shadow-md transition-shadow">
       {article.featuredImage && (
@@ -19,6 +20,8 @@ export function ArticleCard({ article }: Props) {
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 33vw"
+            quality={70}
+            loading={priority ? 'eager' : 'lazy'}
           />
         </div>
       )}

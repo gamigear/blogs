@@ -14,12 +14,21 @@ export function HeroSlider({ articles, autoPlayInterval = 5000 }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [loadedIndexes, setLoadedIndexes] = useState<Set<number>>(new Set([0]));
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => {
       const next = (prev + 1) % articles.length;
-      // Preload next slide
-      setLoadedIndexes(loaded => new Set([...loaded, next, (next + 1) % articles.length]));
+      // Only preload next slide (not next+1) to save memory on mobile
+      setLoadedIndexes(loaded => new Set([...loaded, next]));
       return next;
     });
   }, [articles.length]);
@@ -37,19 +46,20 @@ export function HeroSlider({ articles, autoPlayInterval = 5000 }: Props) {
     setCurrentIndex(index);
   };
 
-  // Auto-play
+  // Auto-play - slower on mobile to reduce CPU usage
   useEffect(() => {
     if (isHovered || articles.length <= 1) return;
-    const timer = setInterval(nextSlide, autoPlayInterval);
+    const interval = isMobile ? autoPlayInterval * 1.5 : autoPlayInterval;
+    const timer = setInterval(nextSlide, interval);
     return () => clearInterval(timer);
-  }, [isHovered, nextSlide, autoPlayInterval, articles.length]);
+  }, [isHovered, nextSlide, autoPlayInterval, articles.length, isMobile]);
 
-  // Preload first 2 slides on mount
+  // Only preload first slide on mobile, first 2 on desktop
   useEffect(() => {
-    if (articles.length > 1) {
+    if (articles.length > 1 && !isMobile) {
       setLoadedIndexes(new Set([0, 1]));
     }
-  }, [articles.length]);
+  }, [articles.length, isMobile]);
 
   if (articles.length === 0) return null;
 
@@ -162,8 +172,8 @@ export function HeroSlider({ articles, autoPlayInterval = 5000 }: Props) {
         </div>
       )}
 
-      {/* Thumbnail Navigation */}
-      {articles.length > 1 && (
+      {/* Thumbnail Navigation - hidden on mobile to save memory */}
+      {articles.length > 1 && !isMobile && (
         <div className="hidden lg:flex gap-3 mt-4">
           {articles.map((article, index) => (
             <button
@@ -183,6 +193,8 @@ export function HeroSlider({ articles, autoPlayInterval = 5000 }: Props) {
                     fill
                     className="object-cover"
                     sizes="64px"
+                    quality={50}
+                    loading="lazy"
                   />
                 ) : (
                   <div className="w-full h-full bg-gray-200 flex items-center justify-center">

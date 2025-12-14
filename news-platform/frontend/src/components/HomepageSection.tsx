@@ -50,10 +50,13 @@ export function HomepageSection({ section }: Props) {
 
 // Slider Layout
 function SliderLayout({ articles }: { articles: HomepageArticle[] }) {
+  // Limit to 4 articles for better mobile performance
+  const displayArticles = articles.slice(0, 4);
+  
   return (
     <div className="relative overflow-hidden rounded-lg">
-      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
-        {articles.map((article) => (
+      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2" style={{ WebkitOverflowScrolling: 'touch' }}>
+        {displayArticles.map((article, index) => (
           <Link
             key={article.id}
             href={`/article/${article.slug}`}
@@ -66,6 +69,9 @@ function SliderLayout({ articles }: { articles: HomepageArticle[] }) {
                   alt={article.title}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  quality={70}
+                  loading={index < 2 ? 'eager' : 'lazy'}
                 />
               ) : (
                 <div className="w-full h-full bg-gray-200" />
@@ -85,9 +91,12 @@ function SliderLayout({ articles }: { articles: HomepageArticle[] }) {
 
 // Grid Layout
 function GridLayout({ articles }: { articles: HomepageArticle[] }) {
+  // Limit to 6 articles for better mobile performance
+  const displayArticles = articles.slice(0, 6);
+  
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-      {articles.map((article) => (
+      {displayArticles.map((article, index) => (
         <Link key={article.id} href={`/article/${article.slug}`} className="group">
           <div className="relative aspect-video rounded-lg overflow-hidden mb-2">
             {article.featured_image ? (
@@ -96,6 +105,9 @@ function GridLayout({ articles }: { articles: HomepageArticle[] }) {
                 alt={article.title}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform"
+                sizes="(max-width: 768px) 50vw, 33vw"
+                quality={70}
+                loading={index < 4 ? 'eager' : 'lazy'}
               />
             ) : (
               <div className="w-full h-full bg-gray-200" />
@@ -113,9 +125,12 @@ function GridLayout({ articles }: { articles: HomepageArticle[] }) {
 
 // List Layout
 function ListLayout({ articles }: { articles: HomepageArticle[] }) {
+  // Limit to 5 articles for better mobile performance
+  const displayArticles = articles.slice(0, 5);
+  
   return (
     <div className="divide-y">
-      {articles.map((article) => (
+      {displayArticles.map((article, index) => (
         <Link
           key={article.id}
           href={`/article/${article.slug}`}
@@ -128,6 +143,9 @@ function ListLayout({ articles }: { articles: HomepageArticle[] }) {
                 alt={article.title}
                 fill
                 className="object-cover"
+                sizes="96px"
+                quality={60}
+                loading={index < 3 ? 'eager' : 'lazy'}
               />
             ) : (
               <div className="w-full h-full bg-gray-200" />
@@ -150,6 +168,9 @@ function FeaturedLargeLayout({ articles }: { articles: HomepageArticle[] }) {
   const [main, ...rest] = articles;
   if (!main) return null;
 
+  // Limit side articles to 3 for better mobile performance
+  const sideArticles = rest.slice(0, 3);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Link href={`/article/${main.slug}`} className="group">
@@ -160,6 +181,9 @@ function FeaturedLargeLayout({ articles }: { articles: HomepageArticle[] }) {
               alt={main.title}
               fill
               className="object-cover group-hover:scale-105 transition-transform"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={75}
+              priority
             />
           ) : (
             <div className="w-full h-full bg-gray-200" />
@@ -172,7 +196,7 @@ function FeaturedLargeLayout({ articles }: { articles: HomepageArticle[] }) {
         </div>
       </Link>
       <div className="space-y-3">
-        {rest.slice(0, 4).map((article) => (
+        {sideArticles.map((article, index) => (
           <Link
             key={article.id}
             href={`/article/${article.slug}`}
@@ -185,6 +209,9 @@ function FeaturedLargeLayout({ articles }: { articles: HomepageArticle[] }) {
                   alt={article.title}
                   fill
                   className="object-cover"
+                  sizes="80px"
+                  quality={60}
+                  loading="lazy"
                 />
               ) : (
                 <div className="w-full h-full bg-gray-200" />
@@ -246,9 +273,12 @@ function CompactLayout({ articles }: { articles: HomepageArticle[] }) {
 
 // Cards Layout
 function CardsLayout({ articles }: { articles: HomepageArticle[] }) {
+  // Limit to 4 articles for better mobile performance
+  const displayArticles = articles.slice(0, 4);
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {articles.map((article) => (
+      {displayArticles.map((article, index) => (
         <Link
           key={article.id}
           href={`/article/${article.slug}`}
@@ -261,6 +291,9 @@ function CardsLayout({ articles }: { articles: HomepageArticle[] }) {
                 alt={article.title}
                 fill
                 className="object-cover"
+                sizes="80px"
+                quality={60}
+                loading={index < 2 ? 'eager' : 'lazy'}
               />
             ) : (
               <div className="w-full h-full bg-gray-200" />
@@ -282,6 +315,8 @@ function CardsLayout({ articles }: { articles: HomepageArticle[] }) {
 // Magazine Layout
 function MagazineLayout({ articles }: { articles: HomepageArticle[] }) {
   const [first, second, ...rest] = articles;
+  // Limit side articles to 2 for better mobile performance
+  const sideArticles = rest.slice(0, 2);
 
   return (
     <div className="grid grid-cols-12 gap-4">
@@ -294,6 +329,9 @@ function MagazineLayout({ articles }: { articles: HomepageArticle[] }) {
                 alt={first.title}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform"
+                sizes="(max-width: 768px) 100vw, 66vw"
+                quality={75}
+                priority
               />
             ) : (
               <div className="w-full h-full bg-gray-200" />
@@ -316,6 +354,9 @@ function MagazineLayout({ articles }: { articles: HomepageArticle[] }) {
                   alt={second.title}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  quality={70}
+                  loading="lazy"
                 />
               ) : (
                 <div className="w-full h-full bg-gray-200" />
@@ -326,7 +367,7 @@ function MagazineLayout({ articles }: { articles: HomepageArticle[] }) {
             </h3>
           </Link>
         )}
-        {rest.slice(0, 2).map((article) => (
+        {sideArticles.map((article) => (
           <Link
             key={article.id}
             href={`/article/${article.slug}`}
@@ -339,6 +380,9 @@ function MagazineLayout({ articles }: { articles: HomepageArticle[] }) {
                   alt={article.title}
                   fill
                   className="object-cover"
+                  sizes="64px"
+                  quality={60}
+                  loading="lazy"
                 />
               ) : (
                 <div className="w-full h-full bg-gray-200" />

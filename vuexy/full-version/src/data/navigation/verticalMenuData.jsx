@@ -166,6 +166,29 @@ const verticalMenuData = dictionary => [
         ]
       },
       {
+        label: 'Blog',
+        icon: 'tabler-article',
+        children: [
+          {
+            label: 'Bài viết',
+            children: [
+              {
+                label: 'Danh sách',
+                href: '/apps/blog/posts'
+              },
+              {
+                label: 'Thêm mới',
+                href: '/apps/blog/posts/add'
+              }
+            ]
+          },
+          {
+            label: 'Danh mục',
+            href: '/apps/blog/categories'
+          }
+        ]
+      },
+      {
         label: dictionary['navigation'].logistics,
         icon: 'tabler-truck',
         children: [

@@ -125,6 +125,26 @@ const FrontMenu = props => {
       >
         Contact us
       </Typography>
+      <Typography
+        color='text.primary'
+        component={Link}
+        href='/front-pages/blog'
+        className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
+          'text-primary': pathname.startsWith('/front-pages/blog')
+        })}
+      >
+        Blog
+      </Typography>
+      <Typography
+        color='text.primary'
+        component={Link}
+        href='/front-pages/shop'
+        className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
+          'text-primary': pathname.startsWith('/front-pages/shop')
+        })}
+      >
+        Shop
+      </Typography>
       <DropdownMenu
         mode={mode}
         isBelowLgScreen={isBelowLgScreen}

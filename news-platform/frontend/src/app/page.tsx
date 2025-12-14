@@ -9,6 +9,7 @@ import { CategorySection } from '@/components/CategorySection';
 import { ArticleListItem } from '@/components/ArticleListItem';
 import { FeedPreview } from '@/components/FeedPreview';
 import { SearchWidget } from '@/components/SearchWidget';
+import { LazySection } from '@/components/LazySection';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -144,31 +145,35 @@ export default async function HomePage() {
               </div>
             )}
 
-            {/* Category sections */}
-            {categoryArticles.map(({ category, articles: catArticles }) => (
+            {/* Category sections - lazy loaded for better mobile performance */}
+            {categoryArticles.map(({ category, articles: catArticles }, index) => (
               catArticles.length > 0 && (
-                <div key={category.id} className="bg-white rounded-lg p-4">
-                  <CategorySection
-                    title={category.name}
-                    slug={category.slug}
-                    articles={catArticles}
-                  />
-                </div>
+                <LazySection key={category.id}>
+                  <div className="bg-white rounded-lg p-4">
+                    <CategorySection
+                      title={category.name}
+                      slug={category.slug}
+                      articles={catArticles}
+                    />
+                  </div>
+                </LazySection>
               )
             ))}
 
-            {/* More articles list */}
+            {/* More articles list - lazy loaded */}
             {listArticles.length > 0 && (
-              <div className="bg-white rounded-lg p-4">
-                <div className="section-header">
-                  <h2 className="section-title">Tin tức khác</h2>
+              <LazySection>
+                <div className="bg-white rounded-lg p-4">
+                  <div className="section-header">
+                    <h2 className="section-title">Tin tức khác</h2>
+                  </div>
+                  <div>
+                    {listArticles.map((article) => (
+                      <ArticleListItem key={article.id} article={article} />
+                    ))}
+                  </div>
                 </div>
-                <div>
-                  {listArticles.map((article) => (
-                    <ArticleListItem key={article.id} article={article} />
-                  ))}
-                </div>
-              </div>
+              </LazySection>
             )}
           </div>
 

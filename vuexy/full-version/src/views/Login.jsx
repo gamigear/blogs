@@ -102,8 +102,8 @@ const Login = ({ mode }) => {
   } = useForm({
     resolver: valibotResolver(schema),
     defaultValues: {
-      email: 'admin@vuexy.com',
-      password: 'admin'
+      email: 'admin@example.com',
+      password: 'Admin@123'
     }
   })
 
@@ -162,8 +162,8 @@ const Login = ({ mode }) => {
           </div>
           <Alert icon={false} className='bg-[var(--mui-palette-primary-lightOpacity)]'>
             <Typography variant='body2' color='primary.main'>
-              Email: <span className='font-medium'>admin@vuexy.com</span> / Pass:{' '}
-              <span className='font-medium'>admin</span>
+              Email: <span className='font-medium'>admin@example.com</span> / Pass:{' '}
+              <span className='font-medium'>Admin@123</span>
             </Typography>
           </Alert>
           <form

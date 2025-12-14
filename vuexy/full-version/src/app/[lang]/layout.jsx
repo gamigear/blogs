@@ -45,7 +45,7 @@ const RootLayout = async props => {
   return (
     <TranslationWrapper headersList={headersList} lang={lang}>
       <html id='__next' lang={lang} dir={direction} suppressHydrationWarning>
-        <body className='flex is-full min-bs-full flex-auto flex-col'>
+        <body className='flex is-full min-bs-full flex-auto flex-col' suppressHydrationWarning>
           <InitColorSchemeScript attribute='data' defaultMode={systemMode} />
           {children}
         </body>

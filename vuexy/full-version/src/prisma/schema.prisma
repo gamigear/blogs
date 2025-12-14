@@ -8,6 +8,8 @@ generator client {
   binaryTargets   = ["native", "debian-openssl-3.0.x", "linux-arm64-openssl-1.1.x", "rhel-openssl-3.0.x"]
 }
 
+// ==================== Auth Models ====================
+
 model Account {
   id                 String  @id @default(cuid())
   userId             String
@@ -21,9 +23,7 @@ model Account {
   scope              String?
   id_token           String?
   session_state      String?
-
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@unique([provider, providerAccountId])
 }
 
@@ -41,19 +41,65 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  password      String?   // Hashed password for credentials login
+  role          UserRole  @default(USER)
+  status        UserStatus @default(ACTIVE)
+  phone         String?
+  lastLoginAt   DateTime?
+  lastLoginIp   String?
+  failedLoginAttempts Int @default(0)
+  lockedUntil   DateTime?
   accounts      Account[]
   sessions      Session[]
+  passwordResets PasswordReset[]
+  activityLogs  ActivityLog[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  USER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  PENDING_VERIFICATION
 }
 
 model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
-
   @@unique([identifier, token])
 }
 
-// ==================== App Models ====================
+model PasswordReset {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expires   DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String   // LOGIN, LOGOUT, PASSWORD_CHANGE, etc.
+  details   String?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+}
+
+// ==================== App User ====================
 
 model AppUser {
   id          Int      @id @default(autoincrement())
@@ -73,101 +119,253 @@ model AppUser {
   updatedAt   DateTime @updatedAt
 }
 
-model Product {
-  id           Int       @id @default(autoincrement())
-  productName  String
-  category     String
-  stock        Boolean   @default(true)
-  sku          Int       @unique
-  price        String
-  qty          Int
-  status       String
-  image        String?
-  productBrand String?
-  reviews      Review[]
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-}
+// ==================== Blog Models ====================
 
-model Review {
-  id           Int      @id @default(autoincrement())
-  productId    Int
-  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  reviewer     String
-  email        String
-  avatar       String?
-  date         String
-  status       String
-  review       Int
-  head         String?
-  para         String?
-  createdAt    DateTime @default(now())
-}
-
-model Invoice {
-  id            String   @id
-  issuedDate    String
-  address       String?
-  company       String?
-  companyEmail  String?
-  country       String?
-  contact       String?
-  name          String
-  service       String?
-  total         Float
-  avatar        String?
-  avatarColor   String?
-  invoiceStatus String
-  balance       String?
-  dueDate       String?
-  createdAt     DateTime @default(now())
-}
-
-model Permission {
+model BlogCategory {
   id          Int      @id @default(autoincrement())
-  name        String
-  assignedTo  String[]
-  createdDate String
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  image       String?
+  posts       BlogPost[]
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
-model CalendarEvent {
-  id        String   @id
-  url       String?
-  title     String
-  start     DateTime
-  endDate   DateTime?
-  allDay    Boolean  @default(false)
-  calendar  String?
-  createdAt DateTime @default(now())
-}
-
-model ChatContact {
-  id          Int      @id @default(autoincrement())
-  fullName    String
-  role        String?
-  about       String?
-  avatar      String?
-  avatarColor String?
-  status      String
-  createdAt   DateTime @default(now())
-}
-
-model ChatMessage {
+model BlogTag {
   id        Int      @id @default(autoincrement())
-  chatId    Int
-  senderId  Int
-  message   String
-  time      DateTime
-  isSent    Boolean  @default(true)
-  isDelivered Boolean @default(false)
-  isSeen    Boolean  @default(false)
+  name      String   @unique
+  slug      String   @unique
+  posts     BlogPostTag[]
   createdAt DateTime @default(now())
 }
 
-model Chat {
+model BlogPost {
+  id            Int           @id @default(autoincrement())
+  title         String
+  slug          String        @unique
+  excerpt       String?
+  content       String
+  featuredImage String?
+  categoryId    Int
+  category      BlogCategory  @relation(fields: [categoryId], references: [id])
+  authorName    String
+  authorAvatar  String?
+  status        String        @default("draft") // draft, published, scheduled
+  viewCount     Int           @default(0)
+  publishedAt   DateTime?
+  tags          BlogPostTag[]
+  comments      BlogComment[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model BlogPostTag {
+  postId Int
+  tagId  Int
+  post   BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    BlogTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  @@id([postId, tagId])
+}
+
+model BlogComment {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  post      BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  name      String
+  email     String
+  content   String
+  status    String   @default("pending") // pending, approved, spam
+  createdAt DateTime @default(now())
+}
+
+// ==================== E-commerce Models ====================
+
+model ProductCategory {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  image       String?
+  parentId    Int?
+  parent      ProductCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    ProductCategory[] @relation("CategoryHierarchy")
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id            Int              @id @default(autoincrement())
+  name          String
+  slug          String           @unique
+  sku           String           @unique
+  description   String?
+  shortDesc     String?
+  price         Decimal          @db.Decimal(10, 2)
+  salePrice     Decimal?         @db.Decimal(10, 2)
+  costPrice     Decimal?         @db.Decimal(10, 2)
+  stock         Int              @default(0)
+  lowStockAlert Int              @default(5)
+  categoryId    Int
+  category      ProductCategory  @relation(fields: [categoryId], references: [id])
+  brand         String?
+  status        String           @default("draft") // draft, published, inactive
+  featured      Boolean          @default(false)
+  images        ProductImage[]
+  reviews       ProductReview[]
+  orderItems    OrderItem[]
+  cartItems     CartItem[]
+  wishlistItems WishlistItem[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+}
+
+model ProductImage {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String?
+  isPrimary Boolean  @default(false)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model ProductReview {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name      String
+  email     String
+  avatar    String?
+  rating    Int      // 1-5
+  title     String?
+  content   String
+  status    String   @default("pending") // pending, approved, rejected
+  createdAt DateTime @default(now())
+}
+
+// ==================== Customer & Orders ====================
+
+model Customer {
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  firstName   String
+  lastName    String
+  phone       String?
+  avatar      String?
+  status      String    @default("active") // active, inactive, blocked
+  orders      Order[]
+  addresses   CustomerAddress[]
+  cart        Cart?
+  wishlist    Wishlist?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model CustomerAddress {
+  id          Int      @id @default(autoincrement())
+  customerId  Int
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  type        String   @default("shipping") // shipping, billing
+  firstName   String
+  lastName    String
+  company     String?
+  address1    String
+  address2    String?
+  city        String
+  state       String?
+  postalCode  String
+  country     String
+  phone       String?
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id              Int         @id @default(autoincrement())
+  orderNumber     String      @unique
+  customerId      Int
+  customer        Customer    @relation(fields: [customerId], references: [id])
+  status          String      @default("pending") // pending, processing, shipped, delivered, cancelled
+  paymentStatus   String      @default("pending") // pending, paid, failed, refunded
+  paymentMethod   String?
+  subtotal        Decimal     @db.Decimal(10, 2)
+  discount        Decimal     @default(0) @db.Decimal(10, 2)
+  shipping        Decimal     @default(0) @db.Decimal(10, 2)
+  tax             Decimal     @default(0) @db.Decimal(10, 2)
+  total           Decimal     @db.Decimal(10, 2)
+  shippingAddress String?
+  billingAddress  String?
+  notes           String?
+  items           OrderItem[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  name      String
+  sku       String
+  price     Decimal  @db.Decimal(10, 2)
+  quantity  Int
+  total     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+}
+
+// ==================== Cart & Wishlist ====================
+
+model Cart {
+  id         Int        @id @default(autoincrement())
+  customerId Int        @unique
+  customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  items      CartItem[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  cartId    Int
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([cartId, productId])
+}
+
+model Wishlist {
+  id         Int            @id @default(autoincrement())
+  customerId Int            @unique
+  customer   Customer       @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  items      WishlistItem[]
+  createdAt  DateTime       @default(now())
+}
+
+model WishlistItem {
   id         Int      @id @default(autoincrement())
-  usersId    Int
-  unseenMsgs Int      @default(0)
+  wishlistId Int
+  wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+  productId  Int
+  product    Product  @relation(fields: [productId], references: [id])
   createdAt  DateTime @default(now())
+  @@unique([wishlistId, productId])
+}
+
+// ==================== Settings ====================
+
+model StoreSetting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
