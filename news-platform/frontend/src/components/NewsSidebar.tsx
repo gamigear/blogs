@@ -8,6 +8,9 @@ interface Props {
 }
 
 export function NewsSidebar({ articles, title = 'Xem nhanh' }: Props) {
+  // Limit to 6 articles for better performance
+  const displayArticles = articles.slice(0, 6);
+  
   return (
     <aside>
       {/* Header */}
@@ -25,7 +28,7 @@ export function NewsSidebar({ articles, title = 'Xem nhanh' }: Props) {
 
         {/* Items */}
         <div className="space-y-4">
-          {articles.map((article) => (
+          {displayArticles.map((article, index) => (
             <article key={article.id} className="group relative flex gap-4">
               {/* Timeline dot */}
               <div className="relative z-10 flex-shrink-0">
@@ -42,9 +45,9 @@ export function NewsSidebar({ articles, title = 'Xem nhanh' }: Props) {
                   </Link>
                 </div>
 
-                {/* Thumbnail */}
+                {/* Thumbnail - only show for first 3 items on mobile to save memory */}
                 {article.featuredImage && (
-                  <Link href={`/article/${article.slug}`} className="flex-shrink-0">
+                  <Link href={`/article/${article.slug}`} className={`flex-shrink-0 ${index >= 3 ? 'hidden md:block' : ''}`}>
                     <div className="relative w-20 h-14 overflow-hidden rounded">
                       <Image
                         src={article.featuredImage.url}
@@ -52,6 +55,7 @@ export function NewsSidebar({ articles, title = 'Xem nhanh' }: Props) {
                         fill
                         className="object-cover group-hover:scale-105 transition-transform"
                         sizes="80px"
+                        loading={index < 2 ? 'eager' : 'lazy'}
                       />
                     </div>
                   </Link>

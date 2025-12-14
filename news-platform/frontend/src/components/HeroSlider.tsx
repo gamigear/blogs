@@ -13,16 +13,27 @@ interface Props {
 export function HeroSlider({ articles, autoPlayInterval = 5000 }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [loadedIndexes, setLoadedIndexes] = useState<Set<number>>(new Set([0]));
 
   const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % articles.length);
+    setCurrentIndex((prev) => {
+      const next = (prev + 1) % articles.length;
+      // Preload next slide
+      setLoadedIndexes(loaded => new Set([...loaded, next, (next + 1) % articles.length]));
+      return next;
+    });
   }, [articles.length]);
 
   const prevSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + articles.length) % articles.length);
+    setCurrentIndex((prev) => {
+      const next = (prev - 1 + articles.length) % articles.length;
+      setLoadedIndexes(loaded => new Set([...loaded, next]));
+      return next;
+    });
   }, [articles.length]);
 
   const goToSlide = (index: number) => {
+    setLoadedIndexes(loaded => new Set([...loaded, index]));
     setCurrentIndex(index);
   };
 
@@ -32,6 +43,13 @@ export function HeroSlider({ articles, autoPlayInterval = 5000 }: Props) {
     const timer = setInterval(nextSlide, autoPlayInterval);
     return () => clearInterval(timer);
   }, [isHovered, nextSlide, autoPlayInterval, articles.length]);
+
+  // Preload first 2 slides on mount
+  useEffect(() => {
+    if (articles.length > 1) {
+      setLoadedIndexes(new Set([0, 1]));
+    }
+  }, [articles.length]);
 
   if (articles.length === 0) return null;
 
@@ -43,56 +61,63 @@ export function HeroSlider({ articles, autoPlayInterval = 5000 }: Props) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Main Slider */}
+      {/* Main Slider - Only render current and adjacent slides to save memory */}
       <div className="relative aspect-[21/9] md:aspect-[21/8] overflow-hidden rounded-xl">
-        {articles.map((article, index) => (
-          <div
-            key={article.id}
-            className={`absolute inset-0 transition-opacity duration-500 ${
-              index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-            }`}
-          >
-            <Link href={`/article/${article.slug}`}>
-              {article.featuredImage ? (
-                <Image
-                  src={article.featuredImage.url}
-                  alt={article.featuredImage.alt || article.title}
-                  fill
-                  className="object-cover"
-                  sizes="100vw"
-                  priority={index === 0}
-                />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-primary to-primary-dark" />
-              )}
-            </Link>
-            
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-            
-            {/* Content */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-              <div className="max-w-3xl">
-                {article.category && (
-                  <Link 
-                    href={`/category/${article.category.slug}`}
-                    className="inline-block px-3 py-1 bg-primary text-white text-sm font-medium rounded mb-3 hover:bg-primary-dark transition-colors"
-                  >
-                    {article.category.name}
-                  </Link>
+        {articles.map((article, index) => {
+          // Only render slides that have been loaded (current + preloaded)
+          const shouldRender = loadedIndexes.has(index);
+          if (!shouldRender) return null;
+          
+          return (
+            <div
+              key={article.id}
+              className={`absolute inset-0 transition-opacity duration-500 ${
+                index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
+            >
+              <Link href={`/article/${article.slug}`}>
+                {article.featuredImage ? (
+                  <Image
+                    src={article.featuredImage.url}
+                    alt={article.featuredImage.alt || article.title}
+                    fill
+                    className="object-cover"
+                    sizes="100vw"
+                    priority={index === 0}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-primary to-primary-dark" />
                 )}
-                <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 line-clamp-2">
-                  <Link href={`/article/${article.slug}`} className="hover:underline">
-                    {article.title}
-                  </Link>
-                </h2>
-                <p className="text-gray-200 text-sm md:text-base line-clamp-2 hidden sm:block">
-                  {article.excerpt}
-                </p>
+              </Link>
+              
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              
+              {/* Content */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+                <div className="max-w-3xl">
+                  {article.category && (
+                    <Link 
+                      href={`/category/${article.category.slug}`}
+                      className="inline-block px-3 py-1 bg-primary text-white text-sm font-medium rounded mb-3 hover:bg-primary-dark transition-colors"
+                    >
+                      {article.category.name}
+                    </Link>
+                  )}
+                  <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 line-clamp-2">
+                    <Link href={`/article/${article.slug}`} className="hover:underline">
+                      {article.title}
+                    </Link>
+                  </h2>
+                  <p className="text-gray-200 text-sm md:text-base line-clamp-2 hidden sm:block">
+                    {article.excerpt}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Navigation Arrows */}

@@ -166,6 +166,8 @@ export function FeedPostCard({ post, onLike, onBookmark }: Props) {
                   alt={`Ảnh ${idx + 1}`}
                   fill
                   className="object-cover"
+                  loading="lazy"
+                  sizes={post.images.length === 1 ? '(max-width: 768px) 100vw, 600px' : '300px'}
                 />
                 {/* Show remaining count on last image */}
                 {idx === 3 && remainingImages > 0 && !showAllImages && (

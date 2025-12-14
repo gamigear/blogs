@@ -39,12 +39,13 @@ function getSection(sections: SectionType[], name: string) {
 
 export default async function HomePage() {
   // Get dynamic sections and base data
+  // Reduced data fetching for better mobile performance
   const [{ mainSections, sidebarSections }, articles, categories, featuredArticles, feedData] = await Promise.all([
     getHomepageSections(),
-    getArticles(1, 30),
+    getArticles(1, 20), // Reduced from 30 to 20
     getCategories(),
-    getFeaturedArticles(10),
-    getFeedPosts(1, 12),
+    getFeaturedArticles(5), // Reduced from 10 to 5
+    getFeedPosts(1, 8), // Reduced from 12 to 8
   ]);
 
   // Get sections by name (if configured in admin)
@@ -58,17 +59,18 @@ export default async function HomePage() {
   const showSearchWidget = searchWidgetSection !== undefined;
 
   // Use section data if available, otherwise fallback to default
+  // Limit slider to 3 articles for better mobile performance
   const sliderArticles = heroSection?.articles?.length 
-    ? convertArticles(heroSection.articles)
-    : (featuredArticles.length > 0 ? featuredArticles.slice(0, 5) : articles.slice(0, 5));
+    ? convertArticles(heroSection.articles).slice(0, 3)
+    : (featuredArticles.length > 0 ? featuredArticles.slice(0, 3) : articles.slice(0, 3));
 
   const topFeaturedArticles = topFeaturedSection?.articles?.length
     ? convertArticles(topFeaturedSection.articles)
     : articles.slice(0, 6);
 
   const latestArticles = latestSidebarSection?.articles?.length
-    ? convertArticles(latestSidebarSection.articles)
-    : articles.slice(0, 10);
+    ? convertArticles(latestSidebarSection.articles).slice(0, 6)
+    : articles.slice(0, 6);
 
   const popularArticles = popularSidebarSection?.articles?.length
     ? convertArticles(popularSidebarSection.articles)
@@ -101,7 +103,7 @@ export default async function HomePage() {
     );
   }
 
-  const listArticles = articles.slice(6, 16);
+  const listArticles = articles.slice(6, 12); // Reduced from 16 to 12
 
   // Convert feed posts for preview
   const feedPosts = feedData.posts.map(p => ({

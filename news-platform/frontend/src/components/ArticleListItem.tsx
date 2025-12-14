@@ -48,6 +48,7 @@ export function ArticleListItem({
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             sizes={imageSize === 'large' ? '200px' : imageSize === 'medium' ? '160px' : '80px'}
+            loading="lazy"
           />
         ) : (
           <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -111,6 +112,7 @@ function ArticleGridItem({ article }: { article: Article }) {
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 768px) 100vw, 33vw"
+              loading="lazy"
             />
           ) : (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">

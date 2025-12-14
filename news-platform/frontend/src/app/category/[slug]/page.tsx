@@ -50,7 +50,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     getArticlesByCategory(slug, page, PAGE_SIZE),
     getCategoryBySlug(slug),
     getCategories(),
-    getArticles(1, 10),
+    getArticles(1, 6), // Reduced from 10 to 6 for better mobile performance
   ]);
 
   if (!category) notFound();

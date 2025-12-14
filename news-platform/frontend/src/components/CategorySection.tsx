@@ -38,6 +38,9 @@ export function CategorySection({ title, slug, articles, layout = 'default' }: P
 }
 
 function DefaultLayout({ mainArticle, sideArticles }: { mainArticle: Article; sideArticles: Article[] }) {
+  // Limit side articles to 3 for better mobile performance
+  const displaySideArticles = sideArticles.slice(0, 3);
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {/* Main article */}
@@ -51,6 +54,7 @@ function DefaultLayout({ mainArticle, sideArticles }: { mainArticle: Article; si
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
                 sizes="(max-width: 768px) 100vw, 66vw"
+                loading="lazy"
               />
             ) : (
               <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -67,7 +71,7 @@ function DefaultLayout({ mainArticle, sideArticles }: { mainArticle: Article; si
 
       {/* Side articles */}
       <div className="space-y-4">
-        {sideArticles.map((article) => (
+        {displaySideArticles.map((article, index) => (
           <article key={article.id} className="group">
             <Link href={`/article/${article.slug}`} className="flex gap-3">
               <div className="relative w-24 h-16 flex-shrink-0 overflow-hidden rounded">
@@ -78,6 +82,7 @@ function DefaultLayout({ mainArticle, sideArticles }: { mainArticle: Article; si
                     fill
                     className="object-cover group-hover:scale-105 transition-transform"
                     sizes="96px"
+                    loading="lazy"
                   />
                 ) : (
                   <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -99,7 +104,7 @@ function DefaultLayout({ mainArticle, sideArticles }: { mainArticle: Article; si
 function HorizontalLayout({ articles }: { articles: Article[] }) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {articles.slice(0, 4).map((article) => (
+      {articles.slice(0, 4).map((article, index) => (
         <article key={article.id} className="group">
           <Link href={`/article/${article.slug}`}>
             <div className="relative aspect-[16/9] overflow-hidden rounded-lg mb-2">
@@ -110,6 +115,7 @@ function HorizontalLayout({ articles }: { articles: Article[] }) {
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                   sizes="(max-width: 768px) 50vw, 25vw"
+                  loading="lazy"
                 />
               ) : (
                 <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -130,7 +136,7 @@ function HorizontalLayout({ articles }: { articles: Article[] }) {
 function CompactLayout({ articles }: { articles: Article[] }) {
   return (
     <div className="space-y-3">
-      {articles.slice(0, 6).map((article) => (
+      {articles.slice(0, 5).map((article, index) => (
         <article key={article.id} className="group flex gap-3 py-2">
           <div className="relative w-20 h-14 flex-shrink-0 overflow-hidden rounded">
             {article.featuredImage ? (
@@ -140,6 +146,7 @@ function CompactLayout({ articles }: { articles: Article[] }) {
                 fill
                 className="object-cover group-hover:scale-105 transition-transform"
                 sizes="80px"
+                loading="lazy"
               />
             ) : (
               <div className="w-full h-full bg-gray-200 flex items-center justify-center">

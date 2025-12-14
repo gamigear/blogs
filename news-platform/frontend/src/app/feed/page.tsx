@@ -17,7 +17,8 @@ async function FeedContent() {
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id ? parseInt(session.user.id as string) : undefined;
   
-  const { posts, total, hasMore } = await getFeedPosts(1, 20, userId);
+  // Reduced from 20 to 10 for better mobile performance
+  const { posts, total, hasMore } = await getFeedPosts(1, 10, userId);
 
   return (
     <FeedList 
