@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { MessageButton } from '@/components/MessageButton';
 
 interface UserProfile {
   id: number;
@@ -452,9 +453,9 @@ export default function UserProfilePage() {
             </div>
           </div>
 
-          {/* Follow button */}
+          {/* Follow & Message buttons */}
           {!isOwnProfile && (
-            <div className="mt-4">
+            <div className="mt-4 flex items-center justify-center gap-3">
               <button
                 onClick={handleFollow}
                 disabled={followLoading}
@@ -478,6 +479,11 @@ export default function UserProfilePage() {
                   '+ Theo dõi'
                 )}
               </button>
+              <MessageButton 
+                receiverId={user.id} 
+                receiverName={user.display_name} 
+                receiverAvatar={user.avatar}
+              />
             </div>
           )}
         </div>
