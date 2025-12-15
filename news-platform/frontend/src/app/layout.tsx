@@ -4,6 +4,7 @@ import { AuthProvider } from '@/components/AuthProvider';
 import { MainLayout } from '@/components/MainLayout';
 import { CustomScriptsHead, CustomScriptsFooter } from '@/components/CustomScriptsSSR';
 import { SettingsProvider } from '@/contexts/SettingsContext';
+import { DynamicFavicon } from '@/components/DynamicFavicon';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://news.example.com';
 
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen flex flex-col" suppressHydrationWarning>
         <AuthProvider>
           <SettingsProvider>
+            <DynamicFavicon />
             <MainLayout>{children}</MainLayout>
           </SettingsProvider>
         </AuthProvider>
