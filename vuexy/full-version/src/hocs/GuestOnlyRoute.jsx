@@ -14,7 +14,8 @@ const GuestOnlyRoute = async ({ children, lang }) => {
   const session = await getServerSession()
 
   if (session) {
-    redirect(getLocalizedUrl(themeConfig.homePageUrl, lang))
+    // Redirect logged-in users to admin dashboard
+    redirect(getLocalizedUrl(themeConfig.adminPageUrl || '/dashboards/crm', lang))
   }
 
   return <>{children}</>

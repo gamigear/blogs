@@ -125,8 +125,8 @@ const Login = ({ mode }) => {
     })
 
     if (res && res.ok && res.error === null) {
-      // Vars
-      const redirectURL = searchParams.get('redirectTo') ?? '/'
+      // Redirect to admin dashboard after login, or to the requested URL
+      const redirectURL = searchParams.get('redirectTo') ?? themeConfig.adminPageUrl
 
       router.replace(getLocalizedUrl(redirectURL, locale))
     } else {

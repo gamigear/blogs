@@ -99,7 +99,7 @@ const ProductDetailWrapper = ({ slug, mode }) => {
       <Container maxWidth={false} sx={{ maxWidth: 1200, px: 3, py: 4 }}>
         {/* Breadcrumbs */}
         <Breadcrumbs sx={{ mb: 3 }}>
-          <Link href='/front-pages/landing-page' style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link href='/' style={{ textDecoration: 'none', color: 'inherit' }}>
             Trang chủ
           </Link>
           <Link href='/front-pages/shop' style={{ textDecoration: 'none', color: 'inherit' }}>

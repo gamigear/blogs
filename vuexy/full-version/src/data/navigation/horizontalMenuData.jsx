@@ -458,7 +458,7 @@ const horizontalMenuData = dictionary => [
         children: [
           {
             label: dictionary['navigation'].landing,
-            href: '/front-pages/landing-page',
+            href: '/',
             target: '_blank',
             excludeLang: true
           },

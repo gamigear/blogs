@@ -37,7 +37,7 @@ const data = [
   {
     id: '6',
     name: 'Landing Front',
-    url: '/front-pages/landing-page',
+    url: '/',
     excludeLang: true,
     icon: 'tabler-file-description',
     section: 'Front Pages'

@@ -31,6 +31,9 @@ import { signIn } from 'next-auth/react'
 import Logo from '@components/layout/shared/Logo'
 import CustomTextField from '@core/components/mui/TextField'
 
+// Config Imports
+import themeConfig from '@configs/themeConfig'
+
 // Hook Imports
 import { useImageVariant } from '@core/hooks/useImageVariant'
 import { useSettings } from '@core/hooks/useSettings'
@@ -153,7 +156,7 @@ const Register = ({ mode }) => {
       })
 
       if (signInRes?.ok) {
-        router.replace(getLocalizedUrl('/', locale))
+        router.replace(getLocalizedUrl(themeConfig.adminPageUrl || '/dashboards/crm', locale))
       } else {
         router.replace(getLocalizedUrl('/login', locale))
       }
