@@ -32,6 +32,8 @@ export async function GET() {
         default_cover: '',
         contact_email: 'contact@bangiaiphap.com',
         contact_phone: '1900-xxxx',
+        timezone: 'Asia/Ho_Chi_Minh',
+        timezone_offset: 7,
       },
       header: { show_search: true, show_notifications: true, menu_items: [] },
       footer: {

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { openChatWithUser } from '@/components/ChatProvider';
 
 interface UserProfile {
   id: number;
@@ -321,8 +322,9 @@ export default function UserProfilePage() {
           <p className="text-gray-600 mb-4">
             Người dùng này không tồn tại hoặc đã bị xóa.
           </p>
-          <Link href="/" className="text-blue-600 hover:underline">
-            ← Về trang chủ
+          <Link href="/" className="flex items-center gap-1 text-blue-600 hover:underline">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            Về trang chủ
           </Link>
         </div>
       </div>
@@ -452,9 +454,9 @@ export default function UserProfilePage() {
             </div>
           </div>
 
-          {/* Follow button */}
+          {/* Follow & Message buttons */}
           {!isOwnProfile && (
-            <div className="mt-4">
+            <div className="mt-4 flex items-center justify-center gap-3">
               <button
                 onClick={handleFollow}
                 disabled={followLoading}
@@ -477,6 +479,15 @@ export default function UserProfilePage() {
                 ) : (
                   '+ Theo dõi'
                 )}
+              </button>
+              <button
+                onClick={() => openChatWithUser(user.id, user.display_name, user.avatar || undefined)}
+                className="px-6 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                Nhắn tin
               </button>
             </div>
           )}
@@ -614,9 +625,9 @@ export default function UserProfilePage() {
                                   <button
                                     type="button"
                                     onClick={() => removePostImage(idx)}
-                                    className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                                    className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
                                   >
-                                    ×
+                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                                   </button>
                                 </div>
                               ))}
@@ -653,7 +664,17 @@ export default function UserProfilePage() {
 
                         <div className="flex justify-between items-center">
                           <span className="text-xs text-gray-500">
-                            {user.trust_level >= 2 ? '✓ Bài viết sẽ được đăng ngay' : '⏳ Bài viết cần được duyệt'}
+                            {user.trust_level >= 2 ? (
+                              <span className="flex items-center gap-1">
+                                <svg className="w-3 h-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                Bài viết sẽ được đăng ngay
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-1">
+                                <svg className="w-3 h-3 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                Bài viết cần được duyệt
+                              </span>
+                            )}
                           </span>
                           <div className="flex gap-2">
                             <button
@@ -692,7 +713,7 @@ export default function UserProfilePage() {
                   </div>
                   {posts.length === 0 ? (
                     <div className="p-8 text-center text-gray-500">
-                      <div className="text-4xl mb-2">📝</div>
+                      <svg className="w-10 h-10 mx-auto mb-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                       <p>Chưa có bài viết nào</p>
                     </div>
                   ) : (
@@ -742,7 +763,7 @@ export default function UserProfilePage() {
                 </div>
                 {posts.length === 0 ? (
                   <div className="p-8 text-center text-gray-500">
-                    <div className="text-4xl mb-2">📝</div>
+                    <svg className="w-10 h-10 mx-auto mb-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                     <p>Chưa có bài viết nào</p>
                   </div>
                 ) : (

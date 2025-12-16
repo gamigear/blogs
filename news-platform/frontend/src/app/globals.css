@@ -876,3 +876,42 @@
   .h3 { font-size: 32px; }
   .h4 { font-size: 24px; }
 }
+
+
+/* Safe area for mobile devices (iPhone notch, etc.) */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+/* Mobile chat and notification improvements */
+@media (max-width: 640px) {
+  /* Full screen chat window on mobile */
+  .chat-window-mobile {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+  }
+  
+  /* Dropdown menus full width on mobile */
+  .dropdown-mobile {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+  }
+}
+
+/* Improve touch targets on mobile */
+@media (max-width: 768px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

@@ -1,102 +1,139 @@
 const path = require('path');
-const { Client } = require(path.join(__dirname, '../frontend/node_modules/pg'));
+require('dotenv').config({ path: path.join(__dirname, '../frontend/.env.local') });
+const { Pool } = require('pg');
+
+console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'Found' : 'Not found');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
 
 const articles = [
-  // Thời sự (cat 1, author 1)
-  { title: 'Thủ tướng chủ trì hội nghị phát triển kinh tế vùng Đông Nam Bộ', slug: 'thu-tuong-chu-tri-hoi-nghi-phat-trien-kinh-te', excerpt: 'Hội nghị tập trung thảo luận các giải pháp thúc đẩy liên kết vùng.', content: '## Nội dung chính\n\nSáng nay, Thủ tướng đã chủ trì Hội nghị phát triển kinh tế vùng Đông Nam Bộ.\n\n### Các giải pháp\n\n1. Đẩy mạnh liên kết giao thông\n2. Phát triển công nghiệp công nghệ cao\n3. Thu hút đầu tư nước ngoài', cat: 1, author: 1, featured: true, views: 15420, hours: 1 },
-  { title: 'Quốc hội thông qua Luật Đất đai sửa đổi với nhiều điểm mới', slug: 'quoc-hoi-thong-qua-luat-dat-dai-sua-doi', excerpt: 'Luật mới có hiệu lực từ ngày 1/1/2025 với nhiều thay đổi.', content: '## Những điểm mới\n\n- Bỏ khung giá đất\n- Mở rộng quyền sử dụng đất\n- Tăng cường công khai minh bạch', cat: 1, author: 1, featured: true, views: 28350, hours: 3 },
-  { title: 'Việt Nam và Nhật Bản nâng cấp quan hệ Đối tác Chiến lược', slug: 'viet-nam-nhat-ban-nang-cap-quan-he', excerpt: 'Hai nước nhất trí tăng cường hợp tác trên nhiều lĩnh vực.', content: '## Quan hệ Việt Nam - Nhật Bản\n\nLãnh đạo hai nước đã nhất trí nâng cấp quan hệ song phương.', cat: 1, author: 1, featured: false, views: 12890, hours: 5 },
-  { title: 'Bão số 5 đổ bộ vào miền Trung, hàng nghìn người sơ tán', slug: 'bao-so-5-do-bo-vao-mien-trung', excerpt: 'Các tỉnh miền Trung đang khẩn trương ứng phó với bão.', content: '## Tình hình bão số 5\n\nBão đã đổ bộ với sức gió mạnh cấp 10-11.\n\n### Công tác ứng phó\n\n- Sơ tán 50.000 người dân\n- Cấm tàu thuyền ra khơi', cat: 1, author: 1, featured: false, views: 45670, hours: 8 },
-  { title: 'Hà Nội công bố quy hoạch thành phố đến năm 2045', slug: 'ha-noi-cong-bo-quy-hoach-2045', excerpt: 'Quy hoạch mới định hướng Hà Nội trở thành đô thị thông minh.', content: '## Quy hoạch Thủ đô\n\n1. Dân số 12 triệu người\n2. 5 đô thị vệ tinh\n3. Hoàn thiện hệ thống metro', cat: 1, author: 1, featured: false, views: 8920, hours: 12 },
-
-  // Kinh doanh (cat 2, author 2)
-  { title: 'VN-Index vượt mốc 1.300 điểm, thanh khoản đạt kỷ lục', slug: 'vn-index-vuot-moc-1300-diem', excerpt: 'Thị trường chứng khoán ghi nhận phiên giao dịch sôi động nhất.', content: '## Thị trường chứng khoán\n\n- Thanh khoản 35.000 tỷ đồng\n- Khối ngoại mua ròng 500 tỷ', cat: 2, author: 2, featured: true, views: 23450, hours: 2 },
-  { title: 'Ngân hàng Nhà nước giữ nguyên lãi suất điều hành', slug: 'ngan-hang-nha-nuoc-giu-nguyen-lai-suat', excerpt: 'Quyết định nhằm hỗ trợ tăng trưởng kinh tế.', content: '## Chính sách tiền tệ\n\nLãi suất cho vay bình quân 8-10%/năm.', cat: 2, author: 2, featured: false, views: 15670, hours: 4 },
-  { title: 'Vingroup công bố kế hoạch đầu tư 5 tỷ USD vào AI', slug: 'vingroup-dau-tu-5-ty-usd-ai', excerpt: 'Tập đoàn đặt mục tiêu trở thành doanh nghiệp công nghệ hàng đầu.', content: '## Chiến lược mới\n\n- 3 tỷ USD cho trung tâm dữ liệu AI\n- 2 tỷ USD cho nhà máy bán dẫn', cat: 2, author: 2, featured: true, views: 34560, hours: 6 },
-  { title: 'Xuất khẩu Việt Nam đạt 350 tỷ USD trong 11 tháng', slug: 'xuat-khau-viet-nam-dat-350-ty-usd', excerpt: 'Kim ngạch xuất khẩu tăng 12% so với cùng kỳ.', content: '## Tình hình xuất khẩu\n\n1. Điện tử: 55 tỷ USD\n2. Dệt may: 35 tỷ USD\n3. Giày dép: 22 tỷ USD', cat: 2, author: 2, featured: false, views: 11230, hours: 10 },
-  { title: 'Giá vàng trong nước lập đỉnh mới, vượt 80 triệu đồng', slug: 'gia-vang-lap-dinh-moi-80-trieu', excerpt: 'Giá vàng tăng mạnh theo đà tăng của thế giới.', content: '## Thị trường vàng\n\nGiá vàng SJC vượt 80 triệu đồng/lượng.', cat: 2, author: 2, featured: false, views: 28900, hours: 14 },
-
-  // Công nghệ (cat 3, author 3)
-  { title: 'Apple ra mắt iPhone 16 với chip A18 mạnh mẽ nhất', slug: 'apple-ra-mat-iphone-16-chip-a18', excerpt: 'iPhone 16 mang đến nhiều cải tiến về camera và hiệu năng.', content: '## iPhone 16\n\n- Chip A18 Pro hiệu năng tăng 40%\n- Camera 48MP zoom quang 5x\n- Pin lớn hơn 20%', cat: 3, author: 3, featured: true, views: 67890, hours: 1 },
-  { title: 'OpenAI công bố GPT-5 với khả năng suy luận vượt trội', slug: 'openai-cong-bo-gpt-5', excerpt: 'Mô hình AI mới có thể giải quyết bài toán phức tạp.', content: '## GPT-5\n\n1. Suy luận logic phức tạp\n2. Hiểu ngữ cảnh sâu hơn\n3. Tạo code chính xác hơn', cat: 3, author: 3, featured: true, views: 89120, hours: 3 },
-  { title: 'Việt Nam đặt mục tiêu 100.000 kỹ sư bán dẫn năm 2030', slug: 'viet-nam-100000-ky-su-ban-dan-2030', excerpt: 'Chính phủ phê duyệt chiến lược phát triển ngành bán dẫn.', content: '## Chiến lược bán dẫn\n\n- Đào tạo 100.000 kỹ sư\n- Thu hút 10 tỷ USD đầu tư', cat: 3, author: 3, featured: false, views: 34560, hours: 7 },
-  { title: 'Tesla ra mắt robot Optimus thế hệ 2 làm việc nhà', slug: 'tesla-robot-optimus-the-he-2', excerpt: 'Robot hình người có thể thực hiện công việc gia đình.', content: '## Robot Optimus Gen 2\n\n1. Đi bộ mượt mà\n2. Cầm nắm chính xác\n3. Nhận diện giọng nói', cat: 3, author: 3, featured: false, views: 45670, hours: 9 },
-  { title: '5G đã phủ sóng 95% dân số Việt Nam', slug: '5g-phu-song-95-dan-so-viet-nam', excerpt: 'Việt Nam có tốc độ triển khai 5G nhanh nhất khu vực.', content: '## Triển khai 5G\n\n- 95% dân số được phủ sóng\n- Tốc độ trung bình 500 Mbps', cat: 3, author: 3, featured: false, views: 23450, hours: 15 },
-
-  // Thể thao (cat 4, author 4)
-  { title: 'Đội tuyển Việt Nam thắng đậm 4-0 trước Indonesia', slug: 'doi-tuyen-viet-nam-thang-4-0-indonesia', excerpt: 'Chiến thắng ấn tượng giúp Việt Nam dẫn đầu bảng AFF Cup.', content: '## AFF Cup 2024\n\n1. Phút 15: Tiến Linh\n2. Phút 34: Quang Hải\n3. Phút 67: Hoàng Đức\n4. Phút 89: Văn Toàn', cat: 4, author: 4, featured: true, views: 156780, hours: 2 },
-  { title: 'Nguyễn Thị Oanh giành HCV marathon SEA Games', slug: 'nguyen-thi-oanh-hcv-marathon-sea-games', excerpt: 'Nữ VĐV Việt Nam lập kỷ lục mới ở nội dung marathon.', content: '## SEA Games 33\n\n- Thời gian: 2 giờ 28 phút\n- Phá kỷ lục SEA Games', cat: 4, author: 4, featured: false, views: 78900, hours: 5 },
-  { title: 'Real Madrid vô địch Champions League lần thứ 16', slug: 'real-madrid-vo-dich-champions-league-16', excerpt: 'Đội bóng Hoàng gia tiếp tục thống trị châu Âu.', content: '## Champions League 2024\n\nReal Madrid đánh bại Man City 2-1 trong trận chung kết.', cat: 4, author: 4, featured: true, views: 234560, hours: 8 },
-  { title: 'Hoàng Nam vào tứ kết ATP 250 tại Singapore', slug: 'hoang-nam-tu-ket-atp-250-singapore', excerpt: 'Tay vợt số 1 Việt Nam có bước tiến lịch sử.', content: '## Tennis Việt Nam\n\nLý Hoàng Nam đánh bại đối thủ hạng 45 thế giới.', cat: 4, author: 4, featured: false, views: 45670, hours: 11 },
-  { title: 'VBA 2024: Saigon Heat vô địch sau loạt overtime', slug: 'vba-2024-saigon-heat-vo-dich', excerpt: 'Trận chung kết kéo dài 3 hiệp phụ với kết quả 98-95.', content: '## VBA Finals 2024\n\n- 3 hiệp phụ liên tiếp\n- MVP: Stefan Nguyen với 35 điểm', cat: 4, author: 4, featured: false, views: 34560, hours: 16 },
-
-  // Giải trí (cat 5, author 5)
-  { title: 'Phim Việt Mai cán mốc 500 tỷ đồng doanh thu', slug: 'phim-mai-can-moc-500-ty-doanh-thu', excerpt: 'Bộ phim của Trấn Thành trở thành phim Việt có doanh thu cao nhất.', content: '## Kỷ lục phòng vé\n\n- Doanh thu: 500 tỷ đồng\n- Lượt xem: 6 triệu', cat: 5, author: 5, featured: true, views: 89120, hours: 1 },
-  { title: 'BTS thông báo tái hợp sau nghĩa vụ quân sự', slug: 'bts-thong-bao-tai-hop', excerpt: 'Nhóm nhạc Hàn Quốc sẽ comeback vào năm 2025.', content: '## BTS Comeback\n\n1. Album mới: Quý 2/2025\n2. World Tour: Quý 3/2025', cat: 5, author: 5, featured: true, views: 234560, hours: 4 },
-  { title: 'Sơn Tùng M-TP ra mắt MV mới đạt 10 triệu view', slug: 'son-tung-mtp-mv-moi-10-trieu-view', excerpt: 'Ca khúc mới gây bão trên các nền tảng âm nhạc.', content: '## Sơn Tùng Comeback\n\n- 10 triệu view/24h\n- Top 1 Trending', cat: 5, author: 5, featured: false, views: 156780, hours: 6 },
-  { title: 'Liên hoan phim Cannes: Phim Việt được đề cử Cành Cọ Vàng', slug: 'lhp-cannes-2024-phim-viet-de-cu', excerpt: 'Lần đầu tiên phim Việt Nam lọt vào danh sách đề cử chính thức.', content: '## Cannes 2024\n\nPhim Đất Rừng Phương Nam được đề cử giải thưởng danh giá.', cat: 5, author: 5, featured: false, views: 67890, hours: 10 },
-  { title: 'Taylor Swift công bố tour diễn châu Á có Việt Nam', slug: 'taylor-swift-tour-chau-a-viet-nam', excerpt: 'Nữ ca sĩ sẽ biểu diễn tại TP.HCM vào tháng 3/2025.', content: '## The Eras Tour Asia\n\n- Địa điểm: Sân vận động Mỹ Đình\n- Thời gian: 15-16/3/2025', cat: 5, author: 5, featured: false, views: 345670, hours: 18 },
-
-  // Sức khỏe (cat 6, author 1)
-  { title: 'Việt Nam phát triển thành công vaccine ung thư phổi', slug: 'viet-nam-vaccine-ung-thu-phoi', excerpt: 'Vaccine cho kết quả khả quan trong thử nghiệm lâm sàng.', content: '## Đột phá y học\n\n- Hiệu quả: 70% bệnh nhân cải thiện\n- Tác dụng phụ: Nhẹ', cat: 6, author: 1, featured: true, views: 78900, hours: 2 },
-  { title: 'Cách phòng tránh bệnh cúm mùa đông hiệu quả', slug: 'cach-phong-tranh-cum-mua-dong', excerpt: 'Chuyên gia chia sẻ các biện pháp bảo vệ sức khỏe.', content: '## Phòng bệnh cúm\n\n1. Tiêm vaccine\n2. Rửa tay thường xuyên\n3. Đeo khẩu trang', cat: 6, author: 1, featured: false, views: 45670, hours: 5 },
-  { title: '10 thực phẩm tốt cho tim mạch nên ăn hàng ngày', slug: '10-thuc-pham-tot-cho-tim-mach', excerpt: 'Chế độ ăn uống khoa học giúp giảm nguy cơ bệnh tim.', content: '## Dinh dưỡng tim mạch\n\n1. Cá hồi\n2. Quả óc chó\n3. Dầu ô liu\n4. Rau xanh đậm', cat: 6, author: 1, featured: false, views: 34560, hours: 9 },
-  { title: 'Yoga và thiền định: Bí quyết giảm stress hiệu quả', slug: 'yoga-thien-dinh-giam-stress', excerpt: 'Nghiên cứu cho thấy yoga giúp giảm 60% căng thẳng.', content: '## Lợi ích Yoga\n\n- Giảm stress 60%\n- Cải thiện giấc ngủ\n- Tăng sự tập trung', cat: 6, author: 1, featured: false, views: 23450, hours: 13 },
-  { title: 'Cảnh báo: Tăng đột biến ca mắc sốt xuất huyết', slug: 'canh-bao-sot-xuat-huyet-mien-nam', excerpt: 'Bộ Y tế khuyến cáo tăng cường phòng chống dịch.', content: '## Dịch sốt xuất huyết\n\nSố ca mắc tăng 200% so với cùng kỳ.', cat: 6, author: 1, featured: false, views: 56780, hours: 20 },
-
-  // Đời sống (cat 7, author 5)
-  { title: 'Xu hướng sống tối giản: Bớt đồ đạc, thêm hạnh phúc', slug: 'xu-huong-song-toi-gian', excerpt: 'Ngày càng nhiều người trẻ theo đuổi lối sống minimalism.', content: '## Lối sống tối giản\n\n1. Chỉ giữ những gì cần thiết\n2. Chất lượng hơn số lượng', cat: 7, author: 5, featured: false, views: 34560, hours: 1 },
-  { title: 'Bí quyết cân bằng công việc và gia đình', slug: 'can-bang-cong-viec-gia-dinh', excerpt: 'Chuyên gia tâm lý chia sẻ cách quản lý thời gian.', content: '## Work-Life Balance\n\n- Đặt ranh giới rõ ràng\n- Ưu tiên sức khỏe', cat: 7, author: 5, featured: false, views: 23450, hours: 4 },
-  { title: 'Thú cưng: Người bạn đồng hành giúp giảm cô đơn', slug: 'thu-cung-nguoi-ban-dong-hanh', excerpt: 'Nuôi thú cưng giúp cải thiện sức khỏe tinh thần.', content: '## Lợi ích thú cưng\n\n1. Giảm stress\n2. Tăng vận động\n3. Mở rộng quan hệ xã hội', cat: 7, author: 5, featured: false, views: 45670, hours: 7 },
-  { title: 'Mẹo tiết kiệm chi tiêu cho gia đình trẻ', slug: 'meo-tiet-kiem-chi-tieu-gia-dinh', excerpt: 'Cách quản lý tài chính thông minh trong thời kỳ lạm phát.', content: '## Tiết kiệm thông minh\n\n1. Lập ngân sách\n2. Nấu ăn tại nhà\n3. Mua sắm có kế hoạch', cat: 7, author: 5, featured: false, views: 56780, hours: 12 },
-  { title: 'Làm thế nào để xây dựng thói quen đọc sách', slug: 'xay-dung-thoi-quen-doc-sach', excerpt: 'Đọc sách 30 phút mỗi ngày có thể thay đổi cuộc sống.', content: '## Thói quen đọc sách\n\n1. Bắt đầu với 10 phút/ngày\n2. Chọn sách phù hợp', cat: 7, author: 5, featured: false, views: 34560, hours: 16 },
-
-  // Giáo dục (cat 8, author 2)
-  { title: 'Điểm chuẩn đại học 2024: Nhiều ngành tăng mạnh', slug: 'diem-chuan-dai-hoc-2024', excerpt: 'Các ngành CNTT và y dược có điểm chuẩn cao nhất.', content: '## Điểm chuẩn 2024\n\n1. Y đa khoa: 28.5 điểm\n2. CNTT: 27.8 điểm\n3. Kinh tế: 26.5 điểm', cat: 8, author: 2, featured: true, views: 234560, hours: 2 },
-  { title: 'Học sinh Việt Nam giành 6 HCV Olympic Toán quốc tế', slug: 'hoc-sinh-viet-nam-6-hcv-olympic-toan', excerpt: 'Đoàn Việt Nam đạt thành tích cao nhất trong lịch sử.', content: '## IMO 2024\n\n- 6 Huy chương Vàng\n- Xếp hạng 3 toàn đoàn', cat: 8, author: 2, featured: true, views: 156780, hours: 6 },
-  { title: 'Chương trình giáo dục STEM được triển khai toàn quốc', slug: 'chuong-trinh-giao-duc-stem-toan-quoc', excerpt: 'Bộ GD&ĐT đưa STEM vào chương trình chính khóa.', content: '## Giáo dục STEM\n\n1. Khoa học\n2. Công nghệ\n3. Kỹ thuật\n4. Toán học', cat: 8, author: 2, featured: false, views: 67890, hours: 9 },
-  { title: 'Du học Nhật Bản: Cơ hội và thách thức', slug: 'du-hoc-nhat-ban-co-hoi-thach-thuc', excerpt: 'Nhật Bản vẫn là điểm đến du học hấp dẫn.', content: '## Du học Nhật Bản\n\n### Ưu điểm\n- Chất lượng giáo dục cao\n- Học bổng đa dạng', cat: 8, author: 2, featured: false, views: 45670, hours: 14 },
-  { title: 'Trường học thông minh: Xu hướng giáo dục tương lai', slug: 'truong-hoc-thong-minh-xu-huong', excerpt: 'Nhiều trường áp dụng công nghệ AI trong giảng dạy.', content: '## Smart School\n\n1. AI hỗ trợ học tập\n2. Thực tế ảo (VR)\n3. Bảng tương tác', cat: 8, author: 2, featured: false, views: 34560, hours: 19 },
-
-  // Du lịch (cat 9, author 3)
-  { title: 'Phú Quốc lọt top 10 đảo đẹp nhất thế giới 2024', slug: 'phu-quoc-top-10-dao-dep-nhat', excerpt: 'Travel + Leisure bình chọn Phú Quốc trong danh sách danh giá.', content: '## Phú Quốc - Đảo Ngọc\n\n1. Bãi biển hoang sơ\n2. Ẩm thực phong phú\n3. Cơ sở hạ tầng hiện đại', cat: 9, author: 3, featured: true, views: 89120, hours: 1 },
-  { title: 'Khám phá Sapa mùa lúa chín vàng óng', slug: 'kham-pha-sapa-mua-lua-chin', excerpt: 'Tháng 9-10 là thời điểm đẹp nhất để ngắm ruộng bậc thang.', content: '## Sapa mùa vàng\n\n1. Bản Cát Cát\n2. Thung lũng Mường Hoa\n3. Đỉnh Fansipan', cat: 9, author: 3, featured: false, views: 67890, hours: 5 },
-  { title: 'Hội An - Điểm đến lãng mạn nhất Đông Nam Á', slug: 'hoi-an-diem-den-lang-man-nhat', excerpt: 'Phố cổ Hội An được CNN bình chọn là điểm đến lãng mạn.', content: '## Hội An\n\n1. Thả đèn hoa đăng\n2. May áo dài\n3. Ẩm thực đường phố', cat: 9, author: 3, featured: true, views: 78900, hours: 8 },
-  { title: '5 điểm cắm trại đẹp nhất gần Hà Nội', slug: '5-diem-cam-trai-dep-gan-ha-noi', excerpt: 'Những địa điểm lý tưởng để thoát khỏi thành phố.', content: '## Camping gần Hà Nội\n\n1. Hồ Đồng Đò\n2. Núi Hàm Lợn\n3. Hồ Quan Sơn', cat: 9, author: 3, featured: false, views: 56780, hours: 11 },
-  { title: 'Việt Nam đón 15 triệu lượt khách quốc tế năm 2024', slug: 'viet-nam-don-15-trieu-khach-quoc-te', excerpt: 'Du lịch Việt Nam phục hồi mạnh mẽ sau đại dịch.', content: '## Du lịch 2024\n\n- 15 triệu khách quốc tế\n- 110 triệu khách nội địa', cat: 9, author: 3, featured: false, views: 45670, hours: 17 },
-
-  // Xe (cat 10, author 4)
-  { title: 'VinFast VF 9 chính thức bàn giao cho khách hàng', slug: 'vinfast-vf9-ban-giao-khach-hang', excerpt: 'Mẫu SUV điện hạng sang bắt đầu đến tay người dùng.', content: '## VinFast VF 9\n\n- Động cơ: 402 mã lực\n- Pin: 123 kWh\n- Tầm xa: 594 km', cat: 10, author: 4, featured: true, views: 78900, hours: 2 },
-  { title: 'Toyota Vios 2024 ra mắt với nhiều nâng cấp', slug: 'toyota-vios-2024-ra-mat', excerpt: 'Mẫu sedan bán chạy nhất Việt Nam có phiên bản mới.', content: '## Toyota Vios 2024\n\n1. Thiết kế mới\n2. Màn hình 9 inch\n3. Toyota Safety Sense', cat: 10, author: 4, featured: false, views: 56780, hours: 6 },
-  { title: 'Xe máy điện VinFast Vento S bán chạy nhất', slug: 'vinfast-vento-s-ban-chay-nhat', excerpt: 'Mẫu xe máy điện chiếm 60% thị phần xe điện.', content: '## VinFast Vento S\n\n- Giá: 56 triệu đồng\n- Tầm xa: 200 km', cat: 10, author: 4, featured: false, views: 45670, hours: 10 },
-  { title: 'Giá xăng giảm mạnh, về mức thấp nhất 2 năm', slug: 'gia-xang-giam-manh-thap-nhat-2-nam', excerpt: 'Giá xăng RON 95 giảm còn 20.500 đồng/lít.', content: '## Giá xăng dầu\n\n- RON 95: 20.500 đồng/lít\n- E5 RON 92: 19.800 đồng/lít', cat: 10, author: 4, featured: false, views: 89120, hours: 14 },
-  { title: 'Hà Nội cấm xe máy vào nội đô từ năm 2030', slug: 'ha-noi-cam-xe-may-noi-do-2030', excerpt: 'UBND TP Hà Nội công bố lộ trình hạn chế xe máy.', content: '## Lộ trình cấm xe máy\n\n1. 2025: Cấm một số tuyến\n2. 2027: Mở rộng vùng cấm\n3. 2030: Cấm toàn bộ nội đô', cat: 10, author: 4, featured: false, views: 123450, hours: 22 }
+  { title: "Xu hướng công nghệ AI năm 2025", content: "Trí tuệ nhân tạo đang thay đổi mọi ngành công nghiệp. Từ y tế đến tài chính, AI đang được ứng dụng rộng rãi để tối ưu hóa quy trình và nâng cao hiệu quả công việc.", excerpt: "AI đang định hình lại tương lai công nghệ." },
+  { title: "Bí quyết sống khỏe mỗi ngày", content: "Một lối sống lành mạnh bắt đầu từ những thói quen nhỏ. Ngủ đủ giấc, ăn uống cân bằng và tập thể dục đều đặn là nền tảng cho sức khỏe tốt.", excerpt: "Những thói quen đơn giản cho cuộc sống khỏe mạnh." },
+  { title: "Thị trường chứng khoán Việt Nam 2025", content: "Thị trường chứng khoán Việt Nam đang có những bước phát triển mạnh mẽ với sự tham gia của nhiều nhà đầu tư trong và ngoài nước.", excerpt: "Triển vọng thị trường chứng khoán năm mới." },
+  { title: "Du lịch Đà Nẵng - Điểm đến hấp dẫn", content: "Đà Nẵng với bãi biển đẹp, ẩm thực phong phú và con người thân thiện đang trở thành điểm đến yêu thích của du khách trong và ngoài nước.", excerpt: "Khám phá vẻ đẹp thành phố biển Đà Nẵng." },
+  { title: "Giáo dục STEM cho trẻ em", content: "Giáo dục STEM giúp trẻ phát triển tư duy logic, sáng tạo và kỹ năng giải quyết vấn đề từ sớm, chuẩn bị cho tương lai công nghệ.", excerpt: "Tầm quan trọng của giáo dục STEM." },
+  { title: "Xe điện - Tương lai giao thông xanh", content: "Xe điện đang dần thay thế xe xăng truyền thống, góp phần giảm ô nhiễm môi trường và tiết kiệm chi phí nhiên liệu.", excerpt: "Xu hướng xe điện tại Việt Nam." },
+  { title: "Bóng đá Việt Nam vươn tầm châu lục", content: "Đội tuyển Việt Nam đang có những bước tiến vượt bậc trên đấu trường quốc tế, mang lại niềm tự hào cho người hâm mộ.", excerpt: "Thành tích ấn tượng của bóng đá Việt Nam." },
+  { title: "Ẩm thực đường phố Sài Gòn", content: "Sài Gòn nổi tiếng với nền ẩm thực đường phố đa dạng, từ bánh mì, phở đến các món ăn vặt độc đáo.", excerpt: "Khám phá thiên đường ẩm thực Sài Gòn." },
+  { title: "Startup Việt Nam và cơ hội phát triển", content: "Hệ sinh thái startup Việt Nam đang phát triển mạnh mẽ với nhiều dự án sáng tạo thu hút đầu tư từ các quỹ lớn.", excerpt: "Tiềm năng của startup Việt Nam." },
+  { title: "Yoga và thiền định cho người bận rộn", content: "Yoga và thiền định giúp giảm stress, cải thiện sức khỏe tinh thần và thể chất cho những người có lịch làm việc bận rộn.", excerpt: "Cân bằng cuộc sống với yoga." },
+  { title: "Blockchain và tương lai tài chính", content: "Công nghệ blockchain đang cách mạng hóa ngành tài chính với tính minh bạch, bảo mật và phi tập trung.", excerpt: "Blockchain thay đổi ngành tài chính." },
+  { title: "Nghệ thuật cà phê Việt Nam", content: "Cà phê Việt Nam không chỉ là thức uống mà còn là văn hóa, từ cà phê phin truyền thống đến các quán cà phê hiện đại.", excerpt: "Văn hóa cà phê độc đáo của Việt Nam." },
+  { title: "Phát triển bền vững và môi trường", content: "Phát triển bền vững đang trở thành ưu tiên hàng đầu của các doanh nghiệp và chính phủ trong bối cảnh biến đổi khí hậu.", excerpt: "Hướng tới tương lai xanh và bền vững." },
+  { title: "Thời trang Việt Nam trên bản đồ thế giới", content: "Các nhà thiết kế Việt Nam đang ghi dấu ấn trên sàn diễn quốc tế với những bộ sưu tập độc đáo mang đậm bản sắc dân tộc.", excerpt: "Thời trang Việt vươn ra thế giới." },
+  { title: "Công nghệ 5G và cuộc sống số", content: "Mạng 5G mở ra kỷ nguyên mới cho IoT, xe tự lái và nhiều ứng dụng công nghệ cao khác.", excerpt: "5G thay đổi cách chúng ta kết nối." },
+  { title: "Kinh tế số Việt Nam", content: "Kinh tế số đang đóng góp ngày càng lớn vào GDP Việt Nam với sự phát triển của thương mại điện tử và fintech.", excerpt: "Tiềm năng kinh tế số tại Việt Nam." },
+  { title: "Bảo tồn di sản văn hóa", content: "Việt Nam đang nỗ lực bảo tồn các di sản văn hóa vật thể và phi vật thể được UNESCO công nhận.", excerpt: "Gìn giữ di sản cho thế hệ mai sau." },
+  { title: "Thể thao điện tử - Ngành công nghiệp tỷ đô", content: "Esports đang phát triển mạnh mẽ tại Việt Nam với nhiều game thủ chuyên nghiệp và giải đấu lớn.", excerpt: "Sự bùng nổ của thể thao điện tử." },
+  { title: "Nông nghiệp công nghệ cao", content: "Ứng dụng công nghệ vào nông nghiệp giúp tăng năng suất, chất lượng sản phẩm và thu nhập cho nông dân.", excerpt: "Cách mạng trong nông nghiệp Việt Nam." },
+  { title: "Sức khỏe tâm thần trong xã hội hiện đại", content: "Nhận thức về sức khỏe tâm thần đang được nâng cao, giúp nhiều người tìm được sự hỗ trợ cần thiết.", excerpt: "Chăm sóc sức khỏe tâm thần." },
+  { title: "Phim Việt Nam chinh phục khán giả", content: "Điện ảnh Việt Nam đang có những bước tiến đáng kể với nhiều bộ phim chất lượng thu hút đông đảo khán giả.", excerpt: "Sự trỗi dậy của phim Việt." },
+  { title: "Năng lượng tái tạo tại Việt Nam", content: "Điện gió và điện mặt trời đang được đầu tư mạnh mẽ, góp phần đảm bảo an ninh năng lượng quốc gia.", excerpt: "Phát triển năng lượng sạch." },
+  { title: "Thương mại điện tử bùng nổ", content: "Mua sắm online trở thành xu hướng với sự phát triển của các sàn thương mại điện tử lớn.", excerpt: "Cách mạng mua sắm trực tuyến." },
+  { title: "Kiến trúc xanh và đô thị thông minh", content: "Các công trình xanh và đô thị thông minh đang được xây dựng để cải thiện chất lượng sống.", excerpt: "Xây dựng thành phố của tương lai." },
+  { title: "Âm nhạc Việt Nam đương đại", content: "Âm nhạc Việt Nam đang đa dạng hóa với nhiều thể loại từ pop, rock đến indie và electronic.", excerpt: "Sự phong phú của âm nhạc Việt." },
+  { title: "Khởi nghiệp trong lĩnh vực y tế", content: "Healthtech startup đang phát triển với các giải pháp chăm sóc sức khỏe thông minh và tiện lợi.", excerpt: "Công nghệ y tế cho mọi người." },
+  { title: "Du lịch sinh thái Việt Nam", content: "Du lịch sinh thái đang thu hút du khách với những trải nghiệm gần gũi thiên nhiên và bảo vệ môi trường.", excerpt: "Khám phá thiên nhiên Việt Nam." },
+  { title: "Giáo dục trực tuyến thời đại mới", content: "E-learning đang thay đổi cách học tập với sự linh hoạt và tiếp cận kiến thức từ mọi nơi.", excerpt: "Học tập không giới hạn." },
+  { title: "Thực phẩm hữu cơ và sức khỏe", content: "Xu hướng tiêu dùng thực phẩm hữu cơ đang tăng cao khi người dân quan tâm hơn đến sức khỏe.", excerpt: "Ăn sạch sống khỏe." },
+  { title: "Công nghệ trong giáo dục", content: "EdTech đang cách mạng hóa giáo dục với các công cụ học tập tương tác và cá nhân hóa.", excerpt: "Công nghệ thay đổi giáo dục." },
+  { title: "Thể thao mạo hiểm tại Việt Nam", content: "Các môn thể thao mạo hiểm như leo núi, lặn biển đang thu hút giới trẻ yêu thích khám phá.", excerpt: "Trải nghiệm thể thao cực đoan." },
+  { title: "Fintech và thanh toán số", content: "Ví điện tử và thanh toán không tiền mặt đang trở nên phổ biến trong cuộc sống hàng ngày.", excerpt: "Tương lai của thanh toán." },
+  { title: "Văn hóa làm việc từ xa", content: "Work from home đang thay đổi cách làm việc truyền thống với nhiều lợi ích và thách thức.", excerpt: "Làm việc linh hoạt thời đại mới." },
+  { title: "Nghệ thuật truyền thống Việt Nam", content: "Các loại hình nghệ thuật truyền thống như chèo, tuồng, cải lương đang được bảo tồn và phát huy.", excerpt: "Gìn giữ nghệ thuật dân tộc." },
+  { title: "Thị trường bất động sản 2025", content: "Thị trường bất động sản đang có nhiều biến động với các chính sách mới và nhu cầu đa dạng.", excerpt: "Xu hướng bất động sản năm mới." },
+  { title: "Sáng tạo nội dung số", content: "Content creator đang trở thành nghề nghiệp hấp dẫn với thu nhập cao từ các nền tảng số.", excerpt: "Kiếm tiền từ sáng tạo nội dung." },
+  { title: "Chăm sóc thú cưng chuyên nghiệp", content: "Ngành công nghiệp thú cưng đang phát triển với nhiều dịch vụ chăm sóc cao cấp.", excerpt: "Yêu thương thú cưng đúng cách." },
+  { title: "Công nghệ thực tế ảo VR/AR", content: "VR và AR đang mở ra những trải nghiệm mới trong giải trí, giáo dục và công việc.", excerpt: "Thế giới ảo và thực tế tăng cường." },
+  { title: "Ẩm thực chay và xu hướng plant-based", content: "Thực phẩm từ thực vật đang được ưa chuộng vì lợi ích sức khỏe và môi trường.", excerpt: "Xu hướng ăn chay hiện đại." },
+  { title: "Phát triển kỹ năng mềm", content: "Kỹ năng mềm như giao tiếp, làm việc nhóm ngày càng quan trọng trong môi trường làm việc.", excerpt: "Kỹ năng cần thiết cho thành công." },
+  { title: "Thời tiết cực đoan và biến đổi khí hậu", content: "Biến đổi khí hậu đang gây ra nhiều hiện tượng thời tiết cực đoan ảnh hưởng đến cuộc sống.", excerpt: "Ứng phó với biến đổi khí hậu." },
+  { title: "Podcast - Xu hướng nghe mới", content: "Podcast đang trở thành kênh giải trí và học tập phổ biến với nội dung đa dạng.", excerpt: "Sự bùng nổ của podcast." },
+  { title: "Bảo mật thông tin cá nhân", content: "An ninh mạng và bảo vệ dữ liệu cá nhân đang trở nên quan trọng hơn bao giờ hết.", excerpt: "Bảo vệ thông tin trong thời đại số." },
+  { title: "Nghề nghiệp tương lai", content: "Nhiều nghề nghiệp mới đang xuất hiện cùng với sự phát triển của công nghệ và xã hội.", excerpt: "Chuẩn bị cho công việc tương lai." },
+  { title: "Văn hóa đọc sách thời đại số", content: "Sách điện tử và audiobook đang thay đổi thói quen đọc sách của người Việt.", excerpt: "Đọc sách trong kỷ nguyên số." },
+  { title: "Thể dục thể thao cho mọi lứa tuổi", content: "Tập luyện thể thao đều đặn giúp cải thiện sức khỏe và chất lượng cuộc sống ở mọi độ tuổi.", excerpt: "Vận động để sống khỏe." },
+  { title: "Nghệ thuật nhiếp ảnh di động", content: "Smartphone với camera chất lượng cao đang biến mọi người thành nhiếp ảnh gia.", excerpt: "Chụp ảnh đẹp với điện thoại." },
+  { title: "Xu hướng làm đẹp tự nhiên", content: "Mỹ phẩm thiên nhiên và chăm sóc da tối giản đang được ưa chuộng.", excerpt: "Làm đẹp an toàn và hiệu quả." },
+  { title: "Giao thông công cộng thông minh", content: "Hệ thống giao thông công cộng đang được hiện đại hóa với công nghệ thông minh.", excerpt: "Di chuyển tiện lợi trong thành phố." }
 ];
 
-async function seed() {
-  const client = new Client({
-    connectionString: 'postgresql://bangiaiphapblog:Matkhau@2024@34.126.103.48:5432/bangiaiphapblog'
-  });
+function generateSlug(title) {
+  return title
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
 
+async function seedArticles() {
+  const client = await pool.connect();
+  
   try {
-    await client.connect();
-    console.log('Connected to database');
-
-    for (const a of articles) {
-      const publishedAt = new Date(Date.now() - a.hours * 60 * 60 * 1000);
-      await client.query(
-        `INSERT INTO articles (title, slug, excerpt, content, category_id, author_id, status, published_at, is_featured, view_count, reading_time)
-         VALUES ($1, $2, $3, $4, $5, $6, 'published', $7, $8, $9, $10)`,
-        [a.title, a.slug, a.excerpt, a.content, a.cat, a.author, publishedAt, a.featured, a.views, Math.ceil(a.content.length / 500)]
-      );
+    // Get admin user ID
+    const adminResult = await client.query("SELECT id FROM users WHERE role = 'admin' LIMIT 1");
+    if (adminResult.rows.length === 0) {
+      console.log('No admin user found');
+      return;
     }
-    console.log(`✓ Inserted ${articles.length} articles`);
-    console.log('\n✅ Seed completed!');
-  } catch (err) {
-    console.error('Error:', err.message);
+    const adminId = adminResult.rows[0].id;
+    console.log(`Admin ID: ${adminId}`);
+    
+    // Get all categories
+    const categoryResult = await client.query("SELECT id, name FROM categories");
+    if (categoryResult.rows.length === 0) {
+      console.log('No categories found');
+      return;
+    }
+    const categories = categoryResult.rows;
+    console.log(`Found ${categories.length} categories`);
+    
+    // Get media files for featured images
+    const mediaResult = await client.query("SELECT id, url, filename FROM media_files ORDER BY id");
+    const mediaFiles = mediaResult.rows;
+    console.log(`Found ${mediaFiles.length} media files`);
+    
+    // Delete all existing articles
+    const deleteResult = await client.query("DELETE FROM articles");
+    console.log(`Deleted ${deleteResult.rowCount} existing articles`);
+    
+    // Insert new articles
+    let inserted = 0;
+    for (const article of articles) {
+      const slug = generateSlug(article.title) + '-' + Date.now().toString().slice(-6) + Math.random().toString(36).slice(-3);
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+      
+      // Get random media for featured image
+      let featuredImage = null;
+      if (mediaFiles.length > 0) {
+        const randomMedia = mediaFiles[Math.floor(Math.random() * mediaFiles.length)];
+        featuredImage = randomMedia.url;
+      }
+      
+      await client.query(
+        `INSERT INTO articles (title, slug, content, excerpt, author_id, category_id, featured_image, status, created_at, updated_at, published_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, 'published', NOW(), NOW(), NOW())`,
+        [article.title, slug, article.content, article.excerpt, adminId, randomCategory.id, featuredImage]
+      );
+      console.log(`+ ${article.title.slice(0, 40)}... -> ${randomCategory.name} ${featuredImage ? '📷' : ''}`);
+      inserted++;
+    }
+    
+    console.log(`\n✅ Created ${inserted} new articles with media images`);
+    
+  } catch (error) {
+    console.error('Error:', error);
   } finally {
-    await client.end();
+    client.release();
+    await pool.end();
   }
 }
 
-seed();
+seedArticles();

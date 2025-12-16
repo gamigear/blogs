@@ -163,8 +163,9 @@ export function ArticleEditor({ categories, authors = [], article, initialTags =
               {/* Show pending info for regular users */}
               {showPendingInfo && (
                 <div className="p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-md">
-                  <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                    📝 Bài viết của bạn sẽ được gửi đến admin để xét duyệt trước khi xuất bản.
+                  <p className="text-sm text-yellow-800 dark:text-yellow-200 flex items-center gap-2">
+                    <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    Bài viết của bạn sẽ được gửi đến admin để xét duyệt trước khi xuất bản.
                   </p>
                 </div>
               )}

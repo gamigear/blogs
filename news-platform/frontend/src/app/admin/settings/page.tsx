@@ -14,6 +14,8 @@ interface Settings {
     default_avatar: string;
     contact_email: string;
     contact_phone: string;
+    timezone: string;
+    timezone_offset: number;
   };
   header: {
     show_search: boolean;
@@ -59,7 +61,7 @@ export default function SettingsPage() {
   }, []);
 
   const defaultSettings: Settings = {
-    general: { site_name: '', site_description: '', logo_header_url: '', logo_footer_url: '', favicon_url: '', default_avatar: '', contact_email: '', contact_phone: '' },
+    general: { site_name: '', site_description: '', logo_header_url: '', logo_footer_url: '', favicon_url: '', default_avatar: '', contact_email: '', contact_phone: '', timezone: 'Asia/Ho_Chi_Minh', timezone_offset: 7 },
     header: { show_search: true, show_notifications: true, menu_items: [] },
     footer: { company_name: '', ceo_name: '', address: '', business_registration: '', license_info: '', links: [], social_links: { facebook: '', twitter: '', youtube: '' } },
     homepage: { featured_section: true, featured_count: 5, latest_section: true, latest_count: 10, show_sidebar: true },
@@ -124,11 +126,11 @@ export default function SettingsPage() {
   };
 
   const tabs = [
-    { key: 'general' as TabKey, label: 'Cài đặt chung', icon: '⚙️' },
-    { key: 'header' as TabKey, label: 'Header', icon: '📌' },
-    { key: 'footer' as TabKey, label: 'Footer', icon: '📋' },
-    { key: 'homepage' as TabKey, label: 'Trang chủ', icon: '🏠' },
-    { key: 'seo' as TabKey, label: 'SEO', icon: '🔍' },
+    { key: 'general' as TabKey, label: 'Cài đặt chung', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg> },
+    { key: 'header' as TabKey, label: 'Header', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg> },
+    { key: 'footer' as TabKey, label: 'Footer', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> },
+    { key: 'homepage' as TabKey, label: 'Trang chủ', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> },
+    { key: 'seo' as TabKey, label: 'SEO', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg> },
   ];
 
   if (loading) {
@@ -179,6 +181,42 @@ export default function SettingsPage() {
                 <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Số điện thoại</label>
                 <input type="text" value={settings.general?.contact_phone || ''} onChange={(e) => updateSetting('general', 'contact_phone', e.target.value)}
                   className="w-full px-4 py-3 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:bg-gray-200 dark:focus:bg-gray-700" />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Múi giờ</label>
+                <select 
+                  value={settings.general?.timezone || 'Asia/Ho_Chi_Minh'} 
+                  onChange={(e) => {
+                    const tz = e.target.value;
+                    const offsets: Record<string, number> = {
+                      'UTC': 0,
+                      'Asia/Ho_Chi_Minh': 7,
+                      'Asia/Bangkok': 7,
+                      'Asia/Singapore': 8,
+                      'Asia/Tokyo': 9,
+                      'Asia/Seoul': 9,
+                      'Europe/London': 0,
+                      'Europe/Paris': 1,
+                      'America/New_York': -5,
+                      'America/Los_Angeles': -8,
+                    };
+                    updateSetting('general', 'timezone', tz);
+                    updateSetting('general', 'timezone_offset', offsets[tz] || 0);
+                  }}
+                  className="w-full px-4 py-3 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:bg-gray-200 dark:focus:bg-gray-700"
+                >
+                  <option value="Asia/Ho_Chi_Minh">Việt Nam (UTC+7)</option>
+                  <option value="Asia/Bangkok">Thái Lan (UTC+7)</option>
+                  <option value="Asia/Singapore">Singapore (UTC+8)</option>
+                  <option value="Asia/Tokyo">Nhật Bản (UTC+9)</option>
+                  <option value="Asia/Seoul">Hàn Quốc (UTC+9)</option>
+                  <option value="UTC">UTC (UTC+0)</option>
+                  <option value="Europe/London">London (UTC+0)</option>
+                  <option value="Europe/Paris">Paris (UTC+1)</option>
+                  <option value="America/New_York">New York (UTC-5)</option>
+                  <option value="America/Los_Angeles">Los Angeles (UTC-8)</option>
+                </select>
+                <p className="text-xs text-gray-500 mt-1">Múi giờ hiển thị cho tin nhắn và các hoạt động</p>
               </div>
             </div>
 

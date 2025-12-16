@@ -307,7 +307,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         onClick={() => setShowNotification(false)}
                         className="text-sm text-blue-600 hover:text-blue-700 font-medium"
                       >
-                        Xem tất cả bài chờ duyệt →
+                        Xem tất cả bài chờ duyệt
                       </Link>
                     </div>
                   )}

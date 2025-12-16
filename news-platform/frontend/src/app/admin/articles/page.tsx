@@ -244,9 +244,9 @@ export default function ArticlesPage() {
                           article.status === 'draft' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400' : 
                           'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
                         }`}>
-                          {article.status === 'published' ? '✓ Đã xuất bản' : 
-                           article.status === 'pending_review' ? '⏳ Chờ duyệt' :
-                           article.status === 'rejected' ? '✗ Từ chối' :
+                          {article.status === 'published' ? 'Đã xuất bản' : 
+                           article.status === 'pending_review' ? 'Chờ duyệt' :
+                           article.status === 'rejected' ? 'Từ chối' :
                            article.status === 'draft' ? 'Nháp' : 
                            article.status === 'archived' ? 'Lưu trữ' : article.status}
                         </span>

@@ -79,7 +79,7 @@ export default async function AdminDashboard() {
         <div className="lg:col-span-2 rounded-md bg-white dark:bg-[#1A1D1F] p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">Bài viết gần đây</h2>
-            <Link href="/admin/articles" className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Xem tất cả →</Link>
+            <Link href="/admin/articles" className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Xem tất cả</Link>
           </div>
           <div className="space-y-2">
             {recentArticles.map((article) => (

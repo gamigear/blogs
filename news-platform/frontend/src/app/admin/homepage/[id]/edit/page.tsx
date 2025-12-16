@@ -41,6 +41,14 @@ interface HomepageSection {
   position: string;
 }
 
+interface User {
+  id: number;
+  username: string;
+  display_name: string;
+  avatar: string | null;
+  role: string;
+}
+
 const SECTION_TYPES = [
   { value: 'hero_slider', label: 'Slider nổi bật' },
   { value: 'featured_grid', label: 'Lưới bài viết' },
@@ -49,6 +57,8 @@ const SECTION_TYPES = [
   { value: 'tag_articles', label: 'Bài theo tag' },
   { value: 'manual_articles', label: 'Chọn thủ công' },
   { value: 'sidebar_widget', label: 'Widget sidebar' },
+  { value: 'search_widget', label: 'Tìm kiếm nâng cao' },
+  { value: 'featured_users', label: 'Featured Users' },
 ];
 
 const SELECTION_TYPES = [
@@ -60,6 +70,13 @@ const SELECTION_TYPES = [
   { value: 'tags', label: 'Nhiều tags' },
   { value: 'featured', label: 'Nổi bật' },
   { value: 'popular', label: 'Đọc nhiều' },
+];
+
+const USER_SELECTION_TYPES = [
+  { value: 'contributors', label: 'Top đóng góp' },
+  { value: 'experts', label: 'Chuyên gia' },
+  { value: 'admins', label: 'Ban quản trị' },
+  { value: 'custom_users', label: 'Chọn thủ công' },
 ];
 
 const LAYOUTS = [
@@ -85,6 +102,10 @@ export default function EditHomepageSectionPage() {
   const [searchResults, setSearchResults] = useState<Article[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showArticlePicker, setShowArticlePicker] = useState(false);
+  const [users, setUsers] = useState<User[]>([]);
+  const [userSearch, setUserSearch] = useState('');
+  const [userSearchResults, setUserSearchResults] = useState<User[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
 
   const [formData, setFormData] = useState<HomepageSection>({
     id: 0,
@@ -92,7 +113,7 @@ export default function EditHomepageSectionPage() {
     title: '',
     section_type: 'featured_grid',
     selection_type: 'auto',
-    selection_data: { category_ids: [], tag_ids: [] },
+    selection_data: { category_ids: [], tag_ids: [], user_type: 'contributors', user_ids: [] },
     display_limit: 6,
     display_layout: 'grid',
     display_settings: {},
@@ -103,22 +124,31 @@ export default function EditHomepageSectionPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [sectionRes, catRes, tagRes] = await Promise.all([
+        const [sectionRes, catRes, tagRes, usersRes] = await Promise.all([
           fetch(`/api/admin/homepage/${id}`),
           fetch('/api/admin/categories'),
           fetch('/api/admin/tags'),
+          fetch('/api/admin/users?limit=100'),
         ]);
 
         const sectionData = await sectionRes.json();
         const catData = await catRes.json();
         const tagData = await tagRes.json();
+        const usersData = await usersRes.json();
 
         if (sectionData.section) {
           setFormData(sectionData.section);
           setSelectedArticles(sectionData.selectedArticles || []);
+          // Load selected users if featured_users section
+          if (sectionData.section.section_type === 'featured_users' && sectionData.section.selection_data?.user_ids) {
+            const userIds = sectionData.section.selection_data.user_ids;
+            const allUsers = usersData.users || [];
+            setSelectedUsers(allUsers.filter((u: User) => userIds.includes(u.id)));
+          }
         }
         setCategories(catData.categories || []);
         setTags(tagData.tags || []);
+        setUsers(usersData.users || []);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -128,6 +158,44 @@ export default function EditHomepageSectionPage() {
 
     fetchData();
   }, [id]);
+
+  // Search users
+  useEffect(() => {
+    if (!userSearch.trim()) {
+      setUserSearchResults([]);
+      return;
+    }
+    const filtered = users.filter(u => 
+      u.display_name?.toLowerCase().includes(userSearch.toLowerCase()) ||
+      u.username?.toLowerCase().includes(userSearch.toLowerCase())
+    ).slice(0, 10);
+    setUserSearchResults(filtered);
+  }, [userSearch, users]);
+
+  const addUser = (user: User) => {
+    if (!selectedUsers.find(u => u.id === user.id)) {
+      setSelectedUsers([...selectedUsers, user]);
+      setFormData({
+        ...formData,
+        selection_data: {
+          ...formData.selection_data,
+          user_ids: [...(formData.selection_data?.user_ids || []), user.id]
+        }
+      });
+    }
+    setUserSearch('');
+  };
+
+  const removeUser = (userId: number) => {
+    setSelectedUsers(selectedUsers.filter(u => u.id !== userId));
+    setFormData({
+      ...formData,
+      selection_data: {
+        ...formData.selection_data,
+        user_ids: (formData.selection_data?.user_ids || []).filter((id: number) => id !== userId)
+      }
+    });
+  };
 
   const searchArticles = async (query: string) => {
     if (!query.trim()) {
@@ -219,6 +287,8 @@ export default function EditHomepageSectionPage() {
   const showCategorySelect = ['category', 'categories'].includes(formData.selection_type);
   const showTagSelect = ['tag', 'tags'].includes(formData.selection_type);
   const showManualSelect = formData.selection_type === 'manual';
+  const isFeaturedUsers = formData.section_type === 'featured_users';
+  const showUserSelect = isFeaturedUsers && formData.selection_data?.user_type === 'custom_users';
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
@@ -227,8 +297,9 @@ export default function EditHomepageSectionPage() {
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Chỉnh sửa section</h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">{formData.name}</p>
         </div>
-        <Link href="/admin/homepage" className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white">
-          ← Quay lại
+        <Link href="/admin/homepage" className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          Quay lại
         </Link>
       </div>
 
@@ -273,20 +344,102 @@ export default function EditHomepageSectionPage() {
                     ))}
                   </select>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cách lấy bài</label>
-                  <select
-                    value={formData.selection_type}
-                    onChange={(e) => setFormData({ ...formData, selection_type: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                  >
-                    {SELECTION_TYPES.map(t => (
-                      <option key={t.value} value={t.value}>{t.label}</option>
-                    ))}
-                  </select>
-                </div>
+                {!isFeaturedUsers && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cách lấy bài</label>
+                    <select
+                      value={formData.selection_type}
+                      onChange={(e) => setFormData({ ...formData, selection_type: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    >
+                      {SELECTION_TYPES.map(t => (
+                        <option key={t.value} value={t.value}>{t.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                {isFeaturedUsers && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Loại người dùng</label>
+                    <select
+                      value={formData.selection_data?.user_type || 'contributors'}
+                      onChange={(e) => setFormData({
+                        ...formData,
+                        selection_type: e.target.value,
+                        selection_data: { ...formData.selection_data, user_type: e.target.value }
+                      })}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    >
+                      {USER_SELECTION_TYPES.map(t => (
+                        <option key={t.value} value={t.value}>{t.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
             </div>
+
+            {/* User selection for featured_users */}
+            {showUserSelect && (
+              <div className="bg-white dark:bg-[#1A1D1F] rounded-lg p-6 space-y-4 border border-gray-200 dark:border-gray-700">
+                <h2 className="font-semibold text-gray-900 dark:text-white">Chọn người dùng ({selectedUsers.length})</h2>
+                <input
+                  type="text"
+                  value={userSearch}
+                  onChange={(e) => setUserSearch(e.target.value)}
+                  placeholder="Tìm kiếm người dùng..."
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                />
+                {userSearchResults.length > 0 && (
+                  <div className="space-y-2 max-h-40 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-lg p-2">
+                    {userSearchResults.map(user => (
+                      <div
+                        key={user.id}
+                        onClick={() => addUser(user)}
+                        className="flex items-center gap-3 p-2 bg-white dark:bg-gray-700 rounded-md cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/30"
+                      >
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-sm">
+                          {user.avatar ? (
+                            <img src={user.avatar} alt="" className="w-full h-full rounded-full object-cover" />
+                          ) : (
+                            user.display_name?.charAt(0).toUpperCase()
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-900 dark:text-white text-sm">{user.display_name}</p>
+                          <p className="text-xs text-gray-500">@{user.username}</p>
+                        </div>
+                        <span className="text-blue-500">+</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {/* Selected users */}
+                <div className="space-y-2">
+                  {selectedUsers.map(user => (
+                    <div key={user.id} className="flex items-center gap-3 p-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-sm">
+                        {user.avatar ? (
+                          <img src={user.avatar} alt="" className="w-full h-full rounded-full object-cover" />
+                        ) : (
+                          user.display_name?.charAt(0).toUpperCase()
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-gray-900 dark:text-white text-sm">{user.display_name}</p>
+                        <p className="text-xs text-gray-500">@{user.username}</p>
+                      </div>
+                      <button type="button" onClick={() => removeUser(user.id)} className="text-red-500 hover:text-red-700">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                      </button>
+                    </div>
+                  ))}
+                  {selectedUsers.length === 0 && (
+                    <p className="text-center text-gray-400 py-4">Chưa chọn người dùng nào</p>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Category/Tag selection */}
             {(showCategorySelect || showTagSelect) && (
@@ -415,7 +568,7 @@ export default function EditHomepageSectionPage() {
                           disabled={index === 0}
                           className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 disabled:opacity-30"
                         >
-                          ↑
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
                         </button>
                         <button
                           type="button"
@@ -423,14 +576,14 @@ export default function EditHomepageSectionPage() {
                           disabled={index === selectedArticles.length - 1}
                           className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 disabled:opacity-30"
                         >
-                          ↓
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                         </button>
                         <button
                           type="button"
                           onClick={() => removeArticle(article.id)}
                           className="p-1 text-red-400 hover:text-red-600"
                         >
-                          ×
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                         </button>
                       </div>
                     </div>

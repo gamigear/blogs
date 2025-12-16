@@ -10,6 +10,7 @@ import { ArticleListItem } from '@/components/ArticleListItem';
 import { FeedPreview } from '@/components/FeedPreview';
 import { SearchWidget } from '@/components/SearchWidget';
 import { LazySection } from '@/components/LazySection';
+import { FeaturedUsers } from '@/components/FeaturedUsers';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -175,6 +176,22 @@ export default async function HomePage() {
                 </div>
               </LazySection>
             )}
+
+            {/* Featured Users in main area - from homepage sections */}
+            {mainSections
+              .filter(s => s.section_type === 'featured_users' && s.is_visible)
+              .map(section => (
+                <LazySection key={section.id}>
+                  <FeaturedUsers
+                    title={section.title || undefined}
+                    userType={section.selection_data?.user_type || section.selection_type}
+                    userIds={section.selection_data?.user_ids}
+                    limit={section.display_limit}
+                    fromApi={false}
+                  />
+                </LazySection>
+              ))
+            }
           </div>
 
           {/* Sidebar */}
@@ -194,6 +211,26 @@ export default async function HomePage() {
               <SidebarWithImage articles={popularArticles} title="Đọc nhiều" />
             </div>
 
+            {/* Featured Users - from homepage sections */}
+            {sidebarSections
+              .filter(s => s.section_type === 'featured_users' && s.is_visible)
+              .map(section => (
+                <FeaturedUsers
+                  key={section.id}
+                  title={section.title || undefined}
+                  userType={section.selection_data?.user_type || section.selection_type}
+                  userIds={section.selection_data?.user_ids}
+                  limit={section.display_limit}
+                  fromApi={false}
+                />
+              ))
+            }
+            
+            {/* Fallback: Show default FeaturedUsers if no section configured */}
+            {!sidebarSections.some(s => s.section_type === 'featured_users' && s.is_visible) && (
+              <FeaturedUsers />
+            )}
+
             {/* Categories */}
             <div className="bg-white rounded-lg p-4">
               <h3 className="text-lg font-bold text-gray-900 mb-4">Chuyên mục</h3>
@@ -212,7 +249,10 @@ export default async function HomePage() {
 
             {/* Newsfeed CTA */}
             <div className="bg-gradient-to-br from-primary to-blue-600 rounded-lg p-6 text-white">
-              <h3 className="font-bold text-lg mb-2">📝 Newsfeed</h3>
+              <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
+                Newsfeed
+              </h3>
               <p className="text-sm text-blue-100 mb-4">
                 Xem bài viết mới từ cộng đồng thành viên
               </p>
@@ -220,7 +260,7 @@ export default async function HomePage() {
                 href="/feed" 
                 className="inline-block px-4 py-2 bg-white text-primary font-medium rounded-lg hover:bg-blue-50 transition-colors"
               >
-                Xem Newsfeed →
+                Xem Newsfeed
               </Link>
             </div>
 
@@ -234,7 +274,7 @@ export default async function HomePage() {
                 href="/community" 
                 className="inline-block px-4 py-2 bg-white text-orange-600 font-medium rounded-lg hover:bg-orange-50 transition-colors"
               >
-                Tham gia ngay →
+                Tham gia ngay
               </Link>
             </div>
           </div>

@@ -100,7 +100,7 @@ export default function PagesPage() {
                     </td>
                     <td className="px-6 py-4">
                       {page.show_in_menu ? (
-                        <span className="text-[#83BF6E]">✓</span>
+                        <svg className="w-4 h-4 text-[#83BF6E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                       ) : (
                         <span className="text-gray-500">—</span>
                       )}

@@ -125,7 +125,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
                 <div className="bg-white rounded-lg p-8 text-center border border-gray-100">
                   <p className="text-gray-500 mb-4">Chưa có bài viết nào trong danh mục này.</p>
                   <Link href="/" className="text-primary hover:underline">
-                    ← Quay về trang chủ
+                    Quay về trang chủ
                   </Link>
                 </div>
               ) : (
@@ -148,7 +148,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
                         href={`/category/${slug}?page=${page - 1}`}
                         className="px-4 py-2 bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-lg transition-colors"
                       >
-                        ← Trước
+                        Trước
                       </Link>
                     )}
                     
@@ -175,7 +175,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
                         href={`/category/${slug}?page=${page + 1}`}
                         className="px-4 py-2 bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-lg transition-colors"
                       >
-                        Sau →
+                        Sau
                       </Link>
                     )}
                   </div>

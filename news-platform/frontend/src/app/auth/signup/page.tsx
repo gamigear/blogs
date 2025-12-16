@@ -130,7 +130,7 @@ export default function SignUpPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="text-3xl font-bold text-indigo-600">
-            📰 Bobatea
+            Bobatea
           </Link>
           <p className="text-gray-600 mt-2">Tạo tài khoản mới</p>
         </div>

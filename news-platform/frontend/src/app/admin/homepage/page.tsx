@@ -26,6 +26,7 @@ const SECTION_TYPES: Record<string, string> = {
   manual_articles: 'Chọn thủ công',
   sidebar_widget: 'Widget sidebar',
   search_widget: 'Tìm kiếm nâng cao',
+  featured_users: 'Featured Users',
   banner: 'Banner quảng cáo',
   custom_html: 'HTML tùy chỉnh',
 };
@@ -39,6 +40,10 @@ const SELECTION_TYPES: Record<string, string> = {
   tags: 'Nhiều tags',
   featured: 'Bài nổi bật',
   popular: 'Đọc nhiều',
+  contributors: 'Top đóng góp',
+  experts: 'Chuyên gia',
+  admins: 'Ban quản trị',
+  custom_users: 'Chọn người dùng',
 };
 
 const LAYOUTS: Record<string, string> = {

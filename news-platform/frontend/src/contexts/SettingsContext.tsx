@@ -10,6 +10,8 @@ interface GeneralSettings {
   favicon_url: string;
   contact_email: string;
   contact_phone: string;
+  timezone: string;
+  timezone_offset: number;
 }
 
 interface HeaderSettings {
@@ -43,6 +45,8 @@ const defaultSettings: SiteSettings = {
     favicon_url: '',
     contact_email: 'contact@bangiaiphap.com',
     contact_phone: '1900-xxxx',
+    timezone: 'Asia/Ho_Chi_Minh',
+    timezone_offset: 7,
   },
   header: {
     show_search: true,

@@ -63,7 +63,7 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="text-3xl font-bold text-indigo-600">
-            📰 Bobatea
+            Bobatea
           </Link>
           <p className="text-gray-600 mt-2">Quên mật khẩu</p>
         </div>
@@ -107,7 +107,7 @@ export default function ForgotPasswordPage() {
 
           <p className="mt-6 text-center text-gray-600">
             <Link href="/auth/signin" className="text-indigo-600 font-medium hover:underline">
-              ← Quay lại đăng nhập
+              Quay lại đăng nhập
             </Link>
           </p>
         </div>

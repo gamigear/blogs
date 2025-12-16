@@ -86,7 +86,10 @@ export default function KYCDetailPage() {
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-6">
-        <Link href="/admin/kyc" className="text-indigo-600 hover:underline">← Quay lại</Link>
+        <Link href="/admin/kyc" className="flex items-center gap-1 text-indigo-600 hover:underline">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          Quay lại
+        </Link>
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
@@ -209,14 +212,22 @@ export default function KYCDetailPage() {
               disabled={processing}
               className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
             >
-              {processing ? 'Đang xử lý...' : '✓ Phê duyệt'}
+              {processing ? 'Đang xử lý...' : (
+                <span className="flex items-center gap-1">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                  Phê duyệt
+                </span>
+              )}
             </button>
             <button
               onClick={() => setShowRejectModal(true)}
               disabled={processing}
               className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
             >
-              ✕ Từ chối
+              <span className="flex items-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                Từ chối
+              </span>
             </button>
           </div>
         )}

@@ -17,6 +17,7 @@ interface ArticleRow {
   author_bio: string | null;
   author_avatar: string | null;
   author_user_id: number | null;
+  author_username: string | null;
   status: string;
   source_type: string;
   discourse_topic_id: number | null;
@@ -76,6 +77,7 @@ function mapArticle(row: ArticleRow): Article {
     author: {
       id: row.author_id,
       name: row.author_name,
+      username: row.author_username || undefined,
       bio: row.author_bio || undefined,
       avatar: row.author_avatar || undefined,
       userId: row.author_user_id || undefined,
@@ -101,7 +103,8 @@ export async function getArticles(page = 1, pageSize = 10): Promise<Article[]> {
     `SELECT a.*, 
             c.name as category_name, c.slug as category_slug,
             au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
-            u.id as author_user_id
+            COALESCE(u.id, (SELECT id FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_user_id,
+            COALESCE(u.username, (SELECT username FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_username
      FROM articles a
      LEFT JOIN categories c ON a.category_id = c.id
      LEFT JOIN authors au ON a.author_id = au.id
@@ -119,7 +122,8 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     `SELECT a.*, 
             c.name as category_name, c.slug as category_slug,
             au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
-            u.id as author_user_id
+            COALESCE(u.id, (SELECT id FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_user_id,
+            COALESCE(u.username, (SELECT username FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_username
      FROM articles a
      LEFT JOIN categories c ON a.category_id = c.id
      LEFT JOIN authors au ON a.author_id = au.id
@@ -136,7 +140,8 @@ export async function getArticlesByCategory(categorySlug: string, page = 1, page
     `SELECT a.*, 
             c.name as category_name, c.slug as category_slug,
             au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
-            u.id as author_user_id
+            COALESCE(u.id, (SELECT id FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_user_id,
+            COALESCE(u.username, (SELECT username FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_username
      FROM articles a
      LEFT JOIN categories c ON a.category_id = c.id
      LEFT JOIN authors au ON a.author_id = au.id
@@ -154,7 +159,8 @@ export async function getFeaturedArticles(limit = 5): Promise<Article[]> {
     `SELECT a.*, 
             c.name as category_name, c.slug as category_slug,
             au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
-            u.id as author_user_id
+            COALESCE(u.id, (SELECT id FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_user_id,
+            COALESCE(u.username, (SELECT username FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_username
      FROM articles a
      LEFT JOIN categories c ON a.category_id = c.id
      LEFT JOIN authors au ON a.author_id = au.id
@@ -298,7 +304,8 @@ export async function searchArticles(searchQuery: string, limit = 20): Promise<A
     `SELECT a.*, 
             c.name as category_name, c.slug as category_slug,
             au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
-            u.id as author_user_id
+            COALESCE(u.id, (SELECT id FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_user_id,
+            COALESCE(u.username, (SELECT username FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_username
      FROM articles a
      LEFT JOIN categories c ON a.category_id = c.id
      LEFT JOIN authors au ON a.author_id = au.id
@@ -413,7 +420,8 @@ export async function advancedSearchArticles(filters: SearchFilters): Promise<Se
     `SELECT a.*, 
             c.name as category_name, c.slug as category_slug,
             au.name as author_name, au.bio as author_bio, au.avatar as author_avatar,
-            u.id as author_user_id
+            COALESCE(u.id, (SELECT id FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_user_id,
+            COALESCE(u.username, (SELECT username FROM users WHERE display_name = au.name OR username = au.name LIMIT 1)) as author_username
      FROM articles a
      LEFT JOIN categories c ON a.category_id = c.id
      LEFT JOIN authors au ON a.author_id = au.id
