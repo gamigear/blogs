@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { MessageButton } from '@/components/MessageButton';
+import { useSettings } from '@/contexts/SettingsContext';
 
 interface UserProfile {
   id: number;
@@ -72,6 +73,8 @@ function formatTimeAgo(dateStr: string) {
 export default function UserProfilePage() {
   const params = useParams();
   const { data: session } = useSession();
+  const settings = useSettings();
+  const defaultAvatar = settings.general?.default_avatar;
   const username = params.username as string;
 
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -368,9 +371,9 @@ export default function UserProfilePage() {
         <div className="relative -mt-16 pb-4 text-center">
           {/* Avatar */}
           <div className="relative inline-block">
-            {user.avatar ? (
+            {user.avatar || defaultAvatar ? (
               <img
-                src={user.avatar}
+                src={user.avatar || defaultAvatar}
                 alt={user.display_name}
                 className="w-28 h-28 rounded-full border-4 border-white shadow-lg object-cover bg-white"
               />
@@ -574,8 +577,8 @@ export default function UserProfilePage() {
                         onClick={() => setShowNewPostForm(true)}
                         className="w-full flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left"
                       >
-                        {user.avatar ? (
-                          <img src={user.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
+                        {user.avatar || defaultAvatar ? (
+                          <img src={user.avatar || defaultAvatar} alt="" className="w-10 h-10 rounded-full object-cover" />
                         ) : (
                           <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                             <span className="text-blue-600 font-semibold">{user.display_name?.charAt(0)?.toUpperCase()}</span>
@@ -586,8 +589,8 @@ export default function UserProfilePage() {
                     ) : (
                       <form onSubmit={handleSubmitPost}>
                         <div className="flex items-center gap-3 mb-3">
-                          {user.avatar ? (
-                            <img src={user.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
+                          {user.avatar || defaultAvatar ? (
+                            <img src={user.avatar || defaultAvatar} alt="" className="w-10 h-10 rounded-full object-cover" />
                           ) : (
                             <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                               <span className="text-blue-600 font-semibold">{user.display_name?.charAt(0)?.toUpperCase()}</span>
@@ -706,8 +709,8 @@ export default function UserProfilePage() {
                       {posts.slice(0, 5).map((post) => (
                         <div key={post.id} className="p-4">
                           <div className="flex items-center gap-3 mb-2">
-                            {user.avatar ? (
-                              <img src={user.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
+                            {user.avatar || defaultAvatar ? (
+                              <img src={user.avatar || defaultAvatar} alt="" className="w-10 h-10 rounded-full object-cover" />
                             ) : (
                               <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                                 <span className="text-blue-600 font-semibold">
@@ -757,8 +760,8 @@ export default function UserProfilePage() {
                       {posts.map((post) => (
                         <div key={post.id} className="p-4">
                           <div className="flex items-center gap-3 mb-2">
-                            {user.avatar ? (
-                              <img src={user.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
+                            {user.avatar || defaultAvatar ? (
+                              <img src={user.avatar || defaultAvatar} alt="" className="w-10 h-10 rounded-full object-cover" />
                             ) : (
                               <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                                 <span className="text-blue-600 font-semibold">
