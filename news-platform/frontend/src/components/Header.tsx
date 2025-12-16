@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useSession, signOut } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 import { NotificationBell } from './NotificationBell';
 import { useSettings } from '@/contexts/SettingsContext';
 
@@ -23,6 +23,7 @@ const defaultMenuItems = [
 
 export function Header() {
   const settings = useSettings();
+  const pathname = usePathname();
   const menuItems = settings.header.menu_items?.length > 0 ? settings.header.menu_items : defaultMenuItems;
   const { data: session, status } = useSession();
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -30,6 +31,12 @@ export function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const menuRef = useRef<HTMLDivElement>(null);
   const isAdmin = session?.user?.role && ['admin', 'editor', 'moderator'].includes(session.user.role);
+
+  // Close menus when route changes
+  useEffect(() => {
+    setShowUserMenu(false);
+    setShowSidebar(false);
+  }, [pathname]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -147,12 +154,11 @@ export function Header() {
                       </div>
                       <Link 
                         href={(session.user as any)?.username ? `/user/${(session.user as any).username}` : '/profile'} 
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" 
-                        onClick={() => setShowUserMenu(false)}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                       >
                         Trang cá nhân
                       </Link>
-                      <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setShowUserMenu(false)}>
+                      <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                         Cài đặt tài khoản
                       </Link>
                       <button onClick={() => { setShowUserMenu(false); signOut(); }} className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
@@ -214,7 +220,6 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setShowSidebar(false)}
                 className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 <span className="text-lg">{item.icon}</span>
@@ -229,7 +234,6 @@ export function Header() {
           {/* Newsfeed */}
           <Link
             href="/feed"
-            onClick={() => setShowSidebar(false)}
             className="flex items-center gap-3 px-4 py-3 text-primary hover:bg-primary/5 transition-colors"
           >
             <span className="text-lg">📝</span>
@@ -239,7 +243,6 @@ export function Header() {
           {/* Community */}
           <Link
             href="/community"
-            onClick={() => setShowSidebar(false)}
             className="flex items-center gap-3 px-4 py-3 text-orange-600 hover:bg-orange-50 transition-colors"
           >
             <span className="text-lg">💬</span>
@@ -254,7 +257,6 @@ export function Header() {
               {/* Write article - Mobile */}
               <Link
                 href="/write"
-                onClick={() => setShowSidebar(false)}
                 className="flex items-center gap-3 px-4 py-3 mx-4 my-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -267,7 +269,6 @@ export function Header() {
                 <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">Tài khoản</p>
                 <Link
                   href={(session.user as any)?.username ? `/user/${(session.user as any).username}` : '/profile'}
-                  onClick={() => setShowSidebar(false)}
                   className="flex items-center gap-3 py-2 text-gray-700 hover:text-primary"
                 >
                   <span>🏠</span>
@@ -275,7 +276,6 @@ export function Header() {
                 </Link>
                 <Link
                   href="/profile"
-                  onClick={() => setShowSidebar(false)}
                   className="flex items-center gap-3 py-2 text-gray-700 hover:text-primary"
                 >
                   <span>⚙️</span>
