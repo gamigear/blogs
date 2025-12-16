@@ -38,7 +38,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="vi">
       <head>
-        <CustomScriptsHead />
+        {/* Temporarily disabled to debug navigation issue */}
+        {/* <CustomScriptsHead /> */}
       </head>
       <body className="min-h-screen flex flex-col" suppressHydrationWarning>
         <AuthProvider>
@@ -47,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <MainLayout>{children}</MainLayout>
           </SettingsProvider>
         </AuthProvider>
-        <CustomScriptsFooter />
+        {/* <CustomScriptsFooter /> */}
       </body>
     </html>
   );

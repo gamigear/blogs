@@ -18,11 +18,12 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <CustomCSSLoader />
-      <CustomScripts position="body_top" />
+      {/* Temporarily disabled to debug navigation issue */}
+      {/* <CustomScripts position="body_top" /> */}
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
-      <CustomScripts position="body_bottom" />
+      {/* <CustomScripts position="body_bottom" /> */}
     </>
   );
 }
