@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 @layer base {
-  html { scroll-behavior: smooth; }
   body { @apply text-gray-900 antialiased bg-[#edf2f7]; }
+  /* Fix touch delay on mobile */
+  a, button { touch-action: manipulation; }
 }
 
 /* Prose styles for article content */

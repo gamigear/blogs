@@ -85,7 +85,7 @@ export function HeroSlider({ articles, autoPlayInterval = 5000 }: Props) {
                 index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
             >
-              <Link href={`/article/${article.slug}`}>
+              <Link href={`/article/${article.slug}`} className="absolute inset-0 z-[5]">
                 {article.featuredImage ? (
                   <Image
                     src={article.featuredImage.url}
