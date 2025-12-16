@@ -85,38 +85,40 @@ export function HeroSlider({ articles, autoPlayInterval = 5000 }: Props) {
                 index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
             >
-              <Link href={`/article/${article.slug}`} className="absolute inset-0 z-[5]">
-                {article.featuredImage ? (
-                  <Image
-                    src={article.featuredImage.url}
-                    alt={article.featuredImage.alt || article.title}
-                    fill
-                    className="object-cover"
-                    sizes="100vw"
-                    priority={index === 0}
-                    loading={index === 0 ? 'eager' : 'lazy'}
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-primary to-primary-dark" />
-                )}
-              </Link>
+              {/* Image */}
+              {article.featuredImage ? (
+                <Image
+                  src={article.featuredImage.url}
+                  alt={article.featuredImage.alt || article.title}
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                  priority={index === 0}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-primary to-primary-dark" />
+              )}
               
               {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none" />
               
-              {/* Content */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+              {/* Clickable overlay link */}
+              <Link href={`/article/${article.slug}`} className="absolute inset-0 z-[15]" />
+              
+              {/* Content - pointer-events-none to allow click through to link */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 z-[20] pointer-events-none">
                 <div className="max-w-3xl">
                   {article.category && (
                     <Link 
                       href={`/category/${article.category.slug}`}
-                      className="inline-block px-3 py-1 bg-primary text-white text-sm font-medium rounded mb-3 hover:bg-primary-dark transition-colors"
+                      className="inline-block px-3 py-1 bg-primary text-white text-sm font-medium rounded mb-3 hover:bg-primary-dark transition-colors pointer-events-auto"
                     >
                       {article.category.name}
                     </Link>
                   )}
                   <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 line-clamp-2">
-                    <Link href={`/article/${article.slug}`} className="hover:underline">
+                    <Link href={`/article/${article.slug}`} className="hover:underline pointer-events-auto">
                       {article.title}
                     </Link>
                   </h2>
