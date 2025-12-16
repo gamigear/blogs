@@ -12,6 +12,7 @@ interface Settings {
     logo_footer_url: string;
     favicon_url: string;
     default_avatar: string;
+    default_cover: string;
     contact_email: string;
     contact_phone: string;
   };
@@ -52,14 +53,14 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState<Settings | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [mediaPickerField, setMediaPickerField] = useState<'logo_header' | 'logo_footer' | 'favicon' | 'default_avatar' | null>(null);
+  const [mediaPickerField, setMediaPickerField] = useState<'logo_header' | 'logo_footer' | 'favicon' | 'default_avatar' | 'default_cover' | null>(null);
 
   useEffect(() => {
     fetchSettings();
   }, []);
 
   const defaultSettings: Settings = {
-    general: { site_name: '', site_description: '', logo_header_url: '', logo_footer_url: '', favicon_url: '', default_avatar: '', contact_email: '', contact_phone: '' },
+    general: { site_name: '', site_description: '', logo_header_url: '', logo_footer_url: '', favicon_url: '', default_avatar: '', default_cover: '', contact_email: '', contact_phone: '' },
     header: { show_search: true, show_notifications: true, menu_items: [] },
     footer: { company_name: '', ceo_name: '', address: '', business_registration: '', license_info: '', links: [], social_links: { facebook: '', twitter: '', youtube: '' } },
     homepage: { featured_section: true, featured_count: 5, latest_section: true, latest_count: 10, show_sidebar: true },
@@ -118,6 +119,7 @@ export default function SettingsPage() {
       logo_footer: 'logo_footer_url',
       favicon: 'favicon_url',
       default_avatar: 'default_avatar',
+      default_cover: 'default_cover',
     };
     updateSetting('general', fieldMap[mediaPickerField], file.url);
     setMediaPickerField(null);
@@ -279,37 +281,73 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            {/* Default Avatar Section */}
+            {/* Default Avatar & Cover Section */}
             <div className="border-t border-gray-200 dark:border-gray-700 pt-5 mt-5">
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Avatar mặc định</h4>
-              <p className="text-sm text-gray-500 mb-4">Avatar này sẽ được sử dụng cho người dùng chưa có avatar</p>
-              <div className="max-w-xs">
-                <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-md p-4 text-center">
-                  {settings.general?.default_avatar ? (
-                    <div className="space-y-3">
-                      <img src={settings.general.default_avatar} alt="Default Avatar" className="w-16 h-16 mx-auto object-cover rounded-full" />
-                      <div className="flex gap-2 justify-center">
-                        <button type="button" onClick={() => setMediaPickerField('default_avatar')}
-                          className="px-3 py-1.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600">
-                          Thay đổi
-                        </button>
-                        <button type="button" onClick={() => updateSetting('general', 'default_avatar', '')}
-                          className="px-3 py-1.5 text-xs bg-red-100 text-red-600 rounded hover:bg-red-200">
-                          Xóa
-                        </button>
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Avatar & Cover mặc định</h4>
+              <p className="text-sm text-gray-500 mb-4">Hình ảnh này sẽ được sử dụng cho người dùng chưa có avatar/cover riêng</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Default Avatar */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Avatar mặc định</label>
+                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-md p-4 text-center">
+                    {settings.general?.default_avatar ? (
+                      <div className="space-y-3">
+                        <img src={settings.general.default_avatar} alt="Default Avatar" className="w-16 h-16 mx-auto object-cover rounded-full" />
+                        <div className="flex gap-2 justify-center">
+                          <button type="button" onClick={() => setMediaPickerField('default_avatar')}
+                            className="px-3 py-1.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600">
+                            Thay đổi
+                          </button>
+                          <button type="button" onClick={() => updateSetting('general', 'default_avatar', '')}
+                            className="px-3 py-1.5 text-xs bg-red-100 text-red-600 rounded hover:bg-red-200">
+                            Xóa
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <button type="button" onClick={() => setMediaPickerField('default_avatar')}
-                      className="w-full py-6 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-                      <svg className="w-12 h-12 mx-auto mb-2 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                      </svg>
-                      <span className="text-sm">Chọn avatar mặc định</span>
-                    </button>
-                  )}
+                    ) : (
+                      <button type="button" onClick={() => setMediaPickerField('default_avatar')}
+                        className="w-full py-6 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        <svg className="w-12 h-12 mx-auto mb-2 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                        <span className="text-sm">Chọn avatar mặc định</span>
+                      </button>
+                    )}
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">Khuyến nghị: Hình vuông, tối thiểu 100x100 pixels</p>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">Khuyến nghị: Hình vuông, tối thiểu 100x100 pixels</p>
+
+                {/* Default Cover */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Cover mặc định</label>
+                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-md p-4 text-center">
+                    {settings.general?.default_cover ? (
+                      <div className="space-y-3">
+                        <img src={settings.general.default_cover} alt="Default Cover" className="w-full h-20 mx-auto object-cover rounded" />
+                        <div className="flex gap-2 justify-center">
+                          <button type="button" onClick={() => setMediaPickerField('default_cover')}
+                            className="px-3 py-1.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600">
+                            Thay đổi
+                          </button>
+                          <button type="button" onClick={() => updateSetting('general', 'default_cover', '')}
+                            className="px-3 py-1.5 text-xs bg-red-100 text-red-600 rounded hover:bg-red-200">
+                            Xóa
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button type="button" onClick={() => setMediaPickerField('default_cover')}
+                        className="w-full py-6 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        <svg className="w-12 h-12 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span className="text-sm">Chọn cover mặc định</span>
+                      </button>
+                    )}
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">Khuyến nghị: 1200x400 pixels hoặc tỷ lệ 3:1</p>
+                </div>
               </div>
             </div>
           </div>

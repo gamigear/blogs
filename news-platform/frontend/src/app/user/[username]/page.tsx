@@ -75,6 +75,7 @@ export default function UserProfilePage() {
   const { data: session } = useSession();
   const settings = useSettings();
   const defaultAvatar = settings.general?.default_avatar;
+  const defaultCover = settings.general?.default_cover;
   const username = params.username as string;
 
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -339,8 +340,8 @@ export default function UserProfilePage() {
     <div className="min-h-screen bg-gray-100">
       {/* Cover */}
       <div className="relative h-32 md:h-48">
-        {user.cover ? (
-          <img src={user.cover} alt="Cover" className="w-full h-full object-cover" />
+        {user.cover || defaultCover ? (
+          <img src={user.cover || defaultCover} alt="Cover" className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600" />
         )}
