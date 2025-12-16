@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FeedPost } from '@/lib/feed';
+import { useSettings } from '@/contexts/SettingsContext';
 
 interface Props {
   post: FeedPost;
@@ -40,6 +41,8 @@ export function FeedPostCard({ post, onLike, onBookmark }: Props) {
   const [isBookmarked, setIsBookmarked] = useState(post.is_bookmarked || false);
   const [isLiking, setIsLiking] = useState(false);
   const [showAllImages, setShowAllImages] = useState(false);
+  const settings = useSettings();
+  const defaultAvatar = settings.general?.default_avatar;
 
   const badge = getTrustLevelBadge(post.author.trust_level);
   const images = Array.isArray(post.images) ? post.images : [];
@@ -73,9 +76,9 @@ export function FeedPostCard({ post, onLike, onBookmark }: Props) {
           <div className="flex items-center gap-3">
             {/* Avatar */}
             <Link href={`/user/${post.author.username}`} className="flex-shrink-0">
-              {post.author.avatar ? (
+              {post.author.avatar || defaultAvatar ? (
                 <Image
-                  src={post.author.avatar}
+                  src={post.author.avatar || defaultAvatar}
                   alt={post.author.name}
                   width={44}
                   height={44}
