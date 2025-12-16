@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSettings } from '@/contexts/SettingsContext';
 
 export function DynamicFavicon() {
@@ -8,6 +8,7 @@ export function DynamicFavicon() {
   const faviconUrl = settings.general?.favicon_url;
   const siteName = settings.general?.site_name;
   const siteDescription = settings.general?.site_description;
+  const initialized = useRef(false);
 
   // Update document title with site name
   useEffect(() => {
@@ -19,18 +20,14 @@ export function DynamicFavicon() {
     
     // If title doesn't already contain site name, append it
     if (currentTitle && !currentTitle.includes(siteName)) {
-      // Keep page-specific title, just update the site name part
       const parts = currentTitle.split(separator);
       if (parts.length > 1) {
-        // Replace the last part (old site name) with new site name
         parts[parts.length - 1] = siteName;
         document.title = parts.join(separator);
       } else {
-        // No separator, this is likely just the default title
         document.title = siteName;
       }
     } else if (!currentTitle || currentTitle === 'News Platform') {
-      // Default title, replace with site name
       document.title = siteName;
     }
 
@@ -48,37 +45,37 @@ export function DynamicFavicon() {
     }
   }, [siteName, siteDescription]);
 
-  // Update favicon
+  // Update favicon - only run once after hydration is complete
   useEffect(() => {
-    if (!faviconUrl) {
-      console.log('[DynamicMeta] No favicon URL configured');
-      return;
-    }
+    if (!faviconUrl || initialized.current) return;
+    
+    // Wait for hydration to complete
+    const timeoutId = setTimeout(() => {
+      initialized.current = true;
+      
+      // Check if our custom favicon already exists
+      const existingCustomFavicon = document.getElementById('dynamic-favicon');
+      if (existingCustomFavicon) {
+        (existingCustomFavicon as HTMLLinkElement).href = faviconUrl;
+        return;
+      }
 
-    console.log('[DynamicMeta] Setting favicon to:', faviconUrl);
+      // Create new favicon link without removing existing ones
+      const link = document.createElement('link');
+      link.id = 'dynamic-favicon';
+      link.rel = 'icon';
+      link.type = faviconUrl.endsWith('.svg')
+        ? 'image/svg+xml'
+        : faviconUrl.endsWith('.png')
+          ? 'image/png'
+          : faviconUrl.endsWith('.ico')
+            ? 'image/x-icon'
+            : 'image/png';
+      link.href = faviconUrl;
+      document.head.appendChild(link);
+    }, 100);
 
-    // Remove all existing favicon links first
-    const existingLinks = document.querySelectorAll('link[rel*="icon"]');
-    existingLinks.forEach((link) => link.remove());
-
-    // Create new favicon link
-    const link = document.createElement('link');
-    link.rel = 'icon';
-    link.type = faviconUrl.endsWith('.svg')
-      ? 'image/svg+xml'
-      : faviconUrl.endsWith('.png')
-        ? 'image/png'
-        : faviconUrl.endsWith('.ico')
-          ? 'image/x-icon'
-          : 'image/png';
-    link.href = faviconUrl + '?v=' + Date.now(); // Cache bust
-    document.head.appendChild(link);
-
-    // Also add apple-touch-icon
-    const appleLink = document.createElement('link');
-    appleLink.rel = 'apple-touch-icon';
-    appleLink.href = faviconUrl;
-    document.head.appendChild(appleLink);
+    return () => clearTimeout(timeoutId);
   }, [faviconUrl]);
 
   return null;

@@ -6,15 +6,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import { NotificationBell } from './NotificationBell';
 import { useSettings } from '@/contexts/SettingsContext';
 
-// Custom NavLink to fix Next.js 16 navigation issue
+// Custom NavLink - use native navigation to bypass Next.js issues
 function NavLink({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) {
-  const router = useRouter();
   return (
-    <a 
-      href={href} 
-      className={className}
-      onClick={(e) => { e.preventDefault(); router.push(href); }}
-    >
+    <a href={href} className={className}>
       {children}
     </a>
   );
