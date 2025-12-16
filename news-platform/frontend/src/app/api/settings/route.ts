@@ -28,6 +28,8 @@ export async function GET() {
         logo_header_url: '',
         logo_footer_url: '',
         favicon_url: '',
+        default_avatar: '',
+        default_cover: '',
         contact_email: 'contact@bangiaiphap.com',
         contact_phone: '1900-xxxx',
       },

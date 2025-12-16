@@ -112,8 +112,8 @@ export default function SettingsPage() {
     setSettings({ ...settings, [key]: { ...settings[key], [field]: value } });
   };
 
-  const handleMediaSelect = (file: MediaFile) => {
-    if (!mediaPickerField) return;
+  const handleMediaSelect = async (file: MediaFile) => {
+    if (!mediaPickerField || !settings) return;
     const fieldMap: Record<string, string> = {
       logo_header: 'logo_header_url',
       logo_footer: 'logo_footer_url',
@@ -121,8 +121,25 @@ export default function SettingsPage() {
       default_avatar: 'default_avatar',
       default_cover: 'default_cover',
     };
-    updateSetting('general', fieldMap[mediaPickerField], file.url);
+    const field = fieldMap[mediaPickerField];
+    const newGeneralSettings = { ...settings.general, [field]: file.url };
+    setSettings({ ...settings, general: newGeneralSettings });
     setMediaPickerField(null);
+    
+    // Auto-save to database
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: 'general', value: newGeneralSettings }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        console.error('Auto-save error:', data);
+      }
+    } catch (error) {
+      console.error('Auto-save error:', error);
+    }
   };
 
   const tabs = [
