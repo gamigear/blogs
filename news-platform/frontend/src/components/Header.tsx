@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSession, signOut } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
 import { NotificationBell } from './NotificationBell';
 import { useSettings } from '@/contexts/SettingsContext';
 
@@ -24,7 +23,6 @@ const defaultMenuItems = [
 
 export function Header() {
   const settings = useSettings();
-  const pathname = usePathname();
   const menuItems = settings.header.menu_items?.length > 0 ? settings.header.menu_items : defaultMenuItems;
   const { data: session, status } = useSession();
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -32,12 +30,6 @@ export function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const menuRef = useRef<HTMLDivElement>(null);
   const isAdmin = session?.user?.role && ['admin', 'editor', 'moderator'].includes(session.user.role);
-
-  // Close menus when route changes
-  useEffect(() => {
-    setShowUserMenu(false);
-    setShowSidebar(false);
-  }, [pathname]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -141,22 +133,11 @@ export function Header() {
                 <div className="relative" ref={menuRef}>
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden hover:ring-2 hover:ring-primary/20 transition-all"
+                    className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
                   >
-                    {(session.user as any)?.avatar || (session.user as any)?.image || settings.general.default_avatar ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
-                        src={(session.user as any)?.avatar || (session.user as any)?.image || settings.general.default_avatar}
-                        alt={session.user?.name || 'Avatar'}
-                        className="w-9 h-9 rounded-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-9 h-9 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center">
-                        <span className="text-white font-semibold text-sm">
-                          {session.user?.name?.charAt(0)?.toUpperCase() || '?'}
-                        </span>
-                      </div>
-                    )}
+                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
                   </button>
                   {showUserMenu && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50">
@@ -166,12 +147,12 @@ export function Header() {
                       </div>
                       <Link 
                         href={(session.user as any)?.username ? `/user/${(session.user as any).username}` : '/profile'} 
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        prefetch={false}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" 
+                        onClick={() => setShowUserMenu(false)}
                       >
                         Trang cá nhân
                       </Link>
-                      <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" prefetch={false}>
+                      <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setShowUserMenu(false)}>
                         Cài đặt tài khoản
                       </Link>
                       <button onClick={() => { setShowUserMenu(false); signOut(); }} className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
@@ -233,7 +214,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                prefetch={false}
+                onClick={() => setShowSidebar(false)}
                 className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 <span className="text-lg">{item.icon}</span>
@@ -248,7 +229,7 @@ export function Header() {
           {/* Newsfeed */}
           <Link
             href="/feed"
-            prefetch={false}
+            onClick={() => setShowSidebar(false)}
             className="flex items-center gap-3 px-4 py-3 text-primary hover:bg-primary/5 transition-colors"
           >
             <span className="text-lg">📝</span>
@@ -258,7 +239,7 @@ export function Header() {
           {/* Community */}
           <Link
             href="/community"
-            prefetch={false}
+            onClick={() => setShowSidebar(false)}
             className="flex items-center gap-3 px-4 py-3 text-orange-600 hover:bg-orange-50 transition-colors"
           >
             <span className="text-lg">💬</span>
@@ -273,7 +254,7 @@ export function Header() {
               {/* Write article - Mobile */}
               <Link
                 href="/write"
-                prefetch={false}
+                onClick={() => setShowSidebar(false)}
                 className="flex items-center gap-3 px-4 py-3 mx-4 my-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -286,7 +267,7 @@ export function Header() {
                 <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">Tài khoản</p>
                 <Link
                   href={(session.user as any)?.username ? `/user/${(session.user as any).username}` : '/profile'}
-                  prefetch={false}
+                  onClick={() => setShowSidebar(false)}
                   className="flex items-center gap-3 py-2 text-gray-700 hover:text-primary"
                 >
                   <span>🏠</span>
@@ -294,7 +275,7 @@ export function Header() {
                 </Link>
                 <Link
                   href="/profile"
-                  prefetch={false}
+                  onClick={() => setShowSidebar(false)}
                   className="flex items-center gap-3 py-2 text-gray-700 hover:text-primary"
                 >
                   <span>⚙️</span>

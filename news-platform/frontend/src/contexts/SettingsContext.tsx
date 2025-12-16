@@ -8,8 +8,6 @@ interface GeneralSettings {
   logo_header_url: string;
   logo_footer_url: string;
   favicon_url: string;
-  default_avatar: string;
-  default_cover: string;
   contact_email: string;
   contact_phone: string;
 }
@@ -43,8 +41,6 @@ const defaultSettings: SiteSettings = {
     logo_header_url: '',
     logo_footer_url: '',
     favicon_url: '',
-    default_avatar: '',
-    default_cover: '',
     contact_email: 'contact@bangiaiphap.com',
     contact_phone: '1900-xxxx',
   },
