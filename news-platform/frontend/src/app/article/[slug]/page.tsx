@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: canonicalUrl,
-      siteName: 'Bobatea',
+      siteName: process.env.NEXT_PUBLIC_SITE_NAME || 'News Platform',
       images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630, alt: article.title }] : [],
       type: 'article',
       publishedTime: article.publishedAt,

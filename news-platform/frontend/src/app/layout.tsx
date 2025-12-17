@@ -13,13 +13,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: 'News Platform', template: '%s | News Platform' },
   description: 'Tin tức và cộng đồng thảo luận',
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
-    ],
-    apple: '/apple-touch-icon.png',
-  },
+  // Icons are managed dynamically by DynamicFavicon component
+  // to support custom favicon from admin settings
   openGraph: { 
     type: 'website', 
     locale: 'vi_VN', 

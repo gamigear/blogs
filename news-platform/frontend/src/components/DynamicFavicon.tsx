@@ -8,7 +8,7 @@ export function DynamicFavicon() {
   const faviconUrl = settings.general?.favicon_url;
   const siteName = settings.general?.site_name;
   const siteDescription = settings.general?.site_description;
-  const initialized = useRef(false);
+  const lastFaviconUrl = useRef<string | null>(null);
 
   // Update document title with site name
   useEffect(() => {
@@ -45,35 +45,69 @@ export function DynamicFavicon() {
     }
   }, [siteName, siteDescription]);
 
-  // Update favicon - only run once after hydration is complete
+  // Update favicon when faviconUrl changes
   useEffect(() => {
-    if (!faviconUrl || initialized.current) return;
+    // Skip if no favicon URL or same as last time
+    if (!faviconUrl || faviconUrl === lastFaviconUrl.current) return;
     
     // Wait for hydration to complete
     const timeoutId = setTimeout(() => {
-      initialized.current = true;
-      
-      // Check if our custom favicon already exists
-      const existingCustomFavicon = document.getElementById('dynamic-favicon');
-      if (existingCustomFavicon) {
-        (existingCustomFavicon as HTMLLinkElement).href = faviconUrl;
-        return;
-      }
+      try {
+        lastFaviconUrl.current = faviconUrl;
+        
+        // Determine favicon type
+        const getType = (url: string) => {
+          if (url.endsWith('.svg')) return 'image/svg+xml';
+          if (url.endsWith('.png')) return 'image/png';
+          if (url.endsWith('.ico')) return 'image/x-icon';
+          if (url.endsWith('.webp')) return 'image/webp';
+          if (url.endsWith('.jpg') || url.endsWith('.jpeg')) return 'image/jpeg';
+          if (url.endsWith('.gif')) return 'image/gif';
+          return 'image/png'; // Default to png
+        };
 
-      // Create new favicon link without removing existing ones
-      const link = document.createElement('link');
-      link.id = 'dynamic-favicon';
-      link.rel = 'icon';
-      link.type = faviconUrl.endsWith('.svg')
-        ? 'image/svg+xml'
-        : faviconUrl.endsWith('.png')
-          ? 'image/png'
-          : faviconUrl.endsWith('.ico')
-            ? 'image/x-icon'
-            : 'image/png';
-      link.href = faviconUrl;
-      document.head.appendChild(link);
-    }, 100);
+        // First, remove ALL existing favicon links completely
+        const existingFavicons = document.querySelectorAll(
+          'link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]'
+        );
+        existingFavicons.forEach((el) => {
+          el.setAttribute('href', 'data:,'); // Set to empty data URL
+        });
+
+        // Check if our dynamic favicon already exists
+        let dynamicFavicon = document.getElementById('dynamic-favicon') as HTMLLinkElement;
+        
+        if (dynamicFavicon) {
+          // Just update the href
+          dynamicFavicon.href = faviconUrl;
+          dynamicFavicon.type = getType(faviconUrl);
+        } else {
+          // Create new favicon link
+          const link = document.createElement('link');
+          link.id = 'dynamic-favicon';
+          link.rel = 'icon';
+          link.type = getType(faviconUrl);
+          link.href = faviconUrl;
+          document.head.appendChild(link);
+        }
+        
+        // Also create/update shortcut icon for better browser support
+        let shortcutIcon = document.getElementById('dynamic-shortcut-icon') as HTMLLinkElement;
+        if (shortcutIcon) {
+          shortcutIcon.href = faviconUrl;
+        } else {
+          const shortcut = document.createElement('link');
+          shortcut.id = 'dynamic-shortcut-icon';
+          shortcut.rel = 'shortcut icon';
+          shortcut.href = faviconUrl;
+          document.head.appendChild(shortcut);
+        }
+        
+        console.log('[DynamicFavicon] Updated favicon to:', faviconUrl);
+      } catch (err) {
+        console.error('[DynamicFavicon] Error updating favicon:', err);
+      }
+    }, 200);
 
     return () => clearTimeout(timeoutId);
   }, [faviconUrl]);

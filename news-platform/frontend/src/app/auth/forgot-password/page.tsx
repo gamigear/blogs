@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function ForgotPasswordPage() {
@@ -8,6 +8,16 @@ export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
+  const [siteName, setSiteName] = useState('');
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then((res) => res.json())
+      .then((data) => {
+        setSiteName(data.general?.site_name || 'News Platform');
+      })
+      .catch(() => setSiteName('News Platform'));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +73,7 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="text-3xl font-bold text-indigo-600">
-            Bobatea
+            {siteName || 'News Platform'}
           </Link>
           <p className="text-gray-600 mt-2">Quên mật khẩu</p>
         </div>

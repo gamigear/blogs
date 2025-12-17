@@ -1,10 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function SignUpPage() {
+  const [siteName, setSiteName] = useState('');
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then((res) => res.json())
+      .then((data) => {
+        setSiteName(data.general?.site_name || 'News Platform');
+      })
+      .catch(() => setSiteName('News Platform'));
+  }, []);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -130,7 +140,7 @@ export default function SignUpPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="text-3xl font-bold text-indigo-600">
-            Bobatea
+            {siteName || 'News Platform'}
           </Link>
           <p className="text-gray-600 mt-2">Tạo tài khoản mới</p>
         </div>
