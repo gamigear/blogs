@@ -52,12 +52,13 @@ const menuItems = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
   const pathname = usePathname();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Default closed on mobile
   const [openMenus, setOpenMenus] = useState<string[]>(['Bài viết']);
   const [darkMode, setDarkMode] = useState(false); // Default: light mode
   const [mounted, setMounted] = useState(false);
   const [pendingCount, setPendingCount] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Fetch pending articles count
   useEffect(() => {
@@ -79,7 +80,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return () => clearInterval(interval);
   }, []);
 
-  // Load saved preference from localStorage on mount
+  // Load saved preference from localStorage on mount and check screen size
   useEffect(() => {
     setMounted(true);
     const saved = localStorage.getItem('admin-dark-mode');
@@ -91,6 +92,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     } else {
       document.documentElement.classList.remove('dark');
     }
+    
+    // Check if mobile
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      if (!mobile) setSidebarOpen(true); // Open sidebar on desktop
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Save preference to localStorage and update html class when changed
@@ -116,10 +127,27 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return item.children?.some((child: any) => pathname?.startsWith(child.href));
   };
 
+  // Close sidebar when clicking a link on mobile
+  const handleLinkClick = () => {
+    if (isMobile) setSidebarOpen(false);
+  };
+
   return (
     <div className={`min-h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-gray-100'}`}>
+      {/* Mobile Overlay */}
+      {isMobile && sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden" 
+          onClick={() => setSidebarOpen(false)} 
+        />
+      )}
+      
       {/* Sidebar */}
-      <aside className={`fixed top-0 left-0 z-40 h-screen transition-all ${sidebarOpen ? 'w-64' : 'w-20'} ${darkMode ? 'bg-gray-800' : 'bg-white border-r border-gray-200'}`}>
+      <aside className={`fixed top-0 left-0 z-40 h-screen transition-all duration-300 ${
+        isMobile 
+          ? (sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full w-64')
+          : (sidebarOpen ? 'w-64' : 'w-20')
+      } ${darkMode ? 'bg-gray-800' : 'bg-white border-r border-gray-200'}`}>
         {/* Logo */}
         <div className={`h-16 flex items-center justify-between px-4 ${darkMode ? 'bg-gray-900' : 'border-b border-gray-200'}`}>
           <Link href="/admin" className="flex items-center gap-3">
@@ -158,6 +186,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         <Link
                           key={child.href}
                           href={child.href}
+                          onClick={handleLinkClick}
                           className={`flex items-center justify-between px-3 py-2.5 pl-11 text-sm transition-colors ${
                             darkMode
                               ? (isActive(child.href) ? 'bg-gray-700 text-white rounded-md' : 'text-gray-400 hover:bg-gray-700 hover:text-white')
@@ -178,6 +207,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               ) : (
                 <Link
                   href={item.href!}
+                  onClick={handleLinkClick}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
                     darkMode
                       ? (isActive(item.href!) ? 'bg-gray-700 text-white' : 'text-gray-400 hover:bg-gray-700 hover:text-white')
@@ -185,7 +215,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   }`}
                 >
                   <MenuIcon name={item.icon} />
-                  {sidebarOpen && <span>{item.title}</span>}
+                  {(sidebarOpen || isMobile) && <span>{item.title}</span>}
                 </Link>
               )}
             </div>
@@ -209,7 +239,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main Content */}
-      <div className={`${sidebarOpen ? 'ml-64' : 'ml-20'} transition-all`}>
+      <div className={`transition-all duration-300 ${isMobile ? 'ml-0' : (sidebarOpen ? 'ml-64' : 'ml-20')}`}>
         {/* Header */}
         <header className={`h-16 flex items-center justify-between px-6 sticky top-0 z-30 ${darkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white'}`}>
           <div className="flex items-center gap-4">
@@ -218,8 +248,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <div className="relative">
-              <input type="text" placeholder="Tìm kiếm..." className="w-64 pl-10 pr-4 py-2 rounded-md text-sm focus:outline-none border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+            <div className="relative hidden sm:block">
+              <input type="text" placeholder="Tìm kiếm..." className="w-40 md:w-64 pl-10 pr-4 py-2 rounded-md text-base focus:outline-none border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
               <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>

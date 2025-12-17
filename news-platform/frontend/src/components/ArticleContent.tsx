@@ -94,118 +94,61 @@ export function ArticleContent({ article, showToc = true }: Props) {
         {article.title}
       </h1>
 
-      {/* Author info bar */}
-      <div className="flex items-center justify-between pb-6 mb-6 border-b border-gray-100">
-        <div className="flex items-center gap-3">
-          {/* Avatar with border */}
-          {article.author?.username ? (
-            <Link href={`/user/${article.author.username}`} className="w-11 h-11 rounded-full overflow-hidden ring-2 ring-gray-100 block hover:ring-primary transition-all">
-              {article.author?.avatar ? (
-                <Image
-                  src={article.author.avatar}
-                  alt={article.author.name}
-                  width={44}
-                  height={44}
-                  className="object-cover w-full h-full"
-                />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">
-                    {article.author?.name?.charAt(0) || 'A'}
-                  </span>
-                </div>
-              )}
-            </Link>
-          ) : (
-            <div className="w-11 h-11 rounded-full overflow-hidden ring-2 ring-gray-100">
-              {article.author?.avatar ? (
-                <Image
-                  src={article.author.avatar}
-                  alt={article.author.name}
-                  width={44}
-                  height={44}
-                  className="object-cover w-full h-full"
-                />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">
-                    {article.author?.name?.charAt(0) || 'A'}
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
-          
-          {/* Author name & meta */}
-          <div>
-            <div className="flex items-center gap-2">
-              {article.author?.username ? (
-                <Link href={`/user/${article.author.username}`} className="font-semibold text-gray-900 hover:text-primary transition-colors">
-                  {article.author?.name || 'Admin'}
-                </Link>
-              ) : (
-                <span className="font-semibold text-gray-900">{article.author?.name || 'Admin'}</span>
-              )}
-              {/* Verified badge */}
-              <span className="w-5 h-5 bg-[#1a73e8] rounded-full flex items-center justify-center">
-                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-              </span>
-              {/* Follow button - show if author exists and not own article */}
-              {authorUserId && (!currentUserId || currentUserId !== authorUserId) && (
-                <button 
-                  onClick={handleFollow}
-                  disabled={followLoading}
-                  className={`ml-1 text-xs px-3 py-1 rounded-full font-medium transition-colors disabled:opacity-50 flex items-center gap-1 ${
-                    isFollowing 
-                      ? 'bg-green-100 text-green-700 hover:bg-green-200' 
-                      : 'bg-[#e8f0fe] text-[#1a73e8] hover:bg-[#d2e3fc]'
-                  }`}
-                >
-                  {followLoading ? (
-                    <svg className="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                  ) : isFollowing ? (
-                    <>
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      Đang theo dõi
-                    </>
-                  ) : (
-                    '+ Theo dõi'
-                  )}
-                </button>
-              )}
-              {/* Message button - show if logged in and not own article */}
-              {session && authorUserId && currentUserId !== authorUserId && (
-                <ChatButton 
-                  targetUserId={authorUserId} 
-                  targetUsername={article.author?.username || article.author?.name || 'User'}
-                  variant="icon"
-                  size="sm"
-                />
-              )}
-            </div>
-            <div className="flex items-center gap-2 text-sm text-gray-500 mt-0.5" suppressHydrationWarning>
-              <time suppressHydrationWarning>{formatDate(article.publishedAt)}</time>
-              <span>•</span>
-              <span>Phản hồi: {article.viewCount || 0}</span>
-            </div>
+      {/* Author info bar - Compact single row */}
+      <div className="flex items-center gap-3 pb-4 mb-6 border-b border-gray-100">
+        {/* Avatar */}
+        {article.author?.username ? (
+          <Link href={`/user/${article.author.username}`} className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+            {article.author?.avatar ? (
+              <Image src={article.author.avatar} alt={article.author.name} width={40} height={40} className="object-cover w-full h-full" />
+            ) : (
+              <div className="w-full h-full bg-primary flex items-center justify-center">
+                <span className="text-white font-bold">{article.author?.name?.charAt(0) || 'A'}</span>
+              </div>
+            )}
+          </Link>
+        ) : (
+          <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-primary flex items-center justify-center">
+            <span className="text-white font-bold">{article.author?.name?.charAt(0) || 'A'}</span>
+          </div>
+        )}
+        
+        {/* Author info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5">
+            {article.author?.username ? (
+              <Link href={`/user/${article.author.username}`} className="font-medium text-gray-900 hover:text-primary text-sm truncate">
+                {article.author?.name || 'Admin'}
+              </Link>
+            ) : (
+              <span className="font-medium text-gray-900 text-sm truncate">{article.author?.name || 'Admin'}</span>
+            )}
+            <svg className="w-4 h-4 text-[#1a73e8] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+          </div>
+          <div className="text-xs text-gray-500" suppressHydrationWarning>
+            <time suppressHydrationWarning>{formatDate(article.publishedAt)}</time>
           </div>
         </div>
 
         {/* Action buttons */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 flex-shrink-0">
+          {authorUserId && (!currentUserId || currentUserId !== authorUserId) && (
+            <button 
+              onClick={handleFollow}
+              disabled={followLoading}
+              className={`text-xs px-2.5 py-1 rounded-full font-medium transition-colors disabled:opacity-50 ${
+                isFollowing ? 'bg-green-100 text-green-700' : 'bg-[#e8f0fe] text-[#1a73e8]'
+              }`}
+            >
+              {followLoading ? '...' : isFollowing ? '✓' : '+'}
+            </button>
+          )}
+          {session && authorUserId && currentUserId !== authorUserId && (
+            <ChatButton targetUserId={authorUserId} targetUsername={article.author?.username || article.author?.name || 'User'} variant="icon" size="sm" />
+          )}
           <EditArticleButton articleId={article.id} authorUserId={article.author?.userId} />
-          <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors" title="Chia sẻ">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-            </svg>
-          </button>
         </div>
       </div>
 

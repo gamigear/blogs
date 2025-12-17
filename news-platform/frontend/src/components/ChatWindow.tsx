@@ -247,9 +247,10 @@ export function ChatWindow({ userId, userName, userAvatar, onClose }: ChatWindow
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Aa"
-            className="flex-1 px-3 py-2 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+            className="flex-1 px-3 py-2 bg-gray-100 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-primary/50"
             disabled={sending}
             onFocus={() => setShowEmoji(false)}
+            autoComplete="off"
           />
           
           {/* Like button (quick send) */}

@@ -15,6 +15,12 @@ export const metadata: Metadata = {
   description: 'Tin tức và cộng đồng thảo luận',
   // Icons are managed dynamically by DynamicFavicon component
   // to support custom favicon from admin settings
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
   openGraph: { 
     type: 'website', 
     locale: 'vi_VN', 
