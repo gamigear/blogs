@@ -42,10 +42,8 @@ export async function GET(request: NextRequest, { params }: Props) {
   }
 }
 
-
 /**
  * PATCH /api/admin/articles/[id] - Update article
- * Allows admin/editor or the article's author to update
  */
 export async function PATCH(request: NextRequest, { params }: Props) {
   try {
@@ -56,7 +54,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
     }
 
     const userRole = (session?.user as any)?.role || '';
-    const userId = (session as any)?.userId; // userId is stored at session level
+    const userId = (session as any)?.userId;
     const isAdmin = ['admin', 'editor', 'superadmin'].includes(userRole);
 
     const articleId = parseInt(id);
@@ -73,7 +71,6 @@ export async function PATCH(request: NextRequest, { params }: Props) {
       isAuthor = authorCheck.length > 0;
     }
 
-    // Only allow admin or author to update
     if (!isAdmin && !isAuthor) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -86,40 +83,57 @@ export async function PATCH(request: NextRequest, { params }: Props) {
     const values: any[] = [];
     let paramIndex = 1;
 
-    if (title) { updates.push('title = $' + paramIndex++); values.push(title); }
+    if (title) {
+      updates.push(`title = $${paramIndex++}`);
+      values.push(title);
+    }
     if (slug) {
       const uniqueSlug = await generateUniqueSlug('articles', slug, articleId);
-      updates.push('slug = $' + paramIndex++);
+      updates.push(`slug = $${paramIndex++}`);
       values.push(uniqueSlug);
     }
-    if (excerpt !== undefined) { updates.push('excerpt = $' + paramIndex++); values.push(excerpt); }
+    if (excerpt !== undefined) {
+      updates.push(`excerpt = $${paramIndex++}`);
+      values.push(excerpt);
+    }
     if (content) {
-      updates.push('content = $' + paramIndex++);
+      updates.push(`content = $${paramIndex++}`);
       values.push(content);
       const readingTime = Math.ceil(content.split(/\s+/).length / 200);
-      updates.push('reading_time = $' + paramIndex++);
+      updates.push(`reading_time = $${paramIndex++}`);
       values.push(readingTime);
     }
-    if (category_id) { updates.push('category_id = $' + paramIndex++); values.push(category_id); }
+    if (category_id) {
+      updates.push(`category_id = $${paramIndex++}`);
+      values.push(category_id);
+    }
     
-    // Handle status - if author (not admin) edits, set to pending_review
-    if (isAdmin && status) {
-      updates.push('status = $' + paramIndex++);
+    // Handle status - admin can set any status
+    if (isAdmin && status !== undefined) {
+      updates.push(`status = $${paramIndex++}`);
       values.push(status);
       if (status === 'published') {
         updates.push('published_at = COALESCE(published_at, NOW())');
       }
     } else if (isAuthor && !isAdmin) {
-      // Author editing their article - set to pending_review for re-approval
-      updates.push('status = $' + paramIndex++);
+      // Author editing - set to pending_review
+      updates.push(`status = $${paramIndex++}`);
       values.push('pending_review');
     }
-    if (featured_image !== undefined) { updates.push('featured_image = $' + paramIndex++); values.push(featured_image); }
-    if (seo) { updates.push('seo = $' + paramIndex++); values.push(JSON.stringify(seo)); }
+    
+    if (featured_image !== undefined) {
+      updates.push(`featured_image = $${paramIndex++}`);
+      values.push(featured_image);
+    }
+    if (seo) {
+      updates.push(`seo = $${paramIndex++}`);
+      values.push(JSON.stringify(seo));
+    }
 
     if (updates.length > 0) {
       values.push(articleId);
-      await execute('UPDATE articles SET ' + updates.join(', ') + ' WHERE id = $' + paramIndex, values);
+      const sql = `UPDATE articles SET ${updates.join(', ')} WHERE id = $${paramIndex}`;
+      await execute(sql, values);
     }
 
     // Update tags
@@ -140,7 +154,6 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   }
 }
 
-
 /**
  * DELETE /api/admin/articles/[id] - Delete article
  */
@@ -155,9 +168,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 
     const articleId = parseInt(id);
     
-    // Remove tags first
     await execute('DELETE FROM article_tags WHERE article_id = $1', [articleId]);
-    // Archive article (soft delete)
     await execute("UPDATE articles SET status = 'archived' WHERE id = $1", [articleId]);
     
     const userId = (session?.user as any)?.id;

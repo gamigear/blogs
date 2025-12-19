@@ -174,7 +174,10 @@ export function ArticleEditor({ categories, authors = [], article, initialTags =
               {isAdmin && (
                 <div>
                   <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Trạng thái</label>
-                  <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })} disabled={loading}
+                  <select 
+                    value={formData.status} 
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })} 
+                    disabled={loading}
                     className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     <option value="draft">Bản nháp</option>
                     <option value="pending_review">Chờ duyệt</option>

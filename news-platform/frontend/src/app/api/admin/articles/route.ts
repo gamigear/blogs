@@ -90,14 +90,15 @@ export async function POST(request: NextRequest) {
     }
 
     // Insert article
+    const publishedAt = finalStatus === 'published' ? new Date().toISOString() : null;
+    
     const result = await query<{ id: number }>(`
       INSERT INTO articles (
         title, slug, excerpt, content, category_id, author_id, 
         status, featured_image, reading_time, seo,
         published_at
       ) VALUES (
-        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-        CASE WHEN $7 = 'published' THEN NOW() ELSE NULL END
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
       )
       RETURNING id
     `, [
@@ -111,6 +112,7 @@ export async function POST(request: NextRequest) {
       featured_image || null,
       readingTime,
       JSON.stringify(seo || {}),
+      publishedAt,
     ]);
 
     const articleId = result[0]?.id;
